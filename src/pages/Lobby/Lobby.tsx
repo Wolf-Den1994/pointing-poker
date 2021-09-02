@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const Lobby = () => {
+const Lobby: FC = () => {
   return <div>Lobby page</div>;
 };
 
