@@ -1,6 +1,6 @@
 import React from 'react';
 import logoRSS from '../../assets/rss.svg';
-import { Authors, AuthorsLink } from '../../utils/types';
+import { Authors, AuthorsLink } from '../../types/types';
 
 import style from './Footer.module.scss';
 
