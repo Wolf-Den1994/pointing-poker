@@ -8,9 +8,9 @@ import Lobby from '../../pages/Lobby/Lobby';
 
 const App: React.FC = () => {
   return (
-    <>
+    <div className={style.wrapper}>
       <Header />
-      <main className={style.app}>
+      <main>
         <div className="container">
           <Switch>
             <Route exact path="/" component={Home} />
@@ -19,7 +19,7 @@ const App: React.FC = () => {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 
