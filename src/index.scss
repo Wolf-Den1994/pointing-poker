@@ -3,7 +3,7 @@ html {
 }
 
 *,
-*::before, 
+*::before,
 *::after {
   box-sizing: inherit;
   margin: 0;
@@ -17,7 +17,7 @@ code {
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-      'Droid Sans', 'Helvetica Neue', sans-serif;
+    'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -25,4 +25,10 @@ body {
 a {
   display: inline-block;
   text-decoration: none;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 15px;
 }

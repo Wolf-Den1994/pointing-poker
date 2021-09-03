@@ -1,16 +1,17 @@
 import React from 'react';
 import { Button } from 'antd';
-import { Header as HeaderContainer } from 'antd/lib/layout/layout';
 import logo from '../../assets/logo.svg';
 
-import './Header.scss';
+import cl from './Header.module.scss';
 
 const Header: React.FC = () => {
   return (
-    <HeaderContainer className="header">
-      <img className="header__logo" src={logo} alt="logo" />
-      <Button type="primary">Test button</Button>
-    </HeaderContainer>
+    <header className={cl.header}>
+      <div className="container">
+        <img className={cl.logo} src={logo} alt="logo" />
+        <Button type="primary">Test button</Button>
+      </div>
+    </header>
   );
 };
 

@@ -1,0 +1,15 @@
+.header {
+  background-color: #2b3a67;
+  height: 50px;
+
+  .logo {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+  }
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}

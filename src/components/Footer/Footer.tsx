@@ -1,13 +1,14 @@
 import React from 'react';
-import { Footer as FooterContainer } from 'antd/lib/layout/layout';
 
-import './Footer.scss';
+import cl from './Footer.module.scss';
 
 const Footer: React.FC = () => {
   return (
-    <FooterContainer className="footer">
-      <div>footer</div>
-    </FooterContainer>
+    <footer className={cl.footer}>
+      <div className="container">
+        <div>Footer</div>
+      </div>
+    </footer>
   );
 };
 
