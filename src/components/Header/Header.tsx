@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 
 import cl from './Header.module.scss';
@@ -7,10 +7,14 @@ import cl from './Header.module.scss';
 const Header: React.FC = () => {
   return (
     <header className={cl.header}>
-      <div className="container">
-        <img className={cl.logo} src={logo} alt="logo" />
-        <Button type="primary">Test button</Button>
+      <div className={cl.top}>
+        <div className="container">
+          <Link to="/">
+            <img className={cl.logo} src={logo} alt="logo" />
+          </Link>
+        </div>
       </div>
+      <div className={cl.bottom}></div>
     </header>
   );
 };

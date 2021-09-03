@@ -1,17 +1,32 @@
 import React from 'react';
 import './App.scss';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
-import Content from '../Content';
+import Home from '../pages/Home';
+import Lobby from '../pages/Lobby';
 
 const App: React.FC = () => {
   return (
     <>
       <Header />
-      <Content />
+      <div className="container">
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/lobby" component={Lobby} />
+        </Switch>
+      </div>
       <Footer />
     </>
   );
 };
 
-export default App;
+const AppContainer: React.FC = () => {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+};
+
+export default AppContainer;

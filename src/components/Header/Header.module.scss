@@ -1,15 +1,23 @@
 .header {
-  background-color: #2b3a67;
-  height: 50px;
-
   .logo {
-    width: 70px;
-    height: 70px;
+    position: absolute;
+    top: 22px;
+    left: 35px;
+    width: 63px;
+    height: 63px;
     object-fit: cover;
+    cursor: pointer;
   }
-}
 
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
+  .top {
+    position: relative;
+    height: 50px;
+    background-color: #2b3a67;
+  }
+
+  .bottom {
+    height: 20px;
+    background-color: #66999b;
+    margin-bottom: 20px;
+  }
 }
