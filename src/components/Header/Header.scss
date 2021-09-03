@@ -1,0 +1,10 @@
+.header {
+	background-color: #2B3A67;
+	height: 50px;
+	
+	&__logo {
+		width: 70px;
+		height: 70px;
+		object-fit: cover;
+	}
+}
