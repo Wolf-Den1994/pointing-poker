@@ -1,0 +1,30 @@
+.header {
+  margin-bottom: 20px;
+
+  .logo {
+    position: absolute;
+    top: 22px;
+    left: 12px;
+    width: 63px;
+    height: 63px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .top {
+    height: 50px;
+    background-color: #000;
+  }
+
+  .bottom {
+    height: 20px;
+    background-color: #66999b;
+  }
+
+  .title {
+    font-size: 26px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+  }
+}
