@@ -9,6 +9,7 @@ const Header: React.FC = () => {
     <header className={cl.header}>
       <div className={cl.top}>
         <div className="container">
+          <h1 className={cl.title}>Pointing Poker</h1>
           <Link to="/">
             <img className={cl.logo} src={logo} alt="logo" />
           </Link>

@@ -1,4 +1,6 @@
 .header {
+  margin-bottom: 20px;
+
   .logo {
     position: absolute;
     top: 22px;
@@ -11,12 +13,18 @@
 
   .top {
     height: 50px;
-    background-color: #2b3a67;
+    background-color: #000;
   }
 
   .bottom {
     height: 20px;
     background-color: #66999b;
-    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 26px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
   }
 }
