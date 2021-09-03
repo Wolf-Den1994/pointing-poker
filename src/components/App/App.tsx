@@ -1,16 +1,16 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import cl from './App.module.scss';
-import Header from '../Header';
-import Footer from '../Footer';
-import Home from '../pages/Home';
-import Lobby from '../pages/Lobby';
+import { Route, Switch } from 'react-router-dom';
+import style from './App.module.scss';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import Home from '../../pages/Home/Home';
+import Lobby from '../../pages/Lobby/Lobby';
 
 const App: React.FC = () => {
   return (
     <>
       <Header />
-      <main className={cl.app}>
+      <main className={style.app}>
         <div className="container">
           <Switch>
             <Route exact path="/" component={Home} />
@@ -23,12 +23,4 @@ const App: React.FC = () => {
   );
 };
 
-const AppContainer: React.FC = () => {
-  return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
-};
-
-export default AppContainer;
+export default App;

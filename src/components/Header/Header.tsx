@@ -2,20 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 
-import cl from './Header.module.scss';
+import style from './Header.module.scss';
 
 const Header: React.FC = () => {
   return (
-    <header className={cl.header}>
-      <div className={cl.top}>
+    <header className={style.header}>
+      <div className={style.top}>
         <div className="container">
-          <h1 className={cl.title}>Pointing Poker</h1>
+          <h1 className={style.title}>Pointing Poker</h1>
           <Link to="/">
-            <img className={cl.logo} src={logo} alt="logo" />
+            <img className={style.logo} src={logo} alt="logo" />
           </Link>
         </div>
       </div>
-      <div className={cl.bottom}></div>
+      <div className={style.bottom}></div>
     </header>
   );
 };

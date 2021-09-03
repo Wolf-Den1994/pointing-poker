@@ -1,44 +1,45 @@
 import React from 'react';
 import logoRSS from '../../assets/rss.svg';
+import { Authors, AuthorsLink } from '../../types';
 
-import cl from './Footer.module.scss';
+import style from './Footer.module.scss';
 
 const Footer: React.FC = () => {
   return (
-    <footer className={cl.footer}>
+    <footer className={style.footer}>
       <div className="container">
-        <address className={cl.info}>
-          <div className={cl.colomn}>
+        <address className={style.info}>
+          <div className={style.colomn}>
             <div>Mentor:</div>
-            <a href="https://github.com/lessarea" target="_blank" rel="noreferrer">
-              Diana Garbuzova
+            <a href={AuthorsLink.Diana} target="_blank" rel="noreferrer">
+              {Authors.Diana}
             </a>
           </div>
 
-          <div className={cl.colomn}>
+          <div className={style.colomn}>
             <div>Authors:</div>
-            <ul className={cl.info__box}>
+            <ul className={style.info__box}>
               <li>
-                <a href="https://github.com/Wolf-Den1994" target="_blank" rel="noreferrer">
-                  Denis Karazan
+                <a href={AuthorsLink.Denis} target="_blank" rel="noreferrer">
+                  {Authors.Denis}
                 </a>
               </li>
               <li>
-                <a href="https://github.com/KalashnikovTV" target="_blank" rel="noreferrer">
-                  Maksim Malashkou
+                <a href={AuthorsLink.Maksim} target="_blank" rel="noreferrer">
+                  {Authors.Maksim}
                 </a>
               </li>
               <li>
-                <a href="https://github.com/Ksarelto" target="_blank" rel="noreferrer">
-                  Artsiom Murashko
+                <a href={AuthorsLink.Artsiom} target="_blank" rel="noreferrer">
+                  {Authors.Artsiom}
                 </a>
               </li>
             </ul>
           </div>
 
-          <div className={cl.colomn}>
-            <a href="https://rs.school/js/" target="_blank" rel="noreferrer" title="Click me!">
-              <img src={logoRSS} alt="The Rolling Scopes School" />
+          <div className={style.colomn}>
+            <a href={AuthorsLink.RSS} target="_blank" rel="noreferrer" title="Click me!">
+              <img src={logoRSS} alt={Authors.RSS} />
             </a>
           </div>
         </address>
