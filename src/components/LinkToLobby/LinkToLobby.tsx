@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Input, Button } from 'antd';
-import cl from './LinkToLobby.module.scss';
+import style from './LinkToLobby.module.scss';
 
 interface ILinkToLobbyProps {
   value: string;
@@ -8,13 +8,21 @@ interface ILinkToLobbyProps {
 
 const LinkToLobby: FC<ILinkToLobbyProps> = ({ value }) => {
   return (
-    <div className={cl.linkToLobby}>
-      <p className={cl.title}>Link to lobby:</p>
-      <div className={cl.control}>
-        <Input placeholder="Link" readOnly value={value} />
-        <Button type="primary">Copy</Button>
+    <>
+      <div className={style.linkToLobby}>
+        <div className={style.wrapper}>
+          <p className={style.title}>Link to lobby:</p>
+          <div className={style.link}>
+            <Input placeholder="Link" readOnly value={value} className={style.input} />
+            <Button className={style.button}>Copy</Button>
+          </div>
+        </div>
+        <div className={style.control}>
+          <Button className={style.button}>Start Game</Button>
+          <Button className={`${style.button} ${style.white}`}>Cancel game</Button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

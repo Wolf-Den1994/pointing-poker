@@ -1,12 +1,54 @@
 .linkToLobby {
-  max-width: 276px;
-  width: 100%;
+  .wrapper {
+    max-width: 465px;
+    width: 100%;
+    margin-bottom: 30px;
 
-  .title {
-    font-style: italic;
+    .title {
+      font-style: italic;
+      font-size: 24px;
+      line-height: 28px;
+    }
+
+    .link {
+      display: flex;
+    }
+
+    .input {
+      font-weight: 300;
+      font-size: 24px;
+      line-height: 28px;
+    }
   }
 
   .control {
     display: flex;
+    justify-content: space-between;
+  }
+
+  .button {
+    max-width: 190px;
+    width: 100%;
+    background-color: #2b3a67;
+    color: #fff;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+    height: 47px;
+    border-radius: 4px;
+    border: none;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    &:hover,
+    &:focus {
+      background-color: #4c609e;
+    }
+
+    &.white {
+      color: #2b3a67;
+      background-color: #fff;
+      border: 1px solid #496a81;
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
   }
 }

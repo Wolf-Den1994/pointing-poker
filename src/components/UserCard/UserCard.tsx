@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { Card, Avatar } from 'antd';
+import { StopOutlined } from '@ant-design/icons';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import cl from './UserCard.module.scss';
+import style from './UserCard.module.scss';
 
 interface IUserCardProps {
   proffession: string;
@@ -12,16 +13,17 @@ interface IUserCardProps {
 const UserCard: FC<IUserCardProps> = ({ proffession, you, children }) => {
   const words = children?.toString() as string;
   return (
-    <Card className={cl.userCard} bodyStyle={{ padding: 10 }}>
-      <div className={cl.wrapper}>
-        <Avatar className={cl.avatar} size={50} style={{ fontSize: 36 }}>
+    <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
+      <div className={style.wrapper}>
+        <Avatar className={style.avatar} size={60} style={{ fontSize: 36 }}>
           {getFirstUpLetters(words)}
         </Avatar>
-        <div className={cl.user}>
-          {you ? <p className={cl.you}>IT&apos;S YOU</p> : null}
-          <p className={cl.name}>{children}</p>
-          <p className={cl.proffession}>{proffession}</p>
+        <div className={style.user}>
+          {you ? <p className={style.you}>IT&apos;S YOU</p> : null}
+          <p className={style.name}>{children}</p>
+          <p className={style.proffession}>{proffession}</p>
         </div>
+        <div className={style.kick}>{you ? null : <StopOutlined style={{ fontSize: 30 }} />}</div>
       </div>
     </Card>
   );
