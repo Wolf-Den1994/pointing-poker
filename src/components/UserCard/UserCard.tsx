@@ -12,9 +12,9 @@ interface IUserCardProps {
 const UserCard: FC<IUserCardProps> = ({ proffession, you, children }) => {
   const words = children?.toString() as string;
   return (
-    <Card className={cl.userCard}>
+    <Card className={cl.userCard} bodyStyle={{ padding: 10 }}>
       <div className={cl.wrapper}>
-        <Avatar className={cl.avatar} size={83} style={{ fontSize: 36 }}>
+        <Avatar className={cl.avatar} size={50} style={{ fontSize: 36 }}>
           {getFirstUpLetters(words)}
         </Avatar>
         <div className={cl.user}>
