@@ -1,10 +1,16 @@
 import React from 'react';
-import { Button, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 
 import style from './Home.module.scss';
 
 const Home: React.FC = () => {
+  const [form] = Form.useForm();
+
+  const onFinish = () => form.resetFields();
+
+  const onFinishFailed = () => {};
+
   return (
     <div className={style.wrapper}>
       <img className={style.image} src={imagePokerPlanning} alt="poker-planning" />
@@ -24,12 +30,26 @@ const Home: React.FC = () => {
           <p className={style.session}>
             Connect to lobby by <span>URL:</span>
           </p>
-          <form className={style.lobby} onSubmit={(e) => e.preventDefault()}>
-            <Input className={style.input} type="text" onChange={() => {}} />
+          <Form className={style.lobby} form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+            <Form.Item
+              name="URL"
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                },
+                {
+                  type: 'string',
+                  min: 6,
+                },
+              ]}
+            >
+              <Input className={style.input} type="text" placeholder="URL" onChange={() => {}} />
+            </Form.Item>
             <Button className={`${style.button} ${style.button_lobby}`} htmlType="submit">
               Connect
             </Button>
-          </form>
+          </Form>
         </div>
       </div>
     </div>

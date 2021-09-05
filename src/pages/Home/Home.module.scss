@@ -51,7 +51,7 @@
     }
 
     .box {
-      max-width: 515px;
+      max-width: 495px;
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -82,6 +82,7 @@
 
     .input {
       padding: 0px 5px;
+      padding-right: 25px;
       font-size: 20px;
       max-width: 275px;
       width: 100%;
@@ -96,6 +97,14 @@
 
 @media (max-width: 500px) {
   .wrapper {
+    .button {
+      max-width: 100%;
+
+      &_lobby {
+        margin-top: 5px;
+      }
+    }
+
     .row {
       text-align: center;
 
@@ -118,8 +127,7 @@
       display: block;
 
       .input {
-        margin-bottom: 10px;
-        max-width: 240px;
+        max-width: 100%;
         width: 100%;
       }
     }
