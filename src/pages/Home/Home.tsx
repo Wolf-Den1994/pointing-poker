@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Input } from 'antd';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 
 import style from './Home.module.scss';
@@ -11,9 +12,9 @@ const Home: React.FC = () => {
         <h1 className={style.title}>Start your planning:</h1>
         <div className={style.box}>
           <p className={style.session}>Create a session: </p>
-          <button className={style.button} type="button" onClick={() => {}}>
+          <Button className={style.button} onClick={() => {}}>
             Start new game
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -24,10 +25,10 @@ const Home: React.FC = () => {
             Connect to lobby by <span>URL:</span>
           </p>
           <form className={style.lobby} onSubmit={(e) => e.preventDefault()}>
-            <input className={style.input} type="text" onChange={() => {}} />
-            <button className={`${style.button} ${style.button_lobby}`} type="submit">
+            <Input className={style.input} type="text" onChange={() => {}} />
+            <Button className={`${style.button} ${style.button_lobby}`} htmlType="submit">
               Connect
-            </button>
+            </Button>
           </form>
         </div>
       </div>

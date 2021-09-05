@@ -21,15 +21,13 @@
     color: #fff;
     font-weight: 600;
     font-size: 20px;
-    line-height: 24px;
     height: 47px;
     border-radius: 4px;
     border: none;
-    cursor: pointer;
-    transition: all 0.3s;
 
-    &:hover {
-      background-color: #425488;
+    &:hover,
+    &:focus {
+      background-color: #4c609e;
     }
 
     &_lobby {
@@ -85,8 +83,6 @@
     .input {
       padding: 0px 5px;
       font-size: 20px;
-      line-height: 24px;
-      outline: none;
       max-width: 275px;
       width: 100%;
       height: 47px;
