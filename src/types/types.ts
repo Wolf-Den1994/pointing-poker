@@ -13,3 +13,10 @@ export enum AuthorsLink {
   Diana = 'https://github.com/lessarea',
   RSS = 'https://rs.school/js/',
 }
+
+export interface IFormGameData {
+  observer: boolean;
+  name: string;
+  surname: string;
+  job: string;
+}
