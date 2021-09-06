@@ -1,0 +1,7 @@
+{
+  "verbose": false,
+  "ignore": ["node_modules"],
+  "watch": ["src"],
+  "exec": "npx node ./dist/app.js",
+  "ext": "ts, js"
+}
