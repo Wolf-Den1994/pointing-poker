@@ -15,7 +15,15 @@ const UserCard: FC<IUserCardProps> = ({ proffession, you, children }) => {
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
       <div className={style.wrapper}>
-        <Avatar className={style.avatar} size={60} style={{ fontSize: 36 }}>
+        <Avatar
+          className={style.avatar}
+          size={60}
+          style={{
+            fontSize: 36,
+            textShadow: '0px 4px 4px #00000040',
+            backgroundColor: '#60DABF',
+          }}
+        >
           {getFirstUpLetters(words)}
         </Avatar>
         <div className={style.user}>

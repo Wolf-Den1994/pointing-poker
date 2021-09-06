@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';
+import Members from '../../components/Members/Members';
 import Planning from '../../components/Planning/Planning';
 import UserCard from '../../components/UserCard/UserCard';
 import style from './Lobby.module.scss';
@@ -19,6 +20,7 @@ const Lobby: FC = () => {
         </UserCard>
       </div>
       <LinkToLobby value={testLink} />
+      <Members />
     </div>
   );
 };
