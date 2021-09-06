@@ -1,48 +1,16 @@
 import React from 'react';
+import { IMember } from '../../types/types';
 import UserCard from '../UserCard/UserCard';
 import style from './Members.module.scss';
 
-const membersArray = [
-  {
-    name: 'David Blane',
-    proffession: 'senior software engeneer',
-    you: false,
-  },
-  {
-    name: 'Dayana Ross',
-    proffession: 'unior software engeneer',
-    you: true,
-  },
-  {
-    name: 'Daniel Horn',
-    proffession: '',
-    you: false,
-  },
-  {
-    name: 'Mark Single',
-    proffession: 'senior software engeneer',
-    you: false,
-  },
-  {
-    name: 'Jane Ring',
-    proffession: 'software engeneer',
-    you: false,
-  },
-  {
-    name: 'Larry King',
-    proffession: 'junior software engeneer',
-    you: false,
-  },
-  {
-    name: 'Fill',
-    proffession: 'QA engeneer',
-    you: false,
-  },
-];
+interface IMembersProps {
+  membersArray: IMember[];
+  onKick: (user: React.ReactNode) => void;
+}
 
-const Members: React.FC = () => {
+const Members: React.FC<IMembersProps> = ({ membersArray, onKick }) => {
   const elements = membersArray.map((item, index) => (
-    <UserCard key={item.name + index} proffession={item.proffession} you={item.you}>
+    <UserCard key={item.name + index} proffession={item.proffession} you={item.you} onKick={onKick}>
       {item.name}
     </UserCard>
   ));

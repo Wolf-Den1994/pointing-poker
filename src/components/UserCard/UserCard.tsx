@@ -8,9 +8,10 @@ interface IUserCardProps {
   proffession: string;
   you: boolean;
   children: React.ReactNode;
+  onKick: (user: React.ReactNode) => void;
 }
 
-const UserCard: FC<IUserCardProps> = ({ proffession, you, children }) => {
+const UserCard: FC<IUserCardProps> = ({ proffession, you, children, onKick }) => {
   const words = children?.toString() as string;
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
@@ -31,7 +32,9 @@ const UserCard: FC<IUserCardProps> = ({ proffession, you, children }) => {
           <p className={style.name}>{children}</p>
           <p className={style.proffession}>{proffession}</p>
         </div>
-        <div className={style.kick}>{you ? null : <StopOutlined style={{ fontSize: 30 }} />}</div>
+        <div className={style.kick} onClick={() => onKick(children)}>
+          {you ? null : <StopOutlined style={{ fontSize: 30 }} />}
+        </div>
       </div>
     </Card>
   );
