@@ -15,6 +15,7 @@ const Home: React.FC = () => {
   const onSubmitFormFailedConnect = () => {};
 
   const onSubmitFormGame = (data: IFormGameData) => {
+    // Данные после заполнения формы (старт новой игры)
     console.log(data);
     formGame.resetFields();
     setModalActive(false);
@@ -108,15 +109,10 @@ const Home: React.FC = () => {
           <Form.Item
             name="surname"
             label="Your surname name:"
-            tooltip="What do you want others to call you?"
+            initialValue={''}
             rules={[
               {
                 type: 'string',
-                message: 'The input is not valid Surname name!',
-              },
-              {
-                required: true,
-                message: 'Please, input your Surname name!',
               },
             ]}
           >
@@ -133,7 +129,7 @@ const Home: React.FC = () => {
               },
             ]}
           >
-            <Input />
+            <Input placeholder="Software Engineer" />
           </Form.Item>
         </Form>
       </Modal>
