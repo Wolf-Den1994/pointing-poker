@@ -27,7 +27,7 @@ const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, isDealer }) => {
       {isDealer ? (
         <div className={style.wrapper}>
           <p className={style.title}>Link to lobby:</p>
-          <div className={style.link}>
+          <div className={style.setOfFields}>
             <Form
               form={form}
               name="basic"
