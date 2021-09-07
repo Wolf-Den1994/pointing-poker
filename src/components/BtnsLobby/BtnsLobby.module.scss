@@ -1,0 +1,30 @@
+.btnsLobby {
+  .control {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .button {
+    max-width: 190px;
+    width: 100%;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+    height: 47px;
+    border-radius: 4px;
+    border: none;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    &.white {
+      color: #1890ff;
+      background-color: #fff;
+      border: 1px solid #1890ff;
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .exit {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

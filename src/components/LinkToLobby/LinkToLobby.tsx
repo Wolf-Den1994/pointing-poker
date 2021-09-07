@@ -1,26 +1,15 @@
 import React, { FC } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import style from './LinkToLobby.module.scss';
 
 interface ILinkToLobbyProps {
   value: string;
+  standing: boolean;
 }
 
-const LinkToLobby: FC<ILinkToLobbyProps> = ({ value }) => {
-  const history = useHistory();
+const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, standing }) => {
   const [form] = Form.useForm();
-
-  const startGame = () => {
-    const path = `game`;
-    history.push(path);
-  };
-
-  const cancelGame = () => {
-    const path = `/`;
-    history.push(path);
-  };
 
   const copyLink = () => {
     message.success('Link successfully copied to clipboard!');
@@ -34,8 +23,8 @@ const LinkToLobby: FC<ILinkToLobbyProps> = ({ value }) => {
   onFill();
 
   return (
-    <>
-      <div className={style.linkToLobby}>
+    <div className={style.linkToLobby}>
+      {standing ? (
         <div className={style.wrapper}>
           <p className={style.title}>Link to lobby:</p>
           <div className={style.link}>
@@ -59,16 +48,8 @@ const LinkToLobby: FC<ILinkToLobbyProps> = ({ value }) => {
             </Form>
           </div>
         </div>
-        <div className={style.control}>
-          <Button type="primary" className={style.button} onClick={startGame}>
-            Start Game
-          </Button>
-          <Button type="primary" className={`${style.button} ${style.white}`} onClick={cancelGame}>
-            Cancel game
-          </Button>
-        </div>
-      </div>
-    </>
+      ) : null}
+    </div>
   );
 };
 

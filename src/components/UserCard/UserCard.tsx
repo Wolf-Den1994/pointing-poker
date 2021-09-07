@@ -2,16 +2,18 @@ import React, { FC } from 'react';
 import { Card, Avatar } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
+import { IMember } from '../../types/types';
 import style from './UserCard.module.scss';
 
 interface IUserCardProps {
   proffession: string;
   you: boolean;
   children: React.ReactNode;
-  onKick: (user: React.ReactNode) => void;
+  members: IMember[];
+  onKick?: (user: React.ReactNode) => void;
 }
 
-const UserCard: FC<IUserCardProps> = ({ proffession, you, children, onKick }) => {
+const UserCard: FC<IUserCardProps> = ({ proffession, you, children, members, onKick }) => {
   const words = children?.toString() as string;
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
@@ -32,9 +34,11 @@ const UserCard: FC<IUserCardProps> = ({ proffession, you, children, onKick }) =>
           <p className={style.name}>{children}</p>
           <p className={style.proffession}>{proffession}</p>
         </div>
-        <div className={style.kick} onClick={() => onKick(children)}>
-          {you ? null : <StopOutlined style={{ fontSize: 30 }} />}
-        </div>
+        {members[0].name !== children ? (
+          <div className={style.kick} onClick={() => onKick && onKick(children)}>
+            {you ? null : <StopOutlined style={{ fontSize: 30 }} />}
+          </div>
+        ) : null}
       </div>
     </Card>
   );

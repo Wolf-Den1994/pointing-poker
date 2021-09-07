@@ -4,13 +4,14 @@ import UserCard from '../UserCard/UserCard';
 import style from './Members.module.scss';
 
 interface IMembersProps {
-  membersArray: IMember[];
+  members: IMember[];
   onKick: (user: React.ReactNode) => void;
 }
 
-const Members: React.FC<IMembersProps> = ({ membersArray, onKick }) => {
-  const elements = membersArray.map((item, index) => (
-    <UserCard key={item.name + index} proffession={item.proffession} you={item.you} onKick={onKick}>
+const Members: React.FC<IMembersProps> = ({ members, onKick }) => {
+  const onlyTeamMembers = members.filter((item, index) => index !== 0);
+  const elements = onlyTeamMembers.map((item, index) => (
+    <UserCard key={item.name + index} proffession={item.proffession} you={item.you} onKick={onKick} members={members}>
       {item.name}
     </UserCard>
   ));
