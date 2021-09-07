@@ -30,16 +30,16 @@ const BtnsLobby: React.FC<IBtnsLobbyProps> = ({ isDealer }) => {
     <div className={style.btnsLobby}>
       {isDealer ? (
         <div className={style.control}>
-          <Button type="primary" size={'large'} className={style.button} onClick={startGame}>
+          <Button type="primary" size="large" className={style.button} onClick={startGame}>
             Start Game
           </Button>
-          <Button size={'large'} className={`${style.button} ${style.white}`} onClick={cancelGame}>
+          <Button size="large" className={`${style.button} ${style.white}`} onClick={cancelGame}>
             Cancel game
           </Button>
         </div>
       ) : (
         <div className={style.exit}>
-          <Button size={'large'} className={`${style.button} ${style.white}`} onClick={exitGame}>
+          <Button size="large" className={`${style.button} ${style.white}`} onClick={exitGame}>
             Exit
           </Button>
         </div>

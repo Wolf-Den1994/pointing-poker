@@ -4,18 +4,6 @@
     justify-content: space-between;
   }
 
-  .button {
-    font-weight: 600;
-
-    &.white {
-      border: 1px solid #000000d9;
-
-      &:hover {
-        border: 1px solid #1890ff;
-      }
-    }
-  }
-
   .exit {
     display: flex;
     justify-content: flex-end;

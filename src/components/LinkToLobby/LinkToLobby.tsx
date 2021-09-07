@@ -28,7 +28,7 @@ const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, isDealer }) => {
         <div className={style.wrapper}>
           <p className={style.title}>Link to lobby:</p>
           <div className={style.setOfFields}>
-            <Form layout="inline" size={'large'} form={form} name="basic" onFinish={copyLink} autoComplete="off">
+            <Form layout="inline" size="large" form={form} name="basic" onFinish={copyLink} autoComplete="off">
               <Form.Item name="link">
                 <Input placeholder="Link" readOnly value={value} className={style.input} />
               </Form.Item>
