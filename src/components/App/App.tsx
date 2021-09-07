@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import io from 'socket.io-client';
 import style from './App.module.scss';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -8,10 +7,6 @@ import Home from '../../pages/Home/Home';
 import Lobby from '../../pages/Lobby/Lobby';
 
 const App: React.FC = () => {
-  useEffect(() => {
-    const socket = io('https://rsschool-pp.herokuapp.com');
-    console.log(socket);
-  });
   return (
     <div className={style.wrapper}>
       <Header />

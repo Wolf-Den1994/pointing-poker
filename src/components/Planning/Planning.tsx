@@ -18,12 +18,12 @@ const Planning: FC<IPlanningProps> = ({ isDealer }) => {
     const elements = [];
     for (let i = 0; i < issues.length; i += 1) {
       if (i < SHOW_ELEMENTS) {
-        elements.push(<span key={issues[i] + i}>{issues[i]},</span>);
+        elements.push(<span key={issues[i]}>{issues[i]},</span>);
         if (i === issues.length - 1) {
-          elements.push(<span key={issues[i] + i}>{issues[i]}</span>);
+          elements.push(<span key={issues[i]}>{issues[i]}</span>);
         }
       } else {
-        elements.push(<span key={issues[i] + i}>...</span>);
+        elements.push(<span key={issues[i]}>...</span>);
         break;
       }
     }
