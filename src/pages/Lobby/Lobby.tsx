@@ -64,9 +64,12 @@ const Lobby: FC = () => {
       <Planning isDealer={membersArray[0].isYou} />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
-        <UserCard jobStatus={membersArray[0].jobStatus} isYou={membersArray[0].isYou} members={membersArray}>
-          {membersArray[0].name}
-        </UserCard>
+        <UserCard
+          jobStatus={membersArray[0].jobStatus}
+          isYou={membersArray[0].isYou}
+          members={membersArray}
+          name={membersArray[0].name}
+        />
       </div>
       <LinkToLobby value={testLink} isDealer={membersArray[0].isYou} />
       <BtnsLobby isDealer={membersArray[0].isYou} />

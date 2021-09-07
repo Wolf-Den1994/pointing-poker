@@ -8,13 +8,12 @@ import style from './UserCard.module.scss';
 interface IUserCardProps {
   jobStatus: string;
   isYou: boolean;
-  children: React.ReactNode;
+  name: string;
   members: IMember[];
   onKick?: (user: React.ReactNode) => void;
 }
 
-const UserCard: FC<IUserCardProps> = ({ jobStatus, isYou, children, members, onKick }) => {
-  const words = children?.toString() as string;
+const UserCard: FC<IUserCardProps> = ({ jobStatus, isYou, name, members, onKick }) => {
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
       <div className={style.wrapper}>
@@ -27,15 +26,15 @@ const UserCard: FC<IUserCardProps> = ({ jobStatus, isYou, children, members, onK
             backgroundColor: '#60DABF',
           }}
         >
-          {getFirstUpLetters(words)}
+          {getFirstUpLetters(name)}
         </Avatar>
         <div className={style.user}>
           {isYou ? <p className={style.isYou}>IT&apos;S YOU</p> : null}
-          <p className={style.name}>{children}</p>
+          <p className={style.name}>{name}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
-        {members[0].name !== children ? (
-          <div className={style.kick} onClick={() => onKick && onKick(children)}>
+        {members[0].name !== name ? (
+          <div className={style.kick} onClick={() => onKick && onKick(name)}>
             {isYou ? null : <StopOutlined style={{ fontSize: 30 }} />}
           </div>
         ) : null}

@@ -10,16 +10,15 @@ interface IMembersProps {
 
 const Members: React.FC<IMembersProps> = ({ members, onKick }) => {
   const onlyTeamMembers = members.filter((item, index) => index !== 0);
-  const elements = onlyTeamMembers.map((item, index) => (
+  const elements = onlyTeamMembers.map((item) => (
     <UserCard
       key={item.name + item.jobStatus}
       jobStatus={item.jobStatus}
       isYou={item.isYou}
       onKick={onKick}
       members={members}
-    >
-      {item.name}
-    </UserCard>
+      name={item.name}
+    />
   ));
   return (
     <div className={style.members}>
