@@ -5,16 +5,17 @@ import style from './Members.module.scss';
 
 interface IMembersProps {
   members: IMember[];
+  indexUser: number;
   onKick: (user: React.ReactNode) => void;
 }
 
-const Members: React.FC<IMembersProps> = ({ members, onKick }) => {
+const Members: React.FC<IMembersProps> = ({ members, indexUser, onKick }) => {
   const onlyTeamMembers = members.filter((item, index) => index !== 0);
   const elements = onlyTeamMembers.map((item) => (
     <UserCard
       key={item.name + item.jobStatus}
       jobStatus={item.jobStatus}
-      isYou={item.isYou}
+      indexUser={indexUser}
       onKick={onKick}
       members={members}
       name={item.name}

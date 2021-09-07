@@ -17,5 +17,4 @@ export enum AuthorsLink {
 export interface IMember {
   name: string;
   jobStatus: string;
-  isYou: boolean;
 }
