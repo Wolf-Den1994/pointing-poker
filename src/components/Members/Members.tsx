@@ -18,7 +18,7 @@ const Members: React.FC<IMembersProps> = ({ members, indexUser, onKick }) => {
       indexUser={indexUser}
       onKick={onKick}
       members={members}
-      name={item.name}
+      username={item.name}
     />
   ));
   return (

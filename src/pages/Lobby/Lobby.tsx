@@ -65,7 +65,7 @@ const Lobby: FC = () => {
           jobStatus={membersArray[0].jobStatus}
           indexUser={indexUser}
           members={membersArray}
-          name={membersArray[0].name}
+          username={membersArray[0].name}
         />
       </div>
       {isDealer ? <LinkToLobby value={testLink} isDealer={isDealer} /> : null}
