@@ -10,7 +10,7 @@ interface IUserCardProps {
   indexUser: number;
   username: string;
   members: IMember[];
-  onKick?: (user: React.ReactNode) => void;
+  onKick?: (user: string) => void;
 }
 
 const UserCard: FC<IUserCardProps> = ({ jobStatus, username, indexUser, members, onKick }) => {

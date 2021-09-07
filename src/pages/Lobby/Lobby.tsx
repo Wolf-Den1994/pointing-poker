@@ -51,9 +51,8 @@ const Lobby: FC = () => {
   const indexUser = membersArray.findIndex((user) => user.name === username);
   const isDealer = membersArray[0].name === username;
 
-  const kickUser = (user: React.ReactNode) => {
-    const stringUser = user?.toString() as string;
-    if (isDealer) setUsers((state) => state.filter((item) => item.name !== stringUser));
+  const kickUser = (user: string) => {
+    if (isDealer) setUsers((state) => state.filter((item) => item.name !== user));
   };
 
   return (

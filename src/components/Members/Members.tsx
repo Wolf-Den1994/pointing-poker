@@ -6,7 +6,7 @@ import style from './Members.module.scss';
 interface IMembersProps {
   members: IMember[];
   indexUser: number;
-  onKick: (user: React.ReactNode) => void;
+  onKick: (user: string) => void;
 }
 
 const Members: React.FC<IMembersProps> = ({ members, indexUser, onKick }) => {
