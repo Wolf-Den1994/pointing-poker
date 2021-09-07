@@ -61,15 +61,15 @@ const Lobby: FC = () => {
 
   return (
     <div className={style.lobbyPage}>
-      <Planning standing={membersArray[0].you} />
+      <Planning isDealer={membersArray[0].you} />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
         <UserCard proffession={membersArray[0].proffession} you={membersArray[0].you} members={membersArray}>
           {membersArray[0].name}
         </UserCard>
       </div>
-      <LinkToLobby value={testLink} standing={membersArray[0].you} />
-      <BtnsLobby standing={membersArray[0].you} />
+      <LinkToLobby value={testLink} isDealer={membersArray[0].you} />
+      <BtnsLobby isDealer={membersArray[0].you} />
       <Members members={users} onKick={kickUser} />
     </div>
   );

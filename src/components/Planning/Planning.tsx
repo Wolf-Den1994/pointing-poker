@@ -6,10 +6,10 @@ import style from './Planning.module.scss';
 const SHOW_ELEMENTS = 5;
 
 interface IPlanningProps {
-  standing: boolean;
+  isDealer: boolean;
 }
 
-const Planning: FC<IPlanningProps> = ({ standing }) => {
+const Planning: FC<IPlanningProps> = ({ isDealer }) => {
   // issues data from BE:
   const [issues, setIssues] = useState(['issues 11', '222', '3333', '4444', '5555', '6666', '7777', '888']);
   const [issuesEdit, setIssuesEdit] = useState(false);
@@ -54,7 +54,7 @@ const Planning: FC<IPlanningProps> = ({ standing }) => {
           Spring {issues.length} planning ({createElementsPlanning()})
         </span>
       )}
-      {standing ? (
+      {isDealer ? (
         <span className={style.edit} onClick={redact}>
           <EditOutlined style={{ fontSize: 24 }} />
         </span>

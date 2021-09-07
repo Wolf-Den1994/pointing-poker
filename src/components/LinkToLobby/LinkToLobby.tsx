@@ -5,10 +5,10 @@ import style from './LinkToLobby.module.scss';
 
 interface ILinkToLobbyProps {
   value: string;
-  standing: boolean;
+  isDealer: boolean;
 }
 
-const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, standing }) => {
+const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, isDealer }) => {
   const [form] = Form.useForm();
 
   const copyLink = () => {
@@ -24,7 +24,7 @@ const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, standing }) => {
 
   return (
     <div className={style.linkToLobby}>
-      {standing ? (
+      {isDealer ? (
         <div className={style.wrapper}>
           <p className={style.title}>Link to lobby:</p>
           <div className={style.link}>

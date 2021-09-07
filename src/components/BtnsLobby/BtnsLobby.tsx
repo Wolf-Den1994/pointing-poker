@@ -4,10 +4,10 @@ import { useHistory } from 'react-router-dom';
 import style from './BtnsLobby.module.scss';
 
 interface IBtnsLobbyProps {
-  standing: boolean;
+  isDealer: boolean;
 }
 
-const BtnsLobby: React.FC<IBtnsLobbyProps> = ({ standing }) => {
+const BtnsLobby: React.FC<IBtnsLobbyProps> = ({ isDealer }) => {
   const history = useHistory();
 
   const startGame = () => {
@@ -28,7 +28,7 @@ const BtnsLobby: React.FC<IBtnsLobbyProps> = ({ standing }) => {
 
   return (
     <div className={style.btnsLobby}>
-      {standing ? (
+      {isDealer ? (
         <div className={style.control}>
           <Button type="primary" size={'large'} className={style.button} onClick={startGame}>
             Start Game
