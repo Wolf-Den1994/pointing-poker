@@ -12,9 +12,9 @@ const Members: React.FC<IMembersProps> = ({ members, onKick }) => {
   const onlyTeamMembers = members.filter((item, index) => index !== 0);
   const elements = onlyTeamMembers.map((item, index) => (
     <UserCard
-      key={item.name + item.proffession}
-      proffession={item.proffession}
-      you={item.you}
+      key={item.name + item.jobStatus}
+      jobStatus={item.jobStatus}
+      isYou={item.isYou}
       onKick={onKick}
       members={members}
     >

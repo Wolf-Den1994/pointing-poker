@@ -11,43 +11,43 @@ const testLink = 'https://github.com/rolling-scopes-school/tasks/blob/yuliaHope-
 const membersArray = [
   {
     name: 'Rick Giligan',
-    proffession: 'lead software engeneer',
-    you: true,
+    jobStatus: 'lead software engeneer',
+    isYou: true,
   },
   {
     name: 'David Blane',
-    proffession: 'senior software engeneer',
-    you: false,
+    jobStatus: 'senior software engeneer',
+    isYou: false,
   },
   {
     name: 'Dayana Ross',
-    proffession: 'unior software engeneer',
-    you: false,
+    jobStatus: 'unior software engeneer',
+    isYou: false,
   },
   {
     name: 'Daniel Horn',
-    proffession: '',
-    you: false,
+    jobStatus: '',
+    isYou: false,
   },
   {
     name: 'Mark Single',
-    proffession: 'senior software engeneer',
-    you: false,
+    jobStatus: 'senior software engeneer',
+    isYou: false,
   },
   {
     name: 'Jane Ring',
-    proffession: 'software engeneer',
-    you: false,
+    jobStatus: 'software engeneer',
+    isYou: false,
   },
   {
     name: 'Larry King',
-    proffession: 'junior software engeneer',
-    you: false,
+    jobStatus: 'junior software engeneer',
+    isYou: false,
   },
   {
     name: 'Fill',
-    proffession: 'QA engeneer',
-    you: false,
+    jobStatus: 'QA engeneer',
+    isYou: false,
   },
 ];
 
@@ -56,20 +56,20 @@ const Lobby: FC = () => {
 
   const kickUser = (user: React.ReactNode) => {
     const stringUser = user?.toString() as string;
-    if (membersArray[0].you) setUsers((state) => state.filter((item) => item.name !== stringUser));
+    if (membersArray[0].isYou) setUsers((state) => state.filter((item) => item.name !== stringUser));
   };
 
   return (
     <div className={style.lobbyPage}>
-      <Planning isDealer={membersArray[0].you} />
+      <Planning isDealer={membersArray[0].isYou} />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
-        <UserCard proffession={membersArray[0].proffession} you={membersArray[0].you} members={membersArray}>
+        <UserCard jobStatus={membersArray[0].jobStatus} isYou={membersArray[0].isYou} members={membersArray}>
           {membersArray[0].name}
         </UserCard>
       </div>
-      <LinkToLobby value={testLink} isDealer={membersArray[0].you} />
-      <BtnsLobby isDealer={membersArray[0].you} />
+      <LinkToLobby value={testLink} isDealer={membersArray[0].isYou} />
+      <BtnsLobby isDealer={membersArray[0].isYou} />
       <Members members={users} onKick={kickUser} />
     </div>
   );
