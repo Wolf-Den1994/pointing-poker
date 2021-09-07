@@ -25,7 +25,7 @@ async function start() {
   try {
     await mongoose.connect(
       process.env.MONGODB__URI
-      || 'mongodb+srv://Ksarelto:englishforkids@cluster0.nq8rr.mongodb.net/pointing-poker?retryWrites=true&w=majority',
+      || 'mongodb+srv://RSSchool-React:planning-poker@poker.jgasx.mongodb.net/Planning-poker-db?retryWrites=true&w=majority',
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,

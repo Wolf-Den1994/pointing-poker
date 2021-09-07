@@ -19,7 +19,7 @@
   "rules": {
     "no-plusplus": "off",
     "no-console": "warn",
-    "max-len": ["warn", { "code": 170 }],
+    "max-len": ["warn", { "code": 130 }],
     "indent": ["warn", 2, {
       "SwitchCase": 1
     }],
