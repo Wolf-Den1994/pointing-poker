@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Modal, Switch } from 'antd';
+import { Avatar, Button, Form, Input, Modal, Switch } from 'antd';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
-import { IFormGameData } from '../../types/types';
+import defaultAvatar from '../../assets/images/Avatar.png';
 
 import style from './Home.module.scss';
+
+interface IFormGameData {
+  observer: boolean;
+  name: string;
+  surname: string;
+  job: string;
+}
 
 const Home: React.FC = () => {
   const [formConnect] = Form.useForm();
   const [formGame] = Form.useForm();
   const [modalActive, setModalActive] = useState(false);
+  const [imageAvatar, setImageAvatar] = useState('');
 
   const onSubmitFormConnect = () => formConnect.resetFields();
 
   const onSubmitFormFailedConnect = () => {};
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSubmitFormGame = (data: IFormGameData) => {
-    // Данные после заполнения формы (старт новой игры)
-    console.log(data);
+    // data => Данные после заполнения формы (старт новой игры)
+    // console.log(data);
     formGame.resetFields();
     setModalActive(false);
   };
@@ -24,6 +33,17 @@ const Home: React.FC = () => {
   const onClickCancelButton = () => {
     formGame.resetFields();
     setModalActive(false);
+  };
+
+  const onChangeImage = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    const file: File = (target.files as FileList)[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      // console.log(`${reader.result}`);
+      setImageAvatar(`${reader.result}`);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -34,7 +54,7 @@ const Home: React.FC = () => {
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
             <p className={style.session}>Create a session: </p>
-            <Button className={style.button} onClick={() => setModalActive(true)} type="primary">
+            <Button type="primary" size="large" onClick={() => setModalActive(true)}>
               Start new game
             </Button>
           </div>
@@ -65,9 +85,9 @@ const Home: React.FC = () => {
                   },
                 ]}
               >
-                <Input className={style.input} type="text" placeholder="URL" onChange={() => {}} />
+                <Input size="large" type="text" placeholder="URL" onChange={() => {}} />
               </Form.Item>
-              <Button className={`${style.button} ${style.button_lobby}`} htmlType="submit" type="primary">
+              <Button type="primary" size="large" htmlType="submit">
                 Connect
               </Button>
             </Form>
@@ -116,7 +136,7 @@ const Home: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="King" />
+            <Input placeholder="Griffin" />
           </Form.Item>
 
           <Form.Item
@@ -131,6 +151,16 @@ const Home: React.FC = () => {
           >
             <Input placeholder="Software Engineer" />
           </Form.Item>
+
+          <Form.Item name="upload" label="Upload image:">
+            <Input type="file" onChange={onChangeImage} value={imageAvatar} />
+          </Form.Item>
+
+          {imageAvatar.length ? (
+            <Avatar shape="circle" size={74} src={imageAvatar} alt="avatar" />
+          ) : (
+            <Avatar shape="circle" size={74} src={defaultAvatar} alt="avatar" />
+          )}
         </Form>
       </Modal>
     </>
