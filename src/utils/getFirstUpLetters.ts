@@ -4,6 +4,7 @@ const getFirstUpLetters = (words: string): string =>
     .map((item) => {
       return item[0];
     })
-    .join('');
+    .join('')
+    .toUpperCase();
 
 export default getFirstUpLetters;
