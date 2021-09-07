@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   const [modalActive, setModalActive] = useState(false);
   const [imageAvatar, setImageAvatar] = useState('');
 
-  const onSubmitFormConnect = () => formConnect.resetFields();
+  const onSubmitFormConnect = () => {};
 
   const onSubmitFormFailedConnect = () => {};
 
@@ -40,7 +40,6 @@ const Home: React.FC = () => {
     const file: File = (target.files as FileList)[0];
     const reader = new FileReader();
     reader.onload = () => {
-      // console.log(`${reader.result}`);
       setImageAvatar(`${reader.result}`);
     };
     reader.readAsDataURL(file);
@@ -152,14 +151,14 @@ const Home: React.FC = () => {
             <Input placeholder="Software Engineer" />
           </Form.Item>
 
-          <Form.Item name="upload" label="Upload image:">
+          <Form.Item name="avatar" label="Upload image:">
             <Input type="file" onChange={onChangeImage} value={imageAvatar} />
           </Form.Item>
 
           {imageAvatar.length ? (
-            <Avatar shape="circle" size={74} src={imageAvatar} alt="avatar" />
+            <Avatar shape="circle" size={64} src={imageAvatar} alt="avatar" />
           ) : (
-            <Avatar shape="circle" size={74} src={defaultAvatar} alt="avatar" />
+            <Avatar shape="circle" size={64} src={defaultAvatar} alt="avatar" />
           )}
         </Form>
       </Modal>
