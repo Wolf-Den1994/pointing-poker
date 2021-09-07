@@ -10,6 +10,7 @@ interface IFormGameData {
   name: string;
   surname: string;
   job: string;
+  avatar: string;
 }
 
 const Home: React.FC = () => {
@@ -151,7 +152,7 @@ const Home: React.FC = () => {
             <Input placeholder="Software Engineer" />
           </Form.Item>
 
-          <Form.Item name="avatar" label="Upload image:">
+          <Form.Item name="avatar" label="Upload avatar:">
             <Input type="file" onChange={onChangeImage} value={imageAvatar} />
           </Form.Item>
 
