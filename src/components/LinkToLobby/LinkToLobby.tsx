@@ -28,19 +28,13 @@ const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, isDealer }) => {
         <div className={style.wrapper}>
           <p className={style.title}>Link to lobby:</p>
           <div className={style.setOfFields}>
-            <Form
-              form={form}
-              name="basic"
-              style={{ display: 'flex', alignItems: 'center' }}
-              onFinish={copyLink}
-              autoComplete="off"
-            >
+            <Form layout="inline" size={'large'} form={form} name="basic" onFinish={copyLink} autoComplete="off">
               <Form.Item name="link">
-                <Input size={'large'} placeholder="Link" readOnly value={value} className={style.input} />
+                <Input placeholder="Link" readOnly value={value} className={style.input} />
               </Form.Item>
               <Form.Item>
                 <CopyToClipboard text={value} onCopy={() => {}}>
-                  <Button size={'large'} type="primary" htmlType="submit" className={style.button}>
+                  <Button type="primary" htmlType="submit" className={style.button}>
                     Copy
                   </Button>
                 </CopyToClipboard>
