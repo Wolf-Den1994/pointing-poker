@@ -18,7 +18,7 @@ const Home: React.FC = () => {
         <h1 className={style.title}>Start your planning:</h1>
         <div className={style.box}>
           <p className={style.session}>Create a session: </p>
-          <Button className={style.button} onClick={() => {}}>
+          <Button type="primary" size={'large'} className={style.button} onClick={() => {}}>
             Start new game
           </Button>
         </div>
@@ -44,9 +44,9 @@ const Home: React.FC = () => {
                 },
               ]}
             >
-              <Input className={style.input} type="text" placeholder="URL" onChange={() => {}} />
+              <Input size={'large'} className={style.input} type="text" placeholder="URL" onChange={() => {}} />
             </Form.Item>
-            <Button className={`${style.button} ${style.button_lobby}`} htmlType="submit">
+            <Button type="primary" size={'large'} className={`${style.button}`} htmlType="submit">
               Connect
             </Button>
           </Form>

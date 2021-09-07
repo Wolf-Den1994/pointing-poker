@@ -36,11 +36,11 @@ const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, standing }) => {
               autoComplete="off"
             >
               <Form.Item name="link">
-                <Input placeholder="Link" readOnly value={value} className={style.input} />
+                <Input size={'large'} placeholder="Link" readOnly value={value} className={style.input} />
               </Form.Item>
               <Form.Item>
                 <CopyToClipboard text={value} onCopy={() => {}}>
-                  <Button type="primary" htmlType="submit" className={style.button}>
+                  <Button size={'large'} type="primary" htmlType="submit" className={style.button}>
                     Copy
                   </Button>
                 </CopyToClipboard>
