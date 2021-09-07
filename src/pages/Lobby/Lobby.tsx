@@ -45,6 +45,7 @@ const membersArray = [
 
 const Lobby: FC = () => {
   // TODO: change the field to empty. change this state to the name that was during authorization
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [username, setUsername] = useState('Rick Giligan');
   const [users, setUsers] = useState<IMember[]>(membersArray);
 
