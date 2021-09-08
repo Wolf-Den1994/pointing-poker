@@ -8,7 +8,7 @@ const Members: React.FC = () => {
 
   const onlyTeamMembers = users.filter((item, index) => index !== 0);
   const elements = onlyTeamMembers.map((item) => (
-    <UserCard key={item.name + item.jobStatus} jobStatus={item.jobStatus} named={item.name} />
+    <UserCard key={item.name + item.jobStatus} jobStatus={item.jobStatus} member={item.name} />
   ));
   return (
     <div className={style.members}>

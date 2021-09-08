@@ -25,7 +25,7 @@ const Lobby: FC = () => {
       <Planning />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
-        <UserCard jobStatus={users[0].jobStatus} named={users[0].name} />
+        <UserCard jobStatus={users[0].jobStatus} member={users[0].name} />
       </div>
       {isDealer ? <LinkToLobby /> : null}
       <BtnsLobby />

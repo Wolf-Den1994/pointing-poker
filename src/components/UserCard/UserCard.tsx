@@ -8,11 +8,11 @@ import style from './UserCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 
 interface IUserCardProps {
-  named: string;
+  member: string;
   jobStatus: string;
 }
 
-const UserCard: FC<IUserCardProps> = ({ named, jobStatus }) => {
+const UserCard: FC<IUserCardProps> = ({ member, jobStatus }) => {
   const dispatch = useDispatch();
 
   const { user, users, isDealer } = useTypedSelector((state) => state.lobby);
@@ -31,15 +31,15 @@ const UserCard: FC<IUserCardProps> = ({ named, jobStatus }) => {
             backgroundColor: '#60DABF',
           }}
         >
-          {getFirstUpLetters(named)}
+          {getFirstUpLetters(member)}
         </Avatar>
         <div className={style.user}>
-          {users[indexUser].name === named ? <p className={style.isYou}>IT&apos;S YOU</p> : null}
-          <p className={style.name}>{named}</p>
+          {users[indexUser].name === member ? <p className={style.isYou}>IT&apos;S YOU</p> : null}
+          <p className={style.name}>{member}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
-        {users[0].name !== named && !(users[indexUser].name === named) ? (
-          <div className={style.kick} onClick={() => isDealer && dispatch(kickUser(named))}>
+        {users[0].name !== member && !(users[indexUser].name === member) ? (
+          <div className={style.kick} onClick={() => isDealer && dispatch(kickUser(member))}>
             <StopOutlined style={{ fontSize: 30 }} />
           </div>
         ) : null}
