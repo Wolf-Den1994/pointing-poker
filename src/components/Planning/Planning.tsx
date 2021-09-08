@@ -9,6 +9,7 @@ const SHOW_ELEMENTS = 5;
 const Planning: FC = () => {
   const { user } = useTypedSelector((state) => state.lobby);
   const { users } = useTypedSelector((state) => state.lobby);
+
   const isDealer = users[0].name === user.name;
 
   // issues data from BE:

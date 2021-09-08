@@ -20,12 +20,15 @@ interface IFormGameData {
 
 const Home: React.FC = () => {
   const history = useHistory();
+
   const [fullname, setFullname] = useState(['', '']);
   const [modalActive, setModalActive] = useState(false);
 
   const [formConnect] = Form.useForm();
   const [formGame] = Form.useForm();
+
   const dispatch = useDispatch();
+
   const { imageAvatar } = useTypedSelector((state) => state.home);
   const { user } = useTypedSelector((state) => state.lobby);
 

@@ -13,12 +13,13 @@ interface IUserCardProps {
 }
 
 const UserCard: FC<IUserCardProps> = ({ named, jobStatus }) => {
+  const dispatch = useDispatch();
+
   const { user } = useTypedSelector((state) => state.lobby);
   const { users } = useTypedSelector((state) => state.lobby);
+
   const indexUser = users.findIndex((item) => item.name === user.name);
   const isDealer = users[0].name === user.name;
-
-  const dispatch = useDispatch();
 
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
