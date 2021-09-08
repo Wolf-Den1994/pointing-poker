@@ -1,4 +1,3 @@
-import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { Card, Avatar } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
@@ -12,7 +11,7 @@ interface IUserCardProps {
   jobStatus: string;
 }
 
-const UserCard: FC<IUserCardProps> = ({ member, jobStatus }) => {
+const UserCard: React.FC<IUserCardProps> = ({ member, jobStatus }: IUserCardProps) => {
   const dispatch = useDispatch();
 
   const { user, users, isDealer } = useTypedSelector((state) => state.lobby);

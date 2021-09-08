@@ -1,10 +1,9 @@
-import React, { FC } from 'react';
 import { Input, Button, message } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import style from './LinkToLobby.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 
-const LinkToLobby: FC = () => {
+const LinkToLobby: React.FC = () => {
   const { link } = useTypedSelector((state) => state.lobby);
 
   const copyLink = () => {

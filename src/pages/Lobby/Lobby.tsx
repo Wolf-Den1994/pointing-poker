@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
 import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';
@@ -9,7 +9,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeDealer } from '../../store/lobbyReducer';
 import style from './Lobby.module.scss';
 
-const Lobby: FC = () => {
+const Lobby: React.FC = () => {
   const { user, users } = useTypedSelector((state) => state.lobby);
 
   const isDealer = users[0].name === user.name;

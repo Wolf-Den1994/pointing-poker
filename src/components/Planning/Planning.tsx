@@ -1,12 +1,12 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
-import React, { FC, useState } from 'react';
+import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Planning.module.scss';
 
 const SHOW_ELEMENTS = 5;
 
-const Planning: FC = () => {
+const Planning: React.FC = () => {
   const { isDealer } = useTypedSelector((state) => state.lobby);
 
   // issues data from BE:

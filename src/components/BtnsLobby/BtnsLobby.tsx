@@ -1,5 +1,4 @@
 import { Button } from 'antd';
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { PathRoutes } from '../../types/types';

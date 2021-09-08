@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Button, Form, Input, Modal, Switch } from 'antd';
 import { useHistory } from 'react-router';

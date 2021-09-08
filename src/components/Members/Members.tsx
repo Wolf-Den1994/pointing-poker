@@ -1,4 +1,3 @@
-import React from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import UserCard from '../UserCard/UserCard';
 import style from './Members.module.scss';
