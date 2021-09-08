@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Avatar, Button, Form, Input, Modal, Switch } from 'antd';
+import { useHistory } from 'react-router';
+import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
-import defaultAvatar from '../../assets/images/Avatar.png';
-
 import style from './Home.module.scss';
+import { changeAvatar, displayModal } from '../../store/homeReducer';
+import getFirstUpLetters from '../../utils/getFirstUpLetters';
+import { changeUsername } from '../../store/lobbyReducer';
 
 interface IFormGameData {
   observer: boolean;
@@ -14,26 +18,49 @@ interface IFormGameData {
 }
 
 const Home: React.FC = () => {
+  const history = useHistory();
+  const [fullname, setFullname] = useState(['', '']);
+
   const [formConnect] = Form.useForm();
   const [formGame] = Form.useForm();
-  const [modalActive, setModalActive] = useState(false);
-  const [imageAvatar, setImageAvatar] = useState('');
+  const dispatch = useDispatch();
+  const { modalActive } = useTypedSelector((state) => state.home);
+  const { imageAvatar } = useTypedSelector((state) => state.home);
+  const { user } = useTypedSelector((state) => state.lobby);
 
   const onSubmitFormConnect = () => {};
 
   const onSubmitFormFailedConnect = () => {};
 
+  const onChangeName = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    const { value } = target;
+    setFullname((state) => [value, state[1]]);
+    // dispatch(changeUsername(`${fullname.join(' ')}`));
+    dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: '', avatar: '' }));
+  };
+
+  const onChangeSurname = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    const { value } = target;
+    setFullname((state) => [state[0], value]);
+    dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: '', avatar: '' }));
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSubmitFormGame = (data: IFormGameData) => {
     // data => Данные после заполнения формы (старт новой игры)
     // console.log(data);
+    dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: data.job, avatar: data.avatar }));
     formGame.resetFields();
-    setModalActive(false);
+    dispatch(displayModal(false));
+    const path = `lobby`;
+    history.push(path);
   };
 
   const onClickCancelButton = () => {
     formGame.resetFields();
-    setModalActive(false);
+    dispatch(displayModal(false));
   };
 
   const onChangeImage = (e: React.ChangeEvent) => {
@@ -41,7 +68,7 @@ const Home: React.FC = () => {
     const file: File = (target.files as FileList)[0];
     const reader = new FileReader();
     reader.onload = () => {
-      setImageAvatar(`${reader.result}`);
+      dispatch(changeAvatar(`${reader.result}`));
     };
     reader.readAsDataURL(file);
   };
@@ -54,7 +81,7 @@ const Home: React.FC = () => {
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
             <p className={style.session}>Create a session: </p>
-            <Button type="primary" size="large" onClick={() => setModalActive(true)}>
+            <Button type="primary" size="large" onClick={() => dispatch(displayModal(true))}>
               Start new game
             </Button>
           </div>
@@ -123,7 +150,7 @@ const Home: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Rick" />
+            <Input placeholder="Rick" onChange={onChangeName} />
           </Form.Item>
 
           <Form.Item
@@ -136,7 +163,7 @@ const Home: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Griffin" />
+            <Input placeholder="Griffin" onChange={onChangeSurname} />
           </Form.Item>
 
           <Form.Item
@@ -159,7 +186,9 @@ const Home: React.FC = () => {
           {imageAvatar.length ? (
             <Avatar shape="circle" size={64} src={imageAvatar} alt="avatar" />
           ) : (
-            <Avatar shape="circle" size={64} src={defaultAvatar} alt="avatar" />
+            <Avatar shape="circle" size={64} alt="avatar">
+              {getFirstUpLetters(user.name)}
+            </Avatar>
           )}
         </Form>
       </Modal>

@@ -13,14 +13,14 @@ interface IUserCardProps {
 }
 
 const UserCard: FC<IUserCardProps> = ({ named, jobStatus }) => {
-  const { username } = useTypedSelector((state) => state.lobby);
+  const { user } = useTypedSelector((state) => state.lobby);
   const { users } = useTypedSelector((state) => state.lobby);
-  const indexUser = users.findIndex((user) => user.name === username);
-  const isDealer = users[0].name === username;
+  const indexUser = users.findIndex((item) => item.name === user.name);
+  const isDealer = users[0].name === user.name;
 
   const dispatch = useDispatch();
-  const kickUser = (user: string) => {
-    if (isDealer) dispatch(kickUserX(user));
+  const kickUser = (name: string) => {
+    if (isDealer) dispatch(kickUserX(name));
   };
 
   return (

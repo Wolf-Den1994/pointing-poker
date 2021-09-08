@@ -1,25 +1,31 @@
 import { AnyAction } from 'redux';
 import membersArray from '../data';
-import { IActionCreatorsForString, IActionCreatorsForIMember, IMember } from '../types/types';
+import { ILobbyActionsSting, ILobbyActionsIMember, IMember } from '../types/types';
 import { LobbyActions } from './action-types';
 
 interface IInitialStateLobby {
-  username: string;
+  user: IMember;
   users: IMember[];
   link: string;
 }
 
 const initialState: IInitialStateLobby = {
   // TODO: change the field to empty. change this state to the name that was during authorization
-  username: 'Rick Giligan',
+  user: { name: '', jobStatus: '', avatar: '' },
   users: membersArray,
   link: 'https://github.com/rolling-scopes-school/tasks/blob/yuliaHope-patch-4/tasks/react/pointing-poker.md',
 };
 
 export const lobbyReducer = (state = initialState, action: AnyAction): typeof initialState => {
   switch (action.type) {
-    case LobbyActions.CHANGE_USERNAME:
-      return { ...state, username: action.payload };
+    case LobbyActions.CHANGE_USERNAME: {
+      const newState = {
+        ...state,
+        user: { ...state.user, name: action.payload.name },
+        users: state.users.map((user, index) => (index === 0 ? action.payload : user)),
+      };
+      return newState;
+    }
 
     case LobbyActions.ADD_USER:
       return { ...state, users: [...state.users, action.payload] };
@@ -35,22 +41,22 @@ export const lobbyReducer = (state = initialState, action: AnyAction): typeof in
   }
 };
 
-export const changeUsername = (payload: string): IActionCreatorsForString => ({
+export const changeUsername = (payload: IMember): ILobbyActionsIMember => ({
   type: LobbyActions.CHANGE_USERNAME,
   payload,
 });
 
-export const addUser = (payload: IMember): IActionCreatorsForIMember => ({
+export const addUser = (payload: IMember): ILobbyActionsIMember => ({
   type: LobbyActions.ADD_USER,
   payload,
 });
 
-export const kickUserX = (payload: string): IActionCreatorsForString => ({
+export const kickUserX = (payload: string): ILobbyActionsSting => ({
   type: LobbyActions.KICK_USER,
   payload,
 });
 
-export const changeLink = (payload: string): IActionCreatorsForString => ({
+export const changeLink = (payload: string): ILobbyActionsSting => ({
   type: LobbyActions.CHANGE_LINK,
   payload,
 });

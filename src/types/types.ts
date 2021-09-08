@@ -1,4 +1,4 @@
-import { LobbyActions } from '../store/action-types';
+import { HomeActions, LobbyActions } from '../store/action-types';
 
 export enum Authors {
   Maksim = 'Maksim Malashkou',
@@ -22,12 +22,22 @@ export interface IMember {
   avatar: string;
 }
 
-export interface IActionCreatorsForString {
+export interface ILobbyActionsSting {
   type: LobbyActions;
   payload: string;
 }
 
-export interface IActionCreatorsForIMember {
+export interface ILobbyActionsIMember {
   type: LobbyActions;
   payload: IMember;
+}
+
+export interface IHomeActionsBoolean {
+  type: HomeActions;
+  payload: boolean;
+}
+
+export interface IHomeActionsString {
+  type: HomeActions;
+  payload: string;
 }

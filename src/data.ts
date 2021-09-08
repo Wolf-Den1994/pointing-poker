@@ -1,7 +1,7 @@
 const membersArray = [
   {
-    name: 'Rick Giligan',
-    jobStatus: 'lead software engeneer',
+    name: '',
+    jobStatus: '',
     avatar: '',
   },
   {

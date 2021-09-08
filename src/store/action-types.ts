@@ -4,3 +4,8 @@ export enum LobbyActions {
   KICK_USER = 'KICK_USER',
   CHANGE_LINK = 'CHANGE_LINK',
 }
+
+export enum HomeActions {
+  DISPLAY_MODAL = 'DISPLAY_MODAL',
+  CHANGE_AVATAR = 'CHANGE_AVATAR',
+}
