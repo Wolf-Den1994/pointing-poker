@@ -1,15 +1,16 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import React, { FC, useState } from 'react';
+import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Planning.module.scss';
 
 const SHOW_ELEMENTS = 5;
 
-interface IPlanningProps {
-  isDealer: boolean;
-}
+const Planning: FC = () => {
+  const { username } = useTypedSelector((state) => state.lobby);
+  const { users } = useTypedSelector((state) => state.lobby);
+  const isDealer = users[0].name === username;
 
-const Planning: FC<IPlanningProps> = ({ isDealer }) => {
   // issues data from BE:
   const [issues, setIssues] = useState(['issues 11', '222', '3333', '4444', '5555', '6666', '7777', '888']);
   const [issuesEdit, setIssuesEdit] = useState(false);

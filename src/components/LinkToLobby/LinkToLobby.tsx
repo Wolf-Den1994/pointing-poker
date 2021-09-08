@@ -2,13 +2,14 @@ import React, { FC } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import style from './LinkToLobby.module.scss';
+import useTypedSelector from '../../hooks/useTypedSelector';
 
-interface ILinkToLobbyProps {
-  value: string;
-  isDealer: boolean;
-}
+const LinkToLobby: FC = () => {
+  const { username } = useTypedSelector((state) => state.lobby);
+  const { users } = useTypedSelector((state) => state.lobby);
+  const { link } = useTypedSelector((state) => state.lobby);
+  const isDealer = users[0].name === username;
 
-const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, isDealer }) => {
   const [form] = Form.useForm();
 
   const copyLink = () => {
@@ -17,7 +18,7 @@ const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, isDealer }) => {
 
   const onFill = () => {
     form.setFieldsValue({
-      link: value,
+      link,
     });
   };
   onFill();
@@ -30,10 +31,10 @@ const LinkToLobby: FC<ILinkToLobbyProps> = ({ value, isDealer }) => {
           <div className={style.setOfFields}>
             <Form layout="inline" size="large" form={form} name="basic" onFinish={copyLink} autoComplete="off">
               <Form.Item name="link">
-                <Input placeholder="Link" readOnly value={value} className={style.input} />
+                <Input placeholder="Link" readOnly value={link} className={style.input} />
               </Form.Item>
               <Form.Item>
-                <CopyToClipboard text={value} onCopy={() => {}}>
+                <CopyToClipboard text={link} onCopy={() => {}}>
                   <Button type="primary" htmlType="submit" className={style.button}>
                     Copy
                   </Button>

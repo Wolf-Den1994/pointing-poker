@@ -1,3 +1,6 @@
-export const CHANGE_USERNAME = 'CHANGE_USERNAME';
-export const ADD_USER = 'ADD_USER';
-export const KICK_USER = 'KICK_USER';
+export enum LobbyActions {
+  CHANGE_USERNAME = 'CHANGE_USERNAME',
+  ADD_USER = 'ADD_USER',
+  KICK_USER = 'KICK_USER',
+  CHANGE_LINK = 'CHANGE_LINK',
+}

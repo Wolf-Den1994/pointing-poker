@@ -1,13 +1,14 @@
 import { Button } from 'antd';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './BtnsLobby.module.scss';
 
-interface IBtnsLobbyProps {
-  isDealer: boolean;
-}
+const BtnsLobby: React.FC = () => {
+  const { username } = useTypedSelector((state) => state.lobby);
+  const { users } = useTypedSelector((state) => state.lobby);
+  const isDealer = users[0].name === username;
 
-const BtnsLobby: React.FC<IBtnsLobbyProps> = ({ isDealer }) => {
   const history = useHistory();
 
   const startGame = () => {
