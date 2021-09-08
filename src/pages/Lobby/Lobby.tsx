@@ -1,76 +1,35 @@
-import React, { FC, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
 import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';
 import Members from '../../components/Members/Members';
 import Planning from '../../components/Planning/Planning';
 import UserCard from '../../components/UserCard/UserCard';
-import { IMember } from '../../types/types';
+import useTypedSelector from '../../hooks/useTypedSelector';
+import { changeDealer } from '../../store/lobbyReducer';
 import style from './Lobby.module.scss';
 
-const testLink = 'https://github.com/rolling-scopes-school/tasks/blob/yuliaHope-patch-4/tasks/react/pointing-poker.md';
-const membersArray = [
-  {
-    name: 'Rick Giligan',
-    jobStatus: 'lead software engeneer',
-  },
-  {
-    name: 'David Blane',
-    jobStatus: 'senior software engeneer',
-  },
-  {
-    name: 'Dayana Ross',
-    jobStatus: 'unior software engeneer',
-  },
-  {
-    name: 'Daniel Horn',
-    jobStatus: '',
-  },
-  {
-    name: 'Mark Single',
-    jobStatus: 'senior software engeneer',
-  },
-  {
-    name: 'Jane Ring',
-    jobStatus: 'software engeneer',
-  },
-  {
-    name: 'Larry King',
-    jobStatus: 'junior software engeneer',
-  },
-  {
-    name: 'Fill',
-    jobStatus: 'QA engeneer',
-  },
-];
+const Lobby: React.FC = () => {
+  const { user, users } = useTypedSelector((state) => state.lobby);
 
-const Lobby: FC = () => {
-  // TODO: change the field to empty. change this state to the name that was during authorization
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [username, setUsername] = useState('Rick Giligan');
-  const [users, setUsers] = useState<IMember[]>(membersArray);
+  const isDealer = users[0].name === user.name;
 
-  const indexUser = membersArray.findIndex((user) => user.name === username);
-  const isDealer = membersArray[0].name === username;
+  const dispatch = useDispatch();
 
-  const kickUser = (user: string) => {
-    if (isDealer) setUsers((state) => state.filter((item) => item.name !== user));
-  };
+  useEffect(() => {
+    dispatch(changeDealer(isDealer));
+  }, []);
 
   return (
     <div className={style.lobbyPage}>
-      <Planning isDealer={isDealer} />
+      <Planning />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
-        <UserCard
-          jobStatus={membersArray[0].jobStatus}
-          indexUser={indexUser}
-          members={membersArray}
-          username={membersArray[0].name}
-        />
+        <UserCard jobStatus={users[0].jobStatus} member={users[0].name} />
       </div>
-      {isDealer ? <LinkToLobby value={testLink} isDealer={isDealer} /> : null}
-      <BtnsLobby isDealer={isDealer} />
-      <Members members={users} onKick={kickUser} indexUser={indexUser} />
+      {isDealer ? <LinkToLobby /> : null}
+      <BtnsLobby />
+      <Members />
     </div>
   );
 };

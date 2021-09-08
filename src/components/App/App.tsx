@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import style from './App.module.scss';
 import Header from '../Header/Header';

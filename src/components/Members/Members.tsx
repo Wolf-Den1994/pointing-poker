@@ -1,25 +1,13 @@
-import React from 'react';
-import { IMember } from '../../types/types';
+import useTypedSelector from '../../hooks/useTypedSelector';
 import UserCard from '../UserCard/UserCard';
 import style from './Members.module.scss';
 
-interface IMembersProps {
-  members: IMember[];
-  indexUser: number;
-  onKick: (user: string) => void;
-}
+const Members: React.FC = () => {
+  const { users } = useTypedSelector((state) => state.lobby);
 
-const Members: React.FC<IMembersProps> = ({ members, indexUser, onKick }) => {
-  const onlyTeamMembers = members.filter((item, index) => index !== 0);
+  const onlyTeamMembers = users.filter((item, index) => index !== 0);
   const elements = onlyTeamMembers.map((item) => (
-    <UserCard
-      key={item.name + item.jobStatus}
-      jobStatus={item.jobStatus}
-      indexUser={indexUser}
-      onKick={onKick}
-      members={members}
-      username={item.name}
-    />
+    <UserCard key={item.name + item.jobStatus} jobStatus={item.jobStatus} member={item.name} />
   ));
   return (
     <div className={style.members}>

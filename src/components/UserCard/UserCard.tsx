@@ -1,19 +1,25 @@
-import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { Card, Avatar } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { IMember } from '../../types/types';
+import { kickUser } from '../../store/lobbyReducer';
 import style from './UserCard.module.scss';
+import useTypedSelector from '../../hooks/useTypedSelector';
 
 interface IUserCardProps {
+  member: string;
   jobStatus: string;
-  indexUser: number;
-  username: string;
-  members: IMember[];
-  onKick?: (user: string) => void;
 }
 
-const UserCard: FC<IUserCardProps> = ({ jobStatus, username, indexUser, members, onKick }) => {
+const UserCard: React.FC<IUserCardProps> = ({ member, jobStatus }: IUserCardProps) => {
+  const dispatch = useDispatch();
+
+  const { user, users, isDealer } = useTypedSelector((state) => state.lobby);
+
+  const indexUser = users.findIndex((item) => item.name === user.name);
+
+  const handlerKick = () => isDealer && dispatch(kickUser(member));
+
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
       <div className={style.wrapper}>
@@ -26,15 +32,15 @@ const UserCard: FC<IUserCardProps> = ({ jobStatus, username, indexUser, members,
             backgroundColor: '#60DABF',
           }}
         >
-          {getFirstUpLetters(username)}
+          {getFirstUpLetters(member)}
         </Avatar>
         <div className={style.user}>
-          {members[indexUser].name === username ? <p className={style.isYou}>IT&apos;S YOU</p> : null}
-          <p className={style.name}>{username}</p>
+          {users[indexUser].name === member ? <p className={style.isYou}>IT&apos;S YOU</p> : null}
+          <p className={style.name}>{member}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
-        {members[0].name !== username && !(members[indexUser].name === username) ? (
-          <div className={style.kick} onClick={() => onKick && onKick(username)}>
+        {users[0].name !== member && !(users[indexUser].name === member) ? (
+          <div className={style.kick} onClick={handlerKick}>
             <StopOutlined style={{ fontSize: 30 }} />
           </div>
         ) : null}

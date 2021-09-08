@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Avatar, Button, Form, Input, Modal, Switch } from 'antd';
+import { useHistory } from 'react-router';
+import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
-import defaultAvatar from '../../assets/images/Avatar.png';
-
 import style from './Home.module.scss';
+import { changeAvatar } from '../../store/homeReducer';
+import getFirstUpLetters from '../../utils/getFirstUpLetters';
+import { changeUser } from '../../store/lobbyReducer';
+import { PathRoutes } from '../../types/types';
 
 interface IFormGameData {
   observer: boolean;
@@ -14,34 +19,65 @@ interface IFormGameData {
 }
 
 const Home: React.FC = () => {
+  const history = useHistory();
+
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [modalActive, setModalActive] = useState(false);
+
   const [formConnect] = Form.useForm();
   const [formGame] = Form.useForm();
-  const [modalActive, setModalActive] = useState(false);
-  const [imageAvatar, setImageAvatar] = useState('');
+
+  const dispatch = useDispatch();
+
+  const { imageAvatar } = useTypedSelector((state) => state.home);
+  const { user } = useTypedSelector((state) => state.lobby);
 
   const onSubmitFormConnect = () => {};
 
   const onSubmitFormFailedConnect = () => {};
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onChangeName = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    const { value } = target;
+    setName(value);
+    dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
+  };
+
+  const onChangeSurname = (e: React.ChangeEvent) => {
+    const target = e.target as HTMLInputElement;
+    const { value } = target;
+    setSurname(value);
+    dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
+  };
+
   const onSubmitFormGame = (data: IFormGameData) => {
     // data => Данные после заполнения формы (старт новой игры)
-    // console.log(data);
+    dispatch(changeUser({ name: `${name} ${surname}`, jobStatus: data.job, avatar: data.avatar }));
     formGame.resetFields();
     setModalActive(false);
+    history.push(PathRoutes.Lobby);
   };
+
+  const hadlerStartNewGame = () => setModalActive(true);
+
+  const handlerChangeLink = () => () => {};
+
+  const handlerOk = () => formGame.submit();
 
   const onClickCancelButton = () => {
     formGame.resetFields();
     setModalActive(false);
   };
 
+  const handlerCancel = () => onClickCancelButton();
+
   const onChangeImage = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
     const reader = new FileReader();
     reader.onload = () => {
-      setImageAvatar(`${reader.result}`);
+      dispatch(changeAvatar(`${reader.result}`));
     };
     reader.readAsDataURL(file);
   };
@@ -54,7 +90,7 @@ const Home: React.FC = () => {
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
             <p className={style.session}>Create a session: </p>
-            <Button type="primary" size="large" onClick={() => setModalActive(true)}>
+            <Button type="primary" size="large" onClick={hadlerStartNewGame}>
               Start new game
             </Button>
           </div>
@@ -85,7 +121,7 @@ const Home: React.FC = () => {
                   },
                 ]}
               >
-                <Input size="large" type="text" placeholder="URL" onChange={() => {}} />
+                <Input size="large" type="text" placeholder="URL" onChange={handlerChangeLink} />
               </Form.Item>
               <Button type="primary" size="large" htmlType="submit">
                 Connect
@@ -97,8 +133,8 @@ const Home: React.FC = () => {
 
       <Modal
         visible={modalActive}
-        onOk={() => formGame.submit()}
-        onCancel={() => onClickCancelButton()}
+        onOk={handlerOk}
+        onCancel={handlerCancel}
         title="Connect to lobby"
         okText="Confirm"
         centered
@@ -123,7 +159,7 @@ const Home: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Rick" />
+            <Input placeholder="Rick" onChange={onChangeName} />
           </Form.Item>
 
           <Form.Item
@@ -136,7 +172,7 @@ const Home: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Griffin" />
+            <Input placeholder="Griffin" onChange={onChangeSurname} />
           </Form.Item>
 
           <Form.Item
@@ -159,7 +195,9 @@ const Home: React.FC = () => {
           {imageAvatar.length ? (
             <Avatar shape="circle" size={64} src={imageAvatar} alt="avatar" />
           ) : (
-            <Avatar shape="circle" size={64} src={defaultAvatar} alt="avatar" />
+            <Avatar shape="circle" size={64} alt="avatar">
+              {getFirstUpLetters(user.name)}
+            </Avatar>
           )}
         </Form>
       </Modal>

@@ -14,7 +14,14 @@ export enum AuthorsLink {
   RSS = 'https://rs.school/js/',
 }
 
+export enum PathRoutes {
+  Home = '/',
+  Lobby = 'lobby',
+  Game = 'game',
+}
+
 export interface IMember {
   name: string;
   jobStatus: string;
+  avatar: string;
 }

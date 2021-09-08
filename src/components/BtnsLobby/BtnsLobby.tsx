@@ -1,29 +1,25 @@
 import { Button } from 'antd';
-import React from 'react';
 import { useHistory } from 'react-router-dom';
+import useTypedSelector from '../../hooks/useTypedSelector';
+import { PathRoutes } from '../../types/types';
 import style from './BtnsLobby.module.scss';
 
-interface IBtnsLobbyProps {
-  isDealer: boolean;
-}
+const BtnsLobby: React.FC = () => {
+  const { isDealer } = useTypedSelector((state) => state.lobby);
 
-const BtnsLobby: React.FC<IBtnsLobbyProps> = ({ isDealer }) => {
   const history = useHistory();
 
   const startGame = () => {
-    const path = `game`;
-    history.push(path);
+    history.push(PathRoutes.Game);
   };
 
   const cancelGame = () => {
     // TODO kick all members
-    const path = `/`;
-    history.push(path);
+    history.push(PathRoutes.Home);
   };
 
   const exitGame = () => {
-    const path = `/`;
-    history.push(path);
+    history.push(PathRoutes.Home);
   };
 
   return (
