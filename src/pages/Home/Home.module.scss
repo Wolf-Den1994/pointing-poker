@@ -63,10 +63,6 @@
 
 @media (max-width: 500px) {
   .wrapper {
-    .button {
-      max-width: 100%;
-    }
-
     .row {
       text-align: center;
 
@@ -87,11 +83,6 @@
 
     .lobby {
       display: block;
-
-      .input {
-        max-width: 100%;
-        width: 100%;
-      }
     }
   }
 }
