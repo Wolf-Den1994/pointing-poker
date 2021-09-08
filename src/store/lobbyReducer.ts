@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import membersArray from '../data';
-import { ILobbyActionsString, ILobbyActionsBoolean, ILobbyActionsIMember, IMember } from '../types/types';
+import { IMember } from '../types/types';
 import { LobbyActions } from './action-types';
 
 interface IInitialStateLobby {
@@ -43,6 +43,21 @@ export const lobbyReducer = (state = initialState, action: AnyAction): typeof in
       return state;
   }
 };
+
+interface ILobbyActionsBoolean {
+  type: LobbyActions;
+  payload: boolean;
+}
+
+interface ILobbyActionsString {
+  type: LobbyActions;
+  payload: string;
+}
+
+interface ILobbyActionsIMember {
+  type: LobbyActions;
+  payload: IMember;
+}
 
 export const changeUser = (payload: IMember): ILobbyActionsIMember => ({
   type: LobbyActions.CHANGE_USERNAME,

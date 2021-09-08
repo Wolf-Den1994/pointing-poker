@@ -1,6 +1,5 @@
 import { AnyAction } from 'redux';
 import { HomeActions } from './action-types';
-import { IHomeActionsString } from '../types/types';
 
 interface IInitialStateHome {
   imageAvatar: string;
@@ -19,6 +18,11 @@ export const homeReducer = (state = initialState, action: AnyAction): typeof ini
       return state;
   }
 };
+
+interface IHomeActionsString {
+  type: HomeActions;
+  payload: string;
+}
 
 export const changeAvatar = (payload: string): IHomeActionsString => ({
   type: HomeActions.CHANGE_AVATAR,
