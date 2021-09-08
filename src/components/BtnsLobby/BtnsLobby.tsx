@@ -6,8 +6,7 @@ import { PathRoutes } from '../../types/types';
 import style from './BtnsLobby.module.scss';
 
 const BtnsLobby: React.FC = () => {
-  const { user } = useTypedSelector((state) => state.lobby);
-  const { users } = useTypedSelector((state) => state.lobby);
+  const { user, users } = useTypedSelector((state) => state.lobby);
 
   const isDealer = users[0].name === user.name;
 

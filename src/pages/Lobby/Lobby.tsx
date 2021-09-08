@@ -8,8 +8,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
 
 const Lobby: FC = () => {
-  const { user } = useTypedSelector((state) => state.lobby);
-  const { users } = useTypedSelector((state) => state.lobby);
+  const { user, users } = useTypedSelector((state) => state.lobby);
 
   const isDealer = users[0].name === user.name;
 
