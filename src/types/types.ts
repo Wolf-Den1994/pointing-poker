@@ -1,3 +1,5 @@
+import { LobbyActions } from '../store/action-types';
+
 export enum Authors {
   Maksim = 'Maksim Malashkou',
   Artsiom = 'Artsiom Murashko',
@@ -18,4 +20,14 @@ export interface IMember {
   name: string;
   jobStatus: string;
   avatar: string;
+}
+
+export interface IActionCreatorsForString {
+  type: LobbyActions;
+  payload: string;
+}
+
+export interface IActionCreatorsForIMember {
+  type: LobbyActions;
+  payload: IMember;
 }
