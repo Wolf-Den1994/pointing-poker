@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
-import { changeAvatar, displayModal } from '../../store/homeReducer';
+import { changeAvatar } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { changeUsername } from '../../store/lobbyReducer';
 
@@ -20,11 +20,11 @@ interface IFormGameData {
 const Home: React.FC = () => {
   const history = useHistory();
   const [fullname, setFullname] = useState(['', '']);
+  const [modalActive, setModalActive] = useState(false);
 
   const [formConnect] = Form.useForm();
   const [formGame] = Form.useForm();
   const dispatch = useDispatch();
-  const { modalActive } = useTypedSelector((state) => state.home);
   const { imageAvatar } = useTypedSelector((state) => state.home);
   const { user } = useTypedSelector((state) => state.lobby);
 
@@ -50,14 +50,14 @@ const Home: React.FC = () => {
     // data => Данные после заполнения формы (старт новой игры)
     dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: data.job, avatar: data.avatar }));
     formGame.resetFields();
-    dispatch(displayModal(false));
+    setModalActive(false);
     const path = `lobby`;
     history.push(path);
   };
 
   const onClickCancelButton = () => {
     formGame.resetFields();
-    dispatch(displayModal(false));
+    setModalActive(false);
   };
 
   const onChangeImage = (e: React.ChangeEvent) => {
@@ -78,7 +78,7 @@ const Home: React.FC = () => {
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
             <p className={style.session}>Create a session: </p>
-            <Button type="primary" size="large" onClick={() => dispatch(displayModal(true))}>
+            <Button type="primary" size="large" onClick={() => setModalActive(true)}>
               Start new game
             </Button>
           </div>

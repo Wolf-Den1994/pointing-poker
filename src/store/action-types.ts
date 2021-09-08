@@ -6,6 +6,5 @@ export enum LobbyActions {
 }
 
 export enum HomeActions {
-  DISPLAY_MODAL = 'DISPLAY_MODAL',
   CHANGE_AVATAR = 'CHANGE_AVATAR',
 }
