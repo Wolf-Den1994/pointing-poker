@@ -18,6 +18,8 @@ const UserCard: React.FC<IUserCardProps> = ({ member, jobStatus }: IUserCardProp
 
   const indexUser = users.findIndex((item) => item.name === user.name);
 
+  const handlerKick = () => isDealer && dispatch(kickUser(member));
+
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
       <div className={style.wrapper}>
@@ -38,7 +40,7 @@ const UserCard: React.FC<IUserCardProps> = ({ member, jobStatus }: IUserCardProp
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         {users[0].name !== member && !(users[indexUser].name === member) ? (
-          <div className={style.kick} onClick={() => isDealer && dispatch(kickUser(member))}>
+          <div className={style.kick} onClick={handlerKick}>
             <StopOutlined style={{ fontSize: 30 }} />
           </div>
         ) : null}

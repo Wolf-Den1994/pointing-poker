@@ -59,10 +59,18 @@ const Home: React.FC = () => {
     history.push(PathRoutes.Lobby);
   };
 
+  const hadlerStartNewGame = () => setModalActive(true);
+
+  const handlerChangeLink = () => () => {};
+
+  const handlerOk = () => formGame.submit();
+
   const onClickCancelButton = () => {
     formGame.resetFields();
     setModalActive(false);
   };
+
+  const handlerCancel = () => onClickCancelButton();
 
   const onChangeImage = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
@@ -82,7 +90,7 @@ const Home: React.FC = () => {
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
             <p className={style.session}>Create a session: </p>
-            <Button type="primary" size="large" onClick={() => setModalActive(true)}>
+            <Button type="primary" size="large" onClick={hadlerStartNewGame}>
               Start new game
             </Button>
           </div>
@@ -113,7 +121,7 @@ const Home: React.FC = () => {
                   },
                 ]}
               >
-                <Input size="large" type="text" placeholder="URL" onChange={() => {}} />
+                <Input size="large" type="text" placeholder="URL" onChange={handlerChangeLink} />
               </Form.Item>
               <Button type="primary" size="large" htmlType="submit">
                 Connect
@@ -125,8 +133,8 @@ const Home: React.FC = () => {
 
       <Modal
         visible={modalActive}
-        onOk={() => formGame.submit()}
-        onCancel={() => onClickCancelButton()}
+        onOk={handlerOk}
+        onCancel={handlerCancel}
         title="Connect to lobby"
         okText="Confirm"
         centered
