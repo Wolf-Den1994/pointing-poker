@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Card, Avatar } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { kickUserX } from '../../store/lobbyReducer';
+import { kickUser } from '../../store/lobbyReducer';
 import style from './UserCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 
@@ -19,9 +19,6 @@ const UserCard: FC<IUserCardProps> = ({ named, jobStatus }) => {
   const isDealer = users[0].name === user.name;
 
   const dispatch = useDispatch();
-  const kickUser = (name: string) => {
-    if (isDealer) dispatch(kickUserX(name));
-  };
 
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
@@ -43,7 +40,7 @@ const UserCard: FC<IUserCardProps> = ({ named, jobStatus }) => {
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         {users[0].name !== named && !(users[indexUser].name === named) ? (
-          <div className={style.kick} onClick={() => kickUser(named)}>
+          <div className={style.kick} onClick={() => isDealer && dispatch(kickUser(named))}>
             <StopOutlined style={{ fontSize: 30 }} />
           </div>
         ) : null}

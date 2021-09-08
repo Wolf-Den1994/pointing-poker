@@ -51,7 +51,7 @@ export const addUser = (payload: IMember): ILobbyActionsIMember => ({
   payload,
 });
 
-export const kickUserX = (payload: string): ILobbyActionsSting => ({
+export const kickUser = (payload: string): ILobbyActionsSting => ({
   type: LobbyActions.KICK_USER,
   payload,
 });
