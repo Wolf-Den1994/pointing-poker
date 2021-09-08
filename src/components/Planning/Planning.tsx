@@ -7,9 +7,7 @@ import style from './Planning.module.scss';
 const SHOW_ELEMENTS = 5;
 
 const Planning: FC = () => {
-  const { user, users } = useTypedSelector((state) => state.lobby);
-
-  const isDealer = users[0].name === user.name;
+  const { isDealer } = useTypedSelector((state) => state.lobby);
 
   // issues data from BE:
   const [issues, setIssues] = useState(['issues 11', '222', '3333', '4444', '5555', '6666', '7777', '888']);

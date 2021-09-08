@@ -28,7 +28,12 @@ export interface IMember {
   avatar: string;
 }
 
-export interface ILobbyActionsSting {
+export interface ILobbyActionsBoolean {
+  type: LobbyActions;
+  payload: boolean;
+}
+
+export interface ILobbyActionsString {
   type: LobbyActions;
   payload: string;
 }

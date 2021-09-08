@@ -3,6 +3,7 @@ export enum LobbyActions {
   ADD_USER = 'ADD_USER',
   KICK_USER = 'KICK_USER',
   CHANGE_LINK = 'CHANGE_LINK',
+  IS_DEALER = 'IS_DEALER',
 }
 
 export enum HomeActions {

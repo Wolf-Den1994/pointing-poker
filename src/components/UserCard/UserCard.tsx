@@ -15,10 +15,9 @@ interface IUserCardProps {
 const UserCard: FC<IUserCardProps> = ({ named, jobStatus }) => {
   const dispatch = useDispatch();
 
-  const { user, users } = useTypedSelector((state) => state.lobby);
+  const { user, users, isDealer } = useTypedSelector((state) => state.lobby);
 
   const indexUser = users.findIndex((item) => item.name === user.name);
-  const isDealer = users[0].name === user.name;
 
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>

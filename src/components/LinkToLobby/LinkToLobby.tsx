@@ -5,9 +5,7 @@ import style from './LinkToLobby.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 
 const LinkToLobby: FC = () => {
-  const { user, users, link } = useTypedSelector((state) => state.lobby);
-
-  const isDealer = users[0].name === user.name;
+  const { isDealer, link } = useTypedSelector((state) => state.lobby);
 
   const [form] = Form.useForm();
 
