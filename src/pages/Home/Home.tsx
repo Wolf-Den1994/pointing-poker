@@ -7,7 +7,7 @@ import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import { changeAvatar } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { changeUsername } from '../../store/lobbyReducer';
+import { changeUser } from '../../store/lobbyReducer';
 import { PathRoutes } from '../../types/types';
 
 interface IFormGameData {
@@ -21,7 +21,8 @@ interface IFormGameData {
 const Home: React.FC = () => {
   const history = useHistory();
 
-  const [fullname, setFullname] = useState(['', '']);
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
   const [modalActive, setModalActive] = useState(false);
 
   const [formConnect] = Form.useForm();
@@ -39,20 +40,20 @@ const Home: React.FC = () => {
   const onChangeName = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     const { value } = target;
-    setFullname((state) => [value, state[1]]);
-    dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: '', avatar: '' }));
+    setName(value);
+    dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
   };
 
   const onChangeSurname = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
     const { value } = target;
-    setFullname((state) => [state[0], value]);
-    dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: '', avatar: '' }));
+    setSurname(value);
+    dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
   };
 
   const onSubmitFormGame = (data: IFormGameData) => {
     // data => Данные после заполнения формы (старт новой игры)
-    dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: data.job, avatar: data.avatar }));
+    dispatch(changeUser({ name: `${name} ${surname}`, jobStatus: data.job, avatar: data.avatar }));
     formGame.resetFields();
     setModalActive(false);
     history.push(PathRoutes.Lobby);

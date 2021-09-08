@@ -44,7 +44,7 @@ export const lobbyReducer = (state = initialState, action: AnyAction): typeof in
   }
 };
 
-export const changeUsername = (payload: IMember): ILobbyActionsIMember => ({
+export const changeUser = (payload: IMember): ILobbyActionsIMember => ({
   type: LobbyActions.CHANGE_USERNAME,
   payload,
 });
