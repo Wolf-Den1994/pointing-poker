@@ -8,6 +8,7 @@ import style from './Home.module.scss';
 import { changeAvatar } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { changeUsername } from '../../store/lobbyReducer';
+import { PathRoutes } from '../../types/types';
 
 interface IFormGameData {
   observer: boolean;
@@ -51,8 +52,7 @@ const Home: React.FC = () => {
     dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: data.job, avatar: data.avatar }));
     formGame.resetFields();
     setModalActive(false);
-    const path = `lobby`;
-    history.push(path);
+    history.push(PathRoutes.Lobby);
   };
 
   const onClickCancelButton = () => {
