@@ -8,6 +8,7 @@ const LinkToLobby: FC = () => {
   const { user } = useTypedSelector((state) => state.lobby);
   const { users } = useTypedSelector((state) => state.lobby);
   const { link } = useTypedSelector((state) => state.lobby);
+
   const isDealer = users[0].name === user.name;
 
   const [form] = Form.useForm();
