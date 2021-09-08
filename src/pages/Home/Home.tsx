@@ -36,7 +36,6 @@ const Home: React.FC = () => {
     const target = e.target as HTMLInputElement;
     const { value } = target;
     setFullname((state) => [value, state[1]]);
-    // dispatch(changeUsername(`${fullname.join(' ')}`));
     dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: '', avatar: '' }));
   };
 
@@ -47,10 +46,8 @@ const Home: React.FC = () => {
     dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: '', avatar: '' }));
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSubmitFormGame = (data: IFormGameData) => {
     // data => Данные после заполнения формы (старт новой игры)
-    // console.log(data);
     dispatch(changeUsername({ name: `${fullname.join(' ')}`, jobStatus: data.job, avatar: data.avatar }));
     formGame.resetFields();
     dispatch(displayModal(false));
