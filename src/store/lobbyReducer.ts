@@ -1,6 +1,7 @@
+import moment from 'moment';
 import { AnyAction } from 'redux';
 import membersArray from '../data';
-import { IMember } from '../types/types';
+import { IGameSettingsData, IMember } from '../types/types';
 import { LobbyActions } from './action-types';
 
 interface IInitialStateLobby {
@@ -8,6 +9,7 @@ interface IInitialStateLobby {
   users: IMember[];
   link: string;
   isDealer: boolean;
+  settings: IGameSettingsData;
 }
 
 const initialState: IInitialStateLobby = {
@@ -16,6 +18,14 @@ const initialState: IInitialStateLobby = {
   users: membersArray,
   link: 'https://github.com/rolling-scopes-school/tasks/blob/yuliaHope-patch-4/tasks/react/pointing-poker.md',
   isDealer: true,
+  settings: {
+    scram: false,
+    card: false,
+    timerNeed: false,
+    scoreType: 'story point',
+    scoreTypeShort: 'SP',
+    roundTime: moment('02:20', 'mm:ss'),
+  },
 };
 
 export const lobbyReducer = (state = initialState, action: AnyAction): typeof initialState => {
@@ -39,6 +49,9 @@ export const lobbyReducer = (state = initialState, action: AnyAction): typeof in
     case LobbyActions.IS_DEALER:
       return { ...state, isDealer: action.payload };
 
+    case LobbyActions.CHANGE_SETTINGS:
+      return { ...state, settings: action.payload };
+
     default:
       return state;
   }
@@ -57,6 +70,11 @@ interface ILobbyActionsString {
 interface ILobbyActionsIMember {
   type: LobbyActions;
   payload: IMember;
+}
+
+interface ILobbyActionsIGameSettings {
+  type: LobbyActions;
+  payload: IGameSettingsData;
 }
 
 export const changeUser = (payload: IMember): ILobbyActionsIMember => ({
@@ -81,5 +99,10 @@ export const changeLink = (payload: string): ILobbyActionsString => ({
 
 export const changeDealer = (payload: boolean): ILobbyActionsBoolean => ({
   type: LobbyActions.IS_DEALER,
+  payload,
+});
+
+export const changeSettings = (payload: IGameSettingsData): ILobbyActionsIGameSettings => ({
+  type: LobbyActions.CHANGE_SETTINGS,
   payload,
 });

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
+import GameSettings from '../../components/GameSettings/GameSettings';
 import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';
 import Members from '../../components/Members/Members';
 import Planning from '../../components/Planning/Planning';
@@ -30,6 +31,8 @@ const Lobby: React.FC = () => {
       {isDealer ? <LinkToLobby /> : null}
       <BtnsLobby />
       <Members />
+
+      {isDealer ? <GameSettings /> : null}
     </div>
   );
 };

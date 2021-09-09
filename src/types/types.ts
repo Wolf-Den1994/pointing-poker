@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export enum Authors {
   Maksim = 'Maksim Malashkou',
   Artsiom = 'Artsiom Murashko',
@@ -24,4 +26,13 @@ export interface IMember {
   name: string;
   jobStatus: string;
   avatar: string;
+}
+
+export interface IGameSettingsData {
+  scram: boolean;
+  card: boolean;
+  timerNeed: boolean;
+  scoreType: string;
+  scoreTypeShort: string;
+  roundTime: Moment;
 }
