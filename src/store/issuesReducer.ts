@@ -22,8 +22,10 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
       const newIssuesArray = [...state.issuesList];
       newIssuesArray[index] = action.payload.newIssue;
       return { ...state, issuesList: newIssuesArray };
-      // return { ...state, issues: state.issues.map((issue) => (issue !== action.payload ? issue : action.payload)) };
     }
+
+    case IssuesAction.CHANGE_ISSUES:
+      return { ...state, issuesList: action.payload };
 
     default:
       return state;
@@ -45,6 +47,11 @@ interface IIssuesActionsEdit {
   payload: INewIssue;
 }
 
+interface IIssuesActionsArrayStrings {
+  type: IssuesAction;
+  payload: string[];
+}
+
 export const addIssue = (payload: string): IIssuesActionsString => ({
   type: IssuesAction.ADD_ISSUE,
   payload,
@@ -57,5 +64,10 @@ export const removeIssue = (payload: string): IIssuesActionsString => ({
 
 export const editIssue = (payload: INewIssue): IIssuesActionsEdit => ({
   type: IssuesAction.EDIT_ISSUE,
+  payload,
+});
+
+export const changeIssue = (payload: string[]): IIssuesActionsArrayStrings => ({
+  type: IssuesAction.CHANGE_ISSUES,
   payload,
 });

@@ -14,4 +14,5 @@ export enum IssuesAction {
   ADD_ISSUE = 'ADD_ISSUE',
   REMOVE_ISSUE = 'REMOVE_ISSUE',
   EDIT_ISSUE = 'EDIT_ISSUE',
+  CHANGE_ISSUES = 'CHANGE_ISSUES',
 }
