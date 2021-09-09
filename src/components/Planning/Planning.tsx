@@ -56,10 +56,12 @@ const Planning: React.FC = () => {
     }
   };
 
+  const valueIssues = issues.length ? issues.join(',') : issuesList.join(',');
+
   return (
     <div className={style.planning}>
       {issuesEdit ? (
-        <Input value={issues} onInput={editIssues} />
+        <Input value={valueIssues} onInput={editIssues} />
       ) : (
         <span className={style.tasks}>
           Spring {issuesList.length} planning ({createElementsPlanning()})

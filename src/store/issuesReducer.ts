@@ -6,7 +6,7 @@ interface IInitialStateIssues {
 }
 
 const initialState: IInitialStateIssues = {
-  issuesList: ['issues 11', '222', '3333', '4444', '5555', '6666', '7777', '888'],
+  issuesList: [],
 };
 
 export const issuesReducer = (state = initialState, action: AnyAction): typeof initialState => {
