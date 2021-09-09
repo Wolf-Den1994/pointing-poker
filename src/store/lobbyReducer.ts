@@ -1,14 +1,13 @@
 import { AnyAction } from 'redux';
 import membersArray from '../data';
 import { IMember } from '../types/types';
-import { LobbyActions } from './action-types';
+import { LobbyActions } from './actionTypes';
 
 interface IInitialStateLobby {
   user: IMember;
   users: IMember[];
   link: string;
   isDealer: boolean;
-  issues: string[];
 }
 
 const initialState: IInitialStateLobby = {
@@ -17,7 +16,6 @@ const initialState: IInitialStateLobby = {
   users: membersArray,
   link: 'https://github.com/rolling-scopes-school/tasks/blob/yuliaHope-patch-4/tasks/react/pointing-poker.md',
   isDealer: true,
-  issues: [],
 };
 
 export const lobbyReducer = (state = initialState, action: AnyAction): typeof initialState => {
@@ -40,9 +38,6 @@ export const lobbyReducer = (state = initialState, action: AnyAction): typeof in
 
     case LobbyActions.IS_DEALER:
       return { ...state, isDealer: action.payload };
-
-    case LobbyActions.ADD_ISSUE:
-      return { ...state, issues: [...state.issues, action.payload] };
 
     default:
       return state;
@@ -86,10 +81,5 @@ export const changeLink = (payload: string): ILobbyActionsString => ({
 
 export const changeDealer = (payload: boolean): ILobbyActionsBoolean => ({
   type: LobbyActions.IS_DEALER,
-  payload,
-});
-
-export const addIssue = (payload: string): ILobbyActionsString => ({
-  type: LobbyActions.ADD_ISSUE,
   payload,
 });

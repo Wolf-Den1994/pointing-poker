@@ -20,6 +20,11 @@ export enum PathRoutes {
   Game = 'game',
 }
 
+export enum IssueStatus {
+  Create = 'New Issue',
+  Edit = 'Edit Issue',
+}
+
 export interface IMember {
   name: string;
   jobStatus: string;

@@ -7,4 +7,51 @@
     line-height: 30px;
     text-align: center;
   }
+
+  .wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .issue {
+      margin: 16px;
+      padding: 20px;
+      font-size: 26px;
+      font-weight: 600;
+      background: #fff;
+      box-shadow: 4px 4px 4px #00000040;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      transition: 0.3s;
+
+      .edit {
+        margin: 0 10px;
+        cursor: pointer;
+
+        :hover {
+          color: #00e;
+        }
+      }
+
+      .delete {
+        cursor: pointer;
+
+        :hover {
+          color: #e00;
+        }
+      }
+
+      .plus {
+        margin: 0 10px;
+      }
+    }
+
+    .issue.issueCreate:hover {
+      cursor: pointer;
+      .plus {
+        color: #0e0;
+      }
+    }
+  }
 }

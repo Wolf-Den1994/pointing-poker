@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux';
-import { HomeActions } from './action-types';
+import { HomeActions } from './actionTypes';
 
 interface IInitialStateHome {
   imageAvatar: string;

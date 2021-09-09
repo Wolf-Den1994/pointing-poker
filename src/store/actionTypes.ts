@@ -4,11 +4,14 @@ export enum LobbyActions {
   KICK_USER = 'KICK_USER',
   CHANGE_LINK = 'CHANGE_LINK',
   IS_DEALER = 'IS_DEALER',
-  ADD_ISSUE = 'ADD_ISSUE',
-  REMOVE_ISSUE = 'REMOVE_ISSUE',
-  EDIT_ISSUE = 'EDIT_ISSUE',
 }
 
 export enum HomeActions {
   CHANGE_AVATAR = 'CHANGE_AVATAR',
+}
+
+export enum IssuesAction {
+  ADD_ISSUE = 'ADD_ISSUE',
+  REMOVE_ISSUE = 'REMOVE_ISSUE',
+  EDIT_ISSUE = 'EDIT_ISSUE',
 }

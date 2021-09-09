@@ -1,28 +1,33 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
+import { addIssue } from '../../store/issuesReducer';
 import style from './Planning.module.scss';
 
 const SHOW_ELEMENTS = 5;
 
 const Planning: React.FC = () => {
+  const dispatch = useDispatch();
+
   const { isDealer } = useTypedSelector((state) => state.lobby);
+  const { issuesList } = useTypedSelector((state) => state.issues);
 
   // issues data from BE:
-  const [issues, setIssues] = useState(['issues 11', '222', '3333', '4444', '5555', '6666', '7777', '888']);
+  // const [issues, setIssues] = useState();
   const [issuesEdit, setIssuesEdit] = useState(false);
 
   const createElementsPlanning = () => {
     const elements = [];
-    for (let i = 0; i < issues.length; i += 1) {
+    for (let i = 0; i < issuesList.length; i += 1) {
       if (i < SHOW_ELEMENTS) {
-        elements.push(<span key={issues[i]}>{issues[i]},</span>);
-        if (i === issues.length - 1) {
-          elements.push(<span key={issues[i]}>{issues[i]}</span>);
+        elements.push(<span key={issuesList[i]}>{issuesList[i]},</span>);
+        if (i === issuesList.length - 1) {
+          elements.push(<span key={issuesList[i]}>{issuesList[i]}</span>);
         }
       } else {
-        elements.push(<span key={issues[i]}>...</span>);
+        elements.push(<span key={issuesList[i]}>...</span>);
         break;
       }
     }
@@ -31,9 +36,10 @@ const Planning: React.FC = () => {
 
   const editIssues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setIssues(() => {
-      return newValue.split(',');
-    });
+    dispatch(addIssue(newValue));
+    // setIssues(() => {
+    //   return newValue.split(',');
+    // });
   };
 
   const redact = () => {
@@ -47,10 +53,10 @@ const Planning: React.FC = () => {
   return (
     <div className={style.planning}>
       {issuesEdit ? (
-        <Input value={issues.join(',')} onChange={editIssues} />
+        <Input value={issuesList.join(',')} onInput={editIssues} />
       ) : (
         <span className={style.tasks}>
-          Spring {issues.length} planning ({createElementsPlanning()})
+          Spring {issuesList.length} planning ({createElementsPlanning()})
         </span>
       )}
       {isDealer ? (
