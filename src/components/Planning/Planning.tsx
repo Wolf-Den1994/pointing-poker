@@ -25,7 +25,7 @@ const Planning: React.FC = () => {
         if (i === issuesList.length - 1) {
           elements.push(<span key={issuesList[i]}>{issuesList[i]}</span>);
         } else {
-          elements.push(<span key={issuesList[i]}>{issuesList[i]},</span>);
+          elements.push(<span key={issuesList[i]}>{issuesList[i]}, </span>);
         }
       } else {
         elements.push(<span key={issuesList[i]}>...</span>);
