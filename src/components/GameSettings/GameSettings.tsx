@@ -42,21 +42,40 @@ const GameSettings: React.FC = () => {
         onValuesChange={onChangeFormSetting}
         scrollToFirstError
       >
-        <Form.Item name="scram" valuePropName="checked" label="Scram master as player:" initialValue={settings.scram}>
+        <Form.Item
+          name="scram"
+          valuePropName="checked"
+          label={<span style={{ fontSize: 18 }}>Scram master as player:</span>}
+          colon={false}
+          initialValue={settings.scram}
+        >
           <Switch />
         </Form.Item>
 
-        <Form.Item name="card" valuePropName="checked" label="Changing card in round end:" initialValue={settings.card}>
+        <Form.Item
+          name="card"
+          valuePropName="checked"
+          label={<span style={{ fontSize: 18 }}>Changing card in round end:</span>}
+          colon={false}
+          initialValue={settings.card}
+        >
           <Switch />
         </Form.Item>
 
-        <Form.Item name="timerNeed" valuePropName="checked" label="Is timer needed:" initialValue={settings.timerNeed}>
+        <Form.Item
+          name="timerNeed"
+          valuePropName="checked"
+          label={<span style={{ fontSize: 18 }}>Is timer needed:</span>}
+          colon={false}
+          initialValue={settings.timerNeed}
+        >
           <Switch />
         </Form.Item>
 
         <Form.Item
           name="scoreType"
-          label="Score type:"
+          label={<span style={{ fontSize: 18 }}>Score type:</span>}
+          colon={false}
           initialValue={settings.scoreType}
           rules={[
             {
@@ -66,12 +85,13 @@ const GameSettings: React.FC = () => {
             },
           ]}
         >
-          <Input placeholder="" />
+          <Input placeholder="" size="large" />
         </Form.Item>
 
         <Form.Item
           name="scoreTypeShort"
-          label="Score type (Short):"
+          label={<span style={{ fontSize: 18 }}>Score type (Short):</span>}
+          colon={false}
           initialValue={settings.scoreTypeShort}
           rules={[
             {
@@ -81,19 +101,21 @@ const GameSettings: React.FC = () => {
             },
           ]}
         >
-          <Input placeholder="" />
+          <Input placeholder="" size="large" />
         </Form.Item>
 
         <Form.Item
           name="roundTime"
           valuePropName="checked"
-          label="Round time (minutes/seconds):"
+          label={<span style={{ fontSize: 18 }}>Round time:</span>}
+          colon={false}
           initialValue={settings.roundTime}
         >
           <TimePicker
-            defaultValue={settings.roundTime}
+            value={settings.roundTime}
             format={'mm:ss'}
             clearIcon
+            hideDisabledOptions={true}
             size="large"
             placeholder="Select a time"
           />
