@@ -16,3 +16,9 @@ export enum IssueActions {
   EDIT_ISSUE = 'EDIT_ISSUE',
   CHANGE_ISSUES = 'CHANGE_ISSUES',
 }
+
+export enum CardSetActions {
+  ADD_CARD = 'ADD_CARD',
+  REMOVE_CARD = 'REMOVE_CARD',
+  EDIT_CARD = 'EDIT_CARD',
+}

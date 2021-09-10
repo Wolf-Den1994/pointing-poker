@@ -9,7 +9,7 @@
   position: relative;
   max-width: 110px;
   width: 100%;
-  margin: 9px 0;
+  margin: 9px 9px 9px 0;
   padding: 5px;
 
   background: #fff;
@@ -19,7 +19,6 @@
   border-radius: 17px;
 
   .wrapper {
-    box-sizing: border-box !important;
     padding: 20px;
 
     display: flex;
@@ -35,17 +34,39 @@
       right: 15px;
       top: 12px;
       cursor: pointer;
+
+      :hover {
+        color: #00e;
+      }
+    }
+
+    .remove {
+      position: absolute;
+      right: 15px;
+      top: 32px;
+      cursor: pointer;
+
+      :hover {
+        color: #e00;
+      }
     }
 
     .additionally {
       position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
 
       border: 3px solid #1890ff;
       border-radius: 50%;
 
       width: 30px;
       height: 30px;
-      @include iconCoffee;
+
+      &.Pass {
+        @include iconCoffee;
+      }
 
       &.additionallyTop {
         top: 6px;
@@ -60,21 +81,45 @@
     }
 
     .wrapperScoreType {
-      box-sizing: border-box !important;
       min-width: 100px;
+
+      .editInput {
+        margin: 10px auto;
+        text-align: center;
+
+        .input {
+          width: 68px;
+          font-size: 38.5px;
+          border: 1px dotted #ccc;
+          background: transparent;
+        }
+      }
 
       .scoreType {
         margin: 10px auto;
         width: 60px;
         height: 60px;
-        @include iconCoffee;
+
+        &.Pass {
+          @include iconCoffee;
+        }
+      }
+
+      .number {
+        margin: 10px auto;
+        font-size: 38.5px;
+        text-align: center;
+        width: 72px;
+        overflow-x: hidden;
       }
     }
 
     .cost {
-      margin: 5px;
+      margin: auto 5px;
       font-size: 16px;
       font-weight: 500;
+      overflow: hidden;
+      width: 72px;
     }
   }
 }
