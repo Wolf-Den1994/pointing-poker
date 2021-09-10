@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import membersArray from '../data';
 import { IMember } from '../types/types';
-import { LobbyActions } from './action-types';
+import { LobbyActions } from './actionTypes';
 
 interface IInitialStateLobby {
   user: IMember;

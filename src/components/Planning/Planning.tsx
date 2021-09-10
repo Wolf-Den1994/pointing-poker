@@ -1,28 +1,34 @@
 import { EditOutlined } from '@ant-design/icons';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
+import { changeIssue } from '../../store/issuesReducer';
 import style from './Planning.module.scss';
 
 const SHOW_ELEMENTS = 5;
+const textForUserAboutDublicate = 'There is a duplicate in the line. Check the line!';
 
 const Planning: React.FC = () => {
-  const { isDealer } = useTypedSelector((state) => state.lobby);
+  const dispatch = useDispatch();
 
-  // issues data from BE:
-  const [issues, setIssues] = useState(['issues 11', '222', '3333', '4444', '5555', '6666', '7777', '888']);
+  const { isDealer } = useTypedSelector((state) => state.lobby);
+  const { issueList } = useTypedSelector((state) => state.issues);
+
+  const [issues, setIssues] = useState<string[]>(issueList);
   const [issuesEdit, setIssuesEdit] = useState(false);
 
   const createElementsPlanning = () => {
     const elements = [];
-    for (let i = 0; i < issues.length; i += 1) {
+    for (let i = 0; i < issueList.length; i += 1) {
       if (i < SHOW_ELEMENTS) {
-        elements.push(<span key={issues[i]}>{issues[i]},</span>);
-        if (i === issues.length - 1) {
-          elements.push(<span key={issues[i]}>{issues[i]}</span>);
+        if (i === issueList.length - 1) {
+          elements.push(<span key={issueList[i]}>{issueList[i]}</span>);
+        } else {
+          elements.push(<span key={issueList[i]}>{issueList[i]}, </span>);
         }
       } else {
-        elements.push(<span key={issues[i]}>...</span>);
+        elements.push(<span key={issueList[i]}>...</span>);
         break;
       }
     }
@@ -31,26 +37,34 @@ const Planning: React.FC = () => {
 
   const editIssues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setIssues(() => {
-      return newValue.split(',');
-    });
+    const result = newValue.split(',').map((issue) => issue.trim());
+    setIssues(result);
   };
 
   const redact = () => {
     if (issuesEdit) {
+      const isDuplicate = issues.some((issue, index) => issues.indexOf(issue) !== index);
+      if (isDuplicate) {
+        message.warning(textForUserAboutDublicate);
+        setIssues(issueList);
+      } else {
+        dispatch(changeIssue(issues));
+      }
       setIssuesEdit(false);
     } else {
       setIssuesEdit(true);
     }
   };
 
+  const valueIssues = issues.length ? issues.join(',') : issueList.join(',');
+
   return (
     <div className={style.planning}>
       {issuesEdit ? (
-        <Input value={issues.join(',')} onChange={editIssues} />
+        <Input value={valueIssues} onInput={editIssues} />
       ) : (
         <span className={style.tasks}>
-          Spring {issues.length} planning ({createElementsPlanning()})
+          Spring {issueList.length} planning ({createElementsPlanning()})
         </span>
       )}
       {isDealer ? (
