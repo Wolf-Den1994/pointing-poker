@@ -13,22 +13,22 @@ const Planning: React.FC = () => {
   const dispatch = useDispatch();
 
   const { isDealer } = useTypedSelector((state) => state.lobby);
-  const { issuesList } = useTypedSelector((state) => state.issues);
+  const { issueList } = useTypedSelector((state) => state.issues);
 
-  const [issues, setIssues] = useState<string[]>(issuesList);
+  const [issues, setIssues] = useState<string[]>(issueList);
   const [issuesEdit, setIssuesEdit] = useState(false);
 
   const createElementsPlanning = () => {
     const elements = [];
-    for (let i = 0; i < issuesList.length; i += 1) {
+    for (let i = 0; i < issueList.length; i += 1) {
       if (i < SHOW_ELEMENTS) {
-        if (i === issuesList.length - 1) {
-          elements.push(<span key={issuesList[i]}>{issuesList[i]}</span>);
+        if (i === issueList.length - 1) {
+          elements.push(<span key={issueList[i]}>{issueList[i]}</span>);
         } else {
-          elements.push(<span key={issuesList[i]}>{issuesList[i]}, </span>);
+          elements.push(<span key={issueList[i]}>{issueList[i]}, </span>);
         }
       } else {
-        elements.push(<span key={issuesList[i]}>...</span>);
+        elements.push(<span key={issueList[i]}>...</span>);
         break;
       }
     }
@@ -46,7 +46,7 @@ const Planning: React.FC = () => {
       const isDuplicate = issues.some((issue, index) => issues.indexOf(issue) !== index);
       if (isDuplicate) {
         message.warning(textForUserAboutDublicate);
-        setIssues(issuesList);
+        setIssues(issueList);
       } else {
         dispatch(changeIssue(issues));
       }
@@ -56,7 +56,7 @@ const Planning: React.FC = () => {
     }
   };
 
-  const valueIssues = issues.length ? issues.join(',') : issuesList.join(',');
+  const valueIssues = issues.length ? issues.join(',') : issueList.join(',');
 
   return (
     <div className={style.planning}>
@@ -64,7 +64,7 @@ const Planning: React.FC = () => {
         <Input value={valueIssues} onInput={editIssues} />
       ) : (
         <span className={style.tasks}>
-          Spring {issuesList.length} planning ({createElementsPlanning()})
+          Spring {issueList.length} planning ({createElementsPlanning()})
         </span>
       )}
       {isDealer ? (

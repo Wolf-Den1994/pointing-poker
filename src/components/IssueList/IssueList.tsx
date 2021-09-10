@@ -3,16 +3,16 @@ import { useDispatch } from 'react-redux';
 import { Input, Modal, message } from 'antd';
 import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import style from './IssuesList.module.scss';
+import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
 import { IssueStatus } from '../../types/types';
 
 const textForUserAboutDublicate = 'This is duplicate!';
 
-const IssuesList: React.FC = () => {
+const IssueList: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { issuesList } = useTypedSelector((state) => state.issues);
+  const { issueList } = useTypedSelector((state) => state.issues);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [valueNewIssue, setValueNewIssue] = useState('');
@@ -25,7 +25,7 @@ const IssuesList: React.FC = () => {
 
   const handleOk = () => {
     setIsModalVisible(false);
-    const isDuplicate = issuesList.some((issue) => issue === valueNewIssue);
+    const isDuplicate = issueList.some((issue) => issue === valueNewIssue);
     if (isDuplicate) {
       message.warning(textForUserAboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
@@ -63,7 +63,7 @@ const IssuesList: React.FC = () => {
     dispatch(removeIssue(issue));
   };
 
-  const elements = issuesList.map((issue) => (
+  const elements = issueList.map((issue) => (
     <span key={issue} className={style.issue}>
       {issue}
       <span className={style.edit}>
@@ -96,4 +96,4 @@ const IssuesList: React.FC = () => {
   );
 };
 
-export default IssuesList;
+export default IssueList;

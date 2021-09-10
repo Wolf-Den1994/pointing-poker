@@ -1,39 +1,39 @@
 import { AnyAction } from 'redux';
-import { IssuesAction } from './actionTypes';
+import { IssueActions } from './actionTypes';
 
 interface IInitialStateIssues {
-  issuesList: string[];
+  issueList: string[];
 }
 
 const initialState: IInitialStateIssues = {
-  issuesList: [],
+  issueList: [],
 };
 
 export const issuesReducer = (state = initialState, action: AnyAction): typeof initialState => {
   switch (action.type) {
-    case IssuesAction.ADD_ISSUE:
-      return { ...state, issuesList: [...state.issuesList, action.payload] };
+    case IssueActions.ADD_ISSUE:
+      return { ...state, issueList: [...state.issueList, action.payload] };
 
-    case IssuesAction.REMOVE_ISSUE:
-      return { ...state, issuesList: state.issuesList.filter((issue) => issue !== action.payload) };
+    case IssueActions.REMOVE_ISSUE:
+      return { ...state, issueList: state.issueList.filter((issue) => issue !== action.payload) };
 
-    case IssuesAction.EDIT_ISSUE: {
-      const index = state.issuesList.findIndex((issue) => issue === action.payload.oldIssue);
-      const newIssuesArray = [...state.issuesList];
+    case IssueActions.EDIT_ISSUE: {
+      const index = state.issueList.findIndex((issue) => issue === action.payload.oldIssue);
+      const newIssuesArray = [...state.issueList];
       newIssuesArray[index] = action.payload.newIssue;
-      return { ...state, issuesList: newIssuesArray };
+      return { ...state, issueList: newIssuesArray };
     }
 
-    case IssuesAction.CHANGE_ISSUES:
-      return { ...state, issuesList: action.payload };
+    case IssueActions.CHANGE_ISSUES:
+      return { ...state, issueList: action.payload };
 
     default:
       return state;
   }
 };
 
-interface IIssuesActionsString {
-  type: IssuesAction;
+interface IIssueActionsString {
+  type: IssueActions;
   payload: string;
 }
 
@@ -42,32 +42,32 @@ interface INewIssue {
   newIssue: string;
 }
 
-interface IIssuesActionsEdit {
-  type: IssuesAction;
+interface IIssueActionsEdit {
+  type: IssueActions;
   payload: INewIssue;
 }
 
-interface IIssuesActionsArrayStrings {
-  type: IssuesAction;
+interface IIssueActionsArrayStrings {
+  type: IssueActions;
   payload: string[];
 }
 
-export const addIssue = (payload: string): IIssuesActionsString => ({
-  type: IssuesAction.ADD_ISSUE,
+export const addIssue = (payload: string): IIssueActionsString => ({
+  type: IssueActions.ADD_ISSUE,
   payload,
 });
 
-export const removeIssue = (payload: string): IIssuesActionsString => ({
-  type: IssuesAction.REMOVE_ISSUE,
+export const removeIssue = (payload: string): IIssueActionsString => ({
+  type: IssueActions.REMOVE_ISSUE,
   payload,
 });
 
-export const editIssue = (payload: INewIssue): IIssuesActionsEdit => ({
-  type: IssuesAction.EDIT_ISSUE,
+export const editIssue = (payload: INewIssue): IIssueActionsEdit => ({
+  type: IssueActions.EDIT_ISSUE,
   payload,
 });
 
-export const changeIssue = (payload: string[]): IIssuesActionsArrayStrings => ({
-  type: IssuesAction.CHANGE_ISSUES,
+export const changeIssue = (payload: string[]): IIssueActionsArrayStrings => ({
+  type: IssueActions.CHANGE_ISSUES,
   payload,
 });

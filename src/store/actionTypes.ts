@@ -10,7 +10,7 @@ export enum HomeActions {
   CHANGE_AVATAR = 'CHANGE_AVATAR',
 }
 
-export enum IssuesAction {
+export enum IssueActions {
   ADD_ISSUE = 'ADD_ISSUE',
   REMOVE_ISSUE = 'REMOVE_ISSUE',
   EDIT_ISSUE = 'EDIT_ISSUE',
