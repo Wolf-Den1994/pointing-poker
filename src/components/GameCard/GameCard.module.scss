@@ -1,0 +1,80 @@
+@mixin iconCoffee {
+  background-image: url('../../assets/coffee.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.card {
+  position: relative;
+  max-width: 110px;
+  width: 100%;
+  margin: 9px 0;
+  padding: 5px;
+
+  background: #fff;
+  border: 3px solid #eee;
+  box-sizing: border-box;
+  box-shadow: 4px 4px 4px #00000040;
+  border-radius: 17px;
+
+  .wrapper {
+    box-sizing: border-box !important;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border: 6px solid #1890ff;
+    border-radius: 16px;
+
+    .edit {
+      position: absolute;
+      right: 15px;
+      top: 12px;
+      cursor: pointer;
+    }
+
+    .additionally {
+      position: absolute;
+
+      border: 3px solid #1890ff;
+      border-radius: 50%;
+
+      width: 30px;
+      height: 30px;
+      @include iconCoffee;
+
+      &.additionallyTop {
+        top: 6px;
+        left: 6px;
+      }
+
+      &.additionallyBottom {
+        bottom: 6px;
+        right: 6px;
+        transform: rotate(180deg);
+      }
+    }
+
+    .wrapperScoreType {
+      box-sizing: border-box !important;
+      min-width: 100px;
+
+      .scoreType {
+        margin: 10px auto;
+        width: 60px;
+        height: 60px;
+        @include iconCoffee;
+      }
+    }
+
+    .cost {
+      margin: 5px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+}
