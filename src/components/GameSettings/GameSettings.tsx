@@ -1,4 +1,4 @@
-import { Form, Input, Switch, TimePicker } from 'antd';
+import { Form, Input, Select, Switch, TimePicker } from 'antd';
 import { useDispatch } from 'react-redux';
 import style from './GameSettings.module.scss';
 import { changeSettings } from '../../store/lobbyReducer';
@@ -11,21 +11,10 @@ const GameSettings: React.FC = () => {
   const dispatch = useDispatch();
 
   const { settings } = useTypedSelector((state) => state.lobby);
+  const { scram, card, timerNeed, scoreType, scoreTypeShort, roundTime } = settings;
 
-  const onChangeFormSetting = (data: IGameSettingsData) => {
-    const { scram, card, timerNeed, scoreType, scoreTypeShort, roundTime } = data;
-
-    dispatch(
-      changeSettings({
-        scram,
-        card,
-        timerNeed,
-        scoreType,
-        scoreTypeShort,
-        roundTime,
-      }),
-    );
-    // console.log('change switch', data);
+  const onChangeFormSetting = (_: IGameSettingsData, data: IGameSettingsData) => {
+    dispatch(changeSettings({ ...data }));
   };
 
   return (
@@ -47,7 +36,7 @@ const GameSettings: React.FC = () => {
           valuePropName="checked"
           label={<span style={{ fontSize: 18 }}>Scram master as player:</span>}
           colon={false}
-          initialValue={settings.scram}
+          initialValue={scram}
         >
           <Switch />
         </Form.Item>
@@ -57,7 +46,7 @@ const GameSettings: React.FC = () => {
           valuePropName="checked"
           label={<span style={{ fontSize: 18 }}>Changing card in round end:</span>}
           colon={false}
-          initialValue={settings.card}
+          initialValue={card}
         >
           <Switch />
         </Form.Item>
@@ -67,7 +56,7 @@ const GameSettings: React.FC = () => {
           valuePropName="checked"
           label={<span style={{ fontSize: 18 }}>Is timer needed:</span>}
           colon={false}
-          initialValue={settings.timerNeed}
+          initialValue={timerNeed}
         >
           <Switch />
         </Form.Item>
@@ -76,7 +65,8 @@ const GameSettings: React.FC = () => {
           name="scoreType"
           label={<span style={{ fontSize: 18 }}>Score type:</span>}
           colon={false}
-          initialValue={settings.scoreType}
+          initialValue={scoreType}
+          hasFeedback
           rules={[
             {
               required: true,
@@ -85,14 +75,21 @@ const GameSettings: React.FC = () => {
             },
           ]}
         >
-          <Input placeholder="" size="large" />
+          <Select defaultValue={scoreType} size="large">
+            <Select.OptGroup label="Score type:">
+              <Select.Option value="score type">score type</Select.Option>
+            </Select.OptGroup>
+            <Select.OptGroup label="Math:">
+              <Select.Option value="fibonacci">fibonacci</Select.Option>
+            </Select.OptGroup>
+          </Select>
         </Form.Item>
 
         <Form.Item
           name="scoreTypeShort"
           label={<span style={{ fontSize: 18 }}>Score type (Short):</span>}
           colon={false}
-          initialValue={settings.scoreTypeShort}
+          initialValue={scoreTypeShort}
           rules={[
             {
               required: true,
@@ -101,7 +98,7 @@ const GameSettings: React.FC = () => {
             },
           ]}
         >
-          <Input placeholder="" size="large" />
+          <Input style={{ textTransform: 'uppercase' }} placeholder="SP" size="large" maxLength={2} />
         </Form.Item>
 
         <Form.Item
@@ -109,10 +106,10 @@ const GameSettings: React.FC = () => {
           valuePropName="checked"
           label={<span style={{ fontSize: 18 }}>Round time:</span>}
           colon={false}
-          initialValue={settings.roundTime}
+          initialValue={roundTime}
         >
           <TimePicker
-            value={settings.roundTime}
+            value={roundTime}
             format={'mm:ss'}
             clearIcon
             hideDisabledOptions={true}
