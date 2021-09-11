@@ -40,5 +40,6 @@ export interface IGameSettingsData {
   showTimer: boolean;
   scoreType: string;
   scoreTypeShort: string;
+  customizeCard: string;
   roundTime: Moment;
 }

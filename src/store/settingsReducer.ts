@@ -15,6 +15,7 @@ const initialState: IInitialStateSettings = {
     showTimer: false,
     scoreType: 'story point',
     scoreTypeShort: 'SP',
+    customizeCard: '',
     roundTime: moment('02:20', 'mm:ss'),
   },
 };
