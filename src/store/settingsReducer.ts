@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { AnyAction } from 'redux';
-import { IGameSettingsData } from '../types/types';
+import { IGameSettingsData, OptionSettings } from '../types/types';
 import { SettingsActions } from './actionTypes';
 
 interface IInitialStateSettings {
@@ -14,7 +14,7 @@ const initialState: IInitialStateSettings = {
     autoFlipCards: false,
     autoAdmitMembers: false,
     showTimer: false,
-    scoreType: 'story point',
+    scoreType: OptionSettings.StoryPoint,
     customizeCard: '',
     roundTime: moment('02:20', 'mm:ss'),
   },

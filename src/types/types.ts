@@ -27,6 +27,14 @@ export enum IssueStatus {
   Edit = 'Edit Issue',
 }
 
+export enum OptionSettings {
+  StoryPoint = 'story point',
+  Fibonacci = 'fibonacci',
+  ModifiedFibonacci = 'modified fibonacci',
+  PowerOfTwo = 'power of two',
+  CustomYour = 'custom/your',
+}
+
 export interface IMember {
   name: string;
   jobStatus: string;

@@ -3,16 +3,8 @@ import { useDispatch } from 'react-redux';
 import style from './GameSettings.module.scss';
 import { changeSettings } from '../../store/settingsReducer';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { IGameSettingsData } from '../../types/types';
+import { IGameSettingsData, OptionSettings } from '../../types/types';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-
-enum OptionSettings {
-  StoryPoint = 'story point',
-  Fibonacci = 'fibonacci',
-  ModifiedFibonacci = 'modified fibonacci',
-  PowerOfTwo = 'power of two',
-  CustomYour = 'custom/your',
-}
 
 const GameSettings: React.FC = () => {
   const [formSettings] = Form.useForm();
