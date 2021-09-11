@@ -4,6 +4,15 @@ import style from './GameSettings.module.scss';
 import { changeSettings } from '../../store/settingsReducer';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { IGameSettingsData } from '../../types/types';
+import getFirstUpLetters from '../../utils/getFirstUpLetters';
+
+enum OptionSettings {
+  StoryPoint = 'story point',
+  Fibonacci = 'fibonacci',
+  ModifiedFibonacci = 'modified fibonacci',
+  PowerOfTwo = 'power of two',
+  CustomYour = 'custom/your',
+}
 
 const GameSettings: React.FC = () => {
   const [formSettings] = Form.useForm();
@@ -13,33 +22,27 @@ const GameSettings: React.FC = () => {
   const {
     isDealerActive,
     voteAfterRoundEnd,
+    autoAdmitMembers,
     autoFlipCards,
     showTimer,
     scoreType,
-    scoreTypeShort,
     customizeCard,
     roundTime,
   } = settings;
 
-  const onChangeFormSetting = (_: IGameSettingsData, data: IGameSettingsData) => {
+  const onChangeFormSettings = (_: IGameSettingsData, data: IGameSettingsData) => {
     dispatch(changeSettings({ ...data }));
-
-    // const testShort = getFirstUpLetters(data.scoreType);
-    // console.log(testShort);
   };
 
   return (
     <div className={style.settings}>
       <p className={style.title}>Game settings:</p>
       <Form
-        labelCol={{
-          span: 8,
-        }}
         wrapperCol={{
           span: 6,
         }}
         form={formSettings}
-        onValuesChange={onChangeFormSetting}
+        onValuesChange={onChangeFormSettings}
         scrollToFirstError
       >
         <Form.Item
@@ -58,6 +61,20 @@ const GameSettings: React.FC = () => {
           label={<span style={{ fontSize: 18 }}>Flip card automatically once all vote:</span>}
           colon={false}
           initialValue={autoFlipCards}
+        >
+          <Switch />
+        </Form.Item>
+
+        <Form.Item
+          name="autoAdmitMembers"
+          valuePropName="checked"
+          label={
+            <span style={{ fontSize: 18 }}>
+              Auto admit all new members if the game started (or admit/reject mechanism)
+            </span>
+          }
+          colon={false}
+          initialValue={autoAdmitMembers}
         >
           <Switch />
         </Form.Item>
@@ -96,15 +113,17 @@ const GameSettings: React.FC = () => {
             },
           ]}
         >
-          <Select defaultValue={scoreType} size="large">
-            <Select.OptGroup label="Score type:">
-              <Select.Option value="story point">story point</Select.Option>
+          <Select value={scoreType} size="large">
+            <Select.OptGroup label="Default:">
+              <Select.Option value={OptionSettings.StoryPoint}>{OptionSettings.StoryPoint}</Select.Option>
             </Select.OptGroup>
             <Select.OptGroup label="Math:">
-              <Select.Option value="fibonacci">fibonacci</Select.Option>
+              <Select.Option value={OptionSettings.Fibonacci}>{OptionSettings.Fibonacci}</Select.Option>
+              <Select.Option value={OptionSettings.ModifiedFibonacci}>{OptionSettings.ModifiedFibonacci}</Select.Option>
+              <Select.Option value={OptionSettings.PowerOfTwo}>{OptionSettings.PowerOfTwo}</Select.Option>
             </Select.OptGroup>
             <Select.OptGroup label="Custom/your:">
-              <Select.Option value="custom/your">custom/your</Select.Option>
+              <Select.Option value={OptionSettings.CustomYour}>{OptionSettings.CustomYour}</Select.Option>
             </Select.OptGroup>
           </Select>
         </Form.Item>
@@ -123,6 +142,7 @@ const GameSettings: React.FC = () => {
                 rules={[
                   {
                     required: true,
+                    message: 'Customize card is required!',
                   },
                 ]}
               >
@@ -136,16 +156,9 @@ const GameSettings: React.FC = () => {
           name="scoreTypeShort"
           label={<span style={{ fontSize: 18 }}>Score type (Short):</span>}
           colon={false}
-          initialValue={scoreTypeShort}
-          rules={[
-            {
-              required: true,
-              type: 'string',
-              message: 'Score type (short) is required!',
-            },
-          ]}
+          valuePropName={scoreType}
         >
-          <Input style={{ textTransform: 'uppercase' }} placeholder="SP" size="large" maxLength={2} />
+          <Input style={{ textTransform: 'uppercase' }} size="large" value={getFirstUpLetters(scoreType)} disabled />
         </Form.Item>
 
         {showTimer ? (
@@ -166,27 +179,6 @@ const GameSettings: React.FC = () => {
             />
           </Form.Item>
         ) : null}
-
-        {/* <Form.Item noStyle>
-          {showTimer ? (
-            <Form.Item
-              name="roundTime"
-              valuePropName="checked"
-              label={<span style={{ fontSize: 18 }}>Round time:</span>}
-              colon={false}
-              initialValue={roundTime}
-            >
-              <TimePicker
-                value={roundTime}
-                format={'mm:ss'}
-                clearIcon
-                hideDisabledOptions={true}
-                size="large"
-                placeholder="Select a time"
-              />
-            </Form.Item>
-          ) : null}
-        </Form.Item> */}
       </Form>
     </div>
   );

@@ -37,9 +37,9 @@ export interface IGameSettingsData {
   isDealerActive: boolean;
   voteAfterRoundEnd: boolean;
   autoFlipCards: boolean;
+  autoAdmitMembers: boolean;
   showTimer: boolean;
   scoreType: string;
-  scoreTypeShort: string;
   customizeCard: string;
   roundTime: Moment;
 }
