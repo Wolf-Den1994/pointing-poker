@@ -6,9 +6,7 @@ import GameCard from '../GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './CustomizeCards.module.scss';
 import { addCard } from '../../store/cardSetReducer';
-
-const textForUserAboutDublicate = 'This is duplicate!';
-const textForUserAboutNumber = 'This is not a number. Enter the number!';
+import { TextForUser } from '../../types/types';
 
 const CustomizeCards: React.FC = () => {
   const dispatch = useDispatch();
@@ -27,11 +25,11 @@ const CustomizeCards: React.FC = () => {
   const handleAddCard = () => {
     const isDuplicate = cardSet.some((card) => card === valueInput);
     if (isDuplicate) {
-      message.warning(textForUserAboutDublicate);
+      message.warning(TextForUser.AboutDublicate);
     } else {
       const isNumber = Number.isNaN(+valueInput);
       if (isNumber) {
-        message.warning(textForUserAboutNumber);
+        message.warning(TextForUser.AboutNumber);
       } else {
         dispatch(addCard(valueInput));
         setAddIsActive(false);

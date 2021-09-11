@@ -5,10 +5,7 @@ import { useDispatch } from 'react-redux';
 import { editCard, removeCard } from '../../store/cardSetReducer';
 import style from './GameCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
-
-const textForUserAboutEmpty = 'Empty string or unchanged. Enter a new value!';
-const textForUserAboutDublicate = 'This is duplicate!';
-const textForUserAboutNumber = 'This is not a number. Enter the number!';
+import { TextForUser } from '../../types/types';
 
 interface IGameCardProps {
   view: string;
@@ -32,19 +29,19 @@ const GameCard: React.FC<IGameCardProps> = ({ view }: IGameCardProps) => {
       if (newValueCard) {
         const isDuplicate = cardSet.some((card) => card === newValueCard);
         if (isDuplicate) {
-          message.warning(textForUserAboutDublicate);
+          message.warning(TextForUser.AboutDublicate);
           setValueView(oldValueCard);
         } else {
           const isNumber = Number.isNaN(+newValueCard);
           if (isNumber) {
-            message.warning(textForUserAboutNumber);
+            message.warning(TextForUser.AboutNumber);
             setValueView(oldValueCard);
           } else {
             dispatch(editCard({ oldCard: oldValueCard, newCard: newValueCard }));
           }
         }
       } else {
-        message.warning(textForUserAboutEmpty);
+        message.warning(TextForUser.AboutEmpty);
         setValueView(oldValueCard);
       }
       setEditIsActive(false);
@@ -54,9 +51,7 @@ const GameCard: React.FC<IGameCardProps> = ({ view }: IGameCardProps) => {
     }
   };
 
-  const handleRemoveCard = (value: string) => {
-    dispatch(removeCard(value));
-  };
+  const handleRemoveCard = (value: string) => dispatch(removeCard(value));
 
   const handleInputValue = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;

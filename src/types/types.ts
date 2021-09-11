@@ -1,3 +1,10 @@
+export enum TextForUser {
+  AboutDublicate = 'This is duplicate!',
+  AboutDublicateInLine = 'There is a duplicate in the line. Check the line!',
+  AboutEmpty = 'Empty string or unchanged. Enter a new value!',
+  AboutNumber = 'This is not a number. Enter the number!',
+}
+
 export enum Authors {
   Maksim = 'Maksim Malashkou',
   Artsiom = 'Artsiom Murashko',

@@ -5,9 +5,7 @@ import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
-import { IssueStatus } from '../../types/types';
-
-const textForUserAboutDublicate = 'This is duplicate!';
+import { IssueStatus, TextForUser } from '../../types/types';
 
 const IssueList: React.FC = () => {
   const dispatch = useDispatch();
@@ -27,7 +25,7 @@ const IssueList: React.FC = () => {
     setIsModalVisible(false);
     const isDuplicate = issueList.some((issue) => issue === valueNewIssue);
     if (isDuplicate) {
-      message.warning(textForUserAboutDublicate);
+      message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
