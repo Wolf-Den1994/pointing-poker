@@ -34,9 +34,10 @@ export interface IMember {
 }
 
 export interface IGameSettingsData {
-  scram: boolean;
-  card: boolean;
-  timerNeed: boolean;
+  isDealerActive: boolean;
+  voteAfterRoundEnd: boolean;
+  autoFlipCards: boolean;
+  showTimer: boolean;
   scoreType: string;
   scoreTypeShort: string;
   roundTime: Moment;
