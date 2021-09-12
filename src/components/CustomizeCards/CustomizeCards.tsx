@@ -16,8 +16,6 @@ const CustomizeCards: React.FC = () => {
   const [valueInput, setValueInput] = useState('');
   const [addIsActive, setAddIsActive] = useState(false);
 
-  const elements = cardSet.map((item) => <GameCard key={item} view={item} />);
-
   const showAddCard = () => {
     if (!addIsActive) setAddIsActive(true);
   };
@@ -41,7 +39,9 @@ const CustomizeCards: React.FC = () => {
     <div className={style.customizeCards}>
       <p className={style.title}>Add card values:</p>
       <div className={style.wrapper}>
-        {elements}
+        {cardSet.map((item) => (
+          <GameCard key={item} view={item} />
+        ))}
         <div className={style.add} onClick={showAddCard}>
           {addIsActive ? (
             <div className={style.addWrapper}>
