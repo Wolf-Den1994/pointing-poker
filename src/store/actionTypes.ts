@@ -16,3 +16,7 @@ export enum IssueActions {
   EDIT_ISSUE = 'EDIT_ISSUE',
   CHANGE_ISSUES = 'CHANGE_ISSUES',
 }
+
+export enum SettingsActions {
+  CHANGE_SETTINGS = 'CHANGE_SETTINGS',
+}

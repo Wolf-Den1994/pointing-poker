@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export enum Authors {
   Maksim = 'Maksim Malashkou',
   Artsiom = 'Artsiom Murashko',
@@ -25,8 +27,27 @@ export enum IssueStatus {
   Edit = 'Edit Issue',
 }
 
+export enum OptionSettings {
+  StoryPoint = 'story point',
+  Fibonacci = 'fibonacci',
+  ModifiedFibonacci = 'modified fibonacci',
+  PowerOfTwo = 'power of two',
+  CustomYour = 'custom/your',
+}
+
 export interface IMember {
   name: string;
   jobStatus: string;
   avatar: string;
+}
+
+export interface IGameSettingsData {
+  isDealerActive: boolean;
+  voteAfterRoundEnd: boolean;
+  autoFlipCards: boolean;
+  autoAdmitMembers: boolean;
+  showTimer: boolean;
+  scoreType: string;
+  customizeCard: string;
+  roundTime: Moment;
 }
