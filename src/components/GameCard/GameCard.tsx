@@ -31,14 +31,11 @@ const GameCard: React.FC<IGameCardProps> = ({ view }: IGameCardProps) => {
         if (isDuplicate) {
           message.warning(TextForUser.AboutDublicate);
           setValueView(oldValueCard);
+        } else if (Number.isNaN(+newValueCard)) {
+          message.warning(TextForUser.AboutNumber);
+          setValueView(oldValueCard);
         } else {
-          const isNumber = Number.isNaN(+newValueCard);
-          if (isNumber) {
-            message.warning(TextForUser.AboutNumber);
-            setValueView(oldValueCard);
-          } else {
-            dispatch(editCard({ oldCard: oldValueCard, newCard: newValueCard }));
-          }
+          dispatch(editCard({ oldCard: oldValueCard, newCard: newValueCard }));
         }
       } else {
         message.warning(TextForUser.AboutEmpty);
