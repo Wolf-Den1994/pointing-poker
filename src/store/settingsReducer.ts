@@ -19,7 +19,7 @@ const initialState: IInitialStateSettings = {
     customizeCard: '',
     roundTime: moment('02:20', 'mm:ss'),
   },
-  cardSet: ['Pass'],
+  cardSet: ['pass'],
 };
 
 export const settingsReducer = (state = initialState, action: AnyAction): typeof initialState => {

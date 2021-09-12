@@ -74,7 +74,7 @@ const GameCard: React.FC<IGameCardProps> = ({ view }: IGameCardProps) => {
             <div className={classNameView}>{viewIsNumber}</div>
           )}
         </div>
-        <div className={style.cost}>{view}</div>
+        <div className={style.cost}>{view[0].toUpperCase() + view.slice(1)}</div>
         <div className={`${style.additionally} ${style.additionallyBottom} ${style[view]}`}>{viewIsNumber}</div>
       </div>
     </div>
