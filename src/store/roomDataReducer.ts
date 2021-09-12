@@ -54,20 +54,20 @@ export const getAllMessages = (payload: IMember) => ({
 });
 
 export const addMessage = (payload: IMessage) => ({
-  type: RoomDataActions.GET_ALL_MESSAGES,
+  type: RoomDataActions.ADD_MESSAGE,
   payload,
 });
 
 export const setRoomId = (payload: string) => ({
-  type: RoomDataActions.GET_ALL_MESSAGES,
+  type: RoomDataActions.SET_ROOM_ID,
   payload,
 });
 
 export const addAdmin = (payload: IMember) => ({
-  type: RoomDataActions.GET_ALL_MESSAGES,
+  type: RoomDataActions.ADD_ADMIN,
   payload,
 });
 
 export const clearRoomData = () => ({
-  type: RoomDataActions.GET_ALL_MESSAGES,
+  type: RoomDataActions.CLEAR_ROOM_DATA,
 });

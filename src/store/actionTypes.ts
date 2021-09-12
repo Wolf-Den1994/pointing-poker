@@ -7,6 +7,7 @@ export enum LobbyActions {
 }
 
 export enum HomeActions {
+  CHANGE_MODAL_ACTIVE = 'CHANGE_MODAL_ACTIVE',
   CHANGE_AVATAR = 'CHANGE_AVATAR',
 }
 
@@ -26,6 +27,11 @@ export enum SettingsActions {
 
 export enum RegistrationDataActions {
   SET_DATA = 'SET_DATA',
+  SET_ID = 'SET_ID',
+  SET_NAME = 'SET_NAME',
+  SET_JOB_STATUS = 'SET_JOB_STATUS',
+  SET_ROLE = 'SET_ROLE',
+  SET_AVATAR = 'SET_AVATAR',
 }
 
 export enum RoomDataActions {

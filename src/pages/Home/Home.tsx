@@ -1,81 +1,29 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Button, Form, Input, Modal, Switch } from 'antd';
 import { useHistory } from 'react-router';
+import axios from 'axios';
+import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
-import { changeAvatar } from '../../store/homeReducer';
-import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { changeUser } from '../../store/lobbyReducer';
-import { PathRoutes } from '../../types/types';
-
-interface IFormGameData {
-  observer: boolean;
-  name: string;
-  surname: string;
-  job: string;
-  avatar: string;
-}
+import { chageModalActive } from '../../store/homeReducer';
+import ModalRegistation from '../../components/ModalRegistration/ModalRegistation';
+import { changeDealer, changeLink } from '../../store/lobbyReducer';
 
 const Home: React.FC = () => {
-  const history = useHistory();
-
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [modalActive, setModalActive] = useState(false);
-
-  const [formConnect] = Form.useForm();
-  const [formGame] = Form.useForm();
-
   const dispatch = useDispatch();
+  const { isDealer } = useTypedSelector((state) => state.lobby);
+  const { link } = useTypedSelector((state) => state.lobby);
 
-  const { imageAvatar } = useTypedSelector((state) => state.home);
-  const { user } = useTypedSelector((state) => state.lobby);
+  const hadlerStartNewGame = () => dispatch(chageModalActive(true));
 
-  const onSubmitFormConnect = () => {};
-
-  const onSubmitFormFailedConnect = () => {};
-
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-    dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
-  };
-
-  const onChangeSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSurname(e.target.value);
-    dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
-  };
-
-  const onSubmitFormGame = (data: IFormGameData) => {
-    // data => Данные после заполнения формы (старт новой игры)
-    dispatch(changeUser({ name: `${name} ${surname}`, jobStatus: data.job, avatar: data.avatar }));
-    formGame.resetFields();
-    setModalActive(false);
-    history.push(PathRoutes.Lobby);
-  };
-
-  const hadlerStartNewGame = () => setModalActive(true);
-
-  const handlerChangeLink = () => () => {};
-
-  const handlerOk = () => formGame.submit();
-
-  const onClickCancelButton = () => {
-    formGame.resetFields();
-    setModalActive(false);
-  };
-
-  const handlerCancel = () => onClickCancelButton();
-
-  const onChangeImage = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const file: File = (target.files as FileList)[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      dispatch(changeAvatar(`${reader.result}`));
-    };
-    reader.readAsDataURL(file);
+  const handlerChangeLink = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeLink(e.target.value));
+    if (link.length) {
+      dispatch(changeDealer(false));
+    } else {
+      dispatch(changeDealer(true));
+    }
   };
 
   return (
@@ -85,118 +33,31 @@ const Home: React.FC = () => {
         <div className={style.row}>
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
-            <p className={style.session}>Create a session: </p>
+            {isDealer ? (
+              <p className={style.session}>Create a session: </p>
+            ) : (
+              <p className={style.session}>Connect to session: </p>
+            )}
             <Button type="primary" size="large" onClick={hadlerStartNewGame}>
-              Start new game
+              {isDealer ? 'Start new game' : 'Connect to lobby'}
             </Button>
           </div>
         </div>
 
         <div className={style.row}>
-          <h1 className={`${style.title} ${style.title_lobby}`}>OR:</h1>
           <div className={`${style.box} ${style.box_lobby}`}>
             <p className={style.session}>
-              Connect to lobby by <span>URL:</span>
+              Connect to lobby by <span>ID:</span>
             </p>
-            <Form
-              className={style.lobby}
-              form={formConnect}
-              onFinish={onSubmitFormConnect}
-              onFinishFailed={onSubmitFormFailedConnect}
-            >
-              <Form.Item
-                name="URL"
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                  },
-                  {
-                    type: 'string',
-                    min: 6,
-                  },
-                ]}
-              >
-                <Input size="large" type="text" placeholder="URL" onChange={handlerChangeLink} />
-              </Form.Item>
-              <Button type="primary" size="large" htmlType="submit">
-                Connect
-              </Button>
-            </Form>
+            <Input size="large" type="text" placeholder="ID" value={link} onChange={handlerChangeLink} />
+            <p>
+              введите id чтобы присоеденится к лобби, если хотите создать комнату поле с id должно быть пустым
+              (маленький текст)
+            </p>
           </div>
         </div>
       </div>
-
-      <Modal
-        visible={modalActive}
-        onOk={handlerOk}
-        onCancel={handlerCancel}
-        title="Connect to lobby"
-        okText="Confirm"
-        centered
-      >
-        <Form form={formGame} onFinish={onSubmitFormGame} layout="vertical" scrollToFirstError>
-          <Form.Item name="observer" valuePropName="checked" label="Connect as Observer" initialValue={false}>
-            <Switch />
-          </Form.Item>
-
-          <Form.Item
-            name="name"
-            label="Your first name:"
-            tooltip="What do you want others to call you?"
-            rules={[
-              {
-                type: 'string',
-                message: 'The input is not valid First name!',
-              },
-              {
-                required: true,
-                message: 'Please, input your First name!',
-              },
-            ]}
-          >
-            <Input placeholder="Rick" onChange={onChangeName} />
-          </Form.Item>
-
-          <Form.Item
-            name="surname"
-            label="Your surname name:"
-            initialValue={''}
-            rules={[
-              {
-                type: 'string',
-              },
-            ]}
-          >
-            <Input placeholder="Griffin" onChange={onChangeSurname} />
-          </Form.Item>
-
-          <Form.Item
-            name="job"
-            label="Your job position (optional):"
-            initialValue={''}
-            rules={[
-              {
-                type: 'string',
-              },
-            ]}
-          >
-            <Input placeholder="Software Engineer" />
-          </Form.Item>
-
-          <Form.Item name="avatar" label="Upload avatar:">
-            <Input type="file" onChange={onChangeImage} value={imageAvatar} />
-          </Form.Item>
-
-          {imageAvatar.length ? (
-            <Avatar shape="circle" size={64} src={imageAvatar} alt="avatar" />
-          ) : (
-            <Avatar shape="circle" size={64} alt="avatar">
-              {getFirstUpLetters(user.name)}
-            </Avatar>
-          )}
-        </Form>
-      </Modal>
+      <ModalRegistation />
     </>
   );
 };

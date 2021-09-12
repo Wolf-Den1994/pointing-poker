@@ -11,7 +11,7 @@ interface IInitialStateLobby {
 const initialState: IInitialStateLobby = {
   // TODO: change the field to empty. change this state to the name that was during authorization
   user: { id: '', name: '', jobStatus: '', role: 'player', avatar: '' },
-  link: 'https://github.com/rolling-scopes-school/tasks/blob/yuliaHope-patch-4/tasks/react/pointing-poker.md',
+  link: '',
   isDealer: true,
 };
 

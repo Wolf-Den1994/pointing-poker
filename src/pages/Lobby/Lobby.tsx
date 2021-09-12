@@ -5,39 +5,39 @@ import CustomizeCards from '../../components/CustomizeCards/CustomizeCards';
 import GameSettings from '../../components/GameSettings/GameSettings';
 import IssueList from '../../components/IssueList/IssueList';
 import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';
-import Members from '../../components/Members/Members';
+// import Members from '../../components/Members/Members';
 import Planning from '../../components/Planning/Planning';
-import UserCard from '../../components/UserCard/UserCard';
+// import UserCard from '../../components/UserCard/UserCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeDealer } from '../../store/lobbyReducer';
 import style from './Lobby.module.scss';
 
-const Lobby: React.FC = () => {
-  const { user, users } = useTypedSelector((state) => state.lobby);
+// const Lobby: React.FC = () => {
+//   const { user, users } = useTypedSelector((state) => state.lobby);
 
-  const isDealer = users[0].name === user.name;
+//   const isDealer = users[0].name === user.name;
 
-  const dispatch = useDispatch();
+//   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(changeDealer(isDealer));
-  }, []);
+//   useEffect(() => {
+//     dispatch(changeDealer(isDealer));
+//   }, []);
 
-  return (
-    <div className={style.lobbyPage}>
-      <Planning />
-      <p className={style.scramMaster}>Scram master:</p>
-      <div className={style.card}>
-        <UserCard jobStatus={users[0].jobStatus} member={users[0].name} />
-      </div>
-      {isDealer ? <LinkToLobby /> : null}
-      <BtnsLobby />
-      <Members />
-      {isDealer ? <IssueList /> : null}
-      {isDealer ? <GameSettings /> : null}
-      {isDealer ? <CustomizeCards /> : null}
-    </div>
-  );
-};
+//   return (
+//     <div className={style.lobbyPage}>
+//       <Planning />
+//       <p className={style.scramMaster}>Scram master:</p>
+//       <div className={style.card}>
+//         <UserCard jobStatus={users[0].jobStatus} member={users[0].name} />
+//       </div>
+//       {isDealer ? <LinkToLobby /> : null}
+//       <BtnsLobby />
+//       <Members />
+//       {isDealer ? <IssueList /> : null}
+//       {isDealer ? <GameSettings /> : null}
+//       {isDealer ? <CustomizeCards /> : null}
+//     </div>
+//   );
+// };
 
-export default Lobby;
+// export default Lobby;

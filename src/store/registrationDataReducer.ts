@@ -10,22 +10,57 @@ const initialState: IInitialStateRegistrationData = {
   user: { id: '', name: '', jobStatus: '', role: 'player', avatar: '' },
 };
 
-export const registratinDataReducer = (state = initialState, action: AnyAction): typeof initialState => {
+export const registrationDataReducer = (state = initialState, action: AnyAction): typeof initialState => {
   switch (action.type) {
     case RegistrationDataActions.SET_DATA:
       return { ...state, user: action.payload };
+
+    case RegistrationDataActions.SET_ID:
+      return { ...state, user: { ...state.user, id: action.payload } };
+
+    case RegistrationDataActions.SET_NAME:
+      return { ...state, user: { ...state.user, name: action.payload } };
+
+    case RegistrationDataActions.SET_JOB_STATUS:
+      return { ...state, user: { ...state.user, jobStatus: action.payload } };
+
+    case RegistrationDataActions.SET_ROLE:
+      return { ...state, user: { ...state.user, role: action.payload } };
+
+    case RegistrationDataActions.SET_AVATAR:
+      return { ...state, user: { ...state.user, avatar: action.payload } };
 
     default:
       return state;
   }
 };
 
-interface IRegistatinDataActionsIMember {
-  type: RegistrationDataActions;
-  payload: IMember;
-}
-
-export const changeUser = (payload: IMember): IRegistatinDataActionsIMember => ({
+export const setData = (payload: any) => ({
   type: RegistrationDataActions.SET_DATA,
+  payload,
+});
+
+export const setId = (payload: any) => ({
+  type: RegistrationDataActions.SET_ID,
+  payload,
+});
+
+export const setName = (payload: any) => ({
+  type: RegistrationDataActions.SET_NAME,
+  payload,
+});
+
+export const setJobStatus = (payload: any) => ({
+  type: RegistrationDataActions.SET_JOB_STATUS,
+  payload,
+});
+
+export const setRole = (payload: any) => ({
+  type: RegistrationDataActions.SET_ROLE,
+  payload,
+});
+
+export const setAvatar = (payload: any) => ({
+  type: RegistrationDataActions.SET_AVATAR,
   payload,
 });
