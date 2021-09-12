@@ -34,8 +34,8 @@ const Lobby: React.FC = () => {
       <BtnsLobby />
       <Members />
       {isDealer ? <IssueList /> : null}
-      {isDealer ? <CustomizeCards /> : null}
       {isDealer ? <GameSettings /> : null}
+      {isDealer ? <CustomizeCards /> : null}
     </div>
   );
 };

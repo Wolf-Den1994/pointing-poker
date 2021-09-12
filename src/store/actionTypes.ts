@@ -1,6 +1,6 @@
 export enum LobbyActions {
-  CHANGE_USERNAME = 'CHANGE_USERNAME',
-  ADD_USER = 'ADD_USER',
+  CHANGE_USERDATA = 'CHANGE_USER',
+  ADD_USERS = 'ADD_USERS',
   KICK_USER = 'KICK_USER',
   CHANGE_LINK = 'CHANGE_LINK',
   IS_DEALER = 'IS_DEALER',
@@ -22,4 +22,17 @@ export enum SettingsActions {
   ADD_CARD = 'ADD_CARD',
   REMOVE_CARD = 'REMOVE_CARD',
   EDIT_CARD = 'EDIT_CARD',
+}
+
+export enum RegistrationDataActions {
+  SET_DATA = 'SET_DATA',
+}
+
+export enum RoomDataActions {
+  ADD_USERS = 'ADD_USERS',
+  GET_ALL_MESSAGES = 'GET_ALL_MESSAGES',
+  ADD_MESSAGE = 'ADD_MESSAGE',
+  SET_ROOM_ID = 'SET_ROOM_ID',
+  ADD_ADMIN = 'ADD_ADMIN',
+  CLEAR_ROOM_DATA = 'CLEAR_ROOM_DATA',
 }

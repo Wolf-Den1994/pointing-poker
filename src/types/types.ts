@@ -43,9 +43,23 @@ export enum OptionSettings {
 }
 
 export interface IMember {
+  id: string;
   name: string;
   jobStatus: string;
+  role: string;
   avatar: string;
+}
+
+export interface IMessage {
+  name: string;
+  message: string;
+}
+
+export interface IRoomData {
+  roomId: string;
+  admin: IMember;
+  users: IMember[];
+  messages: IMessage[];
 }
 
 export interface IGameSettingsData {
