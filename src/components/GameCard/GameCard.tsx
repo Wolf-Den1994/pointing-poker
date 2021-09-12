@@ -68,7 +68,13 @@ const GameCard: React.FC<IGameCardProps> = ({ view }: IGameCardProps) => {
         <div className={style.wrapperScoreType}>
           {editIsActive ? (
             <div className={style.editInput}>
-              <Input placeholder="edit" value={valueView} className={style.input} onChange={handleInputValue} />
+              <Input
+                maxLength={3}
+                placeholder="edit"
+                value={valueView}
+                className={style.input}
+                onChange={handleInputValue}
+              />
             </div>
           ) : (
             <div className={classNameView}>{viewIsNumber}</div>
