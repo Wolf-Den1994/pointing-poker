@@ -2,7 +2,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { editCard, removeCard } from '../../store/cardSetReducer';
+import { editCard, removeCard } from '../../store/settingsReducer';
 import style from './GameCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { TextForUser } from '../../types/types';
@@ -14,7 +14,7 @@ interface IGameCardProps {
 const GameCard: React.FC<IGameCardProps> = ({ view }: IGameCardProps) => {
   const dispatch = useDispatch();
 
-  const { cardSet } = useTypedSelector((store) => store.cardSet);
+  const { cardSet } = useTypedSelector((store) => store.settings);
 
   const [editIsActive, setEditIsActive] = useState(false);
   const [valueView, setValueView] = useState(view);

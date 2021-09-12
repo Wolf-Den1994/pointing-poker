@@ -5,13 +5,13 @@ import { Button, Input, message } from 'antd';
 import GameCard from '../GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './CustomizeCards.module.scss';
-import { addCard } from '../../store/cardSetReducer';
+import { addCard } from '../../store/settingsReducer';
 import { TextForUser } from '../../types/types';
 
 const CustomizeCards: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { cardSet } = useTypedSelector((store) => store.cardSet);
+  const { cardSet } = useTypedSelector((store) => store.settings);
 
   const [valueInput, setValueInput] = useState('');
   const [addIsActive, setAddIsActive] = useState(false);

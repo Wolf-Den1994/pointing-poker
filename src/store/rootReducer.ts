@@ -2,13 +2,13 @@ import { combineReducers } from 'redux';
 import { homeReducer } from './homeReducer';
 import { issuesReducer } from './issuesReducer';
 import { lobbyReducer } from './lobbyReducer';
-import { cardSetReducer } from './cardSetReducer';
+import { settingsReducer } from './settingsReducer';
 
 const rootReducer = combineReducers({
   lobby: lobbyReducer,
   home: homeReducer,
   issues: issuesReducer,
-  cardSet: cardSetReducer,
+  settings: settingsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
