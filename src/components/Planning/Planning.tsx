@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeIssue } from '../../store/issuesReducer';
 import style from './Planning.module.scss';
+import { TextForUser } from '../../types/types';
 
 const SHOW_ELEMENTS = 5;
-const textForUserAboutDublicate = 'There is a duplicate in the line. Check the line!';
 
 const Planning: React.FC = () => {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const Planning: React.FC = () => {
     if (issuesEdit) {
       const isDuplicate = issues.some((issue, index) => issues.indexOf(issue) !== index);
       if (isDuplicate) {
-        message.warning(textForUserAboutDublicate);
+        message.warning(TextForUser.AboutDublicateInLine);
         setIssues(issueList);
       } else {
         dispatch(changeIssue(issues));

@@ -19,4 +19,7 @@ export enum IssueActions {
 
 export enum SettingsActions {
   CHANGE_SETTINGS = 'CHANGE_SETTINGS',
+  ADD_CARD = 'ADD_CARD',
+  REMOVE_CARD = 'REMOVE_CARD',
+  EDIT_CARD = 'EDIT_CARD',
 }

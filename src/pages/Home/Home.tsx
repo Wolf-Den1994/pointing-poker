@@ -37,17 +37,13 @@ const Home: React.FC = () => {
 
   const onSubmitFormFailedConnect = () => {};
 
-  const onChangeName = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const { value } = target;
-    setName(value);
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
     dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
   };
 
-  const onChangeSurname = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const { value } = target;
-    setSurname(value);
+  const onChangeSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSurname(e.target.value);
     dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
   };
 
