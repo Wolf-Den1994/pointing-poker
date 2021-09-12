@@ -35,11 +35,7 @@ const CustomizeCards: React.FC = () => {
     }
   };
 
-  const handleInputValue = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const { value } = target;
-    setValueInput(value);
-  };
+  const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setValueInput(e.target.value);
 
   return (
     <div className={style.customizeCards}>

@@ -50,11 +50,9 @@ const GameCard: React.FC<IGameCardProps> = ({ view }: IGameCardProps) => {
 
   const handleRemoveCard = (value: string) => dispatch(removeCard(value));
 
-  const handleInputValue = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const { value } = target;
-    setValueView(value);
-    setNewValueCard(value);
+  const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValueView(e.target.value);
+    setNewValueCard(e.target.value);
   };
 
   return (

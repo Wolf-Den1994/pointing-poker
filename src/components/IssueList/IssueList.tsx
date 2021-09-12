@@ -51,11 +51,7 @@ const IssueList: React.FC = () => {
     showModal();
   };
 
-  const hanleInputValue = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const { value } = target;
-    setValueNewIssue(value);
-  };
+  const hanleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setValueNewIssue(e.target.value);
 
   const handleRemoveIssue = (issue: string) => {
     dispatch(removeIssue(issue));
