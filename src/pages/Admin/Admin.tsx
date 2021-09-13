@@ -22,6 +22,7 @@ const Admin: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
+    console.log('admin effect');
     socket.on('enteredRoom', (data) => {
       console.log(data.user.name, 'entered room');
       dispatch(addUsers(data.user));
@@ -43,7 +44,7 @@ const Admin: React.FC = () => {
       <Planning />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
-        <UserCard jobStatus={users[0].position} member={users[0].name} />
+        <UserCard jobStatus={users[0].position} name={users[0].name} lastName={users[0].lastName} />
       </div>
       <LinkToLobby />
       <BtnsLobby />

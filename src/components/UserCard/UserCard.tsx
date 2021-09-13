@@ -7,11 +7,12 @@ import style from './UserCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 
 interface IUserCardProps {
-  member: string;
+  name: string;
+  lastName: string;
   jobStatus: string;
 }
 
-const UserCard: React.FC<IUserCardProps> = ({ member, jobStatus }: IUserCardProps) => {
+const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus }: IUserCardProps) => {
   const dispatch = useDispatch();
 
   const { isDealer } = useTypedSelector((state) => state.lobby);
@@ -19,10 +20,10 @@ const UserCard: React.FC<IUserCardProps> = ({ member, jobStatus }: IUserCardProp
   const { user } = useTypedSelector((state) => state.registrationData);
 
   const indexUser = users.findIndex((item) => item.name === user.name);
-  console.log('user', user, 'users', users, 'indexUser', indexUser, 'roomId', roomId);
+  // console.log('user', user, 'users', users, 'indexUser', indexUser, 'roomId', roomId);
   // console.log('roomId', roomId);
 
-  const handlerKick = () => isDealer && dispatch(kickUser(member));
+  const handlerKick = () => isDealer && dispatch(kickUser(name));
 
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
@@ -36,11 +37,11 @@ const UserCard: React.FC<IUserCardProps> = ({ member, jobStatus }: IUserCardProp
             backgroundColor: '#60DABF',
           }}
         >
-          {getFirstUpLetters(member)}
+          {getFirstUpLetters(`${name} ${lastName}`)}
         </Avatar>
         <div className={style.user}>
           {/* {users[indexUser].name === member ? <p className={style.isYou}>IT&apos;S YOU</p> : null} */}
-          <p className={style.name}>{member}</p>
+          <p className={style.name}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         {/* {users[0].name !== member && !(users[indexUser].name === member) ? (

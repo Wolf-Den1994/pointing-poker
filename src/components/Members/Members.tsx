@@ -5,11 +5,16 @@ import style from './Members.module.scss';
 const Members: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
-  console.log(users);
+  console.log('members', users);
 
   const onlyTeamMembers = users.filter((item, index) => index !== 0);
   const elements = onlyTeamMembers.map((item) => (
-    <UserCard key={item.name + item.lastName + item.position} jobStatus={item.position} member={item.name} />
+    <UserCard
+      key={item.name + item.lastName + item.position}
+      jobStatus={item.position}
+      name={item.name}
+      lastName={item.lastName}
+    />
   ));
   return (
     <div className={style.members}>

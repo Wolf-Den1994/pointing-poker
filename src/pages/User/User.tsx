@@ -27,6 +27,7 @@ const User: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log('user effect');
     socket.on('enteredRoom', (data) => {
       console.log(data.user.name, 'entered the room');
       dispatch(addUsers(data.user));
@@ -49,11 +50,11 @@ const User: React.FC = () => {
   }, []);
 
   return (
-    <div className={style.adminPage}>
+    <div className={style.userPage}>
       <Planning />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
-        <UserCard jobStatus={users[0].position} member={users[0].name} />
+        <UserCard jobStatus={users[0].position} name={users[0].name} lastName={users[0].lastName} />
       </div>
       <BtnsLobby />
       <Members />
