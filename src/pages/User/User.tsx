@@ -1,18 +1,15 @@
+/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import Planning from '../../components/Planning/Planning';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
-import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';
 import Members from '../../components/Members/Members';
-import CustomizeCards from '../../components/CustomizeCards/CustomizeCards';
-import GameSettings from '../../components/GameSettings/GameSettings';
-import IssueList from '../../components/IssueList/IssueList';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
 import style from './User.module.scss';
-import { addMessage, addUsers } from '../../store/roomDataReducer';
+import { addUsers } from '../../store/roomDataReducer';
 
 const User: React.FC = () => {
   const dispatch = useDispatch();
@@ -21,10 +18,10 @@ const User: React.FC = () => {
   const roomData = useTypedSelector((state) => state.roomData);
   const { users } = useTypedSelector((state) => state.roomData);
 
-  const exitRoom = () => {
-    socket.emit('leaveRoom', { roomId: roomData.roomId, id: socket.id });
-    history.push('/');
-  };
+  // const exitRoom = () => {
+  //   socket.emit('leaveRoom', { roomId: roomData.roomId, id: socket.id });
+  //   history.push('/');
+  // };
 
   useEffect(() => {
     console.log('user effect');
@@ -47,7 +44,7 @@ const User: React.FC = () => {
     socket.on('dissconnectAllSockets', () => {
       history.push('/');
     });
-  });
+  }, []);
 
   return (
     <div className={style.userPage}>

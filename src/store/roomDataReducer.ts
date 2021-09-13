@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnyAction } from 'redux';
 import { IMember, IMessage } from '../types/types';
 import { RoomDataActions } from './actionTypes';
@@ -43,31 +44,32 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
   }
 };
 
-export const addUsers = (payload: any) => ({
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const addUsers = (payload: any): any => ({
   type: RoomDataActions.ADD_USERS,
   payload,
 });
 
-export const getAllMessages = (payload: IMember) => ({
+export const getAllMessages = (payload: IMember): any => ({
   type: RoomDataActions.GET_ALL_MESSAGES,
   payload,
 });
 
-export const addMessage = (payload: IMessage) => ({
+export const addMessage = (payload: IMessage): any => ({
   type: RoomDataActions.ADD_MESSAGE,
   payload,
 });
 
-export const setRoomId = (payload: string) => ({
+export const setRoomId = (payload: string): any => ({
   type: RoomDataActions.SET_ROOM_ID,
   payload,
 });
 
-export const addAdmin = (payload: IMember) => ({
+export const addAdmin = (payload: IMember): any => ({
   type: RoomDataActions.ADD_ADMIN,
   payload,
 });
 
-export const clearRoomData = () => ({
+export const clearRoomData = (): any => ({
   type: RoomDataActions.CLEAR_ROOM_DATA,
 });

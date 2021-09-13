@@ -24,7 +24,7 @@ const ModalRegistation: React.FC = () => {
   const history = useHistory();
 
   const imageAvatar = useTypedSelector((state) => state.registrationData.user.avatarUrl);
-  const { isDealer, link } = useTypedSelector((state) => state.lobby);
+  const { isDealer } = useTypedSelector((state) => state.lobby);
   const registrationData = useTypedSelector((state) => state.registrationData.user);
   // console.log(registrationData);
   const { roomId, users } = useTypedSelector((state) => state.roomData);
@@ -81,7 +81,7 @@ const ModalRegistation: React.FC = () => {
 
   const enterRoom = async () => {
     try {
-      const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${link}`);
+      const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${roomId}`);
       console.log(response);
       if (response) {
         response.data.users.push(registrationData);
@@ -100,7 +100,7 @@ const ModalRegistation: React.FC = () => {
   };
 
   const handlerOk = () => {
-    formGame.submit();
+    // formGame.submit();
     if (isDealer) {
       createNewRoom();
     } else {
