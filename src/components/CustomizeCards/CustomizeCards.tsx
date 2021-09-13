@@ -45,7 +45,7 @@ const CustomizeCards: React.FC = () => {
         <div className={style.add} onClick={showAddCard}>
           {addIsActive ? (
             <div className={style.addWrapper}>
-              <Input placeholder="add" value={valueInput} onChange={handleInputValue} />
+              <Input placeholder="add" value={valueInput} onChange={handleInputValue} maxLength={3} />
               <Button type="primary" onClick={handleAddCard} className={style.addButton}>
                 Add
               </Button>

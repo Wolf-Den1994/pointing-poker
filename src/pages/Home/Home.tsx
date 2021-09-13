@@ -1,26 +1,23 @@
 import { useDispatch } from 'react-redux';
-import { Avatar, Button, Form, Input, Modal, Switch } from 'antd';
-import { useHistory } from 'react-router';
-import axios from 'axios';
-import socket from '../../utils/soketIO';
+import { Button, Input } from 'antd';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import { chageModalActive } from '../../store/homeReducer';
 import ModalRegistation from '../../components/ModalRegistration/ModalRegistation';
-import { changeDealer, changeLink } from '../../store/lobbyReducer';
+import { changeDealer } from '../../store/lobbyReducer';
+import { setRoomId } from '../../store/roomDataReducer';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
-  const { isDealer } = useTypedSelector((state) => state.lobby);
-  // const { link } = useTypedSelector((state) => state.lobby);
 
+  const { isDealer } = useTypedSelector((state) => state.lobby);
   const { roomId } = useTypedSelector((state) => state.roomData);
 
-  const hadlerStartNewGame = () => dispatch(chageModalActive(true));
+  const handlerStartNewGame = () => dispatch(chageModalActive(true));
 
   const handlerChangeLink = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(changeLink(e.target.value));
+    dispatch(setRoomId(e.target.value));
     if (roomId.length) {
       dispatch(changeDealer(false));
     } else {
@@ -40,7 +37,7 @@ const Home: React.FC = () => {
             ) : (
               <p className={style.session}>Connect to session: </p>
             )}
-            <Button type="primary" size="large" onClick={hadlerStartNewGame}>
+            <Button type="primary" size="large" onClick={handlerStartNewGame}>
               {isDealer ? 'Start new game' : 'Connect to lobby'}
             </Button>
           </div>
@@ -51,7 +48,7 @@ const Home: React.FC = () => {
             <p className={style.session}>
               Connect to lobby by <span>ID:</span>
             </p>
-            <Input size="large" type="text" placeholder="ID" value={roomId} onInput={handlerChangeLink} />
+            <Input size="large" type="text" placeholder="ID" value={roomId} onChange={handlerChangeLink} />
             <p>
               введите id чтобы присоединится к лобби, если хотите создать комнату поле с id должно быть пустым
               (маленький текст)

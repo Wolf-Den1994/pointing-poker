@@ -1,6 +1,9 @@
 import { Button } from 'antd';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
+import { clearRoomData } from '../../store/roomDataReducer';
 import { PathRoutes } from '../../types/types';
 import socket from '../../utils/soketIO';
 import style from './BtnsLobby.module.scss';
@@ -10,19 +13,22 @@ const BtnsLobby: React.FC = () => {
   const roomData = useTypedSelector((state) => state.roomData);
 
   const history = useHistory();
-
-  // const exitRoom = () => {
-  //   socket.emit('leaveRoom', { roomId: roomData.roomId, id: socket.id });
-  //   history.push('/');
-  // };
+  const dispatch = useDispatch();
 
   const startGame = () => {
     history.push(PathRoutes.Game);
   };
 
-  const cancelGame = () => {
-    // TODO kick all members
-    history.push(PathRoutes.Home);
+  const cancelGame = async () => {
+    try {
+      await axios.delete('https://rsschool-pp.herokuapp.com/api/', { data: { id: roomData.roomId } });
+      socket.emit('disconnectAll', { roomId: roomData.roomId });
+      dispatch(clearRoomData());
+      history.push(PathRoutes.Home);
+    } catch (err) {
+      // сделать красивое сообщение
+      throw new Error(err as string);
+    }
   };
 
   const exitGame = () => {

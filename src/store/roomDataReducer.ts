@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AnyAction } from 'redux';
 import { IMember, IMessage } from '../types/types';
 import { RoomDataActions } from './actionTypes';
@@ -44,8 +43,7 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const addUsers = (payload: any): any => ({
+export const addUsers = (payload: IMember[]): any => ({
   type: RoomDataActions.ADD_USERS,
   payload,
 });

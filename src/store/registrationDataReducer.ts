@@ -38,37 +38,37 @@ export const registrationDataReducer = (state = initialState, action: AnyAction)
   }
 };
 
-export const setData = (payload: any) => ({
+export const setData = (payload: IMember): any => ({
   type: RegistrationDataActions.SET_DATA,
   payload,
 });
 
-export const setId = (payload: any) => ({
+export const setId = (payload: string): any => ({
   type: RegistrationDataActions.SET_ID,
   payload,
 });
 
-export const setName = (payload: any) => ({
+export const setName = (payload: string): any => ({
   type: RegistrationDataActions.SET_NAME,
   payload,
 });
 
-export const setLastName = (payload: any) => ({
+export const setLastName = (payload: string): any => ({
   type: RegistrationDataActions.SET_LASTNAME,
   payload,
 });
 
-export const setJobStatus = (payload: any) => ({
+export const setJobStatus = (payload: string): any => ({
   type: RegistrationDataActions.SET_JOB_STATUS,
   payload,
 });
 
-export const setRole = (payload: any) => ({
+export const setRole = (payload: string): any => ({
   type: RegistrationDataActions.SET_ROLE,
   payload,
 });
 
-export const setAvatar = (payload: any) => ({
+export const setAvatar = (payload: string): any => ({
   type: RegistrationDataActions.SET_AVATAR,
   payload,
 });

@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Avatar, Button, Form, Input, Modal, Switch } from 'antd';
+import { Avatar, Form, Input, Modal, Switch } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { chageModalActive, changeAvatar } from '../../store/homeReducer';
+import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setAvatar, setData, setName, setLastName } from '../../store/registrationDataReducer';
 import { PathRoutes } from '../../types/types';
-import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
+import { addAdmin, addUsers, setRoomId } from '../../store/roomDataReducer';
 
 interface IFormGameData {
   observer: boolean;
@@ -26,15 +26,13 @@ const ModalRegistation: React.FC = () => {
   const imageAvatar = useTypedSelector((state) => state.registrationData.user.avatarUrl);
   const { isDealer } = useTypedSelector((state) => state.lobby);
   const registrationData = useTypedSelector((state) => state.registrationData.user);
-  // console.log(registrationData);
-  const { roomId, users } = useTypedSelector((state) => state.roomData);
+  const { roomId } = useTypedSelector((state) => state.roomData);
   const { modalActive } = useTypedSelector((state) => state.home);
 
   const [formGame] = Form.useForm();
 
-  const addAvatar = (e: React.ChangeEvent) => {
-    const target = e.target as HTMLInputElement;
-    const file: File = (target.files as FileList)[0];
+  const addAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file: File = (e.target.files as FileList)[0];
     const reader = new FileReader();
     reader.onload = () => {
       dispatch(setAvatar(`${reader.result}`));
@@ -51,8 +49,6 @@ const ModalRegistation: React.FC = () => {
   };
 
   const onSubmitFormGame = (data: IFormGameData) => {
-    // data => Данные после заполнения формы (старт новой игры)
-    // dispatch(changeUser({ name: `${name} ${surname}`, jobStatus: data.job, avatar: data.avatar }));
     const role = isDealer ? 'admin' : 'player';
     dispatch(
       setData({
@@ -60,7 +56,7 @@ const ModalRegistation: React.FC = () => {
         lastName: registrationData.lastName,
         position: data.job,
         role,
-        avatar: data.avatar,
+        avatarUrl: data.avatar,
         id: '',
       }),
     );
@@ -90,17 +86,15 @@ const ModalRegistation: React.FC = () => {
         socket.emit('enterRoom', { user: registrationData, roomId });
         history.push(PathRoutes.Chat);
       } else {
-        // eslint-disable-next-line no-alert
-        alert('Not so fast!');
+        console.log('Not so fast!');
       }
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      // сделать адекватный message
+      throw new Error(err as string);
     }
   };
 
   const handlerOk = () => {
-    // formGame.submit();
     if (isDealer) {
       createNewRoom();
     } else {

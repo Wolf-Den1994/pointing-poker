@@ -12,7 +12,7 @@ import IssueList from '../../components/IssueList/IssueList';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
 import style from './Admin.module.scss';
-import { addMessage, addUsers } from '../../store/roomDataReducer';
+import { addUsers } from '../../store/roomDataReducer';
 
 const Admin: React.FC = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,6 @@ const Admin: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
-    console.log('admin effect');
     socket.on('enteredRoom', (data) => {
       console.log(data.user.name, 'entered room');
       dispatch(addUsers(data.user));
@@ -45,7 +44,13 @@ const Admin: React.FC = () => {
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
         {users.length ? (
-          <UserCard jobStatus={users[0].position} name={users[0].name} lastName={users[0].lastName} />
+          <UserCard
+            jobStatus={users[0].position}
+            name={users[0].name}
+            lastName={users[0].lastName}
+            avatar={users[0].avatarUrl}
+            id={users[0].id}
+          />
         ) : null}
       </div>
       <LinkToLobby />

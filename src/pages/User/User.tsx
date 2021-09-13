@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -18,13 +17,7 @@ const User: React.FC = () => {
   const roomData = useTypedSelector((state) => state.roomData);
   const { users } = useTypedSelector((state) => state.roomData);
 
-  // const exitRoom = () => {
-  //   socket.emit('leaveRoom', { roomId: roomData.roomId, id: socket.id });
-  //   history.push('/');
-  // };
-
   useEffect(() => {
-    console.log('user effect');
     socket.on('enteredRoom', (data) => {
       console.log(data.user.name, 'entered the room');
       dispatch(addUsers(data.user));
@@ -52,7 +45,13 @@ const User: React.FC = () => {
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
         {users.length ? (
-          <UserCard jobStatus={users[0].position} name={users[0].name} lastName={users[0].lastName} />
+          <UserCard
+            jobStatus={users[0].position}
+            name={users[0].name}
+            lastName={users[0].lastName}
+            avatar={users[0].avatarUrl}
+            id={users[0].id}
+          />
         ) : null}
       </div>
       <BtnsLobby />

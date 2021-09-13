@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import UserCard from '../UserCard/UserCard';
 import style from './Members.module.scss';
@@ -5,15 +6,18 @@ import style from './Members.module.scss';
 const Members: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
+  // просто удалить потом
   console.log('members', users);
 
-  const onlyTeamMembers = users.filter((item, index) => index !== 0);
+  const onlyTeamMembers = users.filter((_, index) => index !== 0);
   const elements = onlyTeamMembers.map((item) => (
     <UserCard
-      key={item.name + item.lastName + item.position}
+      key={uuidv4()}
       jobStatus={item.position}
       name={item.name}
       lastName={item.lastName}
+      avatar={item.avatarUrl}
+      id={item.id}
     />
   ));
   return (
