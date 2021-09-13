@@ -86,7 +86,7 @@ const ModalRegistation: React.FC = () => {
       if (response) {
         response.data.users.push(registrationData);
         dispatch(addUsers(response.data.users));
-        dispatch(getAllMessages(response.data.messages));
+        // dispatch(getAllMessages(response.data.messages));
         socket.emit('enterRoom', { user: registrationData, roomId });
         history.push(PathRoutes.Chat);
       } else {

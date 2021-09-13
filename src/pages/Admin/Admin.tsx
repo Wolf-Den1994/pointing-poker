@@ -44,7 +44,9 @@ const Admin: React.FC = () => {
       <Planning />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
-        <UserCard jobStatus={users[0].position} name={users[0].name} lastName={users[0].lastName} />
+        {users.length ? (
+          <UserCard jobStatus={users[0].position} name={users[0].name} lastName={users[0].lastName} />
+        ) : null}
       </div>
       <LinkToLobby />
       <BtnsLobby />

@@ -41,20 +41,22 @@ const User: React.FC = () => {
 
     socket.on('userLeaveTheRoom', (data) => {
       const newUsers = roomData.users.filter((el) => el.id !== data.id);
-      dispatch(addUsers(users));
+      dispatch(addUsers(newUsers));
       console.log(data.user, 'is leave the room');
     });
     socket.on('dissconnectAllSockets', () => {
       history.push('/');
     });
-  }, []);
+  });
 
   return (
     <div className={style.userPage}>
       <Planning />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
-        <UserCard jobStatus={users[0].position} name={users[0].name} lastName={users[0].lastName} />
+        {users.length ? (
+          <UserCard jobStatus={users[0].position} name={users[0].name} lastName={users[0].lastName} />
+        ) : null}
       </div>
       <BtnsLobby />
       <Members />
