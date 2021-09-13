@@ -11,7 +11,7 @@ interface IInitialStateRoomData {
 
 const initialState: IInitialStateRoomData = {
   roomId: '',
-  admin: { id: '', name: '', jobStatus: '', role: 'admin', avatar: '' },
+  admin: { id: '', name: '', lastName: '', position: '', role: 'admin', avatarUrl: '' },
   users: [],
   messages: [],
 };
@@ -43,7 +43,7 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
   }
 };
 
-export const addUsers = (payload: IMember) => ({
+export const addUsers = (payload: any) => ({
   type: RoomDataActions.ADD_USERS,
   payload,
 });

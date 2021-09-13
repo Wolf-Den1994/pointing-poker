@@ -7,8 +7,7 @@ import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive, changeAvatar } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { setAvatar, setData } from '../../store/registrationDataReducer';
-import { changeUser } from '../../store/lobbyReducer';
+import { setAvatar, setData, setName, setLastName } from '../../store/registrationDataReducer';
 import { PathRoutes } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 
@@ -24,14 +23,12 @@ const ModalRegistation: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const imageAvatar = useTypedSelector((state) => state.registrationData.user.avatar);
-  const { user, isDealer, link } = useTypedSelector((state) => state.lobby);
+  const imageAvatar = useTypedSelector((state) => state.registrationData.user.avatarUrl);
+  const { isDealer, link } = useTypedSelector((state) => state.lobby);
   const registrationData = useTypedSelector((state) => state.registrationData.user);
-  const { roomId } = useTypedSelector((state) => state.roomData);
+  // console.log(registrationData);
+  const { roomId, users } = useTypedSelector((state) => state.roomData);
   const { modalActive } = useTypedSelector((state) => state.home);
-
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
 
   const [formGame] = Form.useForm();
 
@@ -46,20 +43,27 @@ const ModalRegistation: React.FC = () => {
   };
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-    dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
+    dispatch(setName(e.target.value));
   };
 
   const onChangeSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSurname(e.target.value);
-    dispatch(changeUser({ ...user, name: `${name} ${surname}` }));
+    dispatch(setLastName(e.target.value));
   };
 
   const onSubmitFormGame = (data: IFormGameData) => {
     // data => Данные после заполнения формы (старт новой игры)
     // dispatch(changeUser({ name: `${name} ${surname}`, jobStatus: data.job, avatar: data.avatar }));
     const role = isDealer ? 'admin' : 'player';
-    dispatch(setData({ name: `${name} ${surname}`, jobStatus: data.job, role, avatar: data.avatar, id: '' }));
+    dispatch(
+      setData({
+        name: registrationData.name,
+        lastName: registrationData.lastName,
+        position: data.job,
+        role,
+        avatar: data.avatar,
+        id: '',
+      }),
+    );
     formGame.resetFields();
     dispatch(chageModalActive(false));
     history.push(PathRoutes.Lobby);
@@ -78,6 +82,7 @@ const ModalRegistation: React.FC = () => {
   const enterRoom = async () => {
     try {
       const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${link}`);
+      console.log(response);
       if (response) {
         response.data.users.push(registrationData);
         dispatch(addUsers(response.data.users));
@@ -182,11 +187,11 @@ const ModalRegistation: React.FC = () => {
             <Input type="file" onChange={addAvatar} value={imageAvatar} />
           </Form.Item>
 
-          {imageAvatar.length ? (
+          {imageAvatar && imageAvatar.length ? (
             <Avatar shape="circle" size={64} src={imageAvatar} alt="avatar" />
           ) : (
             <Avatar shape="circle" size={64} alt="avatar">
-              {getFirstUpLetters(user.name)}
+              {getFirstUpLetters(`${registrationData.name} ${registrationData.lastName}`)}
             </Avatar>
           )}
         </Form>

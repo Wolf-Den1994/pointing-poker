@@ -47,9 +47,10 @@ export enum OptionSettings {
 export interface IMember {
   id: string;
   name: string;
-  jobStatus: string;
+  lastName: string;
+  position: string;
   role: string;
-  avatar: string;
+  avatarUrl: string;
 }
 
 export interface IMessage {

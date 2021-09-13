@@ -29,6 +29,7 @@ export enum RegistrationDataActions {
   SET_DATA = 'SET_DATA',
   SET_ID = 'SET_ID',
   SET_NAME = 'SET_NAME',
+  SET_LASTNAME = 'SET_LASTNAME',
   SET_JOB_STATUS = 'SET_JOB_STATUS',
   SET_ROLE = 'SET_ROLE',
   SET_AVATAR = 'SET_AVATAR',
@@ -36,6 +37,7 @@ export enum RegistrationDataActions {
 
 export enum RoomDataActions {
   ADD_USERS = 'ADD_USERS',
+  LEAVE_USER = 'LEAVE_USER',
   GET_ALL_MESSAGES = 'GET_ALL_MESSAGES',
   ADD_MESSAGE = 'ADD_MESSAGE',
   SET_ROOM_ID = 'SET_ROOM_ID',

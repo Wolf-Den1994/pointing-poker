@@ -7,7 +7,7 @@ interface IInitialStateRegistrationData {
 }
 
 const initialState: IInitialStateRegistrationData = {
-  user: { id: '', name: '', jobStatus: '', role: 'player', avatar: '' },
+  user: { id: '', name: '', lastName: '', position: '', role: 'player', avatarUrl: '' },
 };
 
 export const registrationDataReducer = (state = initialState, action: AnyAction): typeof initialState => {
@@ -21,14 +21,17 @@ export const registrationDataReducer = (state = initialState, action: AnyAction)
     case RegistrationDataActions.SET_NAME:
       return { ...state, user: { ...state.user, name: action.payload } };
 
+    case RegistrationDataActions.SET_LASTNAME:
+      return { ...state, user: { ...state.user, lastName: action.payload } };
+
     case RegistrationDataActions.SET_JOB_STATUS:
-      return { ...state, user: { ...state.user, jobStatus: action.payload } };
+      return { ...state, user: { ...state.user, position: action.payload } };
 
     case RegistrationDataActions.SET_ROLE:
       return { ...state, user: { ...state.user, role: action.payload } };
 
     case RegistrationDataActions.SET_AVATAR:
-      return { ...state, user: { ...state.user, avatar: action.payload } };
+      return { ...state, user: { ...state.user, avatarUrl: action.payload } };
 
     default:
       return state;
@@ -47,6 +50,11 @@ export const setId = (payload: any) => ({
 
 export const setName = (payload: any) => ({
   type: RegistrationDataActions.SET_NAME,
+  payload,
+});
+
+export const setLastName = (payload: any) => ({
+  type: RegistrationDataActions.SET_LASTNAME,
   payload,
 });
 

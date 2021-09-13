@@ -4,19 +4,19 @@ import style from './LinkToLobby.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 
 const LinkToLobby: React.FC = () => {
-  const { link } = useTypedSelector((state) => state.lobby);
+  const { roomId } = useTypedSelector((state) => state.roomData);
 
   const copyLink = () => {
-    message.success('Link successfully copied to clipboard!');
+    message.success('ID successfully copied to clipboard!');
   };
 
   return (
     <div className={style.linkToLobby}>
       <div className={style.wrapper}>
-        <p className={style.title}>Link to lobby:</p>
+        <p className={style.title}>ID to lobby:</p>
         <div className={style.setOfFields}>
-          <Input size="large" placeholder="Link" readOnly value={link} className={style.input} />
-          <CopyToClipboard text={link} onCopy={copyLink}>
+          <Input size="large" placeholder="ID" readOnly value={roomId} className={style.input} />
+          <CopyToClipboard text={roomId} onCopy={copyLink}>
             <Button size="large" type="primary" htmlType="submit" className={style.button}>
               Copy
             </Button>

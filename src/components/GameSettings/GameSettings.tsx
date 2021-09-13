@@ -150,7 +150,7 @@ const GameSettings: React.FC = () => {
           colon={false}
           valuePropName={scoreType}
         >
-          <Input style={{ textTransform: 'uppercase' }} size="large" value={getFirstUpLetters(scoreType)} disabled />
+          <Input style={{ textTransform: 'uppercase' }} size="large" value={getFirstUpLetters(scoreType)} readOnly />
         </Form.Item>
 
         {showTimer ? (
