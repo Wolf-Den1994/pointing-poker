@@ -6,10 +6,12 @@ import Planning from '../../components/Planning/Planning';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
 import Members from '../../components/Members/Members';
+import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
 import style from './User.module.scss';
-import { addUsers } from '../../store/roomDataReducer';
+import { addUsers, addMessage } from '../../store/roomDataReducer';
+import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 
 const User: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,13 +21,24 @@ const User: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
+    socket.on('sendMessage', (data) => {
+      dispatch(addMessage(data));
+    });
+
     socket.on('enteredRoom', (data) => {
       dispatch(addUsers(data.user));
       message.success(`${data.user.name}, entered the room`);
     });
+
+    socket.on('sendMessageWriter', (data) => {
+      dispatch(setShowWriter(data.active));
+      dispatch(setWriter(data.name));
+    });
+
     socket.on('willBeDisconnected', () => {
       history.push('/');
     });
+
     socket.on('sendUserDisconnected', (data) => {
       message.warning(`${data}, user disconnected`);
     });
@@ -36,6 +49,7 @@ const User: React.FC = () => {
       dispatch(addUsers(newUsers));
       message.info(`${newUsers[0].name}, is leave the room`);
     });
+
     socket.on('dissconnectAllSockets', () => {
       history.push('/');
     });
@@ -43,6 +57,7 @@ const User: React.FC = () => {
 
   return (
     <div className={style.userPage}>
+      <Chat />
       <Planning />
       <p className={style.scramMaster}>Scram master:</p>
       <div className={style.card}>
