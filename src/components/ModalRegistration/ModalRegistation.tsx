@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router';
-// import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
@@ -49,7 +49,6 @@ const ModalRegistation: React.FC = () => {
     dispatch(setLastName(e.target.value));
   };
 
-  // уникальный id возможно надо
   const onSubmitFormGame = (data: IFormGameData) => {
     const role = isDealer ? 'admin' : 'player';
     dispatch(
@@ -59,7 +58,7 @@ const ModalRegistation: React.FC = () => {
         position: data.job,
         role,
         avatarUrl: data.avatar,
-        id: '',
+        id: uuidv4(),
       }),
     );
     formGame.resetFields();
@@ -73,6 +72,7 @@ const ModalRegistation: React.FC = () => {
       dispatch(setRoomId(data.id));
       dispatch(addAdmin(data.user));
       dispatch(addUsers(data.user));
+      dispatch(chageModalActive(false));
       history.push(PathRoutes.Admin);
     });
   };
@@ -85,12 +85,14 @@ const ModalRegistation: React.FC = () => {
         dispatch(addUsers(response.data.users));
         // dispatch(getAllMessages(response.data.messages));
         socket.emit('enterRoom', { user: registrationData, roomId });
-        history.push(PathRoutes.Chat);
+        dispatch(chageModalActive(false));
+        history.push(PathRoutes.User);
       } else {
         message.warning('Not so fast!');
       }
     } catch (err) {
-      message.error(err as string);
+      dispatch(chageModalActive(false));
+      message.error(`${err}. The room with this id does not exist!`);
     }
   };
 

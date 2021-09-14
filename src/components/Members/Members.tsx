@@ -6,9 +6,6 @@ import style from './Members.module.scss';
 const Members: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
-  // просто удалить потом
-  console.log('members', users);
-
   const onlyTeamMembers = users.filter((_, index) => index !== 0);
   const elements = onlyTeamMembers.map((item) => (
     <UserCard
