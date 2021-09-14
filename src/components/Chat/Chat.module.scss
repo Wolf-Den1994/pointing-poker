@@ -1,0 +1,51 @@
+.chat {
+  position: fixed;
+  top: 71px;
+  right: 15px;
+  z-index: 2;
+
+  background-color: #ddddddc0;
+  box-shadow: 4px 4px 4px #eeeeeec0;
+  border: 1px solid #eee;
+  border-radius: 7px;
+
+  max-width: 310px;
+  max-height: 310px;
+
+  .title {
+    font-size: 19px;
+    text-align: center;
+    font-style: italic;
+  }
+
+  .messageContainer {
+    background-color: #dddddd49;
+    max-height: 180px;
+    overflow-y: scroll;
+    padding: 8px;
+
+    .messagies {
+      .message {
+        .messageUser {
+          font-weight: 600;
+        }
+
+        .messageText {
+          font-style: italic;
+        }
+      }
+    }
+
+    .typingMessage {
+      font-style: italic;
+    }
+  }
+
+  .setOfFields {
+    display: flex;
+
+    .input {
+      width: 260px;
+    }
+  }
+}

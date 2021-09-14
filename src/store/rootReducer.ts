@@ -5,6 +5,7 @@ import { lobbyReducer } from './lobbyReducer';
 import { settingsReducer } from './settingsReducer';
 import { registrationDataReducer } from './registrationDataReducer';
 import { roomDataReducer } from './roomDataReducer';
+import { userTypingReducer } from './userTypingReducer';
 
 const rootReducer = combineReducers({
   lobby: lobbyReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   settings: settingsReducer,
   registrationData: registrationDataReducer,
   roomData: roomDataReducer,
+  userTyping: userTypingReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
