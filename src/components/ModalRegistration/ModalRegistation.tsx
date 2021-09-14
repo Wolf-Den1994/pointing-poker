@@ -9,7 +9,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setAvatar, setData, setName, setLastName } from '../../store/registrationDataReducer';
-import { PathRoutes } from '../../types/types';
+import { IMember, PathRoutes } from '../../types/types';
 import { addAdmin, addUsers, setRoomId } from '../../store/roomDataReducer';
 
 interface IFormGameData {
@@ -81,13 +81,17 @@ const ModalRegistation: React.FC = () => {
     try {
       const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${roomId}`);
       if (response) {
-        response.data.users.push(registrationData);
-        dispatch(addUsers(response.data.users));
-        // dispatch(getAllMessages(response.data.messages));
-        socket.emit('enterRoom', { user: registrationData, roomId });
-        history.push(PathRoutes.Chat);
-      } else {
-        message.warning('Not so fast!');
+        const isDublicate = response.data.users.find((item: IMember) => item.name === registrationData.name);
+        if (!isDublicate) {
+          response.data.users.push(registrationData);
+          dispatch(addUsers(response.data.users));
+          // dispatch(getAllMessages(response.data.messages));
+          socket.emit('enterRoom', { user: registrationData, roomId });
+          history.push(PathRoutes.Chat);
+        } else {
+          message.error('User with the same name already exists. Enter another name!');
+          return;
+        }
       }
     } catch (err) {
       message.error(err as string);

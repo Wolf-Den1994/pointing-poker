@@ -16,11 +16,12 @@ const Chat: React.FC = () => {
 
   const userMessage = useTypedSelector((state) => state.userTyping);
   const roomData = useTypedSelector((state) => state.roomData);
+  const { user } = useTypedSelector((state) => state.registrationData);
 
   const onTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(writeMessage(e.target.value));
     socket.emit('someOneWriteMessage', {
-      user: userMessage.userName, // ???????
+      user: user.name, // ???????
       write: true,
       roomId: roomData.roomId,
     });
@@ -36,13 +37,13 @@ const Chat: React.FC = () => {
   };
 
   const sendMessage = () => {
-    const { userName, message } = userMessage;
+    const { message } = userMessage;
     socket.emit('getMessage', {
       roomId: roomData.roomId,
-      user: userName,
+      user: user.name,
       mess: message,
     });
-    dispatch(addMessage({ name: userName, message }));
+    dispatch(addMessage({ name: user.name, message }));
     dispatch(writeMessage(''));
   };
 

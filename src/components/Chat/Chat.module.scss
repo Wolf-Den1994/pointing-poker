@@ -4,7 +4,7 @@
   right: 15px;
   z-index: 2;
 
-  background-color: #eeeeeec0;
+  background-color: #ddddddc0;
   box-shadow: 4px 4px 4px #eeeeeec0;
   border: 1px solid #eee;
   border-radius: 7px;
@@ -19,6 +19,11 @@
   }
 
   .messageContainer {
+    background-color: #dddddd49;
+    max-height: 180px;
+    overflow-y: scroll;
+    padding: 8px;
+
     .messagies {
       .message {
         .messageUser {
@@ -38,6 +43,7 @@
 
   .setOfFields {
     display: flex;
+
     .input {
       width: 260px;
     }
