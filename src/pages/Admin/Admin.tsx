@@ -40,9 +40,9 @@ const Admin: React.FC = () => {
     });
 
     socket.on('userLeaveTheRoom', (data) => {
+      message.info(`User with this id: ${data.userId}, is leave the room`);
       const newUsers = roomData.users.filter((el) => el.id !== data.id);
       dispatch(addUsers(newUsers));
-      message.info(`${data.user.name}, is leave the room`);
     });
 
     socket.on('sendUserDisconnected', (data) => {

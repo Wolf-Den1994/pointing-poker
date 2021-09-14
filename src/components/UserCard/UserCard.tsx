@@ -28,7 +28,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
     socket.emit('disconnectOne', { userId: id, roomId });
     const members = users.filter((el) => el.id !== id);
     dispatch(addUsers(members));
-    message.info(`${id}, disconnected`);
+    message.info(`User with this id: ${id}, disconnected`);
   };
 
   return (
