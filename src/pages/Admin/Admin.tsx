@@ -16,6 +16,7 @@ import socket from '../../utils/soketIO';
 import style from './Admin.module.scss';
 import { addMessage, addUsers } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
+import Timer from '../../components/Timer/Timer';
 
 const Admin: React.FC = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const Admin: React.FC = () => {
     });
 
     socket.on('sendUserDisconnected', (data) => {
-      console.log(data);
+      message.warning(data);
     });
 
     socket.on('willBeDisconnected', () => {
@@ -56,6 +57,8 @@ const Admin: React.FC = () => {
 
   return (
     <div className={style.adminPage}>
+      {/* {убрать таймер потом} */}
+      <Timer />
       <Chat />
       <Planning />
       <p className={style.scramMaster}>Scram master:</p>

@@ -13,6 +13,8 @@ import style from './User.module.scss';
 import { addUsers, addMessage } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import { PathRoutes } from '../../types/types';
+import Timer from '../../components/Timer/Timer';
+import { startTime } from '../../store/timerReducer';
 
 const User: React.FC = () => {
   const dispatch = useDispatch();
@@ -44,6 +46,10 @@ const User: React.FC = () => {
       message.warning(`${data}, user disconnected`);
     });
 
+    socket.on('sendTimeOnTimer', (data) => {
+      dispatch(startTime(data));
+    });
+
     socket.on('userLeaveTheRoom', (data) => {
       const newUsers = roomData.users.filter((el) => el.id !== data.id);
       dispatch(addUsers(newUsers));
@@ -57,6 +63,8 @@ const User: React.FC = () => {
 
   return (
     <div className={style.userPage}>
+      {/* {убрать таймер потом} */}
+      <Timer />
       <Chat />
       <Planning />
       <p className={style.scramMaster}>Scram master:</p>

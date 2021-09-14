@@ -52,3 +52,8 @@ export enum UserTypingActions {
   SET_USER_NAME = 'SET_USER_NAME',
   CLEAR_USER_TYPING_DATA = 'CLEAR_USER_TYPING_DATA',
 }
+
+export enum TimerActions {
+  START_TIME = 'START_TIME',
+  RESET_TIME = 'RESET_TIME',
+}
