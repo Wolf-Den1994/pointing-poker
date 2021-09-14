@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -26,8 +26,7 @@ const BtnsLobby: React.FC = () => {
       dispatch(clearRoomData());
       history.push(PathRoutes.Home);
     } catch (err) {
-      // сделать красивое сообщение
-      throw new Error(err as string);
+      message.error(err as string);
     }
   };
 

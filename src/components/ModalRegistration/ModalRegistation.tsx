@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Avatar, Form, Input, Modal, Switch } from 'antd';
+import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router';
+// import { v4 as uuidv4 } from 'uuid';
 import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
@@ -48,6 +49,7 @@ const ModalRegistation: React.FC = () => {
     dispatch(setLastName(e.target.value));
   };
 
+  // уникальный id возможно надо
   const onSubmitFormGame = (data: IFormGameData) => {
     const role = isDealer ? 'admin' : 'player';
     dispatch(
@@ -78,7 +80,6 @@ const ModalRegistation: React.FC = () => {
   const enterRoom = async () => {
     try {
       const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${roomId}`);
-      console.log(response);
       if (response) {
         response.data.users.push(registrationData);
         dispatch(addUsers(response.data.users));
@@ -86,11 +87,10 @@ const ModalRegistation: React.FC = () => {
         socket.emit('enterRoom', { user: registrationData, roomId });
         history.push(PathRoutes.Chat);
       } else {
-        console.log('Not so fast!');
+        message.warning('Not so fast!');
       }
     } catch (err) {
-      // сделать адекватный message
-      throw new Error(err as string);
+      message.error(err as string);
     }
   };
 

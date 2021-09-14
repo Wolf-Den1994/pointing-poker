@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { Card, Avatar } from 'antd';
+import { Card, Avatar, message } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import style from './UserCard.module.scss';
@@ -28,7 +28,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
     socket.emit('disconnectOne', { userId: id, roomId });
     const members = users.filter((el) => el.id !== id);
     dispatch(addUsers(members));
-    console.log(id, 'disconnected');
+    message.info(`${id}, disconnected`);
   };
 
   return (
@@ -52,7 +52,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         {isDealer && !(users[indexUser].name === name) ? (
-          <div className={style.kick} onClick={deleteUser}>
+          <div className={style.kick} onClick={deleteUser} data-id={id}>
             <StopOutlined style={{ fontSize: 30 }} />
           </div>
         ) : null}

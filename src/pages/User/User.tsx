@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import { message } from 'antd';
 import Planning from '../../components/Planning/Planning';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
@@ -19,20 +20,21 @@ const User: React.FC = () => {
 
   useEffect(() => {
     socket.on('enteredRoom', (data) => {
-      console.log(data.user.name, 'entered the room');
       dispatch(addUsers(data.user));
+      message.success(`${data.user.name}, entered the room`);
     });
     socket.on('willBeDisconnected', () => {
       history.push('/');
     });
     socket.on('sendUserDisconnected', (data) => {
-      console.log(data);
+      message.warning(`${data}, user disconnected`);
     });
 
+    // тут приколы ловит поидее
     socket.on('userLeaveTheRoom', (data) => {
       const newUsers = roomData.users.filter((el) => el.id !== data.id);
       dispatch(addUsers(newUsers));
-      console.log(data.user, 'is leave the room');
+      message.info(`${newUsers[0].name}, is leave the room`);
     });
     socket.on('dissconnectAllSockets', () => {
       history.push('/');
