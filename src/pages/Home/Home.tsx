@@ -11,7 +11,6 @@ import { setRoomId } from '../../store/roomDataReducer';
 const Home: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { isDealer } = useTypedSelector((state) => state.lobby);
   const { roomId } = useTypedSelector((state) => state.roomData);
 
   const handlerStartNewGame = () => {
@@ -54,8 +53,7 @@ const Home: React.FC = () => {
               </Button>
             </div>
             <p>
-              введите id чтобы присоединится к лобби, если хотите создать комнату поле с id должно быть пустым
-              (маленький текст и на англ!)
+              Enter <span className={style.span}>ID</span> to join the lobby.
             </p>
           </div>
         </div>

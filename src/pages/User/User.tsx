@@ -12,6 +12,7 @@ import socket from '../../utils/soketIO';
 import style from './User.module.scss';
 import { addUsers, addMessage } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
+import { PathRoutes } from '../../types/types';
 
 const User: React.FC = () => {
   const dispatch = useDispatch();
@@ -36,22 +37,21 @@ const User: React.FC = () => {
     });
 
     socket.on('willBeDisconnected', () => {
-      history.push('/');
+      history.push(PathRoutes.Home);
     });
 
     socket.on('sendUserDisconnected', (data) => {
       message.warning(`${data}, user disconnected`);
     });
 
-    // тут приколы ловит поидее
     socket.on('userLeaveTheRoom', (data) => {
       const newUsers = roomData.users.filter((el) => el.id !== data.id);
       dispatch(addUsers(newUsers));
-      message.info(`${newUsers[0].name}, is leave the room`);
+      message.info(`${data.user.name}, is leave the room`);
     });
 
     socket.on('dissconnectAllSockets', () => {
-      history.push('/');
+      history.push(PathRoutes.Home);
     });
   }, []);
 
