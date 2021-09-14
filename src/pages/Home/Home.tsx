@@ -14,15 +14,18 @@ const Home: React.FC = () => {
   const { isDealer } = useTypedSelector((state) => state.lobby);
   const { roomId } = useTypedSelector((state) => state.roomData);
 
-  const handlerStartNewGame = () => dispatch(chageModalActive(true));
+  const handlerStartNewGame = () => {
+    dispatch(changeDealer(true));
+    dispatch(chageModalActive(true));
+  };
 
   const handlerChangeLink = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setRoomId(e.target.value));
-    if (roomId.length) {
-      dispatch(changeDealer(false));
-    } else {
-      dispatch(changeDealer(true));
-    }
+  };
+
+  const handlerConnectToGame = () => {
+    dispatch(changeDealer(false));
+    dispatch(chageModalActive(true));
   };
 
   return (
@@ -32,13 +35,9 @@ const Home: React.FC = () => {
         <div className={style.row}>
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
-            {isDealer ? (
-              <p className={style.session}>Create a session: </p>
-            ) : (
-              <p className={style.session}>Connect to session: </p>
-            )}
+            <p className={style.session}>Create a session: </p>
             <Button type="primary" size="large" onClick={handlerStartNewGame}>
-              {isDealer ? 'Start new game' : 'Connect to lobby'}
+              Start new game
             </Button>
           </div>
         </div>
@@ -48,10 +47,15 @@ const Home: React.FC = () => {
             <p className={style.session}>
               Connect to lobby by <span>ID:</span>
             </p>
-            <Input size="large" type="text" placeholder="ID" value={roomId} onChange={handlerChangeLink} />
+            <div className={style.connect}>
+              <Input size="large" type="text" placeholder="ID" value={roomId} onChange={handlerChangeLink} />
+              <Button type="primary" size="large" onClick={handlerConnectToGame}>
+                Connect
+              </Button>
+            </div>
             <p>
               введите id чтобы присоединится к лобби, если хотите создать комнату поле с id должно быть пустым
-              (маленький текст)
+              (маленький текст и на англ!)
             </p>
           </div>
         </div>
