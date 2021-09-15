@@ -38,11 +38,11 @@ const Timer: React.FC = () => {
   // };
 
   const resetTimer = () => {
-    const newTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
-    socket.emit('setTimeOnTimer', { time: newTime, roomId: roomData.roomId });
+    const defaultTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
+    socket.emit('setTimeOnTimer', { time: defaultTime, roomId: roomData.roomId });
     setDisableButton(false);
     clearInterval(interval);
-    dispatch(startTime(newTime));
+    dispatch(startTime(defaultTime));
   };
 
   // Пофиксить первоначальное отображение секунд
