@@ -19,11 +19,16 @@ const Timer: React.FC = () => {
   const roomData = useTypedSelector((state) => state.roomData);
   const timer = useTypedSelector((state) => state.timer);
   const { settings } = useTypedSelector((state) => state.settings);
+  let newTime: number;
+
+  if (settings.roundTime) {
+    newTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
+  } else {
+    newTime = 140;
+  }
 
   const startTimer = () => {
     setDisableButton(true);
-    let newTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
-    // console.log(newTime);
     interval = setInterval(() => {
       dispatch(startTime((newTime -= 1)));
       socket.emit('setTimeOnTimer', { time: newTime, roomId: roomData.roomId });
@@ -40,14 +45,12 @@ const Timer: React.FC = () => {
   // };
 
   const resetTimer = () => {
-    const defaultTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
-    socket.emit('setTimeOnTimer', { time: defaultTime, roomId: roomData.roomId });
+    socket.emit('setTimeOnTimer', { time: newTime, roomId: roomData.roomId });
     setDisableButton(false);
     clearInterval(interval);
-    dispatch(startTime(defaultTime));
+    dispatch(startTime(newTime));
   };
 
-  // Пофиксить первоначальное отображение секунд
   return (
     <div className={style.timer}>
       <div className={style.title}>Time</div>
