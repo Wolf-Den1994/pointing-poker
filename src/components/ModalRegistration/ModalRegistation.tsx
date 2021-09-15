@@ -9,18 +9,10 @@ import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { setAvatar, setData, setName, setLastName, setJobStatus, setRole } from '../../store/registrationDataReducer';
-import { PathRoutes } from '../../types/types';
-import { addAdmin, addUsers, setRoomId } from '../../store/roomDataReducer';
+import { setAvatar, setName, setLastName, setJobStatus, setRole } from '../../store/registrationDataReducer';
+import { PathRoutes, IMember } from '../../types/types';
+import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
-
-interface IFormGameData {
-  observer: boolean;
-  name: string;
-  surname: string;
-  job: string;
-  avatar: string;
-}
 
 const ModalRegistation: React.FC = () => {
   const dispatch = useDispatch();
@@ -75,6 +67,7 @@ const ModalRegistation: React.FC = () => {
       dispatch(setRoomId(data.id));
       dispatch(addAdmin(data.user));
       dispatch(addUsers(data.user));
+      dispatch(chageModalActive(false));
       history.push(PathRoutes.Admin);
     });
   };
@@ -82,14 +75,21 @@ const ModalRegistation: React.FC = () => {
   const enterRoom = async () => {
     try {
       const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${roomId}`);
-      const { users, issues } = response.data;
-      users.push(registrationData);
-      dispatch(addUsers(users));
-      dispatch(changeIssue(issues));
-      // dispatch(getAllMessages(response.data.messages));
-      socket.emit('enterRoom', { user: registrationData, roomId });
-      history.push(PathRoutes.Chat);
+      const { users, issues, messages } = response.data;
+      const isDublicate = users.find((item: IMember) => item.name === registrationData.name);
+      if (!isDublicate) {
+        users.push(registrationData);
+        dispatch(addUsers(users));
+        dispatch(changeIssue(issues));
+        dispatch(getAllMessages(messages));
+        socket.emit('enterRoom', { user: registrationData, roomId });
+        history.push(PathRoutes.User);
+      } else {
+        message.error('User with the same name already exists. Enter another name!');
+        return;
+      }
     } catch (err: any) {
+      dispatch(chageModalActive(false));
       message.error(err.response.message);
     }
   };

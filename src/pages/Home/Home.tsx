@@ -76,8 +76,7 @@ const Home: React.FC = () => {
               </Button>
             </div>
             <p>
-              введите id чтобы присоединится к лобби, если хотите создать комнату поле с id должно быть пустым
-              (маленький текст и на англ!)
+              Enter <span className={style.span}>ID</span> to join the lobby.
             </p>
           </div>
         </div>

@@ -6,13 +6,18 @@ import Planning from '../../components/Planning/Planning';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
 import Members from '../../components/Members/Members';
+import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
 import style from './User.module.scss';
-import { addUsers } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 import VotingCard from '../../components/VotingPopup/VoitingPopup';
+import { addUsers, addMessage } from '../../store/roomDataReducer';
+import { setShowWriter, setWriter } from '../../store/userTypingReducer';
+import { PathRoutes } from '../../types/types';
+import Timer from '../../components/Timer/Timer';
+import { startTime } from '../../store/timerReducer';
 
 const User: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,16 +28,32 @@ const User: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
+    socket.on('sendMessage', (data) => {
+      dispatch(addMessage(data));
+    });
+
     socket.on('enteredRoom', (data) => {
       dispatch(addUsers(data.user));
       message.success(`${data.user.name}, entered the room`);
     });
-    socket.on('willBeDisconnected', () => {
-      history.push('/');
+
+    socket.on('sendMessageWriter', (data) => {
+      dispatch(setShowWriter(data.active));
+      dispatch(setWriter(data.name));
     });
+
+    socket.on('willBeDisconnected', () => {
+      history.push(PathRoutes.Home);
+    });
+
     socket.on('sendUserDisconnected', (data) => {
       message.warning(`${data}, user disconnected`);
     });
+
+    socket.on('sendTimeOnTimer', (data) => {
+      dispatch(startTime(data));
+    });
+
     socket.on('userLeaveTheRoom', (data) => {
       const newUsers = data.usersList;
       dispatch(addUsers(newUsers));
@@ -45,14 +66,18 @@ const User: React.FC = () => {
       dispatch(changeModalActivity(true));
       dispatch(setNameOfDeletedUser(data.name));
     });
+
     socket.on('dissconnectAllSockets', () => {
-      history.push('/');
+      history.push(PathRoutes.Home);
     });
   }, []);
 
   return (
-    <Fragment>
+    <>
       <div className={style.userPage}>
+        {/* {убрать таймер потом} */}
+        <Timer />
+        <Chat />
         <Planning />
         <p className={style.scramMaster}>Scram master:</p>
         <div className={style.card}>
@@ -71,7 +96,7 @@ const User: React.FC = () => {
         <Members />
       </div>
       {votingData.isVisible ? <VotingCard userName={votingData.userName} isVisible={true} /> : null}
-    </Fragment>
+    </>
   );
 };
 

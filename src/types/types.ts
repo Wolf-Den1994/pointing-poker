@@ -28,7 +28,7 @@ export enum PathRoutes {
   Lobby = 'lobby',
   Game = 'game',
   Admin = '/admin',
-  Chat = `/user`,
+  User = `/user`,
 }
 
 export enum IssueStatus {

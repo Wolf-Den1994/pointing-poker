@@ -5,6 +5,7 @@ import { changeSettings } from '../../store/settingsReducer';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { IGameSettingsData, OptionSettings } from '../../types/types';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
+import { startTime } from '../../store/timerReducer';
 
 const GameSettings: React.FC = () => {
   const [formSettings] = Form.useForm();
@@ -22,8 +23,13 @@ const GameSettings: React.FC = () => {
     roundTime,
   } = settings;
 
-  const onChangeFormSettings = (_: IGameSettingsData, data: IGameSettingsData) => {
+  const onChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
     dispatch(changeSettings({ ...data }));
+
+    if (currentData.roundTime) {
+      const defaultTime = Number(currentData.roundTime.seconds()) + Number(currentData.roundTime.minutes()) * 60;
+      dispatch(startTime(defaultTime));
+    }
   };
 
   return (
@@ -165,6 +171,7 @@ const GameSettings: React.FC = () => {
               value={roundTime}
               format={'mm:ss'}
               clearIcon
+              allowClear={false}
               hideDisabledOptions={true}
               size="large"
               placeholder="Select a time"

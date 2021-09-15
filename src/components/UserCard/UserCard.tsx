@@ -35,7 +35,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
 
   const deleteUser = () => {
     socket.emit('disconnectOne', { userId: id, roomId });
-    message.info(`${id}, disconnected`);
+    message.info(`User with this id: ${id}, disconnected`);
   };
 
   return (

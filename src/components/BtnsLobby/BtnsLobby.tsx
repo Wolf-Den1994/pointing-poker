@@ -27,7 +27,7 @@ const BtnsLobby: React.FC = () => {
       dispatch(clearRoomData());
       history.push(PathRoutes.Home);
     } catch (err) {
-      message.error(err as string);
+      message.error(`${err}`);
     }
   };
 
