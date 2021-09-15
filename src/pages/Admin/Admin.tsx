@@ -22,7 +22,6 @@ const Admin: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const roomData = useTypedSelector((state) => state.roomData);
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
@@ -41,13 +40,9 @@ const Admin: React.FC = () => {
     });
 
     socket.on('userLeaveTheRoom', (data) => {
-      message.info(`User with this id: ${data.userId}, is leave the room`);
-      const newUsers = roomData.users.filter((el) => el.id !== data.id);
+      const newUsers = data.usersList;
       dispatch(addUsers(newUsers));
-    });
-
-    socket.on('sendUserDisconnected', (data) => {
-      message.warning(data);
+      message.info(`${data.user} is leave the room`);
     });
 
     socket.on('willBeDisconnected', () => {
@@ -70,6 +65,7 @@ const Admin: React.FC = () => {
             lastName={users[0].lastName}
             avatar={users[0].avatarUrl}
             id={users[0].id}
+            role={users[0].role}
           />
         ) : null}
       </div>

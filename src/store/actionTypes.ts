@@ -45,6 +45,11 @@ export enum RoomDataActions {
   CLEAR_ROOM_DATA = 'CLEAR_ROOM_DATA',
 }
 
+export enum VotingActions {
+  SET_DELETED_USER = 'SET_DELETED_USER',
+  SET_MODAL_VISIBLE = 'SET_MODAL_VISIBLE',
+}
+
 export enum UserTypingActions {
   SET_SHOW_WRITER = 'SET_SHOW_WRITER',
   SET_WRITER = 'SET_WRITER',

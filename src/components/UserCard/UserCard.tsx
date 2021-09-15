@@ -13,9 +13,10 @@ interface IUserCardProps {
   jobStatus: string;
   avatar: string;
   id: string;
+  role: string;
 }
 
-const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar, id }: IUserCardProps) => {
+const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar, id, role }: IUserCardProps) => {
   const dispatch = useDispatch();
 
   const { users, roomId } = useTypedSelector((state) => state.roomData);
@@ -24,10 +25,16 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
 
   const indexUser = users.findIndex((item) => item.name === user.name);
 
+  const deleteUserWithVoting = () => {
+    if (id === socket.id) {
+      message.error('You need to use another way to leave room');
+      return;
+    }
+    socket.emit('deleteUserWithVoting', { userId: id, userName: name, roomId });
+  };
+
   const deleteUser = () => {
     socket.emit('disconnectOne', { userId: id, roomId });
-    const members = users.filter((el) => el.id !== id);
-    dispatch(addUsers(members));
     message.info(`User with this id: ${id}, disconnected`);
   };
 
@@ -51,11 +58,9 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
           <p className={style.name}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
-        {isDealer && !(users[indexUser].name === name) ? (
-          <div className={style.kick} onClick={deleteUser} data-id={id}>
-            <StopOutlined style={{ fontSize: 30 }} />
-          </div>
-        ) : null}
+        <div className={style.kick} onClick={isDealer ? deleteUser : deleteUserWithVoting} data-id={id}>
+          {role === 'admin' ? null : <StopOutlined style={{ fontSize: 30 }} />}
+        </div>
       </div>
     </Card>
   );

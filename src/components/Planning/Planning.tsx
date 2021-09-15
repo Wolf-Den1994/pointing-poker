@@ -2,6 +2,7 @@ import { EditOutlined } from '@ant-design/icons';
 import { Input, message } from 'antd';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeIssue } from '../../store/issuesReducer';
 import style from './Planning.module.scss';
@@ -12,6 +13,7 @@ const SHOW_ELEMENTS = 5;
 const Planning: React.FC = () => {
   const dispatch = useDispatch();
 
+  const roomData = useTypedSelector((state) => state.roomData);
   const { isDealer } = useTypedSelector((state) => state.lobby);
   const { issueList } = useTypedSelector((state) => state.issues);
 
@@ -48,6 +50,7 @@ const Planning: React.FC = () => {
         message.warning(TextForUser.AboutDublicateInLine);
         setIssues(issueList);
       } else {
+        socket.emit('changeIssuesList', { newIssue: issues, mode: 'all', roomId: roomData.roomId });
         dispatch(changeIssue(issues));
       }
       setIssuesEdit(false);

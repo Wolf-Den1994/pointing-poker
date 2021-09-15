@@ -2,6 +2,7 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { Input, Modal, message } from 'antd';
 import { useState } from 'react';
+import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
@@ -11,6 +12,7 @@ const IssueList: React.FC = () => {
   const dispatch = useDispatch();
 
   const { issueList } = useTypedSelector((state) => state.issues);
+  const roomData = useTypedSelector((state) => state.roomData);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [valueNewIssue, setValueNewIssue] = useState('');
@@ -27,8 +29,15 @@ const IssueList: React.FC = () => {
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
+      socket.emit('changeIssuesList', { newIssue: valueNewIssue, mode: 'add', roomId: roomData.roomId });
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
+      socket.emit('changeIssuesList', {
+        newIssue: valueNewIssue,
+        mode: 'change',
+        roomId: roomData.roomId,
+        oldIssue: valueOldIssue,
+      });
       dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: valueNewIssue }));
     }
     setValueNewIssue('');

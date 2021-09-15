@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
@@ -10,6 +10,9 @@ import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
 import style from './User.module.scss';
+import { changeIssue } from '../../store/issuesReducer';
+import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
+import VotingCard from '../../components/VotingPopup/VoitingPopup';
 import { addUsers, addMessage } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import { PathRoutes } from '../../types/types';
@@ -21,6 +24,7 @@ const User: React.FC = () => {
   const history = useHistory();
 
   const roomData = useTypedSelector((state) => state.roomData);
+  const votingData = useTypedSelector((state) => state.voting);
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
@@ -51,9 +55,16 @@ const User: React.FC = () => {
     });
 
     socket.on('userLeaveTheRoom', (data) => {
-      const newUsers = roomData.users.filter((el) => el.id !== data.id);
+      const newUsers = data.usersList;
       dispatch(addUsers(newUsers));
-      message.info(`${data.user.name}, is leave the room`);
+      message.info(`${data.user}, is leave the room`);
+    });
+    socket.on('getIssuesList', (data) => {
+      dispatch(changeIssue(data.issues));
+    });
+    socket.on('showCandidateToBeDeleted', (data) => {
+      dispatch(changeModalActivity(true));
+      dispatch(setNameOfDeletedUser(data.name));
     });
 
     socket.on('dissconnectAllSockets', () => {
@@ -62,26 +73,30 @@ const User: React.FC = () => {
   }, []);
 
   return (
-    <div className={style.userPage}>
-      {/* {убрать таймер потом} */}
-      <Timer />
-      <Chat />
-      <Planning />
-      <p className={style.scramMaster}>Scram master:</p>
-      <div className={style.card}>
-        {users.length ? (
-          <UserCard
-            jobStatus={users[0].position}
-            name={users[0].name}
-            lastName={users[0].lastName}
-            avatar={users[0].avatarUrl}
-            id={users[0].id}
-          />
-        ) : null}
+    <>
+      <div className={style.userPage}>
+        {/* {убрать таймер потом} */}
+        <Timer />
+        <Chat />
+        <Planning />
+        <p className={style.scramMaster}>Scram master:</p>
+        <div className={style.card}>
+          {users.length ? (
+            <UserCard
+              jobStatus={users[0].position}
+              name={users[0].name}
+              lastName={users[0].lastName}
+              avatar={users[0].avatarUrl}
+              id={users[0].id}
+              role={users[0].role}
+            />
+          ) : null}
+        </div>
+        <BtnsLobby />
+        <Members />
       </div>
-      <BtnsLobby />
-      <Members />
-    </div>
+      {votingData.isVisible ? <VotingCard userName={votingData.userName} isVisible={true} /> : null}
+    </>
   );
 };
 

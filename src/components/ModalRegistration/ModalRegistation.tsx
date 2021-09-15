@@ -1,15 +1,18 @@
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router';
+// import { v4 as uuidv4 } from 'uuid';
+import { SwitchChangeEventHandler } from 'antd/lib/switch';
 import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { setAvatar, setName, setLastName, setJobStatus } from '../../store/registrationDataReducer';
-import { IMember, PathRoutes } from '../../types/types';
+import { setAvatar, setName, setLastName, setJobStatus, setRole } from '../../store/registrationDataReducer';
+import { PathRoutes, IMember } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
+import { changeIssue } from '../../store/issuesReducer';
 
 const ModalRegistation: React.FC = () => {
   const dispatch = useDispatch();
@@ -44,6 +47,20 @@ const ModalRegistation: React.FC = () => {
     dispatch(setJobStatus(e.target.value));
   };
 
+  const onChangeRole = (checked: boolean) => {
+    if (checked) {
+      dispatch(setRole('observer'));
+    } else {
+      dispatch(setRole('player'));
+    }
+  };
+
+  // уникальный id возможно надо
+  const onSubmitFormGame = () => {
+    formGame.resetFields();
+    dispatch(chageModalActive(false));
+  };
+
   const createNewRoom = async () => {
     socket.emit('createRoom', { data: registrationData });
     socket.once('returnRoomId', (data) => {
@@ -58,33 +75,32 @@ const ModalRegistation: React.FC = () => {
   const enterRoom = async () => {
     try {
       const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${roomId}`);
-      if (response) {
-        const isDublicate = response.data.users.find((item: IMember) => item.name === registrationData.name);
-        if (!isDublicate) {
-          response.data.users.push(registrationData);
-          dispatch(addUsers(response.data.users));
-          dispatch(getAllMessages(response.data.messages));
-          socket.emit('enterRoom', { user: registrationData, roomId });
-          history.push(PathRoutes.User);
-        } else {
-          message.error('User with the same name already exists. Enter another name!');
-          return;
-        }
+      const { users, issues, messages } = response.data;
+      const isDublicate = users.find((item: IMember) => item.name === registrationData.name);
+      if (!isDublicate) {
+        users.push(registrationData);
+        dispatch(addUsers(users));
+        dispatch(changeIssue(issues));
+        dispatch(getAllMessages(messages));
+        socket.emit('enterRoom', { user: registrationData, roomId });
+        history.push(PathRoutes.User);
+      } else {
+        message.error('User with the same name already exists. Enter another name!');
+        return;
       }
-    } catch (err) {
+    } catch (err: any) {
       dispatch(chageModalActive(false));
-      message.error(`${err}. The room with this id does not exist!`);
+      message.error(err.response.message);
     }
   };
 
   const handlerOk = () => {
+    onSubmitFormGame();
     if (isDealer) {
       createNewRoom();
     } else {
       enterRoom();
     }
-    dispatch(chageModalActive(false));
-    formGame.resetFields();
   };
 
   const onClickCancelButton = () => {
@@ -93,13 +109,6 @@ const ModalRegistation: React.FC = () => {
   };
 
   const handlerCancel = () => onClickCancelButton();
-
-  useEffect(() => {
-    socket.on('disconnect', () => {
-      window.location.reload();
-      socket.connect();
-    });
-  });
 
   return (
     <>
@@ -113,8 +122,13 @@ const ModalRegistation: React.FC = () => {
       >
         <Form form={formGame} layout="vertical" scrollToFirstError>
           {isDealer ? null : (
-            <Form.Item name="observer" valuePropName="checked" label="Connect as Observer" initialValue={false}>
-              <Switch />
+            <Form.Item
+              name="observer"
+              valuePropName="checked"
+              label={`Connect as ${registrationData.role}`}
+              initialValue={false}
+            >
+              <Switch onChange={onChangeRole} />
             </Form.Item>
           )}
 
