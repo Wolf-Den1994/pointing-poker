@@ -16,13 +16,11 @@ const Timer: React.FC = () => {
   const { isDealer } = useTypedSelector((state) => state.lobby);
   const roomData = useTypedSelector((state) => state.roomData);
   const timer = useTypedSelector((state) => state.timer);
-
-  // const { settings } = useTypedSelector((state) => state.settings);
+  const { settings } = useTypedSelector((state) => state.settings);
 
   const startTimer = () => {
     setDisableButton(true);
-    // let newTime = Number(settings.roundTime.format('ss'));
-    let newTime = timer.time;
+    let newTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
     // console.log(newTime);
     interval = setInterval(() => {
       dispatch(startTime((newTime -= 1)));
@@ -34,18 +32,20 @@ const Timer: React.FC = () => {
     }, 1000);
   };
 
-  const stopTimer = () => {
-    setDisableButton(false);
-    clearInterval(interval);
-  };
+  // const stopTimer = () => {
+  //   setDisableButton(false);
+  //   clearInterval(interval);
+  // };
 
   const resetTimer = () => {
-    socket.emit('setTimeOnTimer', { time: 120, roomId: roomData.roomId });
+    const newTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
+    socket.emit('setTimeOnTimer', { time: newTime, roomId: roomData.roomId });
     setDisableButton(false);
     clearInterval(interval);
-    dispatch(startTime(120));
+    dispatch(startTime(newTime));
   };
 
+  // Пофиксить первоначальное отображение секунд
   return (
     <div>
       <div>Time</div>
@@ -55,7 +55,7 @@ const Timer: React.FC = () => {
           <Button disabled={disableButton} onClick={startTimer}>
             Start timer
           </Button>
-          <Button onClick={stopTimer}>Stop timer</Button>
+          {/* <Button onClick={stopTimer}>Stop timer</Button> */}
           <Button onClick={resetTimer}>Reset timer</Button>
         </div>
       ) : null}
