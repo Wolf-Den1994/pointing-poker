@@ -1,10 +1,7 @@
-import { ChangeEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router';
-// import { v4 as uuidv4 } from 'uuid';
-import { SwitchChangeEventHandler } from 'antd/lib/switch';
 import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
@@ -88,18 +85,24 @@ const ModalRegistation: React.FC = () => {
         message.error('User with the same name already exists. Enter another name!');
         return;
       }
-    } catch (err: any) {
+    } catch (err) {
       dispatch(chageModalActive(false));
-      message.error(err.response.message);
+      if (err instanceof Error) {
+        message.error(`Failed to establish a connection. Contact the system administrator. Error: ${err.message}`);
+      }
     }
   };
 
   const handlerOk = () => {
-    onSubmitFormGame();
-    if (isDealer) {
-      createNewRoom();
+    if (registrationData.name.length) {
+      onSubmitFormGame();
+      if (isDealer) {
+        createNewRoom();
+      } else {
+        enterRoom();
+      }
     } else {
-      enterRoom();
+      message.error('The input is not valid First name!');
     }
   };
 
