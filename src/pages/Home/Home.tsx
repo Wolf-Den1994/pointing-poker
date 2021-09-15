@@ -30,7 +30,7 @@ const Home: React.FC = () => {
 
   const handlerConnectToGame = async () => {
     try {
-      const response = await axios.get(`https:/https://rsschool-pp.herokuapp.com/api/${roomId}`);
+      const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${roomId}`);
       if (response.data) {
         dispatch(setId(socket.id));
         dispatch(changeDealer(false));
