@@ -15,7 +15,7 @@ export const timerReducer = (state = initialState, action: AnyAction): typeof in
       return { ...state, time: action.payload };
 
     case TimerActions.RESET_TIME:
-      return { ...state, time: 120 };
+      return { ...state, time: action.payload };
 
     default:
       return state;

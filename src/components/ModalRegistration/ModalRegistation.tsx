@@ -3,22 +3,13 @@ import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router';
-import { v4 as uuidv4 } from 'uuid';
 import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { setAvatar, setData, setName, setLastName } from '../../store/registrationDataReducer';
+import { setAvatar, setName, setLastName, setJobStatus } from '../../store/registrationDataReducer';
 import { IMember, PathRoutes } from '../../types/types';
-import { addAdmin, addUsers, setRoomId } from '../../store/roomDataReducer';
-
-interface IFormGameData {
-  observer: boolean;
-  name: string;
-  surname: string;
-  job: string;
-  avatar: string;
-}
+import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 
 const ModalRegistation: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,21 +40,8 @@ const ModalRegistation: React.FC = () => {
     dispatch(setLastName(e.target.value));
   };
 
-  const onSubmitFormGame = (data: IFormGameData) => {
-    const role = isDealer ? 'admin' : 'player';
-    dispatch(
-      setData({
-        name: registrationData.name,
-        lastName: registrationData.lastName,
-        position: data.job,
-        role,
-        avatarUrl: data.avatar,
-        id: uuidv4(),
-      }),
-    );
-    formGame.resetFields();
-    dispatch(chageModalActive(false));
-    history.push(PathRoutes.Lobby);
+  const onChangePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setJobStatus(e.target.value));
   };
 
   const createNewRoom = async () => {
@@ -85,7 +63,7 @@ const ModalRegistation: React.FC = () => {
         if (!isDublicate) {
           response.data.users.push(registrationData);
           dispatch(addUsers(response.data.users));
-          // dispatch(getAllMessages(response.data.messages));
+          dispatch(getAllMessages(response.data.messages));
           socket.emit('enterRoom', { user: registrationData, roomId });
           history.push(PathRoutes.User);
         } else {
@@ -105,6 +83,8 @@ const ModalRegistation: React.FC = () => {
     } else {
       enterRoom();
     }
+    dispatch(chageModalActive(false));
+    formGame.resetFields();
   };
 
   const onClickCancelButton = () => {
@@ -131,7 +111,7 @@ const ModalRegistation: React.FC = () => {
         okText="Confirm"
         centered
       >
-        <Form form={formGame} onFinish={onSubmitFormGame} layout="vertical" scrollToFirstError>
+        <Form form={formGame} layout="vertical" scrollToFirstError>
           {isDealer ? null : (
             <Form.Item name="observer" valuePropName="checked" label="Connect as Observer" initialValue={false}>
               <Switch />
@@ -179,7 +159,7 @@ const ModalRegistation: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Software Engineer" />
+            <Input placeholder="Software Engineer" onChange={onChangePosition} />
           </Form.Item>
 
           <Form.Item name="avatar" label="Upload avatar:">

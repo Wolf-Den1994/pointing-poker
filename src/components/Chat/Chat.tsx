@@ -1,7 +1,6 @@
 import { Input, Button } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { addMessage } from '../../store/roomDataReducer';
 import { writeMessage } from '../../store/userTypingReducer';
@@ -12,7 +11,6 @@ let timeout: NodeJS.Timeout;
 
 const Chat: React.FC = () => {
   const dispatch = useDispatch();
-  // const history = useHistory();
 
   const userMessage = useTypedSelector((state) => state.userTyping);
   const roomData = useTypedSelector((state) => state.roomData);
@@ -21,13 +19,12 @@ const Chat: React.FC = () => {
   const onTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(writeMessage(e.target.value));
     socket.emit('someOneWriteMessage', {
-      user: user.name, // ???????
+      user: user.name,
       write: true,
       roomId: roomData.roomId,
     });
     clearTimeout(timeout);
     timeout = setTimeout(() => {
-      // Костыль чтобы 2 сек после того как перестал печатать показывыло что еще печатает
       socket.emit('someOneWriteMessage', {
         user: '',
         write: false,

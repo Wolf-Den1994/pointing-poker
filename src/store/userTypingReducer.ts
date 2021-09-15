@@ -37,27 +37,40 @@ export const userTypingReducer = (state = initialState, action: AnyAction): type
   }
 };
 
-export const setShowWriter = (payload: any): any => ({
+interface IUserTypingActionString {
+  type: UserTypingActions;
+  payload: string;
+}
+
+interface IUserTypingActionBoolean {
+  type: UserTypingActions;
+  payload: boolean;
+}
+
+interface IUserTypingActionClear {
+  type: UserTypingActions;
+}
+
+export const setShowWriter = (payload: boolean): IUserTypingActionBoolean => ({
   type: UserTypingActions.SET_SHOW_WRITER,
   payload,
 });
 
-export const setWriter = (payload: any): any => ({
+export const setWriter = (payload: string): IUserTypingActionString => ({
   type: UserTypingActions.SET_WRITER,
   payload,
 });
 
-export const writeMessage = (payload: any): any => ({
+export const writeMessage = (payload: string): IUserTypingActionString => ({
   type: UserTypingActions.WRITE_MESSAGE,
   payload,
 });
 
-export const setUserName = (payload: any): any => ({
+export const setUserName = (payload: string): IUserTypingActionString => ({
   type: UserTypingActions.SET_USER_NAME,
   payload,
 });
 
-export const clearUserTypingData = (payload: any): any => ({
+export const clearUserTypingData = (): IUserTypingActionClear => ({
   type: UserTypingActions.CLEAR_USER_TYPING_DATA,
-  payload,
 });

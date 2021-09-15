@@ -6,7 +6,6 @@ interface IInitialStateLobby {
 }
 
 const initialState: IInitialStateLobby = {
-  // TODO: change the field to empty. change this state to the name that was during authorization
   isDealer: true,
 };
 

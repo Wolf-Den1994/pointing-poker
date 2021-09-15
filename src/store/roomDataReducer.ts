@@ -43,31 +43,55 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
   }
 };
 
-export const addUsers = (payload: IMember[]): any => ({
+interface IRoomDataActionString {
+  type: RoomDataActions;
+  payload: string;
+}
+
+interface IRoomDataActionIMessage {
+  type: RoomDataActions;
+  payload: IMessage;
+}
+
+interface IRoomDataActionIMember {
+  type: RoomDataActions;
+  payload: IMember;
+}
+
+interface IRoomDataActionIMemberArray {
+  type: RoomDataActions;
+  payload: IMember[];
+}
+
+interface IRoomDataActionClear {
+  type: RoomDataActions;
+}
+
+export const addUsers = (payload: IMember[]): IRoomDataActionIMemberArray => ({
   type: RoomDataActions.ADD_USERS,
   payload,
 });
 
-export const getAllMessages = (payload: IMember): any => ({
+export const getAllMessages = (payload: IMember): IRoomDataActionIMember => ({
   type: RoomDataActions.GET_ALL_MESSAGES,
   payload,
 });
 
-export const addMessage = (payload: IMessage): any => ({
+export const addMessage = (payload: IMessage): IRoomDataActionIMessage => ({
   type: RoomDataActions.ADD_MESSAGE,
   payload,
 });
 
-export const setRoomId = (payload: string): any => ({
+export const setRoomId = (payload: string): IRoomDataActionString => ({
   type: RoomDataActions.SET_ROOM_ID,
   payload,
 });
 
-export const addAdmin = (payload: IMember): any => ({
+export const addAdmin = (payload: IMember): IRoomDataActionIMember => ({
   type: RoomDataActions.ADD_ADMIN,
   payload,
 });
 
-export const clearRoomData = (): any => ({
+export const clearRoomData = (): IRoomDataActionClear => ({
   type: RoomDataActions.CLEAR_ROOM_DATA,
 });

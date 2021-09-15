@@ -1,10 +1,12 @@
 import { Button } from 'antd';
+import { PlayCircleOutlined, PauseCircleOutlined, UndoOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { startTime } from '../../store/timerReducer';
 import socket from '../../utils/soketIO';
 import transformationTimer from '../../utils/transformationTimer';
+import style from './Timer.module.scss';
 
 let interval: NodeJS.Timeout;
 
@@ -16,13 +18,11 @@ const Timer: React.FC = () => {
   const { isDealer } = useTypedSelector((state) => state.lobby);
   const roomData = useTypedSelector((state) => state.roomData);
   const timer = useTypedSelector((state) => state.timer);
-
-  // const { settings } = useTypedSelector((state) => state.settings);
+  const { settings } = useTypedSelector((state) => state.settings);
 
   const startTimer = () => {
     setDisableButton(true);
-    // let newTime = Number(settings.roundTime.format('ss'));
-    let newTime = timer.time;
+    let newTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
     // console.log(newTime);
     interval = setInterval(() => {
       dispatch(startTime((newTime -= 1)));
@@ -34,29 +34,36 @@ const Timer: React.FC = () => {
     }, 1000);
   };
 
-  const stopTimer = () => {
-    setDisableButton(false);
-    clearInterval(interval);
-  };
+  // const stopTimer = () => {
+  //   setDisableButton(false);
+  //   clearInterval(interval);
+  // };
 
   const resetTimer = () => {
-    socket.emit('setTimeOnTimer', { time: 120, roomId: roomData.roomId });
+    const defaultTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
+    socket.emit('setTimeOnTimer', { time: defaultTime, roomId: roomData.roomId });
     setDisableButton(false);
     clearInterval(interval);
-    dispatch(startTime(120));
+    dispatch(startTime(defaultTime));
   };
 
   return (
-    <div>
-      <div>Time</div>
-      <p>{`${transformationTimer(timer.time).minutes}:${transformationTimer(timer.time).seconds}`}</p>
+    <div className={style.timer}>
+      <div className={style.title}>Time</div>
+      <p className={style.time}>
+        {`${transformationTimer(timer.time).minutes}:${transformationTimer(timer.time).seconds}`}
+      </p>
       {isDealer ? (
-        <div>
+        <div className={style.btns}>
           <Button disabled={disableButton} onClick={startTimer}>
-            Start timer
+            <PlayCircleOutlined />
           </Button>
-          <Button onClick={stopTimer}>Stop timer</Button>
-          <Button onClick={resetTimer}>Reset timer</Button>
+          {/* <Button onClick={stopTimer}>
+            <PauseCircleOutlined />
+          </Button> */}
+          <Button onClick={resetTimer}>
+            <UndoOutlined />
+          </Button>
         </div>
       ) : null}
     </div>
