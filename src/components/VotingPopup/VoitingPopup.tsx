@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 import socket from '../../utils/soketIO';
-import styles from './Voiting.module.scss';
+import styles from './VoitingPopup.module.scss';
 
 interface ModalVisibility {
   isVisible: boolean;
@@ -32,25 +32,25 @@ const VotingCard: FC<ModalVisibility> = ({ isVisible, userName }) => {
   };
 
   return (
-    <div className={styles.module}>
+    <div className={styles.voiting}>
       <Modal
         closable={false}
         visible={isVisible}
         centered
         footer={[
-          <div key="modal-voting-wrapper" className={styles.module__footer}>
-            <Button className={styles.module__btn_ok} type="primary" onClick={handlerOk}>
+          <div key="modal-voting-wrapper" className={styles.voiting__footer}>
+            <Button className={styles.voiting__btn_ok} type="primary" onClick={handlerOk}>
               Yes
             </Button>
-            <Button className={styles.module__btn_cancel} type="ghost" onClick={handlerCancel}>
+            <Button className={styles.voiting__btn_cancel} type="ghost" onClick={handlerCancel}>
               No
             </Button>
           </div>,
         ]}
       >
-        <h2 className={styles.module__header}>Kick the player?</h2>
-        <p className={styles.module__text}>
-          Do you want to remove player <span className={styles.module__user}>{userName}</span> from game session?
+        <h2 className={styles.voiting__header}>Kick the player?</h2>
+        <p className={styles.voiting__text}>
+          Do you want to remove player <span className={styles.voiting__user}>{userName}</span> from game session?
         </p>
       </Modal>
     </div>

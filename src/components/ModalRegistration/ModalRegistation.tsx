@@ -52,7 +52,6 @@ const ModalRegistation: React.FC = () => {
     }
   };
 
-  // уникальный id возможно надо
   const onSubmitFormGame = () => {
     formGame.resetFields();
     dispatch(chageModalActive(false));

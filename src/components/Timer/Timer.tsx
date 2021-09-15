@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { PlayCircleOutlined, PauseCircleOutlined, UndoOutlined } from '@ant-design/icons';
+import { PlayCircleOutlined, UndoOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
@@ -39,6 +39,7 @@ const Timer: React.FC = () => {
     }, 1000);
   };
 
+  // TODO Если захочется реализовать
   // const stopTimer = () => {
   //   setDisableButton(false);
   //   clearInterval(interval);

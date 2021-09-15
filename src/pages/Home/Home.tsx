@@ -38,8 +38,8 @@ const Home: React.FC = () => {
       } else {
         message.error('Such room doesnt exist, try again!');
       }
-    } catch (err: any) {
-      message.error('Something is going wrong, try again');
+    } catch (err) {
+      message.error(`Something is going wrong, try again! ${err}`);
     }
   };
 

@@ -52,7 +52,7 @@ const Admin: React.FC = () => {
 
   return (
     <div className={style.adminPage}>
-      {/* {убрать таймер потом} */}
+      {/* {убрать таймер потом, когда будет страница game} */}
       <Timer />
       <Chat />
       <Planning />

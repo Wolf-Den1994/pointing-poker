@@ -1,11 +1,9 @@
-import { useDispatch } from 'react-redux';
 import { Card, Avatar, message } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import style from './UserCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
-import { addUsers } from '../../store/roomDataReducer';
 
 interface IUserCardProps {
   name: string;
@@ -17,8 +15,6 @@ interface IUserCardProps {
 }
 
 const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar, id, role }: IUserCardProps) => {
-  const dispatch = useDispatch();
-
   const { users, roomId } = useTypedSelector((state) => state.roomData);
   const { user } = useTypedSelector((state) => state.registrationData);
   const { isDealer } = useTypedSelector((state) => state.lobby);

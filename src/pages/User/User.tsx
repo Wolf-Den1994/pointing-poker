@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
@@ -23,7 +23,6 @@ const User: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const roomData = useTypedSelector((state) => state.roomData);
   const votingData = useTypedSelector((state) => state.voting);
   const { users } = useTypedSelector((state) => state.roomData);
 
@@ -59,9 +58,11 @@ const User: React.FC = () => {
       dispatch(addUsers(newUsers));
       message.info(`${data.user}, is leave the room`);
     });
+
     socket.on('getIssuesList', (data) => {
       dispatch(changeIssue(data.issues));
     });
+
     socket.on('showCandidateToBeDeleted', (data) => {
       dispatch(changeModalActivity(true));
       dispatch(setNameOfDeletedUser(data.name));
@@ -75,7 +76,7 @@ const User: React.FC = () => {
   return (
     <>
       <div className={style.userPage}>
-        {/* {убрать таймер потом} */}
+        {/* {убрать таймер потом, когда будет страница game} */}
         <Timer />
         <Chat />
         <Planning />
