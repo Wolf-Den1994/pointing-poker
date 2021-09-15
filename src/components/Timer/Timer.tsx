@@ -47,6 +47,7 @@ const Timer: React.FC = () => {
     dispatch(startTime(defaultTime));
   };
 
+  // Пофиксить первоначальное отображение секунд
   return (
     <div className={style.timer}>
       <div className={style.title}>Time</div>
