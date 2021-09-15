@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Input } from 'antd';
+import { Button, Input, message } from 'antd';
+import axios from 'axios';
+import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
@@ -7,14 +10,16 @@ import { chageModalActive } from '../../store/homeReducer';
 import ModalRegistation from '../../components/ModalRegistration/ModalRegistation';
 import { changeDealer } from '../../store/lobbyReducer';
 import { setRoomId } from '../../store/roomDataReducer';
+import { setId, setRole } from '../../store/registrationDataReducer';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { isDealer } = useTypedSelector((state) => state.lobby);
   const { roomId } = useTypedSelector((state) => state.roomData);
 
   const handlerStartNewGame = () => {
+    dispatch(setId(socket.id));
+    dispatch(setRole('admin'));
     dispatch(changeDealer(true));
     dispatch(chageModalActive(true));
   };
@@ -23,10 +28,27 @@ const Home: React.FC = () => {
     dispatch(setRoomId(e.target.value));
   };
 
-  const handlerConnectToGame = () => {
-    dispatch(changeDealer(false));
-    dispatch(chageModalActive(true));
+  const handlerConnectToGame = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/${roomId}`);
+      if (response.data) {
+        dispatch(setId(socket.id));
+        dispatch(changeDealer(false));
+        dispatch(chageModalActive(true));
+      } else {
+        message.error('Such room doesnt exist, try again!');
+      }
+    } catch (err: any) {
+      message.error('Something is going wrong, try again');
+    }
   };
+
+  useEffect(() => {
+    socket.on('disconnect', () => {
+      window.location.reload();
+      socket.connect();
+    });
+  });
 
   return (
     <>

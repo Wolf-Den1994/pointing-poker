@@ -11,6 +11,7 @@ import style from './BtnsLobby.module.scss';
 const BtnsLobby: React.FC = () => {
   const { isDealer } = useTypedSelector((state) => state.lobby);
   const roomData = useTypedSelector((state) => state.roomData);
+  const userName = useTypedSelector((state) => state.registrationData.user.name);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const BtnsLobby: React.FC = () => {
   };
 
   const exitGame = () => {
-    socket.emit('leaveRoom', { roomId: roomData.roomId, id: socket.id });
+    socket.emit('leaveRoom', { roomId: roomData.roomId, user: userName, id: socket.id });
     history.push(PathRoutes.Home);
   };
 

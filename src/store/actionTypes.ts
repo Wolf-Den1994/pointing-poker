@@ -44,3 +44,8 @@ export enum RoomDataActions {
   ADD_ADMIN = 'ADD_ADMIN',
   CLEAR_ROOM_DATA = 'CLEAR_ROOM_DATA',
 }
+
+export enum VotingActions {
+  SET_DELETED_USER = 'SET_DELETED_USER',
+  SET_MODAL_VISIBLE = 'SET_MODAL_VISIBLE',
+}

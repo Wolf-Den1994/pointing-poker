@@ -1,16 +1,18 @@
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 // import { v4 as uuidv4 } from 'uuid';
+import { SwitchChangeEventHandler } from 'antd/lib/switch';
 import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { setAvatar, setData, setName, setLastName } from '../../store/registrationDataReducer';
+import { setAvatar, setData, setName, setLastName, setJobStatus, setRole } from '../../store/registrationDataReducer';
 import { PathRoutes } from '../../types/types';
 import { addAdmin, addUsers, setRoomId } from '../../store/roomDataReducer';
+import { changeIssue } from '../../store/issuesReducer';
 
 interface IFormGameData {
   observer: boolean;
@@ -49,22 +51,22 @@ const ModalRegistation: React.FC = () => {
     dispatch(setLastName(e.target.value));
   };
 
+  const onChangePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setJobStatus(e.target.value));
+  };
+
+  const onChangeRole = (checked: boolean) => {
+    if (checked) {
+      dispatch(setRole('observer'));
+    } else {
+      dispatch(setRole('player'));
+    }
+  };
+
   // уникальный id возможно надо
-  const onSubmitFormGame = (data: IFormGameData) => {
-    const role = isDealer ? 'admin' : 'player';
-    dispatch(
-      setData({
-        name: registrationData.name,
-        lastName: registrationData.lastName,
-        position: data.job,
-        role,
-        avatarUrl: data.avatar,
-        id: '',
-      }),
-    );
+  const onSubmitFormGame = () => {
     formGame.resetFields();
     dispatch(chageModalActive(false));
-    history.push(PathRoutes.Lobby);
   };
 
   const createNewRoom = async () => {
@@ -80,21 +82,20 @@ const ModalRegistation: React.FC = () => {
   const enterRoom = async () => {
     try {
       const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${roomId}`);
-      if (response) {
-        response.data.users.push(registrationData);
-        dispatch(addUsers(response.data.users));
-        // dispatch(getAllMessages(response.data.messages));
-        socket.emit('enterRoom', { user: registrationData, roomId });
-        history.push(PathRoutes.Chat);
-      } else {
-        message.warning('Not so fast!');
-      }
-    } catch (err) {
-      message.error(err as string);
+      const { users, issues } = response.data;
+      users.push(registrationData);
+      dispatch(addUsers(users));
+      dispatch(changeIssue(issues));
+      // dispatch(getAllMessages(response.data.messages));
+      socket.emit('enterRoom', { user: registrationData, roomId });
+      history.push(PathRoutes.Chat);
+    } catch (err: any) {
+      message.error(err.response.message);
     }
   };
 
   const handlerOk = () => {
+    onSubmitFormGame();
     if (isDealer) {
       createNewRoom();
     } else {
@@ -109,13 +110,6 @@ const ModalRegistation: React.FC = () => {
 
   const handlerCancel = () => onClickCancelButton();
 
-  useEffect(() => {
-    socket.on('disconnect', () => {
-      window.location.reload();
-      socket.connect();
-    });
-  });
-
   return (
     <>
       <Modal
@@ -126,10 +120,15 @@ const ModalRegistation: React.FC = () => {
         okText="Confirm"
         centered
       >
-        <Form form={formGame} onFinish={onSubmitFormGame} layout="vertical" scrollToFirstError>
+        <Form form={formGame} layout="vertical" scrollToFirstError>
           {isDealer ? null : (
-            <Form.Item name="observer" valuePropName="checked" label="Connect as Observer" initialValue={false}>
-              <Switch />
+            <Form.Item
+              name="observer"
+              valuePropName="checked"
+              label={`Connect as ${registrationData.role}`}
+              initialValue={false}
+            >
+              <Switch onChange={onChangeRole} />
             </Form.Item>
           )}
 
@@ -174,7 +173,7 @@ const ModalRegistation: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Software Engineer" />
+            <Input placeholder="Software Engineer" onChange={onChangePosition} />
           </Form.Item>
 
           <Form.Item name="avatar" label="Upload avatar:">

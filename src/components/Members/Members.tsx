@@ -18,6 +18,7 @@ const Members: React.FC = () => {
       lastName={item.lastName}
       avatar={item.avatarUrl}
       id={item.id}
+      role={item.role}
     />
   ));
   return (
