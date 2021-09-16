@@ -2,11 +2,11 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { Input, Modal, message } from 'antd';
 import { useState } from 'react';
-import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
 import { IssueStatus, SocketTokens, TextForUser } from '../../types/types';
+import { emit } from '../../services/socket';
 
 const IssueList: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,10 +29,10 @@ const IssueList: React.FC = () => {
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
-      socket.emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId: roomData.roomId });
+      emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId: roomData.roomId });
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
-      socket.emit(SocketTokens.ChangeIssuesList, {
+      emit(SocketTokens.ChangeIssuesList, {
         newIssue: valueNewIssue,
         mode: 'change',
         roomId: roomData.roomId,

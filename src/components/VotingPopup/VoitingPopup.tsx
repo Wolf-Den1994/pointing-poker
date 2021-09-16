@@ -2,9 +2,9 @@ import { Button, Modal } from 'antd';
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
+import { emit } from '../../services/socket';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 import { SocketTokens } from '../../types/types';
-import socket from '../../utils/soketIO';
 import styles from './VoitingPopup.module.scss';
 
 interface IModalVisibilityProps {
@@ -23,12 +23,12 @@ const VotingPopup: FC<IModalVisibilityProps> = ({ isVisible, userName }) => {
   };
 
   const handleCancel = () => {
-    socket.emit(SocketTokens.ToVoteFor, { voice: 'against', user: userName, roomId });
+    emit(SocketTokens.ToVoteFor, { voice: 'against', user: userName, roomId });
     resetVoitingData();
   };
 
   const handleOk = () => {
-    socket.emit(SocketTokens.ToVoteFor, { voice: 'for', user: userName, roomId });
+    emit(SocketTokens.ToVoteFor, { voice: 'for', user: userName, roomId });
     resetVoitingData();
   };
 

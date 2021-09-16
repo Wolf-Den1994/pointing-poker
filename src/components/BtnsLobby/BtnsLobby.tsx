@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
+import { emit } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { PathRoutes, BASE_URL, SocketTokens } from '../../types/types';
 import socket from '../../utils/soketIO';
@@ -23,7 +24,7 @@ const BtnsLobby: React.FC = () => {
   const handleCancelGame = async () => {
     try {
       await axios.delete(`${BASE_URL}/api/`, { data: { id: roomData.roomId } });
-      socket.emit(SocketTokens.DisconnectAll, { roomId: roomData.roomId });
+      emit(SocketTokens.DisconnectAll, { roomId: roomData.roomId });
       dispatch(clearRoomData());
       history.push(PathRoutes.Home);
     } catch (err) {
@@ -32,7 +33,7 @@ const BtnsLobby: React.FC = () => {
   };
 
   const handleExitGame = () => {
-    socket.emit(SocketTokens.LeaveRoom, { roomId: roomData.roomId, user: userName, id: socket.id });
+    emit(SocketTokens.LeaveRoom, { roomId: roomData.roomId, user: userName, id: socket.id });
     history.push(PathRoutes.Home);
   };
 

@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { startTime } from '../../store/timerReducer';
-import socket from '../../utils/soketIO';
 import transformationTimer from '../../utils/transformationTimer';
 import style from './Timer.module.scss';
 import { SocketTokens } from '../../types/types';
+import { emit } from '../../services/socket';
 
 let interval: NodeJS.Timeout;
 
@@ -32,7 +32,7 @@ const Timer: React.FC = () => {
     setDisableButton(true);
     interval = setInterval(() => {
       dispatch(startTime((newTime -= 1)));
-      socket.emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId: roomData.roomId });
+      emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId: roomData.roomId });
       if (newTime <= 0) {
         dispatch(startTime(0));
         clearInterval(interval);
@@ -41,7 +41,7 @@ const Timer: React.FC = () => {
   };
 
   const handleResetTimer = () => {
-    socket.emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId: roomData.roomId });
+    emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId: roomData.roomId });
     setDisableButton(false);
     clearInterval(interval);
     dispatch(startTime(newTime));

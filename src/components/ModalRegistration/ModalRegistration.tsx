@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router';
-import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, BASE_URL, SocketTokens } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
+import { emit, once } from '../../services/socket';
 
 interface IModalRegistrationProps {
   modalActive: boolean;
@@ -69,10 +69,10 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   };
 
   const createNewRoom = async () => {
-    socket.emit(SocketTokens.CreateRoom, {
+    emit(SocketTokens.CreateRoom, {
       data: { id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
     });
-    socket.once(SocketTokens.ReturnRoomId, (data) => {
+    once(SocketTokens.ReturnRoomId, (data) => {
       dispatch(setRoomId(data.id));
       dispatch(addAdmin(data.user));
       dispatch(addUsers(data.user));
@@ -91,7 +91,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
-        socket.emit(SocketTokens.EnterRoom, {
+        emit(SocketTokens.EnterRoom, {
           user: { id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
           roomId,
         });

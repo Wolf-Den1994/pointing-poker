@@ -8,7 +8,6 @@ import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
 import Members from '../../components/Members/Members';
 import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import socket from '../../utils/soketIO';
 import style from './User.module.scss';
 import { changeIssue } from '../../store/issuesReducer';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
@@ -18,6 +17,7 @@ import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import { PathRoutes, SocketTokens } from '../../types/types';
 import Timer from '../../components/Timer/Timer';
 import { startTime } from '../../store/timerReducer';
+import { on } from '../../services/socket';
 
 const User: React.FC = () => {
   const dispatch = useDispatch();
@@ -27,44 +27,44 @@ const User: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
-    socket.on(SocketTokens.EnteredRoom, (data) => {
+    on(SocketTokens.EnteredRoom, (data) => {
       dispatch(addUsers(data.user));
       message.success(`${data.user.name}, entered the room`);
     });
 
-    socket.on(SocketTokens.SendMessageWriter, (data) => {
+    on(SocketTokens.SendMessageWriter, (data) => {
       dispatch(setShowWriter(data.active));
       dispatch(setWriter(data.name));
     });
 
-    socket.on(SocketTokens.WillBeDisconnected, () => {
+    on(SocketTokens.WillBeDisconnected, () => {
       history.push(PathRoutes.Home);
     });
 
-    socket.on(SocketTokens.SendUserDisconnected, (data) => {
+    on(SocketTokens.SendUserDisconnected, (data) => {
       message.warning(`${data}, user disconnected`);
     });
 
-    socket.on(SocketTokens.SendTimeOnTimer, (data) => {
+    on(SocketTokens.SendTimeOnTimer, (data) => {
       dispatch(startTime(data));
     });
 
-    socket.on(SocketTokens.UserLeaveTheRoom, (data) => {
+    on(SocketTokens.UserLeaveTheRoom, (data) => {
       const newUsers = data.usersList;
       dispatch(addUsers(newUsers));
       message.info(`${data.user}, is leave the room`);
     });
 
-    socket.on(SocketTokens.GetIssuesList, (data) => {
+    on(SocketTokens.GetIssuesList, (data) => {
       dispatch(changeIssue(data.issues));
     });
 
-    socket.on(SocketTokens.ShowCandidateToBeDeleted, (data) => {
+    on(SocketTokens.ShowCandidateToBeDeleted, (data) => {
       dispatch(changeModalActivity(true));
       dispatch(setNameOfDeletedUser(data.name));
     });
 
-    socket.on(SocketTokens.DisconnectAllSockets, () => {
+    on(SocketTokens.DisconnectAllSockets, () => {
       history.push(PathRoutes.Home);
     });
   }, []);

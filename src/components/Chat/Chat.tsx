@@ -5,10 +5,9 @@ import { useEffect } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { addMessage } from '../../store/roomDataReducer';
 import { writeMessage } from '../../store/userTypingReducer';
-import socket from '../../utils/soketIO';
 import style from './Chat.module.scss';
 import { SocketTokens } from '../../types/types';
-import { on } from '../../services/socket';
+import { on, emit } from '../../services/socket';
 
 let timeout: NodeJS.Timeout;
 
@@ -20,6 +19,7 @@ const Chat: React.FC = () => {
   const user = useTypedSelector((state) => state.userData);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     on(SocketTokens.SendMessage, (data: any) => {
       dispatch(addMessage(data));
     });
@@ -27,14 +27,14 @@ const Chat: React.FC = () => {
 
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(writeMessage(e.target.value));
-    socket.emit(SocketTokens.SomeOneWriteMessage, {
+    emit(SocketTokens.SomeOneWriteMessage, {
       user: user.name,
       write: true,
       roomId: roomData.roomId,
     });
     clearTimeout(timeout);
     timeout = setTimeout(() => {
-      socket.emit(SocketTokens.SomeOneWriteMessage, {
+      emit(SocketTokens.SomeOneWriteMessage, {
         user: '',
         write: false,
         roomId: roomData.roomId,
@@ -44,7 +44,7 @@ const Chat: React.FC = () => {
 
   const handleSendMessage = () => {
     const { message } = userMessage;
-    socket.emit(SocketTokens.GetMessage, {
+    emit(SocketTokens.GetMessage, {
       roomId: roomData.roomId,
       user: user.name,
       mess: message,

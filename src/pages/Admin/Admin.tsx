@@ -12,12 +12,12 @@ import GameSettings from '../../components/GameSettings/GameSettings';
 import IssueList from '../../components/IssueList/IssueList';
 import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import socket from '../../utils/soketIO';
 import style from './Admin.module.scss';
 import { addUsers } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import Timer from '../../components/Timer/Timer';
 import { PathRoutes, SocketTokens } from '../../types/types';
+import { on } from '../../services/socket';
 
 const Admin: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,23 +26,23 @@ const Admin: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
-    socket.on(SocketTokens.EnteredRoom, (data) => {
+    on(SocketTokens.EnteredRoom, (data) => {
       dispatch(addUsers(data.user));
       message.info(`${data.user.name}, entered room`);
     });
 
-    socket.on(SocketTokens.SendMessageWriter, (data) => {
+    on(SocketTokens.SendMessageWriter, (data) => {
       dispatch(setShowWriter(data.active));
       dispatch(setWriter(data.name));
     });
 
-    socket.on(SocketTokens.UserLeaveTheRoom, (data) => {
+    on(SocketTokens.UserLeaveTheRoom, (data) => {
       const newUsers = data.usersList;
       dispatch(addUsers(newUsers));
       message.info(`${data.user} is leave the room`);
     });
 
-    socket.on(SocketTokens.WillBeDisconnected, () => {
+    on(SocketTokens.WillBeDisconnected, () => {
       history.push(PathRoutes.Home);
     });
   }, []);

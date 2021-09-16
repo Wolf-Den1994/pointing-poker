@@ -11,6 +11,7 @@ import { changeDealer } from '../../store/lobbyReducer';
 import { setRoomId } from '../../store/roomDataReducer';
 import { setId, setRole } from '../../store/userReducer';
 import { BASE_URL, SocketTokens } from '../../types/types';
+import { on, connect } from '../../services/socket';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -46,9 +47,9 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    socket.on(SocketTokens.Disconnect, () => {
+    on(SocketTokens.Disconnect, () => {
       window.location.reload();
-      socket.connect();
+      connect();
     });
   });
 
