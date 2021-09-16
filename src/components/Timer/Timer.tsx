@@ -39,12 +39,6 @@ const Timer: React.FC = () => {
     }, 1000);
   };
 
-  // TODO Если захочется реализовать
-  // const handleStopTimer = () => {
-  //   setDisableButton(false);
-  //   clearInterval(interval);
-  // };
-
   const handleResetTimer = () => {
     socket.emit('setTimeOnTimer', { time: newTime, roomId: roomData.roomId });
     setDisableButton(false);
@@ -63,9 +57,6 @@ const Timer: React.FC = () => {
           <Button disabled={disableButton} onClick={handleStartTimer}>
             <PlayCircleOutlined />
           </Button>
-          {/* <Button onClick={handleStopTimer}>
-            <PauseCircleOutlined />
-          </Button> */}
           <Button onClick={handleResetTimer}>
             <UndoOutlined />
           </Button>
