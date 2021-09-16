@@ -46,6 +46,32 @@ export enum OptionSettings {
   CustomYour = 'custom/your',
 }
 
+export enum SocketTokens {
+  DisconnectAll = 'disconnectAll',
+  LeaveRoom = 'leaveRoom',
+  SendMessage = 'sendMessage',
+  SomeOneWriteMessage = 'someOneWriteMessage',
+  GetMessage = 'getMessage',
+  ChangeIssuesList = 'changeIssuesList',
+  CreateRoom = 'createRoom',
+  ReturnRoomId = 'returnRoomId',
+  EnterRoom = 'enterRoom',
+  SetTimeOnTimer = 'setTimeOnTimer',
+  DeleteUserWithVoting = 'deleteUserWithVoting',
+  DisconnectOne = 'disconnectOne',
+  ToVoteFor = 'toVoteFor',
+  EnteredRoom = 'enteredRoom',
+  SendMessageWriter = 'sendMessageWriter',
+  UserLeaveTheRoom = 'userLeaveTheRoom',
+  WillBeDisconnected = 'willBeDisconnected',
+  Disconnect = 'disconnect',
+  SendUserDisconnected = 'sendUserDisconnected',
+  SendTimeOnTimer = 'sendTimeOnTimer',
+  GetIssuesList = 'getIssuesList',
+  ShowCandidateToBeDeleted = 'showCandidateToBeDeleted',
+  DisconnectAllSockets = 'disconnectAllSockets',
+}
+
 export interface IMember {
   id: string;
   name: string;

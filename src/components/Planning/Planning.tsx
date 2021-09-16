@@ -6,7 +6,7 @@ import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeIssue } from '../../store/issuesReducer';
 import style from './Planning.module.scss';
-import { TextForUser } from '../../types/types';
+import { SocketTokens, TextForUser } from '../../types/types';
 
 const SHOW_ELEMENTS = 5;
 
@@ -50,7 +50,7 @@ const Planning: React.FC = () => {
         message.warning(TextForUser.AboutDublicateInLine);
         setIssues(issueList);
       } else {
-        socket.emit('changeIssuesList', { newIssue: issues, mode: 'all', roomId: roomData.roomId });
+        socket.emit(SocketTokens.ChangeIssuesList, { newIssue: issues, mode: 'all', roomId: roomData.roomId });
         dispatch(changeIssue(issues));
       }
       setIssuesEdit(false);

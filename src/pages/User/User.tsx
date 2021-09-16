@@ -15,7 +15,7 @@ import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingRed
 import VotingPopup from '../../components/VotingPopup/VoitingPopup';
 import { addUsers } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
-import { PathRoutes } from '../../types/types';
+import { PathRoutes, SocketTokens } from '../../types/types';
 import Timer from '../../components/Timer/Timer';
 import { startTime } from '../../store/timerReducer';
 
@@ -27,44 +27,44 @@ const User: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
-    socket.on('enteredRoom', (data) => {
+    socket.on(SocketTokens.EnteredRoom, (data) => {
       dispatch(addUsers(data.user));
       message.success(`${data.user.name}, entered the room`);
     });
 
-    socket.on('sendMessageWriter', (data) => {
+    socket.on(SocketTokens.SendMessageWriter, (data) => {
       dispatch(setShowWriter(data.active));
       dispatch(setWriter(data.name));
     });
 
-    socket.on('willBeDisconnected', () => {
+    socket.on(SocketTokens.WillBeDisconnected, () => {
       history.push(PathRoutes.Home);
     });
 
-    socket.on('sendUserDisconnected', (data) => {
+    socket.on(SocketTokens.SendUserDisconnected, (data) => {
       message.warning(`${data}, user disconnected`);
     });
 
-    socket.on('sendTimeOnTimer', (data) => {
+    socket.on(SocketTokens.SendTimeOnTimer, (data) => {
       dispatch(startTime(data));
     });
 
-    socket.on('userLeaveTheRoom', (data) => {
+    socket.on(SocketTokens.UserLeaveTheRoom, (data) => {
       const newUsers = data.usersList;
       dispatch(addUsers(newUsers));
       message.info(`${data.user}, is leave the room`);
     });
 
-    socket.on('getIssuesList', (data) => {
+    socket.on(SocketTokens.GetIssuesList, (data) => {
       dispatch(changeIssue(data.issues));
     });
 
-    socket.on('showCandidateToBeDeleted', (data) => {
+    socket.on(SocketTokens.ShowCandidateToBeDeleted, (data) => {
       dispatch(changeModalActivity(true));
       dispatch(setNameOfDeletedUser(data.name));
     });
 
-    socket.on('disconnectAllSockets', () => {
+    socket.on(SocketTokens.DisconnectAllSockets, () => {
       history.push(PathRoutes.Home);
     });
   }, []);

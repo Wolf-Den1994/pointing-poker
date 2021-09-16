@@ -4,6 +4,7 @@ import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import style from './UserCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
+import { SocketTokens } from '../../types/types';
 
 interface IUserCardProps {
   name: string;
@@ -26,11 +27,11 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
       message.error('You need to use another way to leave room');
       return;
     }
-    socket.emit('deleteUserWithVoting', { userId: id, userName: name, roomId });
+    socket.emit(SocketTokens.DeleteUserWithVoting, { userId: id, userName: name, roomId });
   };
 
   const handleDeleteUser = () => {
-    socket.emit('disconnectOne', { userId: id, roomId });
+    socket.emit(SocketTokens.DisconnectOne, { userId: id, roomId });
     message.info(`User with this id: ${id}, disconnected`);
   };
 

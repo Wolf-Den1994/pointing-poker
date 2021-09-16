@@ -7,6 +7,7 @@ import { addMessage } from '../../store/roomDataReducer';
 import { writeMessage } from '../../store/userTypingReducer';
 import socket from '../../utils/soketIO';
 import style from './Chat.module.scss';
+import { SocketTokens } from '../../types/types';
 
 let timeout: NodeJS.Timeout;
 
@@ -18,21 +19,21 @@ const Chat: React.FC = () => {
   const user = useTypedSelector((state) => state.userData);
 
   useEffect(() => {
-    socket.on('sendMessage', (data) => {
+    socket.on(SocketTokens.SendMessage, (data) => {
       dispatch(addMessage(data));
     });
   }, []);
 
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(writeMessage(e.target.value));
-    socket.emit('someOneWriteMessage', {
+    socket.emit(SocketTokens.SomeOneWriteMessage, {
       user: user.name,
       write: true,
       roomId: roomData.roomId,
     });
     clearTimeout(timeout);
     timeout = setTimeout(() => {
-      socket.emit('someOneWriteMessage', {
+      socket.emit(SocketTokens.SomeOneWriteMessage, {
         user: '',
         write: false,
         roomId: roomData.roomId,
@@ -42,7 +43,7 @@ const Chat: React.FC = () => {
 
   const handleSendMessage = () => {
     const { message } = userMessage;
-    socket.emit('getMessage', {
+    socket.emit(SocketTokens.GetMessage, {
       roomId: roomData.roomId,
       user: user.name,
       mess: message,

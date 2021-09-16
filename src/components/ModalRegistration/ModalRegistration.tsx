@@ -8,7 +8,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
-import { PathRoutes, IMember, SERVER_URL } from '../../types/types';
+import { PathRoutes, IMember, SERVER_URL, SocketTokens } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 
@@ -63,10 +63,10 @@ const ModalRegistration: React.FC = () => {
   };
 
   const createNewRoom = async () => {
-    socket.emit('createRoom', {
+    socket.emit(SocketTokens.CreateRoom, {
       data: { id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
     });
-    socket.once('returnRoomId', (data) => {
+    socket.once(SocketTokens.ReturnRoomId, (data) => {
       dispatch(setRoomId(data.id));
       dispatch(addAdmin(data.user));
       dispatch(addUsers(data.user));
@@ -85,7 +85,7 @@ const ModalRegistration: React.FC = () => {
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
-        socket.emit('enterRoom', {
+        socket.emit(SocketTokens.EnterRoom, {
           user: { id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
           roomId,
         });

@@ -6,7 +6,7 @@ import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
-import { IssueStatus, TextForUser } from '../../types/types';
+import { IssueStatus, SocketTokens, TextForUser } from '../../types/types';
 
 const IssueList: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,10 +29,10 @@ const IssueList: React.FC = () => {
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
-      socket.emit('changeIssuesList', { newIssue: valueNewIssue, mode: 'add', roomId: roomData.roomId });
+      socket.emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId: roomData.roomId });
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
-      socket.emit('changeIssuesList', {
+      socket.emit(SocketTokens.ChangeIssuesList, {
         newIssue: valueNewIssue,
         mode: 'change',
         roomId: roomData.roomId,
