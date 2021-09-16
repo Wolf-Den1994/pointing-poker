@@ -1,6 +1,6 @@
 import { Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { deleteRoom } from '../../services/api';
 import { emit } from '../../services/socket';
@@ -11,11 +11,12 @@ import style from './BtnsLobby.module.scss';
 
 const BtnsLobby: React.FC = () => {
   const { isDealer } = useTypedSelector((state) => state.lobby);
-  const roomData = useTypedSelector((state) => state.roomData);
   const userName = useTypedSelector((state) => state.userData.name);
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const { roomId } = useParams<{ roomId: string }>();
 
   const handleStartGame = () => {
     history.push(PathRoutes.Game);
@@ -23,8 +24,8 @@ const BtnsLobby: React.FC = () => {
 
   const handleCancelGame = async () => {
     try {
-      await deleteRoom({ data: { id: roomData.roomId } });
-      emit(SocketTokens.DisconnectAll, { roomId: roomData.roomId });
+      await deleteRoom({ data: { id: roomId } });
+      emit(SocketTokens.DisconnectAll, { roomId });
       dispatch(clearRoomData());
       history.push(PathRoutes.Home);
     } catch (err) {
@@ -33,7 +34,7 @@ const BtnsLobby: React.FC = () => {
   };
 
   const handleExitGame = () => {
-    emit(SocketTokens.LeaveRoom, { roomId: roomData.roomId, user: userName, id: socket.id });
+    emit(SocketTokens.LeaveRoom, { roomId, user: userName, id: socket.id });
     history.push(PathRoutes.Home);
   };
 

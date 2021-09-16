@@ -1,41 +1,44 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Input, message } from 'antd';
 import socket from '../../utils/soketIO';
-import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
 import { changeDealer } from '../../store/lobbyReducer';
-import { setRoomId } from '../../store/roomDataReducer';
-import { setId, setRole } from '../../store/userReducer';
 import { SocketTokens } from '../../types/types';
 import { on, connect } from '../../services/socket';
 import { getResourse } from '../../services/api';
 
-const Home: React.FC = () => {
+interface IHomeProps {
+  roomId: string;
+  onRoomId: Dispatch<SetStateAction<string>>;
+}
+
+const Home: React.FC<IHomeProps> = ({ roomId, onRoomId }: IHomeProps) => {
   const dispatch = useDispatch();
 
-  const { roomId } = useTypedSelector((state) => state.roomData);
-
   const [modalActive, setModalActive] = useState(false);
+  const [role, setRole] = useState('');
+  const [id, setId] = useState('');
 
   const handleStartNewGame = () => {
-    dispatch(setId(socket.id));
-    dispatch(setRole('admin'));
+    setId(socket.id);
+    setRole('admin');
     dispatch(changeDealer(true));
     setModalActive(true);
   };
 
   const handleChangeLink = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setRoomId(e.target.value));
+    onRoomId(e.target.value);
   };
 
   const handleConnectToGame = async () => {
     try {
       const response = await getResourse(roomId);
       if (response.data) {
-        dispatch(setId(socket.id));
+        setId(socket.id);
+        setRole('player');
         dispatch(changeDealer(false));
         setModalActive(true);
       } else {
@@ -84,7 +87,15 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
-      <ModalRegistration modalActive={modalActive} onModalActive={setModalActive} />
+      <ModalRegistration
+        role={role}
+        onRole={setRole}
+        id={id}
+        roomId={roomId}
+        onRoomId={onRoomId}
+        modalActive={modalActive}
+        onModalActive={setModalActive}
+      />
     </>
   );
 };

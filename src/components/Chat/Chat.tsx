@@ -2,6 +2,7 @@ import { Input, Button } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { addMessage } from '../../store/roomDataReducer';
 import { writeMessage } from '../../store/userTypingReducer';
@@ -18,6 +19,8 @@ const Chat: React.FC = () => {
   const roomData = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
 
+  const { roomId } = useParams<{ roomId: string }>();
+
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     on(SocketTokens.SendMessage, (data: any) => {
@@ -30,14 +33,14 @@ const Chat: React.FC = () => {
     emit(SocketTokens.SomeOneWriteMessage, {
       user: user.name,
       write: true,
-      roomId: roomData.roomId,
+      roomId,
     });
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       emit(SocketTokens.SomeOneWriteMessage, {
         user: '',
         write: false,
-        roomId: roomData.roomId,
+        roomId,
       });
     }, 2000);
   };
@@ -45,7 +48,7 @@ const Chat: React.FC = () => {
   const handleSendMessage = () => {
     const { message } = userMessage;
     emit(SocketTokens.GetMessage, {
-      roomId: roomData.roomId,
+      roomId,
       user: user.name,
       mess: message,
     });

@@ -1,7 +1,7 @@
 import { Button, Modal } from 'antd';
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
-import useTypedSelector from '../../hooks/useTypedSelector';
+import { useParams } from 'react-router-dom';
 import { emit } from '../../services/socket';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 import { SocketTokens } from '../../types/types';
@@ -15,7 +15,7 @@ interface IModalVisibilityProps {
 const VotingPopup: FC<IModalVisibilityProps> = ({ isVisible, userName }) => {
   const dispatch = useDispatch();
 
-  const { roomId } = useTypedSelector((state) => state.roomData);
+  const { roomId } = useParams<{ roomId: string }>();
 
   const resetVoitingData = () => {
     dispatch(setNameOfDeletedUser(''));

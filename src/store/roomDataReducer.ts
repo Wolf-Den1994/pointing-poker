@@ -3,14 +3,12 @@ import { IMember, IMessage } from '../types/types';
 import { RoomDataActions } from './actionTypes';
 
 interface IInitialStateRoomData {
-  roomId: string;
   admin: IMember;
   users: IMember[];
   messages: IMessage[];
 }
 
 const initialState: IInitialStateRoomData = {
-  roomId: '',
   admin: { id: '', name: '', lastName: '', position: '', role: 'admin', avatarUrl: '' },
   users: [],
   messages: [],
@@ -29,9 +27,6 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
     case RoomDataActions.ADD_MESSAGE:
       return { ...state, messages: [...state.messages, action.payload] };
 
-    case RoomDataActions.SET_ROOM_ID:
-      return { ...state, roomId: action.payload };
-
     case RoomDataActions.ADD_ADMIN:
       return { ...state, admin: { ...action.patload } };
 
@@ -42,11 +37,6 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
       return state;
   }
 };
-
-interface IRoomDataActionString {
-  type: RoomDataActions;
-  payload: string;
-}
 
 interface IRoomDataActionIMessage {
   type: RoomDataActions;
@@ -79,11 +69,6 @@ export const getAllMessages = (payload: IMember): IRoomDataActionIMember => ({
 
 export const addMessage = (payload: IMessage): IRoomDataActionIMessage => ({
   type: RoomDataActions.ADD_MESSAGE,
-  payload,
-});
-
-export const setRoomId = (payload: string): IRoomDataActionString => ({
-  type: RoomDataActions.SET_ROOM_ID,
   payload,
 });
 

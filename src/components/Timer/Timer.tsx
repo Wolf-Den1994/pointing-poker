@@ -2,6 +2,7 @@ import { Button } from 'antd';
 import { PlayCircleOutlined, UndoOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { startTime } from '../../store/timerReducer';
 import transformationTimer from '../../utils/transformationTimer';
@@ -17,9 +18,11 @@ const Timer: React.FC = () => {
   const dispatch = useDispatch();
 
   const { isDealer } = useTypedSelector((state) => state.lobby);
-  const roomData = useTypedSelector((state) => state.roomData);
   const timer = useTypedSelector((state) => state.timer);
   const { settings } = useTypedSelector((state) => state.settings);
+
+  const { roomId } = useParams<{ roomId: string }>();
+
   let newTime: number;
 
   if (settings.roundTime) {
@@ -32,7 +35,7 @@ const Timer: React.FC = () => {
     setDisableButton(true);
     interval = setInterval(() => {
       dispatch(startTime((newTime -= 1)));
-      emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId: roomData.roomId });
+      emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId });
       if (newTime <= 0) {
         dispatch(startTime(0));
         clearInterval(interval);
@@ -41,7 +44,7 @@ const Timer: React.FC = () => {
   };
 
   const handleResetTimer = () => {
-    emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId: roomData.roomId });
+    emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId });
     setDisableButton(false);
     clearInterval(interval);
     dispatch(startTime(newTime));

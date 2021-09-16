@@ -6,17 +6,27 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, SocketTokens } from '../../types/types';
-import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
+import { addAdmin, addUsers, getAllMessages } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
 import { getResourse } from '../../services/api';
 
 interface IModalRegistrationProps {
+  role: string;
+  onRole: Dispatch<SetStateAction<string>>;
+  id: string;
+  roomId: string;
+  onRoomId: Dispatch<SetStateAction<string>>;
   modalActive: boolean;
   onModalActive: Dispatch<SetStateAction<boolean>>;
 }
 
 const ModalRegistration: React.FC<IModalRegistrationProps> = ({
+  role,
+  onRole,
+  id,
+  roomId,
+  onRoomId,
   modalActive,
   onModalActive,
 }: IModalRegistrationProps) => {
@@ -26,11 +36,9 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [jobStatus, setJobStatus] = useState('');
-  const [role, setRole] = useState('');
   const [avatar, setAvatar] = useState('');
 
   const { isDealer } = useTypedSelector((state) => state.lobby);
-  const { roomId } = useTypedSelector((state) => state.roomData);
 
   const [formGame] = Form.useForm();
 
@@ -57,9 +65,9 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const handleChangeRole = (checked: boolean) => {
     if (checked) {
-      setRole('observer');
+      onRole('observer');
     } else {
-      setRole('player');
+      onRole('player');
     }
   };
 
@@ -70,14 +78,14 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const createNewRoom = async () => {
     emit(SocketTokens.CreateRoom, {
-      data: { id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
+      data: { id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
     });
     once(SocketTokens.ReturnRoomId, (data) => {
-      dispatch(setRoomId(data.id));
+      onRoomId(data.id);
       dispatch(addAdmin(data.user));
       dispatch(addUsers(data.user));
       onModalActive(false);
-      history.push(PathRoutes.Admin);
+      history.push(`${PathRoutes.Admin}/${data.id}`);
     });
   };
 
@@ -87,15 +95,15 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
       const { users, issues, messages } = response.data;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
-        users.push({ id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar });
+        users.push({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar });
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
         emit(SocketTokens.EnterRoom, {
-          user: { id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
+          user: { id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
           roomId,
         });
-        history.push(PathRoutes.User);
+        history.push(`${PathRoutes.User}/${roomId}`);
       } else {
         message.error('User with the same name already exists. Enter another name!');
         return;
@@ -154,6 +162,10 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
               {
                 type: 'string',
                 message: 'The input is not valid First name!',
+              },
+              {
+                required: true,
+                message: 'Please, input your First name!',
               },
             ]}
           >

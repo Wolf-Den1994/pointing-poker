@@ -1,5 +1,6 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Input, Modal, message } from 'antd';
 import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
@@ -11,8 +12,9 @@ import { emit } from '../../services/socket';
 const IssueList: React.FC = () => {
   const dispatch = useDispatch();
 
+  const { roomId } = useParams<{ roomId: string }>();
+
   const { issueList } = useTypedSelector((state) => state.issues);
-  const roomData = useTypedSelector((state) => state.roomData);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [valueNewIssue, setValueNewIssue] = useState('');
@@ -29,13 +31,13 @@ const IssueList: React.FC = () => {
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
-      emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId: roomData.roomId });
+      emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId });
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
         newIssue: valueNewIssue,
         mode: 'change',
-        roomId: roomData.roomId,
+        roomId,
         oldIssue: valueOldIssue,
       });
       dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: valueNewIssue }));

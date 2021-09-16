@@ -1,5 +1,6 @@
 import { Card, Avatar, message } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
+import { useParams } from 'react-router-dom';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import style from './UserCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
@@ -17,9 +18,11 @@ interface IUserCardProps {
 }
 
 const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar, id, role }: IUserCardProps) => {
-  const { users, roomId } = useTypedSelector((state) => state.roomData);
+  const { users } = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
   const { isDealer } = useTypedSelector((state) => state.lobby);
+
+  const { roomId } = useParams<{ roomId: string }>();
 
   const indexUser = users.findIndex((item) => item.name === user.name);
 
