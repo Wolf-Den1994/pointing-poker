@@ -11,7 +11,6 @@ export const resetDataBase = async (): Promise<void> => { // просто очи
 export const getRoom = async (id: string): Promise<Room> => {
   const response = await RoomMongo.findOne({ roomId: id });
   const result = await response;
-  if (!result) return Promise.reject(new Error('Empty'));
   return result;
 };
 
