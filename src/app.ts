@@ -6,7 +6,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { router } from './API/router';
 import {
-  getRoom, setRoom, updateRoom, addNewUser, deleteUser, clearVotingObj,
+  getRoom, setRoom, updateRoom, addNewUser, deleteUser, clearVotingObj, deleteRoom,
 } from './API/mongoDB';
 import { room } from './utils/constants';
 import { Room } from './types/types';
@@ -164,7 +164,7 @@ io.on('connection', (socket) => {
       if (response.admin.id === userData[0]) {
         io.in(el).emit('disconnectAllSockets');
         io.in(el).disconnectSockets();
-        console.log('Did it');
+        await deleteRoom(el);
       } else {
         deleteUserFromRoom(socket, el, userData[0], response.users);
       }

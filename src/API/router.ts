@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-  deteteRoom, getRoom,
+  deleteRoom, getRoom,
 } from './mongoDB';
 
 export const router = Router();
@@ -18,7 +18,7 @@ router.get('/:id', async (req, res) => {
 router.delete('/', async (req, res) => {
   const { id } = req.body;
   try {
-    await deteteRoom(id);
+    await deleteRoom(id);
     res.status(200).json('Ok');
   } catch (e) {
     res.status(404).json('Error');

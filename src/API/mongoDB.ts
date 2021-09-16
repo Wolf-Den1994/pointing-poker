@@ -46,7 +46,7 @@ export const deleteUser = async (id: string, userId: string): Promise<void> => {
   return Promise.resolve();
 };
 
-export const deteteRoom = async (id: string): Promise<void> => {
+export const deleteRoom = async (id: string): Promise<void> => {
   await RoomMongo.deleteOne({ roomId: id });
   return Promise.resolve();
 };
