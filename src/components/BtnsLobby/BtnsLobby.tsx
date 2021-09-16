@@ -2,7 +2,7 @@ import { Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import api from '../../services/api';
+import { deleteRoom } from '../../services/api';
 import { emit } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { PathRoutes, SocketTokens } from '../../types/types';
@@ -23,7 +23,7 @@ const BtnsLobby: React.FC = () => {
 
   const handleCancelGame = async () => {
     try {
-      await api.deleteRoom({ data: { id: roomData.roomId } });
+      await deleteRoom({ data: { id: roomData.roomId } });
       emit(SocketTokens.DisconnectAll, { roomId: roomData.roomId });
       dispatch(clearRoomData());
       history.push(PathRoutes.Home);

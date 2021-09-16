@@ -11,7 +11,7 @@ import { setRoomId } from '../../store/roomDataReducer';
 import { setId, setRole } from '../../store/userReducer';
 import { SocketTokens } from '../../types/types';
 import { on, connect } from '../../services/socket';
-import api from '../../services/api';
+import { getResourse } from '../../services/api';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Home: React.FC = () => {
 
   const handleConnectToGame = async () => {
     try {
-      const response = await api.getResourse(roomId);
+      const response = await getResourse(roomId);
       if (response.data) {
         dispatch(setId(socket.id));
         dispatch(changeDealer(false));

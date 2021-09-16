@@ -9,7 +9,7 @@ import { PathRoutes, IMember, SocketTokens } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
-import api from '../../services/api';
+import { getResourse } from '../../services/api';
 
 interface IModalRegistrationProps {
   modalActive: boolean;
@@ -83,7 +83,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const enterRoom = async () => {
     try {
-      const response = await api.getResourse(roomId);
+      const response = await getResourse(roomId);
       const { users, issues, messages } = response.data;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
