@@ -6,10 +6,11 @@ import { useHistory } from 'react-router';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
-import { PathRoutes, IMember, BASE_URL, SocketTokens } from '../../types/types';
+import { PathRoutes, IMember, SocketTokens } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
+import ApiHeroku from '../../services/api';
 
 interface IModalRegistrationProps {
   modalActive: boolean;
@@ -33,6 +34,8 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   const { roomId } = useTypedSelector((state) => state.roomData);
 
   const [formGame] = Form.useForm();
+
+  const api = new ApiHeroku();
 
   const handleAddAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: File = (e.target.files as FileList)[0];
@@ -83,7 +86,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const enterRoom = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/${roomId}`);
+      const response = await api.getResourse(roomId);
       const { users, issues, messages } = response.data;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
