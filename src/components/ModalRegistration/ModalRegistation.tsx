@@ -142,16 +142,12 @@ const ModalRegistation: React.FC = () => {
 
           <Form.Item
             name="name"
-            label="Your first name:"
+            label="First name:"
             tooltip="What do you want others to call you?"
             rules={[
               {
                 type: 'string',
                 message: 'The input is not valid First name!',
-              },
-              {
-                required: true,
-                message: 'Please, input your First name!',
               },
             ]}
           >
@@ -160,7 +156,7 @@ const ModalRegistation: React.FC = () => {
 
           <Form.Item
             name="surname"
-            label="Your surname name:"
+            label="Surname name:"
             initialValue={''}
             rules={[
               {
@@ -173,7 +169,7 @@ const ModalRegistation: React.FC = () => {
 
           <Form.Item
             name="job"
-            label="Your job position (optional):"
+            label="Job position:"
             initialValue={''}
             rules={[
               {
