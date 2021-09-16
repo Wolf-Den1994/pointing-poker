@@ -64,7 +64,7 @@ const User: React.FC = () => {
       dispatch(setNameOfDeletedUser(data.name));
     });
 
-    socket.on('dissconnectAllSockets', () => {
+    socket.on('disconnectAllSockets', () => {
       history.push(PathRoutes.Home);
     });
   }, []);

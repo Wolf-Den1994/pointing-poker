@@ -7,7 +7,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import { chageModalActive } from '../../store/homeReducer';
-import ModalRegistation from '../../components/ModalRegistration/ModalRegistation';
+import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
 import { changeDealer } from '../../store/lobbyReducer';
 import { setRoomId } from '../../store/roomDataReducer';
 import { setId, setRole } from '../../store/userReducer';
@@ -82,7 +82,7 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
-      <ModalRegistation />
+      <ModalRegistration />
     </>
   );
 };

@@ -12,7 +12,7 @@ import { PathRoutes, IMember, SERVER_URL } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 
-const ModalRegistation: React.FC = () => {
+const ModalRegistration: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -197,4 +197,4 @@ const ModalRegistation: React.FC = () => {
   );
 };
 
-export default ModalRegistation;
+export default ModalRegistration;
