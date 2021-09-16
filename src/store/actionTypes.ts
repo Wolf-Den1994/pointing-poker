@@ -1,8 +1,4 @@
 export enum LobbyActions {
-  CHANGE_USERDATA = 'CHANGE_USER',
-  ADD_USERS = 'ADD_USERS',
-  KICK_USER = 'KICK_USER',
-  CHANGE_LINK = 'CHANGE_LINK',
   IS_DEALER = 'IS_DEALER',
 }
 
