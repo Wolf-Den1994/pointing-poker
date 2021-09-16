@@ -11,7 +11,7 @@ import ModalRegistration from '../../components/ModalRegistration/ModalRegistrat
 import { changeDealer } from '../../store/lobbyReducer';
 import { setRoomId } from '../../store/roomDataReducer';
 import { setId, setRole } from '../../store/userReducer';
-import { SERVER_URL, SocketTokens } from '../../types/types';
+import { BASE_URL, SocketTokens } from '../../types/types';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const Home: React.FC = () => {
 
   const handleConnectToGame = async () => {
     try {
-      const response = await axios.get(`${SERVER_URL}/api/${roomId}`);
+      const response = await axios.get(`${BASE_URL}/api/${roomId}`);
       if (response.data) {
         dispatch(setId(socket.id));
         dispatch(changeDealer(false));

@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
 
-export const SERVER_URL = 'https://rsschool-pp.herokuapp.com';
+export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
 
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',

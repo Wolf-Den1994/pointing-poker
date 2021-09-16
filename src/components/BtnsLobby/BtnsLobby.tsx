@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { clearRoomData } from '../../store/roomDataReducer';
-import { PathRoutes, SERVER_URL, SocketTokens } from '../../types/types';
+import { PathRoutes, BASE_URL, SocketTokens } from '../../types/types';
 import socket from '../../utils/soketIO';
 import style from './BtnsLobby.module.scss';
 
@@ -22,7 +22,7 @@ const BtnsLobby: React.FC = () => {
 
   const handleCancelGame = async () => {
     try {
-      await axios.delete(`${SERVER_URL}/api/`, { data: { id: roomData.roomId } });
+      await axios.delete(`${BASE_URL}/api/`, { data: { id: roomData.roomId } });
       socket.emit(SocketTokens.DisconnectAll, { roomId: roomData.roomId });
       dispatch(clearRoomData());
       history.push(PathRoutes.Home);

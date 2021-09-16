@@ -8,7 +8,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
-import { PathRoutes, IMember, SERVER_URL, SocketTokens } from '../../types/types';
+import { PathRoutes, IMember, BASE_URL, SocketTokens } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 
@@ -77,7 +77,7 @@ const ModalRegistration: React.FC = () => {
 
   const enterRoom = async () => {
     try {
-      const response = await axios.get(`${SERVER_URL}/api/${roomId}`);
+      const response = await axios.get(`${BASE_URL}/api/${roomId}`);
       const { users, issues, messages } = response.data;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {

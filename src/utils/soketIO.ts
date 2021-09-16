@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
-import { SERVER_URL } from '../types/types';
+import { BASE_URL } from '../types/types';
 
-const socket = io(SERVER_URL);
+const socket = io(BASE_URL);
 
 export default socket;
