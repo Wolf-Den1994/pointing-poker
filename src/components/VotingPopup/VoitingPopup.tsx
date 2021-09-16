@@ -38,19 +38,19 @@ const VotingCard: FC<ModalVisibility> = ({ isVisible, userName }) => {
         visible={isVisible}
         centered
         footer={[
-          <div key="modal-voting-wrapper" className={styles.voiting__footer}>
-            <Button className={styles.voiting__btn_ok} type="primary" onClick={handlerOk}>
+          <div key="modal-voting-wrapper">
+            <Button type="primary" size="large" onClick={handlerOk}>
               Yes
             </Button>
-            <Button className={styles.voiting__btn_cancel} type="ghost" onClick={handlerCancel}>
+            <Button type="ghost" size="large" onClick={handlerCancel}>
               No
             </Button>
           </div>,
         ]}
       >
-        <h2 className={styles.voiting__header}>Kick the player?</h2>
-        <p className={styles.voiting__text}>
-          Do you want to remove player <span className={styles.voiting__user}>{userName}</span> from game session?
+        <h2 className={styles.header}>Kick the player?</h2>
+        <p className={styles.text}>
+          Do you want to remove player <span className={styles.user}>{userName}</span> from game session?
         </p>
       </Modal>
     </div>

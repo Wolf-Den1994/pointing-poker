@@ -8,35 +8,23 @@
   justify-content: center;
   align-items: center;
   z-index: 100;
+}
 
-  &__header {
-    font-size: 40px;
-    text-align: center;
-    margin-bottom: 52px;
-  }
+.header {
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  &__text {
-    font-size: 18px;
-    text-align: center;
-    color: #303030;
-  }
+.text {
+  margin-bottom: 10px;
+  font-size: 18px;
+  text-align: center;
+  color: #303030;
+}
 
-  &__user {
-    color: #66999b;
-    font-weight: 600;
-  }
-
-  &__footer {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  &__btn_cancel {
-    width: 120px;
-  }
-
-  &__btn_ok {
-    width: 120px;
-    background-color: #2b3a67;
-  }
+.user {
+  color: #66999b;
+  font-size: 20px;
+  font-weight: 700;
 }
