@@ -1,9 +1,8 @@
 import { Button, message } from 'antd';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import ApiHeroku from '../../services/api';
+import api from '../../services/api';
 import { emit } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { PathRoutes, SocketTokens } from '../../types/types';
@@ -17,8 +16,6 @@ const BtnsLobby: React.FC = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const api = new ApiHeroku();
 
   const handleStartGame = () => {
     history.push(PathRoutes.Game);

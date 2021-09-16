@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Input, message } from 'antd';
-import axios from 'axios';
 import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
@@ -12,7 +11,7 @@ import { setRoomId } from '../../store/roomDataReducer';
 import { setId, setRole } from '../../store/userReducer';
 import { SocketTokens } from '../../types/types';
 import { on, connect } from '../../services/socket';
-import ApiHeroku from '../../services/api';
+import api from '../../services/api';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,8 +19,6 @@ const Home: React.FC = () => {
   const { roomId } = useTypedSelector((state) => state.roomData);
 
   const [modalActive, setModalActive] = useState(false);
-
-  const api = new ApiHeroku();
 
   const handleStartNewGame = () => {
     dispatch(setId(socket.id));

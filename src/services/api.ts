@@ -19,4 +19,6 @@ class ApiHeroku {
   };
 }
 
-export default ApiHeroku;
+const api = new ApiHeroku();
+
+export default api;
