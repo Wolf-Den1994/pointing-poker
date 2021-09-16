@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Input, message } from 'antd';
 import axios from 'axios';
@@ -6,7 +6,6 @@ import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
-import { chageModalActive } from '../../store/homeReducer';
 import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
 import { changeDealer } from '../../store/lobbyReducer';
 import { setRoomId } from '../../store/roomDataReducer';
@@ -18,11 +17,13 @@ const Home: React.FC = () => {
 
   const { roomId } = useTypedSelector((state) => state.roomData);
 
+  const [modalActive, setModalActive] = useState(false);
+
   const handleStartNewGame = () => {
     dispatch(setId(socket.id));
     dispatch(setRole('admin'));
     dispatch(changeDealer(true));
-    dispatch(chageModalActive(true));
+    setModalActive(true);
   };
 
   const handleChangeLink = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +36,7 @@ const Home: React.FC = () => {
       if (response.data) {
         dispatch(setId(socket.id));
         dispatch(changeDealer(false));
-        dispatch(chageModalActive(true));
+        setModalActive(true);
       } else {
         message.error('Such room doesnt exist, try again!');
       }
@@ -82,7 +83,7 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
-      <ModalRegistration />
+      <ModalRegistration modalActive={modalActive} onModalActive={setModalActive} />
     </>
   );
 };

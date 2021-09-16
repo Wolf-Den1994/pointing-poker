@@ -1,18 +1,25 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, BASE_URL, SocketTokens } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 
-const ModalRegistration: React.FC = () => {
+interface IModalRegistrationProps {
+  modalActive: boolean;
+  onModalActive: Dispatch<SetStateAction<boolean>>;
+}
+
+const ModalRegistration: React.FC<IModalRegistrationProps> = ({
+  modalActive,
+  onModalActive,
+}: IModalRegistrationProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -24,7 +31,6 @@ const ModalRegistration: React.FC = () => {
 
   const { isDealer } = useTypedSelector((state) => state.lobby);
   const { roomId } = useTypedSelector((state) => state.roomData);
-  const { modalActive } = useTypedSelector((state) => state.home);
 
   const [formGame] = Form.useForm();
 
@@ -59,7 +65,7 @@ const ModalRegistration: React.FC = () => {
 
   const submitFormGame = () => {
     formGame.resetFields();
-    dispatch(chageModalActive(false));
+    onModalActive(false);
   };
 
   const createNewRoom = async () => {
@@ -70,7 +76,7 @@ const ModalRegistration: React.FC = () => {
       dispatch(setRoomId(data.id));
       dispatch(addAdmin(data.user));
       dispatch(addUsers(data.user));
-      dispatch(chageModalActive(false));
+      onModalActive(false);
       history.push(PathRoutes.Admin);
     });
   };
@@ -95,7 +101,7 @@ const ModalRegistration: React.FC = () => {
         return;
       }
     } catch (err) {
-      dispatch(chageModalActive(false));
+      onModalActive(false);
       if (err instanceof Error) {
         message.error(`Failed to establish a connection. Contact the system administrator. Error: ${err.message}`);
       }
@@ -118,7 +124,7 @@ const ModalRegistration: React.FC = () => {
 
   const handleClickCancelButton = () => {
     formGame.resetFields();
-    dispatch(chageModalActive(false));
+    onModalActive(false);
   };
 
   const handleCancel = () => handleClickCancelButton();

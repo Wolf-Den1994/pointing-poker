@@ -3,7 +3,6 @@ export enum LobbyActions {
 }
 
 export enum HomeActions {
-  CHANGE_MODAL_ACTIVE = 'CHANGE_MODAL_ACTIVE',
   CHANGE_AVATAR = 'CHANGE_AVATAR',
 }
 
