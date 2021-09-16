@@ -74,6 +74,14 @@ const Lobby: React.FC = () => {
         history.push(PathRoutes.Home);
       });
     }
+
+    window.onload = () => {
+      history.push('/');
+    };
+
+    return () => {
+      window.onload = null;
+    };
   }, []);
 
   return (
