@@ -150,11 +150,10 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.once('leaveRoom', ({ roomId, user, id }) => {
-    deleteUser(roomId, id);
-    socket.broadcast.in(roomId).emit('userLeaveTheRoom', { user, userId: id });
-    socket.leave(roomId);
-    socket.disconnect(true);
+  socket.once('leaveRoom', async ({ roomId, user, id }) => {
+    await deleteUser(roomId, id);
+    const response = await getRoom(roomId);
+    deleteUserFromRoom(socket, roomId, user, response.users);
   });
 
   socket.on('disconnect', () => {
