@@ -16,11 +16,11 @@ const BtnsLobby: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const startGame = () => {
+  const handleStartGame = () => {
     history.push(PathRoutes.Game);
   };
 
-  const cancelGame = async () => {
+  const handleCancelGame = async () => {
     try {
       await axios.delete('https://rsschool-pp.herokuapp.com/api/', { data: { id: roomData.roomId } });
       socket.emit('disconnectAll', { roomId: roomData.roomId });
@@ -31,7 +31,7 @@ const BtnsLobby: React.FC = () => {
     }
   };
 
-  const exitGame = () => {
+  const handleExitGame = () => {
     socket.emit('leaveRoom', { roomId: roomData.roomId, user: userName, id: socket.id });
     history.push(PathRoutes.Home);
   };
@@ -40,16 +40,16 @@ const BtnsLobby: React.FC = () => {
     <div className={style.btnsLobby}>
       {isDealer ? (
         <div className={style.control}>
-          <Button type="primary" size="large" className={style.button} onClick={startGame}>
+          <Button type="primary" size="large" className={style.button} onClick={handleStartGame}>
             Start Game
           </Button>
-          <Button size="large" className={`${style.button} ${style.white}`} onClick={cancelGame}>
+          <Button size="large" className={`${style.button} ${style.white}`} onClick={handleCancelGame}>
             Cancel game
           </Button>
         </div>
       ) : (
         <div className={style.exit}>
-          <Button size="large" className={`${style.button} ${style.white}`} onClick={exitGame}>
+          <Button size="large" className={`${style.button} ${style.white}`} onClick={handleExitGame}>
             Exit
           </Button>
         </div>

@@ -16,7 +16,7 @@ const Chat: React.FC = () => {
   const roomData = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
 
-  const onTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(writeMessage(e.target.value));
     socket.emit('someOneWriteMessage', {
       user: user.name,
@@ -33,7 +33,7 @@ const Chat: React.FC = () => {
     }, 2000);
   };
 
-  const sendMessage = () => {
+  const handleSendMessage = () => {
     const { message } = userMessage;
     socket.emit('getMessage', {
       roomId: roomData.roomId,
@@ -63,8 +63,13 @@ const Chat: React.FC = () => {
         )}
       </div>
       <div className={style.setOfFields}>
-        <Input className={style.input} placeholder="Enter Message" value={userMessage.message} onChange={onTyping} />
-        <Button type="primary" onClick={sendMessage}>
+        <Input
+          className={style.input}
+          placeholder="Enter Message"
+          value={userMessage.message}
+          onChange={handleTyping}
+        />
+        <Button type="primary" onClick={handleSendMessage}>
           Send
         </Button>
       </div>

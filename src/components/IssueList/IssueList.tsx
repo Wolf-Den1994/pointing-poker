@@ -60,7 +60,7 @@ const IssueList: React.FC = () => {
     showModal();
   };
 
-  const hanleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setValueNewIssue(e.target.value);
+  const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setValueNewIssue(e.target.value);
 
   const handleRemoveIssue = (issue: string) => {
     dispatch(removeIssue(issue));
@@ -92,7 +92,7 @@ const IssueList: React.FC = () => {
           </span>
         </span>
         <Modal title={editOrCreate} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-          <Input placeholder={editOrCreate} value={valueNewIssue} onChange={hanleInputValue} />
+          <Input placeholder={editOrCreate} value={valueNewIssue} onChange={handleInputValue} />
         </Modal>
       </div>
     </div>

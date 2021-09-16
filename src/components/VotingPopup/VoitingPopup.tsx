@@ -21,12 +21,12 @@ const VotingCard: FC<ModalVisibility> = ({ isVisible, userName }) => {
     dispatch(changeModalActivity(false));
   };
 
-  const handlerCancel = () => {
+  const handleCancel = () => {
     socket.emit('toVoteFor', { voice: 'against', user: userName, roomId });
     resetVoitingData();
   };
 
-  const handlerOk = () => {
+  const handleOk = () => {
     socket.emit('toVoteFor', { voice: 'for', user: userName, roomId });
     resetVoitingData();
   };
@@ -39,10 +39,10 @@ const VotingCard: FC<ModalVisibility> = ({ isVisible, userName }) => {
         centered
         footer={[
           <div key="modal-voting-wrapper">
-            <Button type="primary" size="large" onClick={handlerOk}>
+            <Button type="primary" size="large" onClick={handleOk}>
               Yes
             </Button>
-            <Button type="ghost" size="large" onClick={handlerCancel}>
+            <Button type="ghost" size="large" onClick={handleCancel}>
               No
             </Button>
           </div>,

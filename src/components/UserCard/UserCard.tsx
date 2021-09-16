@@ -21,7 +21,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
 
   const indexUser = users.findIndex((item) => item.name === user.name);
 
-  const deleteUserWithVoting = () => {
+  const handleDeleteUserWithVoting = () => {
     if (id === socket.id) {
       message.error('You need to use another way to leave room');
       return;
@@ -29,7 +29,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
     socket.emit('deleteUserWithVoting', { userId: id, userName: name, roomId });
   };
 
-  const deleteUser = () => {
+  const handleDeleteUser = () => {
     socket.emit('disconnectOne', { userId: id, roomId });
     message.info(`User with this id: ${id}, disconnected`);
   };
@@ -54,7 +54,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
           <p className={style.name}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
-        <div className={style.kick} onClick={isDealer ? deleteUser : deleteUserWithVoting} data-id={id}>
+        <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
           {role === 'admin' ? null : <StopOutlined style={{ fontSize: 30 }} />}
         </div>
       </div>

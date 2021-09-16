@@ -37,13 +37,13 @@ const Planning: React.FC = () => {
     return elements;
   };
 
-  const editIssues = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEditIssues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const result = newValue.split(',').map((issue) => issue.trim());
     setIssues(result);
   };
 
-  const redact = () => {
+  const handleRedact = () => {
     if (issuesEdit) {
       const isDuplicate = issues.some((issue, index) => issues.indexOf(issue) !== index);
       if (isDuplicate) {
@@ -64,14 +64,14 @@ const Planning: React.FC = () => {
   return (
     <div className={style.planning}>
       {issuesEdit ? (
-        <Input value={valueIssues} onInput={editIssues} />
+        <Input value={valueIssues} onInput={handleEditIssues} />
       ) : (
         <span className={style.tasks}>
           Spring {issueList.length} planning ({createElementsPlanning()})
         </span>
       )}
       {isDealer ? (
-        <span className={style.edit} onClick={redact}>
+        <span className={style.edit} onClick={handleRedact}>
           <EditOutlined style={{ fontSize: 24 }} />
         </span>
       ) : null}

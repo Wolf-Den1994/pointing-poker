@@ -17,18 +17,18 @@ const Home: React.FC = () => {
 
   const { roomId } = useTypedSelector((state) => state.roomData);
 
-  const handlerStartNewGame = () => {
+  const handleStartNewGame = () => {
     dispatch(setId(socket.id));
     dispatch(setRole('admin'));
     dispatch(changeDealer(true));
     dispatch(chageModalActive(true));
   };
 
-  const handlerChangeLink = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeLink = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setRoomId(e.target.value));
   };
 
-  const handlerConnectToGame = async () => {
+  const handleConnectToGame = async () => {
     try {
       const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${roomId}`);
       if (response.data) {
@@ -58,7 +58,7 @@ const Home: React.FC = () => {
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
             <p className={style.session}>Create a session: </p>
-            <Button type="primary" size="large" onClick={handlerStartNewGame}>
+            <Button type="primary" size="large" onClick={handleStartNewGame}>
               Start new game
             </Button>
           </div>
@@ -70,8 +70,8 @@ const Home: React.FC = () => {
               Connect to lobby by <span>ID:</span>
             </p>
             <div className={style.connect}>
-              <Input size="large" type="text" placeholder="ID" value={roomId} onChange={handlerChangeLink} />
-              <Button type="primary" size="large" onClick={handlerConnectToGame}>
+              <Input size="large" type="text" placeholder="ID" value={roomId} onChange={handleChangeLink} />
+              <Button type="primary" size="large" onClick={handleConnectToGame}>
                 Connect
               </Button>
             </div>

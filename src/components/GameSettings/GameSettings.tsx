@@ -23,7 +23,7 @@ const GameSettings: React.FC = () => {
     roundTime,
   } = settings;
 
-  const onChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
+  const handleChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
     dispatch(changeSettings({ ...data }));
 
     if (currentData.roundTime) {
@@ -40,7 +40,7 @@ const GameSettings: React.FC = () => {
           span: 6,
         }}
         form={formSettings}
-        onValuesChange={onChangeFormSettings}
+        onValuesChange={handleChangeFormSettings}
         scrollToFirstError
       >
         <Form.Item

@@ -28,7 +28,7 @@ const ModalRegistation: React.FC = () => {
 
   const [formGame] = Form.useForm();
 
-  const addAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: File = (e.target.files as FileList)[0];
     const reader = new FileReader();
     reader.onload = () => {
@@ -37,19 +37,19 @@ const ModalRegistation: React.FC = () => {
     reader.readAsDataURL(file);
   };
 
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
   };
 
-  const onChangeSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
   };
 
-  const onChangePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJobStatus(e.target.value);
   };
 
-  const onChangeRole = (checked: boolean) => {
+  const handleChangeRole = (checked: boolean) => {
     if (checked) {
       setRole('observer');
     } else {
@@ -57,7 +57,7 @@ const ModalRegistation: React.FC = () => {
     }
   };
 
-  const onSubmitFormGame = () => {
+  const submitFormGame = () => {
     formGame.resetFields();
     dispatch(chageModalActive(false));
   };
@@ -102,10 +102,10 @@ const ModalRegistation: React.FC = () => {
     }
   };
 
-  const handlerOk = () => {
+  const handleOk = () => {
     if (firstName.length) {
       dispatch(setData({ id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
-      onSubmitFormGame();
+      submitFormGame();
       if (isDealer) {
         createNewRoom();
       } else {
@@ -116,19 +116,19 @@ const ModalRegistation: React.FC = () => {
     }
   };
 
-  const onClickCancelButton = () => {
+  const handleClickCancelButton = () => {
     formGame.resetFields();
     dispatch(chageModalActive(false));
   };
 
-  const handlerCancel = () => onClickCancelButton();
+  const handleCancel = () => handleClickCancelButton();
 
   return (
     <>
       <Modal
         visible={modalActive}
-        onOk={handlerOk}
-        onCancel={handlerCancel}
+        onOk={handleOk}
+        onCancel={handleCancel}
         title="Connect to lobby"
         okText="Confirm"
         centered
@@ -136,7 +136,7 @@ const ModalRegistation: React.FC = () => {
         <Form form={formGame} layout="vertical" scrollToFirstError>
           {isDealer ? null : (
             <Form.Item name="observer" valuePropName="checked" label={`Connect as ${role}`} initialValue={false}>
-              <Switch onChange={onChangeRole} />
+              <Switch onChange={handleChangeRole} />
             </Form.Item>
           )}
 
@@ -155,7 +155,7 @@ const ModalRegistation: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Rick" onChange={onChangeName} />
+            <Input placeholder="Rick" onChange={handleChangeName} />
           </Form.Item>
 
           <Form.Item
@@ -168,7 +168,7 @@ const ModalRegistation: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Griffin" onChange={onChangeSurname} />
+            <Input placeholder="Griffin" onChange={handleChangeSurname} />
           </Form.Item>
 
           <Form.Item
@@ -181,11 +181,11 @@ const ModalRegistation: React.FC = () => {
               },
             ]}
           >
-            <Input placeholder="Software Engineer" onChange={onChangePosition} />
+            <Input placeholder="Software Engineer" onChange={handleChangePosition} />
           </Form.Item>
 
           <Form.Item name="avatar" label="Upload avatar:">
-            <Input type="file" onChange={addAvatar} value={avatar} />
+            <Input type="file" onChange={handleAddAvatar} value={avatar} />
           </Form.Item>
 
           {avatar && avatar.length ? (

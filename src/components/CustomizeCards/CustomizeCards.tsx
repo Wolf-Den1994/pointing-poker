@@ -16,7 +16,7 @@ const CustomizeCards: React.FC = () => {
   const [valueInput, setValueInput] = useState('');
   const [addIsActive, setAddIsActive] = useState(false);
 
-  const showAddCard = () => {
+  const handleShowAddCard = () => {
     if (!addIsActive) setAddIsActive(true);
   };
 
@@ -42,7 +42,7 @@ const CustomizeCards: React.FC = () => {
         {cardSet.map((item) => (
           <GameCard key={item} view={item} />
         ))}
-        <div className={style.add} onClick={showAddCard}>
+        <div className={style.add} onClick={handleShowAddCard}>
           {addIsActive ? (
             <div className={style.addWrapper}>
               <Input placeholder="add" value={valueInput} onChange={handleInputValue} maxLength={3} />

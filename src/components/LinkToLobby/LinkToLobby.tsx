@@ -6,7 +6,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 const LinkToLobby: React.FC = () => {
   const { roomId } = useTypedSelector((state) => state.roomData);
 
-  const copyLink = () => {
+  const handleCopyLink = () => {
     message.success('ID successfully copied to clipboard!');
   };
 
@@ -16,7 +16,7 @@ const LinkToLobby: React.FC = () => {
         <p className={style.title}>ID to lobby:</p>
         <div className={style.setOfFields}>
           <Input size="large" placeholder="ID" readOnly value={roomId} className={style.input} />
-          <CopyToClipboard text={roomId} onCopy={copyLink}>
+          <CopyToClipboard text={roomId} onCopy={handleCopyLink}>
             <Button size="large" type="primary" htmlType="submit" className={style.button}>
               Copy
             </Button>
