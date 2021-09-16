@@ -13,10 +13,10 @@ import { Room } from './types/types';
 import { deleteUserFromRoom } from './utils/services';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.use(cors());
-app.use(express.json()); // for parsing application/json
-app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -42,13 +42,6 @@ async function start() {
 }
 
 start();
-
-const room = {
-  roomId: '',
-  admin: {},
-  users: [],
-  messages: [],
-};
 
 io.on('connection', (socket) => {
   socket.on('createRoom', async ({ data }) => {
