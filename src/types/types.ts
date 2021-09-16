@@ -1,5 +1,7 @@
 import { Moment } from 'moment';
 
+export const SERVER_URL = 'https://rsschool-pp.herokuapp.com';
+
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',
   AboutDublicateInLine = 'There is a duplicate in the line. Check the line!',

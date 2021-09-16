@@ -1,5 +1,6 @@
 import { io } from 'socket.io-client';
+import { SERVER_URL } from '../types/types';
 
-const socket = io('https://rsschool-pp.herokuapp.com');
+const socket = io(SERVER_URL);
 
 export default socket;
