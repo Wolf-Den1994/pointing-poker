@@ -60,9 +60,8 @@ io.on('connection', (socket) => {
 
   socket.on('enterRoom', ({ user, roomId }) => {
     socket.join(roomId);
-    const newUser = { ...user, id: socket.id };
-    addNewUser(roomId, newUser);
-    socket.broadcast.to(roomId).emit('enteredRoom', { user: newUser });
+    addNewUser(roomId, user);
+    socket.broadcast.to(roomId).emit('enteredRoom', { user });
   });
 
   socket.on('getMessage', async ({ roomId, user, mess }) => {
