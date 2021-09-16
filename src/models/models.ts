@@ -23,4 +23,10 @@ export const RoomModel = new Schema({
     },
   ],
   messages: [{ name: String, message: String }],
+  issues: [String],
+  voting: {
+    id: String,
+    voices: Number,
+    votedUsers: Number,
+  },
 });
