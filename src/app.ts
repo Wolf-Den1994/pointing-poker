@@ -153,14 +153,26 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('leaveRoom', async ({ roomId, user, id }) => {
-    await deleteUser(roomId, id);
-    const response = await getRoom(roomId);
-    deleteUserFromRoom(socket, roomId, user, response.users);
+  socket.on('disconnecting', () => {
+    const userData = Array.from(socket.rooms);
+    if (userData.length <= 1) return;
+    const allRoomsId = [...userData];
+    allRoomsId.shift();
+    allRoomsId.forEach(async (el) => {
+      await deleteUser(el, userData[0]);
+      const response = await getRoom(el);
+      if (response.admin.id === userData[0]) {
+        io.in(el).emit('disconnectAllSockets');
+        io.in(el).disconnectSockets();
+        console.log('Did it');
+      } else {
+        deleteUserFromRoom(socket, el, userData[0], response.users);
+      }
+    });
   });
 
   socket.on('disconnect', () => {
-    console.log('disconnected');
+    console.log(`${socket.id} disconnected`);
   });
 
   console.log('socket connected', socket.id);
