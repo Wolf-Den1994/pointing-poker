@@ -75,6 +75,22 @@ io.on('connection', (socket) => {
     io.to(roomId).emit('sendMessageWriter', { name: user, active: write });
   });
 
+  socket.on('changeIssuesList', async ({
+    newIssue, mode, roomId, oldIssue = '',
+  }) => {
+    const response = await getRoom(roomId);
+    if (mode === 'add') {
+      response.issues.push(newIssue);
+    } else if (mode === 'all') {
+      response.issues = newIssue;
+    } else {
+      const index = response.issues.findIndex((el) => el === oldIssue);
+      response.issues[index] = newIssue;
+    }
+    updateRoom(response);
+    socket.broadcast.to(roomId).emit('getIssuesList', { issues: response.issues });
+  });
+
   socket.once('disconnectAll', async ({ roomId }) => {
     io.in(roomId).emit('dissconnectAllSockets');
     io.in(roomId).disconnectSockets();
