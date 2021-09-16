@@ -8,6 +8,7 @@ import { writeMessage } from '../../store/userTypingReducer';
 import socket from '../../utils/soketIO';
 import style from './Chat.module.scss';
 import { SocketTokens } from '../../types/types';
+import { io } from '../../services/socket';
 
 let timeout: NodeJS.Timeout;
 
@@ -19,7 +20,7 @@ const Chat: React.FC = () => {
   const user = useTypedSelector((state) => state.userData);
 
   useEffect(() => {
-    socket.on(SocketTokens.SendMessage, (data) => {
+    io('on', SocketTokens.SendMessage, (data: any) => {
       dispatch(addMessage(data));
     });
   }, []);
