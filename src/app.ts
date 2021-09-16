@@ -91,6 +91,47 @@ io.on('connection', (socket) => {
     socket.broadcast.to(roomId).emit('getIssuesList', { issues: response.issues });
   });
 
+  socket.on('setTimeOnTimer', ({ time, roomId }) => {
+    io.in(roomId).emit('sendTimeOnTimer', time);
+  });
+
+  socket.on('deleteUserWithVoting', async ({ userId, userName, roomId }) => {
+    const response = await getRoom(roomId);
+    const votingData = response.voting;
+    votingData.id = userId;
+    votingData.voices++;
+    votingData.votedUsers++;
+    socket.broadcast.to(roomId).emit('showCandidateToBeDeleted', { name: userName });
+    updateRoom(response);
+  });
+
+  socket.on('toVoteFor', async ({ voice, user, roomId }) => {
+    const response = await getRoom(roomId);
+    const usersArray = response.users;
+    const votingObj = response.voting;
+    const usersAmount = usersArray.length - 1; // minus admin;
+    if (voice === 'for') {
+      votingObj.voices++;
+    }
+    votingObj.votedUsers++;
+    if (usersAmount !== votingObj.votedUsers) {
+      updateRoom(response);
+      return;
+    }
+
+    if (votingObj.voices > votingObj.votedUsers / 2) {
+      io.sockets.sockets.forEach((el) => {
+        if (el.id === votingObj.id) {
+          const resultUsersArray = usersArray.filter((elem) => elem.id !== el.id);
+          clearVotingObj(roomId, el.id);
+          deleteUserFromRoom(el, roomId, user, resultUsersArray);
+        }
+      });
+    } else {
+      clearVotingObj(roomId);
+    }
+  });
+
   socket.once('disconnectAll', async ({ roomId }) => {
     io.in(roomId).emit('dissconnectAllSockets');
     io.in(roomId).disconnectSockets();
@@ -107,9 +148,6 @@ io.on('connection', (socket) => {
         el.disconnect(true);
       }
     });
-  });
-  socket.on('setTimeOnTimer', ({ time, roomId }) => {
-    io.in(roomId).emit('sendTimeOnTimer', time);
   });
 
   socket.once('leaveRoom', ({ roomId, user, id }) => {
