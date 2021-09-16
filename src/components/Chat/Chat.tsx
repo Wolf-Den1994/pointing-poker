@@ -51,6 +51,10 @@ const Chat: React.FC = () => {
     dispatch(writeMessage(''));
   };
 
+  const handleSendMessageOnEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') handleSendMessage();
+  };
+
   return (
     <div className={style.chat}>
       <p className={style.title}>Chat</p>
@@ -75,6 +79,7 @@ const Chat: React.FC = () => {
           placeholder="Enter Message"
           value={userMessage.message}
           onChange={handleTyping}
+          onKeyPress={handleSendMessageOnEnter}
         />
         <Button type="primary" onClick={handleSendMessage}>
           Send
