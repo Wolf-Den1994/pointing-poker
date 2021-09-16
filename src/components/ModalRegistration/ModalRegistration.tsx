@@ -85,7 +85,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
       dispatch(addAdmin(data.user));
       dispatch(addUsers(data.user));
       onModalActive(false);
-      history.push(`${PathRoutes.Admin}/${data.id}`);
+      history.push(`${PathRoutes.Lobby}/${data.id}`);
     });
   };
 
@@ -103,7 +103,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           user: { id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
           roomId,
         });
-        history.push(`${PathRoutes.User}/${roomId}`);
+        history.push(`${PathRoutes.Lobby}/${roomId}`);
       } else {
         message.error('User with the same name already exists. Enter another name!');
         return;

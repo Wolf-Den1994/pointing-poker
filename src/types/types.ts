@@ -27,10 +27,8 @@ export enum AuthorsLink {
 
 export enum PathRoutes {
   Home = '/',
-  Lobby = 'lobby',
+  Lobby = '/lobby',
   Game = 'game',
-  Admin = '/admin',
-  User = `/user`,
 }
 
 export enum IssueStatus {
