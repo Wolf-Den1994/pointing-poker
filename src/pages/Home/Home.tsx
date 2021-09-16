@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Input, message } from 'antd';
 import socket from '../../utils/soketIO';
@@ -10,17 +10,13 @@ import { SocketTokens } from '../../types/types';
 import { on, connect } from '../../services/socket';
 import { getResourse } from '../../services/api';
 
-interface IHomeProps {
-  roomId: string;
-  onRoomId: Dispatch<SetStateAction<string>>;
-}
-
-const Home: React.FC<IHomeProps> = ({ roomId, onRoomId }: IHomeProps) => {
+const Home: React.FC = () => {
   const dispatch = useDispatch();
 
   const [modalActive, setModalActive] = useState(false);
   const [role, setRole] = useState('');
   const [id, setId] = useState('');
+  const [roomId, setRoomId] = useState('');
 
   const handleStartNewGame = () => {
     setId(socket.id);
@@ -30,7 +26,7 @@ const Home: React.FC<IHomeProps> = ({ roomId, onRoomId }: IHomeProps) => {
   };
 
   const handleChangeLink = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onRoomId(e.target.value);
+    setRoomId(e.target.value);
   };
 
   const handleConnectToGame = async () => {
@@ -92,7 +88,7 @@ const Home: React.FC<IHomeProps> = ({ roomId, onRoomId }: IHomeProps) => {
         onRole={setRole}
         id={id}
         roomId={roomId}
-        onRoomId={onRoomId}
+        onRoomId={setRoomId}
         modalActive={modalActive}
         onModalActive={setModalActive}
       />

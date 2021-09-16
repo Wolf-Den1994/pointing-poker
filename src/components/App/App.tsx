@@ -1,5 +1,4 @@
 import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
-import { useState } from 'react';
 import style from './App.module.scss';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -9,17 +8,13 @@ import Lobby from '../../pages/Lobby/Lobby';
 const App: React.FC = () => {
   const location = useLocation();
 
-  const [roomId, setRoomId] = useState('');
-
   return (
     <div className={style.wrapper}>
       <Header />
       <main>
         <div className="container">
           <Switch location={location}>
-            <Route exact path="/">
-              <Home roomId={roomId} onRoomId={setRoomId} />
-            </Route>
+            <Route exact path="/" component={Home} />
             <Route path="/lobby/:roomId" component={Lobby} />
             <Route path="*" render={() => <Redirect to="/" />} />
           </Switch>
