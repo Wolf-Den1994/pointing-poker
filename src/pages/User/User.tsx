@@ -12,7 +12,7 @@ import socket from '../../utils/soketIO';
 import style from './User.module.scss';
 import { changeIssue } from '../../store/issuesReducer';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
-import VotingCard from '../../components/VotingPopup/VoitingPopup';
+import VotingPopup from '../../components/VotingPopup/VoitingPopup';
 import { addUsers } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import { PathRoutes } from '../../types/types';
@@ -92,7 +92,7 @@ const User: React.FC = () => {
         <BtnsLobby />
         <Members />
       </div>
-      {votingData.isVisible ? <VotingCard userName={votingData.userName} isVisible={true} /> : null}
+      {votingData.isVisible ? <VotingPopup userName={votingData.userName} isVisible={true} /> : null}
     </>
   );
 };

@@ -6,12 +6,12 @@ import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingRed
 import socket from '../../utils/soketIO';
 import styles from './VoitingPopup.module.scss';
 
-interface ModalVisibility {
+interface IModalVisibilityProps {
   isVisible: boolean;
   userName: string;
 }
 
-const VotingCard: FC<ModalVisibility> = ({ isVisible, userName }) => {
+const VotingPopup: FC<IModalVisibilityProps> = ({ isVisible, userName }) => {
   const dispatch = useDispatch();
 
   const { roomId } = useTypedSelector((state) => state.roomData);
@@ -57,4 +57,4 @@ const VotingCard: FC<ModalVisibility> = ({ isVisible, userName }) => {
   );
 };
 
-export default VotingCard;
+export default VotingPopup;
