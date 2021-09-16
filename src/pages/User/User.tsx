@@ -13,7 +13,7 @@ import style from './User.module.scss';
 import { changeIssue } from '../../store/issuesReducer';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 import VotingCard from '../../components/VotingPopup/VoitingPopup';
-import { addUsers, addMessage } from '../../store/roomDataReducer';
+import { addUsers } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import { PathRoutes } from '../../types/types';
 import Timer from '../../components/Timer/Timer';
@@ -27,10 +27,6 @@ const User: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
-    socket.on('sendMessage', (data) => {
-      dispatch(addMessage(data));
-    });
-
     socket.on('enteredRoom', (data) => {
       dispatch(addUsers(data.user));
       message.success(`${data.user.name}, entered the room`);

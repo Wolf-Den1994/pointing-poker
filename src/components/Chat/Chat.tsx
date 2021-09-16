@@ -1,6 +1,7 @@
 import { Input, Button } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { addMessage } from '../../store/roomDataReducer';
 import { writeMessage } from '../../store/userTypingReducer';
@@ -15,6 +16,12 @@ const Chat: React.FC = () => {
   const userMessage = useTypedSelector((state) => state.userTyping);
   const roomData = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
+
+  useEffect(() => {
+    socket.on('sendMessage', (data) => {
+      dispatch(addMessage(data));
+    });
+  }, []);
 
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(writeMessage(e.target.value));

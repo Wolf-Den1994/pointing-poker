@@ -14,9 +14,10 @@ import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
 import style from './Admin.module.scss';
-import { addMessage, addUsers } from '../../store/roomDataReducer';
+import { addUsers } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import Timer from '../../components/Timer/Timer';
+import { PathRoutes } from '../../types/types';
 
 const Admin: React.FC = () => {
   const dispatch = useDispatch();
@@ -25,10 +26,6 @@ const Admin: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   useEffect(() => {
-    socket.on('sendMessage', (data) => {
-      dispatch(addMessage(data));
-    });
-
     socket.on('enteredRoom', (data) => {
       dispatch(addUsers(data.user));
       message.info(`${data.user.name}, entered room`);
@@ -46,7 +43,7 @@ const Admin: React.FC = () => {
     });
 
     socket.on('willBeDisconnected', () => {
-      history.push('/');
+      history.push(PathRoutes.Home);
     });
   }, []);
 
