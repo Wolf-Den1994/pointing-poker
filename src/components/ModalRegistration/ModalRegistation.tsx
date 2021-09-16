@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import axios from 'axios';
@@ -6,7 +7,7 @@ import socket from '../../utils/soketIO';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { chageModalActive } from '../../store/homeReducer';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
-import { setAvatar, setName, setLastName, setJobStatus, setRole } from '../../store/registrationDataReducer';
+import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
@@ -15,9 +16,13 @@ const ModalRegistation: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const imageAvatar = useTypedSelector((state) => state.registrationData.user.avatarUrl);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [jobStatus, setJobStatus] = useState('');
+  const [role, setRole] = useState('');
+  const [avatar, setAvatar] = useState('');
+
   const { isDealer } = useTypedSelector((state) => state.lobby);
-  const registrationData = useTypedSelector((state) => state.registrationData.user);
   const { roomId } = useTypedSelector((state) => state.roomData);
   const { modalActive } = useTypedSelector((state) => state.home);
 
@@ -27,28 +32,28 @@ const ModalRegistation: React.FC = () => {
     const file: File = (e.target.files as FileList)[0];
     const reader = new FileReader();
     reader.onload = () => {
-      dispatch(setAvatar(`${reader.result}`));
+      setAvatar(`${reader.result}`);
     };
     reader.readAsDataURL(file);
   };
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setName(e.target.value));
+    setFirstName(e.target.value);
   };
 
   const onChangeSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setLastName(e.target.value));
+    setLastName(e.target.value);
   };
 
   const onChangePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setJobStatus(e.target.value));
+    setJobStatus(e.target.value);
   };
 
   const onChangeRole = (checked: boolean) => {
     if (checked) {
-      dispatch(setRole('observer'));
+      setRole('observer');
     } else {
-      dispatch(setRole('player'));
+      setRole('player');
     }
   };
 
@@ -58,7 +63,9 @@ const ModalRegistation: React.FC = () => {
   };
 
   const createNewRoom = async () => {
-    socket.emit('createRoom', { data: registrationData });
+    socket.emit('createRoom', {
+      data: { id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
+    });
     socket.once('returnRoomId', (data) => {
       dispatch(setRoomId(data.id));
       dispatch(addAdmin(data.user));
@@ -72,13 +79,16 @@ const ModalRegistation: React.FC = () => {
     try {
       const response = await axios.get(`https://rsschool-pp.herokuapp.com/api/${roomId}`);
       const { users, issues, messages } = response.data;
-      const isDublicate = users.find((item: IMember) => item.name === registrationData.name);
+      const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
-        users.push(registrationData);
+        users.push({ id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar });
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
-        socket.emit('enterRoom', { user: registrationData, roomId });
+        socket.emit('enterRoom', {
+          user: { id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
+          roomId,
+        });
         history.push(PathRoutes.User);
       } else {
         message.error('User with the same name already exists. Enter another name!');
@@ -93,7 +103,8 @@ const ModalRegistation: React.FC = () => {
   };
 
   const handlerOk = () => {
-    if (registrationData.name.length) {
+    if (firstName.length) {
+      dispatch(setData({ id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
       onSubmitFormGame();
       if (isDealer) {
         createNewRoom();
@@ -124,12 +135,7 @@ const ModalRegistation: React.FC = () => {
       >
         <Form form={formGame} layout="vertical" scrollToFirstError>
           {isDealer ? null : (
-            <Form.Item
-              name="observer"
-              valuePropName="checked"
-              label={`Connect as ${registrationData.role}`}
-              initialValue={false}
-            >
+            <Form.Item name="observer" valuePropName="checked" label={`Connect as ${role}`} initialValue={false}>
               <Switch onChange={onChangeRole} />
             </Form.Item>
           )}
@@ -179,14 +185,14 @@ const ModalRegistation: React.FC = () => {
           </Form.Item>
 
           <Form.Item name="avatar" label="Upload avatar:">
-            <Input type="file" onChange={addAvatar} value={imageAvatar} />
+            <Input type="file" onChange={addAvatar} value={avatar} />
           </Form.Item>
 
-          {imageAvatar && imageAvatar.length ? (
-            <Avatar shape="circle" size={64} src={imageAvatar} alt="avatar" />
+          {avatar && avatar.length ? (
+            <Avatar shape="circle" size={64} src={avatar} alt="avatar" />
           ) : (
             <Avatar shape="circle" size={64} alt="avatar">
-              {getFirstUpLetters(`${registrationData.name} ${registrationData.lastName}`)}
+              {getFirstUpLetters(`${firstName} ${lastName}`)}
             </Avatar>
           )}
         </Form>

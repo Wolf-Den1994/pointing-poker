@@ -14,7 +14,7 @@ const Chat: React.FC = () => {
 
   const userMessage = useTypedSelector((state) => state.userTyping);
   const roomData = useTypedSelector((state) => state.roomData);
-  const { user } = useTypedSelector((state) => state.registrationData);
+  const user = useTypedSelector((state) => state.userData);
 
   const onTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(writeMessage(e.target.value));

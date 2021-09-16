@@ -11,7 +11,7 @@ import style from './BtnsLobby.module.scss';
 const BtnsLobby: React.FC = () => {
   const { isDealer } = useTypedSelector((state) => state.lobby);
   const roomData = useTypedSelector((state) => state.roomData);
-  const userName = useTypedSelector((state) => state.registrationData.user.name);
+  const userName = useTypedSelector((state) => state.userData.name);
 
   const history = useHistory();
   const dispatch = useDispatch();

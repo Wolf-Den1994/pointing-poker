@@ -3,7 +3,7 @@ import { homeReducer } from './homeReducer';
 import { issuesReducer } from './issuesReducer';
 import { lobbyReducer } from './lobbyReducer';
 import { settingsReducer } from './settingsReducer';
-import { registrationDataReducer } from './registrationDataReducer';
+import { userReducer } from './userReducer';
 import { roomDataReducer } from './roomDataReducer';
 import { votingReducer } from './votingReducer';
 import { userTypingReducer } from './userTypingReducer';
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   home: homeReducer,
   issues: issuesReducer,
   settings: settingsReducer,
-  registrationData: registrationDataReducer,
+  userData: userReducer,
   roomData: roomDataReducer,
   voting: votingReducer,
   userTyping: userTypingReducer,

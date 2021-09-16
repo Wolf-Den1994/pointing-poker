@@ -10,7 +10,7 @@ import { chageModalActive } from '../../store/homeReducer';
 import ModalRegistation from '../../components/ModalRegistration/ModalRegistation';
 import { changeDealer } from '../../store/lobbyReducer';
 import { setRoomId } from '../../store/roomDataReducer';
-import { setId, setRole } from '../../store/registrationDataReducer';
+import { setId, setRole } from '../../store/userReducer';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();

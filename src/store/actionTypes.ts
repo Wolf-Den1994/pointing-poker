@@ -21,7 +21,7 @@ export enum SettingsActions {
   EDIT_CARD = 'EDIT_CARD',
 }
 
-export enum RegistrationDataActions {
+export enum UserActions {
   SET_DATA = 'SET_DATA',
   SET_ID = 'SET_ID',
   SET_NAME = 'SET_NAME',

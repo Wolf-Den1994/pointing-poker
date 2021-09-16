@@ -16,7 +16,7 @@ interface IUserCardProps {
 
 const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar, id, role }: IUserCardProps) => {
   const { users, roomId } = useTypedSelector((state) => state.roomData);
-  const { user } = useTypedSelector((state) => state.registrationData);
+  const user = useTypedSelector((state) => state.userData);
   const { isDealer } = useTypedSelector((state) => state.lobby);
 
   const indexUser = users.findIndex((item) => item.name === user.name);
