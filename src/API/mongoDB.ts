@@ -4,6 +4,10 @@ import { Room, User } from '../types/types.js';
 
 const RoomMongo = mongoose.model('RoomMongo', RoomModel, 'pp-database');
 
+export const resetDataBase = async (): Promise<void> => { // просто очищает базу данных если понадобиться
+  await RoomMongo.deleteMany({});
+};
+
 export const getRoom = async (id: string): Promise<Room> => {
   const response = await RoomMongo.findOne({ roomId: id });
   const result = await response;
