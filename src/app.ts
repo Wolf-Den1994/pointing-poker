@@ -132,25 +132,28 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('leaveRoom', async ({ roomId, user, id }) => {
+    await deleteUser(roomId, id);
+    const response = await getRoom(roomId);
+    deleteUserFromRoom(socket, roomId, user, response.users);
+  });
+
   socket.once('disconnectAll', async ({ roomId }) => {
-    io.in(roomId).emit('dissconnectAllSockets');
+    io.in(roomId).emit('disconnectAllSockets');
     io.in(roomId).disconnectSockets();
   });
 
   socket.on('disconnectOne', async ({ userId, roomId }) => {
-    const sockets = await io.in(roomId).fetchSockets();
-    sockets.forEach((el) => {
+    await deleteUser(roomId, userId);
+    const response = await getRoom(roomId);
+    io.sockets.sockets.forEach((el) => {
       if (el.id === userId) {
-        io.to(roomId).emit('sendUserDisconnected', `${userId} is disconnected`);
-        el.emit('willBeDisconnected');
-        deleteUser(roomId, el.id);
-        el.leave(roomId);
-        el.disconnect(true);
+        deleteUserFromRoom(el, roomId, userId, response.users);
       }
     });
   });
 
-  socket.once('leaveRoom', async ({ roomId, user, id }) => {
+  socket.on('leaveRoom', async ({ roomId, user, id }) => {
     await deleteUser(roomId, id);
     const response = await getRoom(roomId);
     deleteUserFromRoom(socket, roomId, user, response.users);
