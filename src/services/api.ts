@@ -11,7 +11,7 @@ interface IRoomData {
   roomId: string;
   admin: IMember;
   users: IMember[];
-  messages: IMessage;
+  messages: IMessage[];
   issues: [string];
   voting: { id: string; voices: number; votedUsers: number };
 }

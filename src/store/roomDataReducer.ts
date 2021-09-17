@@ -48,6 +48,11 @@ interface IRoomDataActionIMessage {
   payload: IMessage;
 }
 
+interface IRoomDataActionIMessageArray {
+  type: RoomDataActions;
+  payload: IMessage[];
+}
+
 interface IRoomDataActionIMember {
   type: RoomDataActions;
   payload: IMember;
@@ -72,7 +77,7 @@ export const addUsers = (payload: IMember[]): IRoomDataActionIMemberArray => ({
   payload,
 });
 
-export const getAllMessages = (payload: IMessage): IRoomDataActionIMessage => ({
+export const getAllMessages = (payload: IMessage[]): IRoomDataActionIMessageArray => ({
   type: RoomDataActions.GET_ALL_MESSAGES,
   payload,
 });
