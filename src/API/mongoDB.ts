@@ -11,8 +11,7 @@ export const resetDataBase = async (): Promise<void> => {
 
 export const getRoom = async (id: string): Promise<Room> => {
   const response = await RoomMongo.findOne({ roomId: id });
-  const result = await response;
-  return result;
+  return response;
 };
 
 export const updateRoom = async (room: Room): Promise<void> => {
