@@ -6,7 +6,7 @@ import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
 import { changeDealer } from '../../store/roomDataReducer';
-import { SocketTokens, TextForUser } from '../../types/types';
+import { SocketTokens, TextForUser, UserRole } from '../../types/types';
 import { on, connect } from '../../services/socket';
 import { getResourse } from '../../services/api';
 
@@ -20,7 +20,7 @@ const Home: React.FC = () => {
 
   const handleStartNewGame = () => {
     setId(socket.id);
-    setRole('admin');
+    setRole(UserRole.Admin);
     dispatch(changeDealer(true));
     setModalActive(true);
   };
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
       const response = await getResourse(roomId);
       if (response.data) {
         setId(socket.id);
-        setRole('player');
+        setRole(UserRole.Player);
         dispatch(changeDealer(false));
         setModalActive(true);
       } else {
