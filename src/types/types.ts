@@ -19,6 +19,8 @@ export enum TextForUser {
   EnteredRoom = 'entered room',
   LeaveRoom = 'is leave the room',
   UserDisconnected = 'user disconnected',
+  RequiredCustomizeCard = 'Customize card is required!',
+  RequiredScoreType = 'Score type is required!',
 }
 
 export enum Authors {
