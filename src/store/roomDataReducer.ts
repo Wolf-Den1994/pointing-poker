@@ -72,7 +72,7 @@ export const addUsers = (payload: IMember[]): IRoomDataActionIMemberArray => ({
   payload,
 });
 
-export const getAllMessages = (payload: IMember): IRoomDataActionIMember => ({
+export const getAllMessages = (payload: IMessage): IRoomDataActionIMessage => ({
   type: RoomDataActions.GET_ALL_MESSAGES,
   payload,
 });

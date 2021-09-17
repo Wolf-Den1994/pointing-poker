@@ -113,13 +113,6 @@ export interface IMessage {
   message: string;
 }
 
-export interface IRoomData {
-  roomId: string;
-  admin: IMember;
-  users: IMember[];
-  messages: IMessage[];
-}
-
 export interface IGameSettingsData {
   isDealerActive: boolean;
   voteAfterRoundEnd: boolean;
