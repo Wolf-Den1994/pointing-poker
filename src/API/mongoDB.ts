@@ -5,7 +5,7 @@ import { clearVoting } from '../utils/constants';
 
 const RoomMongo = mongoose.model('RoomMongo', RoomModel, 'pp-database');
 
-export const resetDataBase = async (): Promise<void> => { // просто очищает базу данных если понадобиться
+export const resetDataBase = async (): Promise<void> => {
   await RoomMongo.deleteMany({});
 };
 
