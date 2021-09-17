@@ -35,9 +35,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
     getMessageUserDisconnect(id);
   };
 
-  const checkUserRoleAndId = () => {
-    return role === UserRole.Admin || id === socket.id;
-  };
+  const checkUserRoleAndId = () => role === UserRole.Admin || id === socket.id;
 
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
