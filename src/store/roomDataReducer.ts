@@ -11,7 +11,7 @@ interface IInitialStateRoomData {
 }
 
 const initialState: IInitialStateRoomData = {
-  admin: { id: '', name: '', lastName: '', position: '', role: 'admin', avatarUrl: '' },
+  admin: { id: '', name: '', lastName: '', position: '', role: 'admin', avatarUrl: '', assessments: [''] },
   users: [],
   messages: [],
   isDealer: true,

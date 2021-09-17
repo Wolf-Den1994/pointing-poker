@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import IssueList from '../../components/IssueList/IssueList';
 import Planning from '../../components/Planning/Planning';
 import Timer from '../../components/Timer/Timer';
@@ -7,7 +8,8 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
 
 const Game: React.FC = () => {
-  const { users } = useTypedSelector((state) => state.roomData);
+  const { assessments } = useTypedSelector((state) => state.userData);
+  const { users, admin } = useTypedSelector((state) => state.roomData);
 
   return (
     <div className={style.gamePage}>
@@ -18,12 +20,12 @@ const Game: React.FC = () => {
           <div className={style.card}>
             {users.length ? (
               <UserCard
-                jobStatus={users[0].position}
-                name={users[0].name}
-                lastName={users[0].lastName}
-                avatar={users[0].avatarUrl}
-                id={users[0].id}
-                role={users[0].role}
+                jobStatus={admin.position}
+                name={admin.name}
+                lastName={admin.lastName}
+                avatar={admin.avatarUrl}
+                id={admin.id}
+                role={admin.role}
               />
             ) : null}
           </div>
@@ -40,10 +42,25 @@ const Game: React.FC = () => {
       </div>
       <div className={style.userControl}>
         <div className={style.score}>
-          <p>Score:</p>
+          <p className={style.title}>Score:</p>
+          {assessments.length && assessments.map((item) => <div key={item}>{item}</div>)}
         </div>
         <div className={style.players}>
-          <p>Players:</p>
+          <p className={style.title}>Players:</p>
+          {users.length &&
+            users.map((item, index) =>
+              index !== 0 ? (
+                <UserCard
+                  key={uuidv4()}
+                  jobStatus={item.position}
+                  name={item.name}
+                  lastName={item.lastName}
+                  avatar={item.avatarUrl}
+                  id={item.id}
+                  role={item.role}
+                />
+              ) : null,
+            )}
         </div>
       </div>
     </div>

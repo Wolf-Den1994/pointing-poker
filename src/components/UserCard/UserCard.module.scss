@@ -15,6 +15,10 @@
       margin-right: 27px;
       background-color: #87d068;
       font-weight: bold;
+
+      &.avatarGame {
+        margin-right: 5px;
+      }
     }
 
     .user {
@@ -34,6 +38,10 @@
         font-weight: 300;
         font-size: 29px;
         line-height: 34px;
+
+        &.nameGame {
+          font-size: 16px;
+        }
       }
 
       .jobStatus {

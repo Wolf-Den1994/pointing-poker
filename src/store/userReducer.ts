@@ -3,7 +3,13 @@ import { UserActions } from './actionTypes';
 import { IMember } from '../types/types';
 
 interface IInitialStateUser {
-  [key: string]: string;
+  id: string;
+  name: string;
+  lastName: string;
+  position: string;
+  role: string;
+  avatarUrl: string;
+  assessments: string[];
 }
 
 const initialState: IInitialStateUser = {
@@ -13,6 +19,7 @@ const initialState: IInitialStateUser = {
   position: '',
   role: 'player',
   avatarUrl: '',
+  assessments: [''],
 };
 
 export const userReducer = (state = initialState, action: AnyAction): typeof initialState => {
@@ -37,6 +44,9 @@ export const userReducer = (state = initialState, action: AnyAction): typeof ini
 
     case UserActions.SET_AVATAR:
       return { ...state, avatarUrl: action.payload };
+
+    case UserActions.SET_ASSESSMENT:
+      return { ...state, assessments: action.payload };
 
     default:
       return state;
@@ -85,5 +95,10 @@ export const setRole = (payload: string): IUserActionStrings => ({
 
 export const setAvatar = (payload: string): IUserActionStrings => ({
   type: UserActions.SET_AVATAR,
+  payload,
+});
+
+export const setAssessment = (payload: string): IUserActionStrings => ({
+  type: UserActions.SET_ASSESSMENT,
   payload,
 });

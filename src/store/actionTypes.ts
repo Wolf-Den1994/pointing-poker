@@ -20,6 +20,7 @@ export enum UserActions {
   SET_JOB_STATUS = 'SET_JOB_STATUS',
   SET_ROLE = 'SET_ROLE',
   SET_AVATAR = 'SET_AVATAR',
+  SET_ASSESSMENT = 'SET_ASSESSMENT',
 }
 
 export enum RoomDataActions {
