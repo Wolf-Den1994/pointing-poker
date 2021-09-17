@@ -25,23 +25,7 @@ const io = new Server(httpServer, {
   },
 });
 
-async function start() {
-  try {
-    await mongoose.connect(
-      process.env.MONGODB__URI
-      || 'mongodb+srv://RSSchool-React:planning-poker@poker.jgasx.mongodb.net/Planning-poker-db?retryWrites=true&w=majority',
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      },
-    );
-    httpServer.listen(PORT, () => console.log(`Server started on ${PORT}`));
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-start();
+app.use('/api', router);
 
 io.on('connection', (socket) => {
   socket.on('createRoom', async ({ data }) => {
@@ -178,4 +162,20 @@ io.on('connection', (socket) => {
   console.log('socket connected', socket.id);
 });
 
-app.use('/api', router);
+const start = async () => {
+  try {
+    await mongoose.connect(
+      process.env.MONGODB__URI
+      || 'mongodb+srv://RSSchool-React:planning-poker@poker.jgasx.mongodb.net/Planning-poker-db?retryWrites=true&w=majority',
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+    );
+    httpServer.listen(PORT, () => console.log(`Server started on ${PORT}`));
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+start();
