@@ -69,6 +69,10 @@ const Lobby: React.FC = () => {
         dispatch(setNameOfDeletedUser(data.name));
       });
 
+      on(SocketTokens.CancelVoting, () => {
+        message.info('It is to few users for voting');
+      });
+
       on(SocketTokens.DisconnectAllSockets, () => {
         history.push(PathRoutes.Home);
       });
