@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import { message } from 'antd';
+import { Button, message } from 'antd';
 import Planning from '../../components/Planning/Planning';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
@@ -29,6 +29,10 @@ const Lobby: React.FC = () => {
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const votingData = useTypedSelector((state) => state.voting);
+
+  const [visibleChat, setVisibleChat] = useState(false);
+
+  const handleVisibleChat = () => setVisibleChat((prev) => !prev);
 
   useEffect(() => {
     on(SocketTokens.EnteredRoom, (data) => {
@@ -88,7 +92,7 @@ const Lobby: React.FC = () => {
       <div className={style.lobbyPage}>
         {/* {убрать таймер потом, когда будет страница game} */}
         <Timer />
-        <Chat />
+        {visibleChat ? <Chat setVisibleChat={setVisibleChat} /> : null}
         <Planning />
         <p className={style.scramMaster}>Scram master:</p>
         <div className={style.card}>
@@ -102,6 +106,9 @@ const Lobby: React.FC = () => {
               role={admin.role}
             />
           ) : null}
+          <Button type="primary" danger size="large" style={{ marginLeft: '2rem' }} onClick={handleVisibleChat}>
+            Open/Close Chat
+          </Button>
         </div>
         {isDealer ? <LinkToLobby /> : null}
         <BtnsLobby />

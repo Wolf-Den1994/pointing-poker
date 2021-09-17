@@ -1,8 +1,9 @@
 import { Input, Button } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { CloseCircleFilled } from '@ant-design/icons';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { addMessage } from '../../store/roomDataReducer';
 import { writeMessage } from '../../store/userTypingReducer';
@@ -12,7 +13,11 @@ import { on, emit } from '../../services/socket';
 
 let timeout: NodeJS.Timeout;
 
-const Chat: React.FC = () => {
+interface IChatProps {
+  setVisibleChat: Dispatch<SetStateAction<boolean>>;
+}
+
+const Chat: React.FC<IChatProps> = ({ setVisibleChat }: IChatProps) => {
   const dispatch = useDispatch();
 
   const userMessage = useTypedSelector((state) => state.userTyping);
@@ -62,6 +67,8 @@ const Chat: React.FC = () => {
     if (event.key === KeyboardKeys.Enter) handleSendMessage();
   };
 
+  const handleVisibleChat = () => setVisibleChat(false);
+
   const scrollToBottom = () => {
     if (scrollingChatElement && scrollingChatElement.current) {
       const elem = scrollingChatElement.current;
@@ -76,6 +83,7 @@ const Chat: React.FC = () => {
   return (
     <div className={style.chat}>
       <p className={style.title}>Chat</p>
+      <CloseCircleFilled className={style.close} onClick={handleVisibleChat} />
       <div className={style.messageContainer} ref={scrollingChatElement}>
         <div className={style.messagies}>
           {messages.map((item) => (
