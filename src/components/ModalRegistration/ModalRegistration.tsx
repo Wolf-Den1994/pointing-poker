@@ -91,16 +91,18 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const enterRoom = async () => {
     try {
+      const userData = { id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar };
       const response = await getResourse(roomId);
-      const { users, issues, messages } = response.data;
+      const { admin, users, issues, messages } = response.data;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
-        users.push({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar });
+        users.push(userData);
+        dispatch(addAdmin(admin));
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
         emit(SocketTokens.EnterRoom, {
-          user: { id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
+          user: userData,
           roomId,
         });
         history.push(`${PathRoutes.Lobby}/${roomId}`);
@@ -118,7 +120,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const handleOk = () => {
     if (firstName.length) {
-      dispatch(setData({ id: '', name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
+      dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
       submitFormGame();
       if (isDealer) {
         createNewRoom();

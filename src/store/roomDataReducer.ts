@@ -28,7 +28,7 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
       return { ...state, messages: [...state.messages, action.payload] };
 
     case RoomDataActions.ADD_ADMIN:
-      return { ...state, admin: { ...action.patload } };
+      return { ...state, admin: { ...action.payload } };
 
     case RoomDataActions.CLEAR_ROOM_DATA:
       return initialState;

@@ -27,7 +27,7 @@ const Lobby: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { users } = useTypedSelector((state) => state.roomData);
+  const { users, admin } = useTypedSelector((state) => state.roomData);
   const votingData = useTypedSelector((state) => state.voting);
   const { isDealer } = useTypedSelector((state) => state.lobby);
 
@@ -95,12 +95,12 @@ const Lobby: React.FC = () => {
         <div className={style.card}>
           {users.length ? (
             <UserCard
-              jobStatus={users[0].position}
-              name={users[0].name}
-              lastName={users[0].lastName}
-              avatar={users[0].avatarUrl}
-              id={users[0].id}
-              role={users[0].role}
+              jobStatus={admin.position}
+              name={admin.name}
+              lastName={admin.lastName}
+              avatar={admin.avatarUrl}
+              id={admin.id}
+              role={admin.role}
             />
           ) : null}
         </div>
