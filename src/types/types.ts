@@ -21,6 +21,7 @@ export enum TextForUser {
   UserDisconnected = 'user disconnected',
   RequiredCustomizeCard = 'Customize card is required!',
   RequiredScoreType = 'Score type is required!',
+  CancelVoting = 'There are not enough users for voting',
 }
 
 export enum Authors {
@@ -92,6 +93,7 @@ export enum SocketTokens {
   SendTimeOnTimer = 'sendTimeOnTimer',
   GetIssuesList = 'getIssuesList',
   ShowCandidateToBeDeleted = 'showCandidateToBeDeleted',
+  CancelVoting = 'cancelVoting',
   DisconnectAllSockets = 'disconnectAllSockets',
 }
 

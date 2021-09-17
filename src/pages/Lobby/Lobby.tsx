@@ -51,6 +51,10 @@ const Lobby: React.FC = () => {
       message.info(`${data.user} ${TextForUser.LeaveRoom}`);
     });
 
+    on(SocketTokens.CancelVoting, () => {
+      message.info(TextForUser.CancelVoting);
+    });
+
     if (!isDealer) {
       on(SocketTokens.SendUserDisconnected, (data) => {
         message.warning(`${data}, ${TextForUser.UserDisconnected}`);

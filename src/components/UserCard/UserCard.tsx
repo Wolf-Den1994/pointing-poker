@@ -1,11 +1,11 @@
-import { Card, Avatar, message } from 'antd';
+import { Card, Avatar } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import style from './UserCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
-import { SocketTokens, TextForUser, UserRole } from '../../types/types';
+import { SocketTokens, UserRole } from '../../types/types';
 import { emit } from '../../services/socket';
 import getMessageUserDisconnect from '../../utils/getMessageUserDisconnect';
 
@@ -27,10 +27,6 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
   const indexUser = users.findIndex((item) => item.name === user.name);
 
   const handleDeleteUserWithVoting = () => {
-    if (id === socket.id) {
-      message.error(TextForUser.KickUserWithVoiting);
-      return;
-    }
     emit(SocketTokens.DeleteUserWithVoting, { userId: id, userName: name, roomId });
   };
 
@@ -38,6 +34,8 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
     emit(SocketTokens.DisconnectOne, { userId: id, roomId });
     getMessageUserDisconnect(id);
   };
+
+  const checkUserRoleAndId = () => role === UserRole.Admin || id === socket.id;
 
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
@@ -60,7 +58,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
-          {role === UserRole.Admin ? null : <StopOutlined style={{ fontSize: 30 }} />}
+          {checkUserRoleAndId() ? null : <StopOutlined style={{ fontSize: 30 }} />}
         </div>
       </div>
     </Card>
