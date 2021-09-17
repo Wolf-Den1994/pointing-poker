@@ -6,7 +6,7 @@ import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
 import { changeDealer } from '../../store/lobbyReducer';
-import { SocketTokens } from '../../types/types';
+import { SocketTokens, TextForUser } from '../../types/types';
 import { on, connect } from '../../services/socket';
 import { getResourse } from '../../services/api';
 
@@ -38,10 +38,10 @@ const Home: React.FC = () => {
         dispatch(changeDealer(false));
         setModalActive(true);
       } else {
-        message.error('Such room doesnt exist, try again!');
+        message.error(TextForUser.RoomDoesNotExist);
       }
     } catch (err) {
-      message.error(`Something is going wrong, try again! ${err}`);
+      message.error(`${TextForUser.SomethingGoingWrong} ${err}`);
     }
   };
 

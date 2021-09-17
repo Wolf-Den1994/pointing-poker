@@ -45,13 +45,13 @@ const BtnsLobby: React.FC = () => {
           <Button type="primary" size="large" className={style.button} onClick={handleStartGame}>
             Start Game
           </Button>
-          <Button size="large" className={`${style.button} ${style.white}`} onClick={handleCancelGame}>
+          <Button type="ghost" size="large" className={style.button} onClick={handleCancelGame}>
             Cancel game
           </Button>
         </div>
       ) : (
         <div className={style.exit}>
-          <Button size="large" className={`${style.button} ${style.white}`} onClick={handleExitGame}>
+          <Button type="ghost" size="large" className={style.button} onClick={handleExitGame}>
             Exit
           </Button>
         </div>

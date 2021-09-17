@@ -16,7 +16,7 @@ import style from './Lobby.module.scss';
 import { addUsers } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import Timer from '../../components/Timer/Timer';
-import { PathRoutes, SocketTokens } from '../../types/types';
+import { PathRoutes, SocketTokens, TextForUser } from '../../types/types';
 import { on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
 import { changeIssue } from '../../store/issuesReducer';
@@ -34,7 +34,7 @@ const Lobby: React.FC = () => {
   useEffect(() => {
     on(SocketTokens.EnteredRoom, (data) => {
       dispatch(addUsers(data.user));
-      message.info(`${data.user.name}, entered room`);
+      message.info(`${data.user.name}, ${TextForUser.EnteredRoom}`);
     });
 
     on(SocketTokens.SendMessageWriter, (data) => {
@@ -49,12 +49,12 @@ const Lobby: React.FC = () => {
     on(SocketTokens.UserLeaveTheRoom, (data) => {
       const newUsers = data.usersList;
       dispatch(addUsers(newUsers));
-      message.info(`${data.user} is leave the room`);
+      message.info(`${data.user} ${TextForUser.LeaveRoom}`);
     });
 
     if (!isDealer) {
       on(SocketTokens.SendUserDisconnected, (data) => {
-        message.warning(`${data}, user disconnected`);
+        message.warning(`${data}, ${TextForUser.UserDisconnected}`);
       });
 
       on(SocketTokens.SendTimeOnTimer, (data) => {

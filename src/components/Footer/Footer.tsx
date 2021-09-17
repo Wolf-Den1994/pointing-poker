@@ -6,7 +6,7 @@ import style from './Footer.module.scss';
 const Footer: React.FC = () => {
   return (
     <footer className={style.footer}>
-      <div className="container">
+      <div className={style.container}>
         <address className={style.info}>
           <div className={style.colomn}>
             <div>Mentor:</div>

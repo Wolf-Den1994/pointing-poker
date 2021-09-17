@@ -5,8 +5,9 @@ import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import style from './UserCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
-import { SocketTokens } from '../../types/types';
+import { SocketTokens, TextForUser, UserRole } from '../../types/types';
 import { emit } from '../../services/socket';
+import getMessageUserDisconnect from '../../utils/getMessageUserDisconnect';
 
 interface IUserCardProps {
   name: string;
@@ -28,7 +29,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
 
   const handleDeleteUserWithVoting = () => {
     if (id === socket.id) {
-      message.error('You need to use another way to leave room');
+      message.error(TextForUser.KickUserWithVoiting);
       return;
     }
     emit(SocketTokens.DeleteUserWithVoting, { userId: id, userName: name, roomId });
@@ -36,7 +37,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
 
   const handleDeleteUser = () => {
     emit(SocketTokens.DisconnectOne, { userId: id, roomId });
-    message.info(`User with this id: ${id}, disconnected`);
+    getMessageUserDisconnect(id);
   };
 
   return (
@@ -60,7 +61,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
-          {role === 'admin' ? null : <StopOutlined style={{ fontSize: 30 }} />}
+          {role === UserRole.Admin ? null : <StopOutlined style={{ fontSize: 30 }} />}
         </div>
       </div>
     </Card>

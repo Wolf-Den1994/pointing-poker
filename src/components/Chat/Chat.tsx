@@ -7,7 +7,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { addMessage } from '../../store/roomDataReducer';
 import { writeMessage } from '../../store/userTypingReducer';
 import style from './Chat.module.scss';
-import { SocketTokens } from '../../types/types';
+import { KeyboardKeys, SocketTokens, TextForUser } from '../../types/types';
 import { on, emit } from '../../services/socket';
 
 let timeout: NodeJS.Timeout;
@@ -57,7 +57,7 @@ const Chat: React.FC = () => {
   };
 
   const handleSendMessageOnEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') handleSendMessage();
+    if (event.key === KeyboardKeys.Enter) handleSendMessage();
   };
 
   return (
@@ -73,7 +73,7 @@ const Chat: React.FC = () => {
           ))}
         </div>
         {userMessage.showWriter ? (
-          <span className={style.typingMessage}>{`${userMessage.writer} is typing a message ...`}</span>
+          <span className={style.typingMessage}>{`${userMessage.writer} ${TextForUser.IsTyping}`}</span>
         ) : (
           ''
         )}

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { emit } from '../../services/socket';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
-import { SocketTokens } from '../../types/types';
+import { SocketTokens, VoitingVoit } from '../../types/types';
 import styles from './VoitingPopup.module.scss';
 
 interface IModalVisibilityProps {
@@ -23,12 +23,12 @@ const VotingPopup: FC<IModalVisibilityProps> = ({ isVisible, userName }) => {
   };
 
   const handleCancel = () => {
-    emit(SocketTokens.ToVoteFor, { voice: 'against', user: userName, roomId });
+    emit(SocketTokens.ToVoteFor, { voice: VoitingVoit.Against, user: userName, roomId });
     resetVoitingData();
   };
 
   const handleOk = () => {
-    emit(SocketTokens.ToVoteFor, { voice: 'for', user: userName, roomId });
+    emit(SocketTokens.ToVoteFor, { voice: VoitingVoit.For, user: userName, roomId });
     resetVoitingData();
   };
 

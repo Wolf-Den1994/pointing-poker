@@ -7,6 +7,18 @@ export enum TextForUser {
   AboutDublicateInLine = 'There is a duplicate in the line. Check the line!',
   AboutEmpty = 'Empty string or unchanged. Enter a new value!',
   AboutNumber = 'This is not a number. Enter the number!',
+  IsTyping = 'is typing a message ...',
+  IdCopiedClipboard = 'ID successfully copied to clipboard!',
+  DublicateUserName = 'User with the same name already exists. Enter another name!',
+  ErrorServer = 'Failed to establish a connection. Contact the system administrator. Error:',
+  ValidateFirstName = 'The input is not valid First name!',
+  RequiredFirstName = 'Please, input your First name!',
+  KickUserWithVoiting = 'You need to use another way to leave room',
+  RoomDoesNotExist = 'Such room doesnt exist, try again!',
+  SomethingGoingWrong = 'Something is going wrong, try again!',
+  EnteredRoom = 'entered room',
+  LeaveRoom = 'is leave the room',
+  UserDisconnected = 'user disconnected',
 }
 
 export enum Authors {
@@ -23,6 +35,17 @@ export enum AuthorsLink {
   Denis = 'https://github.com/Wolf-Den1994',
   Diana = 'https://github.com/lessarea',
   RSS = 'https://rs.school/js/',
+}
+
+export enum UserRole {
+  Admin = 'admin',
+  Player = 'player',
+  Observer = 'observer',
+}
+
+export enum VoitingVoit {
+  Against = 'against',
+  For = 'for',
 }
 
 export enum PathRoutes {
@@ -68,6 +91,10 @@ export enum SocketTokens {
   GetIssuesList = 'getIssuesList',
   ShowCandidateToBeDeleted = 'showCandidateToBeDeleted',
   DisconnectAllSockets = 'disconnectAllSockets',
+}
+
+export enum KeyboardKeys {
+  Enter = 'Enter',
 }
 
 export interface IMember {

@@ -2,12 +2,13 @@ import { Input, Button, message } from 'antd';
 import { useParams } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import style from './LinkToLobby.module.scss';
+import { TextForUser } from '../../types/types';
 
 const LinkToLobby: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const handleCopyLink = () => {
-    message.success('ID successfully copied to clipboard!');
+    message.success(TextForUser.IdCopiedClipboard);
   };
 
   return (

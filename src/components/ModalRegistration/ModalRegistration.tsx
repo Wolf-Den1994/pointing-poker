@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
-import { PathRoutes, IMember, SocketTokens } from '../../types/types';
+import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
@@ -65,9 +65,9 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const handleChangeRole = (checked: boolean) => {
     if (checked) {
-      onRole('observer');
+      onRole(UserRole.Observer);
     } else {
-      onRole('player');
+      onRole(UserRole.Player);
     }
   };
 
@@ -105,13 +105,13 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         });
         history.push(`${PathRoutes.Lobby}/${roomId}`);
       } else {
-        message.error('User with the same name already exists. Enter another name!');
+        message.error(TextForUser.DublicateUserName);
         return;
       }
     } catch (err) {
       onModalActive(false);
       if (err instanceof Error) {
-        message.error(`Failed to establish a connection. Contact the system administrator. Error: ${err.message}`);
+        message.error(`${TextForUser.ErrorServer} ${err.message}`);
       }
     }
   };
@@ -126,7 +126,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         enterRoom();
       }
     } else {
-      message.error('The input is not valid First name!');
+      message.error(TextForUser.ValidateFirstName);
     }
   };
 
@@ -161,11 +161,11 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
             rules={[
               {
                 type: 'string',
-                message: 'The input is not valid First name!',
+                message: TextForUser.ValidateFirstName,
               },
               {
                 required: true,
-                message: 'Please, input your First name!',
+                message: TextForUser.RequiredFirstName,
               },
             ]}
           >
