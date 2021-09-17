@@ -76,7 +76,7 @@ const Lobby: React.FC = () => {
     }
 
     window.onload = () => {
-      history.push('/');
+      history.push(PathRoutes.Home);
     };
 
     return () => {
