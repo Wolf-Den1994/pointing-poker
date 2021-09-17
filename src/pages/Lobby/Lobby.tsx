@@ -52,8 +52,8 @@ const Lobby: React.FC = () => {
     });
 
     on(SocketTokens.CancelVoting, () => {
-      message.info('There are too few users for voting');
-    })
+      message.info(TextForUser.CancelVoting);
+    });
 
     if (!isDealer) {
       on(SocketTokens.SendUserDisconnected, (data) => {
