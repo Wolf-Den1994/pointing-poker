@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { RoomModel } from '../models/models';
-import { DefaultRoom, Room, User } from '../types/types';
+import { Room, User } from '../types/types';
 import { clearVoting } from '../utils/constants';
 
 const RoomMongo = mongoose.model('RoomMongo', RoomModel, 'pp-database');
@@ -50,7 +50,7 @@ export const deleteRoom = async (id: string): Promise<void> => {
   return Promise.resolve();
 };
 
-export const setRoom = async (room: DefaultRoom): Promise<void> => {
+export const setRoom = async (room: Room): Promise<void> => {
   await RoomMongo.create(room);
   return Promise.resolve();
 };
