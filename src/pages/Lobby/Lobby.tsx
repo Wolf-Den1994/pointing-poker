@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { message } from 'antd';
 import Planning from '../../components/Planning/Planning';
 import UserCard from '../../components/UserCard/UserCard';
-import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
+import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';
 import Members from '../../components/Members/Members';
 import CustomizeCards from '../../components/CustomizeCards/CustomizeCards';
@@ -104,7 +104,7 @@ const Lobby: React.FC = () => {
           ) : null}
         </div>
         {isDealer ? <LinkToLobby /> : null}
-        <BtnsLobby />
+        <BtnsControl />
         <Members />
         {isDealer ? (
           <>

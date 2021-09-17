@@ -14,7 +14,7 @@ const SHOW_ELEMENTS = 5;
 const Planning: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { isDealer } = useTypedSelector((state) => state.roomData);
+  const { isDealer, isGame } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -72,7 +72,7 @@ const Planning: React.FC = () => {
           Spring {issueList.length} planning ({createElementsPlanning()})
         </span>
       )}
-      {isDealer ? (
+      {!isGame && isDealer ? (
         <span className={style.edit} onClick={handleRedact}>
           <EditOutlined style={{ fontSize: 24 }} />
         </span>

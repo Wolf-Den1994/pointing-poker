@@ -21,6 +21,11 @@
     a {
       color: #10c1b0;
       font-size: 14px;
+
+      .icon {
+        margin-right: 5px;
+      }
+
       &:hover {
         color: #15ffe8;
       }
@@ -29,6 +34,33 @@
     &__box {
       list-style: none;
       margin-bottom: 0;
+    }
+  }
+
+  .rss {
+    display: block;
+    position: relative;
+    width: 120px;
+    height: 35px;
+    padding-right: 25px;
+
+    .rssYear {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      font-size: 21px;
+      letter-spacing: -1px;
+      color: #cbd5de;
+      line-height: 0.9;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    &:hover {
+      .rssYear {
+        right: -5px;
+        letter-spacing: 0;
+      }
     }
   }
 }

@@ -2,7 +2,7 @@ import IssueList from '../../components/IssueList/IssueList';
 import Planning from '../../components/Planning/Planning';
 import Timer from '../../components/Timer/Timer';
 import UserCard from '../../components/UserCard/UserCard';
-// import BtnsControl from '../../components/BtnsControl/BtnsControl';
+import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
 
@@ -11,7 +11,7 @@ const Game: React.FC = () => {
 
   return (
     <div className={style.gamePage}>
-      {/* <div className={style.scramControl}>
+      <div className={style.scramControl}>
         <Planning />
         <p className={style.scramMaster}>Scram master:</p>
         <div className={style.fieldControl}>
@@ -45,7 +45,7 @@ const Game: React.FC = () => {
         <div className={style.players}>
           <p>Players:</p>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

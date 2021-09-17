@@ -7,6 +7,7 @@ interface IInitialStateRoomData {
   users: IMember[];
   messages: IMessage[];
   isDealer: boolean;
+  isGame: boolean;
 }
 
 const initialState: IInitialStateRoomData = {
@@ -14,6 +15,7 @@ const initialState: IInitialStateRoomData = {
   users: [],
   messages: [],
   isDealer: true,
+  isGame: false,
 };
 
 export const roomDataReducer = (state = initialState, action: AnyAction): typeof initialState => {
@@ -34,6 +36,9 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
 
     case RoomDataActions.IS_DEALER:
       return { ...state, isDealer: action.payload };
+
+    case RoomDataActions.IS_GAME:
+      return { ...state, isGame: action.payload };
 
     case RoomDataActions.CLEAR_ROOM_DATA:
       return initialState;
@@ -94,6 +99,11 @@ export const addAdmin = (payload: IMember): IRoomDataActionIMember => ({
 
 export const changeDealer = (payload: boolean): IRoomDataBoolean => ({
   type: RoomDataActions.IS_DEALER,
+  payload,
+});
+
+export const changeGameStatus = (payload: boolean): IRoomDataBoolean => ({
+  type: RoomDataActions.IS_GAME,
   payload,
 });
 

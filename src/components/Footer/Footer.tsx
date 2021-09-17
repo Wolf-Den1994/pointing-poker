@@ -1,3 +1,4 @@
+import { GithubOutlined } from '@ant-design/icons';
 import logoRSS from '../../assets/rss.svg';
 import { Authors, AuthorsLink } from '../../types/types';
 
@@ -11,6 +12,7 @@ const Footer: React.FC = () => {
           <div className={style.colomn}>
             <div>Mentor:</div>
             <a href={AuthorsLink.Diana} target="_blank" rel="noreferrer">
+              <GithubOutlined className={style.icon} />
               {Authors.Diana}
             </a>
           </div>
@@ -20,16 +22,19 @@ const Footer: React.FC = () => {
             <ul className={style.info__box}>
               <li>
                 <a href={AuthorsLink.Denis} target="_blank" rel="noreferrer">
+                  <GithubOutlined className={style.icon} />
                   {Authors.Denis}
                 </a>
               </li>
               <li>
                 <a href={AuthorsLink.Maksim} target="_blank" rel="noreferrer">
+                  <GithubOutlined className={style.icon} />
                   {Authors.Maksim}
                 </a>
               </li>
               <li>
                 <a href={AuthorsLink.Artsiom} target="_blank" rel="noreferrer">
+                  <GithubOutlined className={style.icon} />
                   {Authors.Artsiom}
                 </a>
               </li>
@@ -37,8 +42,9 @@ const Footer: React.FC = () => {
           </div>
 
           <div className={style.colomn}>
-            <a href={AuthorsLink.RSS} target="_blank" rel="noreferrer" title="Click me!">
+            <a className={style.rss} href={AuthorsLink.RSS} target="_blank" rel="noreferrer" title="Click me!">
               <img src={logoRSS} alt={Authors.RSS} />
+              <span className={style.rssYear}>&apos;21</span>
             </a>
           </div>
         </address>

@@ -15,6 +15,7 @@ const IssueList: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { issueList } = useTypedSelector((state) => state.issues);
+  const { isGame } = useTypedSelector((state) => state.roomData);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [valueNewIssue, setValueNewIssue] = useState('');
@@ -68,6 +69,8 @@ const IssueList: React.FC = () => {
     dispatch(removeIssue(issue));
   };
 
+  const classNameWrapper = isGame ? `${style.wrapper} ${style.wrapperVertical}` : `${style.wrapper}`;
+
   const elements = issueList.map((issue) => (
     <span key={issue} className={style.issue}>
       {issue}
@@ -83,14 +86,12 @@ const IssueList: React.FC = () => {
   return (
     <div className={style.issuesList}>
       <p className={style.title}>Issues:</p>
-      <div className={style.wrapper}>
+      <div className={classNameWrapper}>
         {elements}
-        <span className={` ${style.addIssue}`} onClick={handleCreateNewIssue}>
-          <span className={`${style.issue} ${style.issueCreate}`}>
-            Create new Issue
-            <span className={style.plus}>
-              <PlusOutlined />
-            </span>
+        <span className={`${style.issue} ${style.issueCreate}`} onClick={handleCreateNewIssue}>
+          Create new Issue
+          <span className={style.plus}>
+            <PlusOutlined />
           </span>
         </span>
         <Modal title={editOrCreate} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>

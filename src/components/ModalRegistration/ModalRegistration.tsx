@@ -152,7 +152,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         <Form form={formGame} layout="vertical" scrollToFirstError>
           {isDealer ? null : (
             <Form.Item name="observer" valuePropName="checked" label={`Connect as ${role}`} initialValue={false}>
-              <Switch onChange={handleChangeRole} />
+              <Switch onChange={handleChangeRole} checkedChildren={role} unCheckedChildren={role} />
             </Form.Item>
           )}
 

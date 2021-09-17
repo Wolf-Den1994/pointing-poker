@@ -53,7 +53,7 @@ export enum VoitingVoit {
 export enum PathRoutes {
   Home = '/',
   Lobby = '/lobby',
-  Game = 'game',
+  Game = '/game',
 }
 
 export enum IssueStatus {
