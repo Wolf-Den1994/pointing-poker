@@ -1,7 +1,7 @@
 import { Input, Button } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { addMessage } from '../../store/roomDataReducer';
@@ -20,6 +20,8 @@ const Chat: React.FC = () => {
   const user = useTypedSelector((state) => state.userData);
 
   const { roomId } = useParams<{ roomId: string }>();
+
+  const scrollingChatElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     on(SocketTokens.SendMessage, (data) => {
@@ -46,6 +48,7 @@ const Chat: React.FC = () => {
 
   const handleSendMessage = () => {
     const { message } = userMessage;
+    if (!message.length) return;
     emit(SocketTokens.GetMessage, {
       roomId,
       user: user.name,
@@ -59,10 +62,21 @@ const Chat: React.FC = () => {
     if (event.key === KeyboardKeys.Enter) handleSendMessage();
   };
 
+  const scrollToBottom = () => {
+    if (scrollingChatElement && scrollingChatElement.current) {
+      const elem = scrollingChatElement.current;
+      elem.scrollTop = elem.scrollHeight - elem.clientHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
     <div className={style.chat}>
       <p className={style.title}>Chat</p>
-      <div className={style.messageContainer}>
+      <div className={style.messageContainer} ref={scrollingChatElement}>
         <div className={style.messagies}>
           {messages.map((item) => (
             <p key={uuidv4()} className={style.message}>

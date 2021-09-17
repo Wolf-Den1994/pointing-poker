@@ -21,7 +21,7 @@
   .messageContainer {
     background-color: #dddddd49;
     max-height: 180px;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 8px;
 
     .messagies {
