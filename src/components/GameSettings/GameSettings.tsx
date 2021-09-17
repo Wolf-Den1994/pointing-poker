@@ -102,7 +102,6 @@ const GameSettings: React.FC = () => {
           label={<span style={{ fontSize: 18 }}>Score type:</span>}
           colon={false}
           initialValue={scoreType}
-          hasFeedback
           rules={[
             {
               required: true,

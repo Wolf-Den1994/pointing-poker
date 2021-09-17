@@ -9,6 +9,7 @@ interface IRoomDataApi {
 
 interface IRoomData {
   roomId: string;
+  gameRoom: string;
   admin: IMember;
   users: IMember[];
   messages: IMessage[];
