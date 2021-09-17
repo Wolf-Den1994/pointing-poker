@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import style from './GameSettings.module.scss';
 import { changeSettings } from '../../store/settingsReducer';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { IGameSettingsData, OptionSettings } from '../../types/types';
+import { IGameSettingsData, OptionSettings, TextForUser } from '../../types/types';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
+import { startTime } from '../../store/timerReducer';
 
 const GameSettings: React.FC = () => {
   const [formSettings] = Form.useForm();
@@ -22,8 +23,13 @@ const GameSettings: React.FC = () => {
     roundTime,
   } = settings;
 
-  const onChangeFormSettings = (_: IGameSettingsData, data: IGameSettingsData) => {
+  const handleChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
     dispatch(changeSettings({ ...data }));
+
+    if (currentData.roundTime) {
+      const defaultTime = Number(currentData.roundTime.seconds()) + Number(currentData.roundTime.minutes()) * 60;
+      dispatch(startTime(defaultTime));
+    }
   };
 
   return (
@@ -34,7 +40,7 @@ const GameSettings: React.FC = () => {
           span: 6,
         }}
         form={formSettings}
-        onValuesChange={onChangeFormSettings}
+        onValuesChange={handleChangeFormSettings}
         scrollToFirstError
       >
         <Form.Item
@@ -101,7 +107,7 @@ const GameSettings: React.FC = () => {
             {
               required: true,
               type: 'string',
-              message: 'Score type is required!',
+              message: TextForUser.RequiredScoreType,
             },
           ]}
         >
@@ -134,7 +140,7 @@ const GameSettings: React.FC = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Customize card is required!',
+                    message: TextForUser.RequiredCustomizeCard,
                   },
                 ]}
               >
@@ -150,7 +156,7 @@ const GameSettings: React.FC = () => {
           colon={false}
           valuePropName={scoreType}
         >
-          <Input style={{ textTransform: 'uppercase' }} size="large" value={getFirstUpLetters(scoreType)} disabled />
+          <Input style={{ textTransform: 'uppercase' }} size="large" value={getFirstUpLetters(scoreType)} readOnly />
         </Form.Item>
 
         {showTimer ? (
@@ -165,6 +171,7 @@ const GameSettings: React.FC = () => {
               value={roundTime}
               format={'mm:ss'}
               clearIcon
+              allowClear={false}
               hideDisabledOptions={true}
               size="large"
               placeholder="Select a time"

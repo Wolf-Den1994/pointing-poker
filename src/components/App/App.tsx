@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import style from './App.module.scss';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -13,7 +13,8 @@ const App: React.FC = () => {
         <div className="container">
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/lobby" component={Lobby} />
+            <Route path="/lobby/:roomId" component={Lobby} />
+            <Route path="*" render={() => <Redirect to="/" />} />
           </Switch>
         </div>
       </main>

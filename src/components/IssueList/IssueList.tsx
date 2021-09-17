@@ -1,14 +1,18 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Input, Modal, message } from 'antd';
 import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
-import { IssueStatus, TextForUser } from '../../types/types';
+import { IssueStatus, SocketTokens, TextForUser } from '../../types/types';
+import { emit } from '../../services/socket';
 
 const IssueList: React.FC = () => {
   const dispatch = useDispatch();
+
+  const { roomId } = useParams<{ roomId: string }>();
 
   const { issueList } = useTypedSelector((state) => state.issues);
 
@@ -27,8 +31,15 @@ const IssueList: React.FC = () => {
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
+      emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId });
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
+      emit(SocketTokens.ChangeIssuesList, {
+        newIssue: valueNewIssue,
+        mode: 'change',
+        roomId,
+        oldIssue: valueOldIssue,
+      });
       dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: valueNewIssue }));
     }
     setValueNewIssue('');
@@ -51,7 +62,7 @@ const IssueList: React.FC = () => {
     showModal();
   };
 
-  const hanleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setValueNewIssue(e.target.value);
+  const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setValueNewIssue(e.target.value);
 
   const handleRemoveIssue = (issue: string) => {
     dispatch(removeIssue(issue));
@@ -83,7 +94,7 @@ const IssueList: React.FC = () => {
           </span>
         </span>
         <Modal title={editOrCreate} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-          <Input placeholder={editOrCreate} value={valueNewIssue} onChange={hanleInputValue} />
+          <Input placeholder={editOrCreate} value={valueNewIssue} onChange={handleInputValue} />
         </Modal>
       </div>
     </div>

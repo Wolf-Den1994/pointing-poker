@@ -49,6 +49,10 @@
         }
       }
 
+      .connect {
+        display: flex;
+      }
+
       &_lobby {
         display: block;
       }
@@ -58,6 +62,11 @@
   .lobby {
     display: flex;
     margin-top: 10px;
+  }
+
+  .span {
+    color: #66999b;
+    font-weight: 700;
   }
 }
 
