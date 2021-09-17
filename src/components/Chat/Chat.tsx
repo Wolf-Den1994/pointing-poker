@@ -22,8 +22,7 @@ const Chat: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    on(SocketTokens.SendMessage, (data: any) => {
+    on(SocketTokens.SendMessage, (data) => {
       dispatch(addMessage(data));
     });
   }, []);
