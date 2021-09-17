@@ -7,10 +7,7 @@ const initialState: IInitialStateIssues = { issueList: [] };
 export const issuesReducer = (state = initialState, action: AnyAction): typeof initialState => {
   switch (action.type) {
     case IssueActions.ADD_ISSUE:
-      return {
-        ...state,
-        issueList: [...state.issueList, { taskName: action.payload.taskName, grades: action.payload.grades }],
-      };
+      return { ...state, issueList: [...state.issueList, { taskName: action.payload, grades: {} }] };
 
     case IssueActions.REMOVE_ISSUE:
       return { ...state, issueList: state.issueList.filter((issue) => issue.taskName !== action.payload) };
@@ -25,7 +22,20 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
     case IssueActions.CHANGE_ISSUES:
       return { ...state, issueList: action.payload };
 
-    // TODO: add grades,
+    case IssueActions.ADD_GRADES:
+      return {
+        ...state,
+        issueList: [
+          ...state.issueList,
+          { grades: action.payload.grades, taskName: state.issueList[action.payload.index].taskName },
+        ],
+      };
+
+    case IssueActions.REMOVE_GRADES:
+      return {
+        ...state,
+        issueList: state.issueList.filter((issue) => issue.grades[action.payload] !== action.payload),
+      };
 
     default:
       return state;
@@ -52,12 +62,17 @@ interface IIssueActionsArrayIIssueData {
   payload: IIssueData[];
 }
 
-interface IIssueActionsIIssueData {
-  type: IssueActions;
-  payload: IIssueData;
+interface IAddGrades {
+  [key: string]: number | null;
+  index: number;
 }
 
-export const addIssue = (payload: IIssueData): IIssueActionsIIssueData => ({
+interface IIssueActionsAddGrade {
+  type: IssueActions;
+  payload: IAddGrades;
+}
+
+export const addIssue = (payload: string): IIssueActionsString => ({
   type: IssueActions.ADD_ISSUE,
   payload,
 });
@@ -74,5 +89,15 @@ export const editIssue = (payload: INewIssue): IIssueActionsEdit => ({
 
 export const changeIssue = (payload: IIssueData[]): IIssueActionsArrayIIssueData => ({
   type: IssueActions.CHANGE_ISSUES,
+  payload,
+});
+
+export const addGrades = (payload: IAddGrades): IIssueActionsAddGrade => ({
+  type: IssueActions.ADD_GRADES,
+  payload,
+});
+
+export const removeGrades = (payload: string): IIssueActionsString => ({
+  type: IssueActions.REMOVE_GRADES,
   payload,
 });

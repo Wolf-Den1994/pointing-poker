@@ -11,8 +11,6 @@ const Game: React.FC = () => {
   const { users, admin } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
 
-  console.log(issueList);
-
   return (
     <div className={style.gamePage}>
       <div className={style.scramControl}>
@@ -46,8 +44,6 @@ const Game: React.FC = () => {
         <div className={style.score}>
           <p className={style.title}>Score:</p>
           {issueList.map((item, index) => {
-            console.log('item', item);
-            console.log('x', item.grades[users[index].name]);
             return <div key={item.grades[users[index].name]}>{item.grades[users[index].name]}</div>;
           })}
         </div>

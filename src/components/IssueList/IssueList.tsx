@@ -34,7 +34,7 @@ const IssueList: React.FC = () => {
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
       // !!! need fix on be !!!
       // emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId });
-      dispatch(addIssue({ taskName: valueNewIssue, grades: {} }));
+      dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
         newIssue: valueNewIssue,

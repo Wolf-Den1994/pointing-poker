@@ -7,7 +7,7 @@ import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages } from '../../store/roomDataReducer';
-import { changeIssue } from '../../store/issuesReducer';
+import { addGrades, changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
 import { getResourse } from '../../services/api';
 
@@ -78,8 +78,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const createNewRoom = async () => {
     emit(SocketTokens.CreateRoom, {
-      // в массив стринг добавлен для теста
-      data: { id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar, assessments: ['1'] },
+      data: { id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar },
     });
     once(SocketTokens.ReturnRoomId, (data) => {
       onRoomId(data.id);
@@ -107,6 +106,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         users.push(userData);
         dispatch(addAdmin(admin));
         dispatch(addUsers(users));
+        // dispatch(addGrades({ firstName: 7, index: users.findIndex((item) => item.name === firstName) }));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
         emit(SocketTokens.EnterRoom, {
@@ -129,10 +129,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   const handleOk = () => {
     if (firstName.length) {
       if (!(firstName.length > 10) && !(lastName.length > 10)) {
-        dispatch(
-          // в массив стринг добавлен для теста
-          setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }),
-        );
+        dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
         submitFormGame();
         if (isDealer) {
           createNewRoom();
