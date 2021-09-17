@@ -8,7 +8,7 @@ const Header: React.FC = () => {
   return (
     <header className={style.header}>
       <div className={style.top}>
-        <div className={style.container}>
+        <div className="container">
           <h1 className={style.title}>Pointing Poker</h1>
           <Link to={PathRoutes.Home}>
             <img className={style.logo} src={logo} alt="logo" />
