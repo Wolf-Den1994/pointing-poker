@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import style from './GameSettings.module.scss';
 import { changeSettings } from '../../store/settingsReducer';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { IGameSettingsData, OptionSettings } from '../../types/types';
+import { IGameSettingsData, OptionSettings, TextForUser } from '../../types/types';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { startTime } from '../../store/timerReducer';
 
@@ -107,7 +107,7 @@ const GameSettings: React.FC = () => {
             {
               required: true,
               type: 'string',
-              message: 'Score type is required!',
+              message: TextForUser.RequiredScoreType,
             },
           ]}
         >
@@ -140,7 +140,7 @@ const GameSettings: React.FC = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Customize card is required!',
+                    message: TextForUser.RequiredCustomizeCard,
                   },
                 ]}
               >
