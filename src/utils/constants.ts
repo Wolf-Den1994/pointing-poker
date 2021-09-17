@@ -1,5 +1,6 @@
 export const room = {
   roomId: '',
+  gameRoom: 'lobby',
   admin: {},
   users: [],
   messages: [],
