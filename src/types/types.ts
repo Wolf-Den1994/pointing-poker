@@ -92,6 +92,7 @@ export enum SocketTokens {
   SendTimeOnTimer = 'sendTimeOnTimer',
   GetIssuesList = 'getIssuesList',
   ShowCandidateToBeDeleted = 'showCandidateToBeDeleted',
+  CancelVoting = 'cancelVoting',
   DisconnectAllSockets = 'disconnectAllSockets',
 }
 
