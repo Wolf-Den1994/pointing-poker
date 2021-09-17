@@ -27,10 +27,6 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
   const indexUser = users.findIndex((item) => item.name === user.name);
 
   const handleDeleteUserWithVoting = () => {
-    if (id === socket.id) {
-      message.error(TextForUser.KickUserWithVoiting);
-      return;
-    }
     emit(SocketTokens.DeleteUserWithVoting, { userId: id, userName: name, roomId });
   };
 
@@ -60,7 +56,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
-          {role === UserRole.Admin ? null : <StopOutlined style={{ fontSize: 30 }} />}
+          {role === UserRole.Admin || id === socket.id ? null : <StopOutlined style={{ fontSize: 30 }} />}
         </div>
       </div>
     </Card>
