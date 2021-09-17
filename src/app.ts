@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
       admin: data,
       users: [user],
     };
-    await setRoom(newUserRoom as unknown as Room);
+    await setRoom(newUserRoom);
     socket.emit('returnRoomId', { id: roomId, user });
   });
 
