@@ -1,5 +1,6 @@
 export interface Room {
   roomId: string,
+  gameRoom: string,
   admin: {
     id: string, name: string, lastName: string, position: string, role: string, avatarUrl: string,
   },
