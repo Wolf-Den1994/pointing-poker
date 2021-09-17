@@ -81,6 +81,11 @@ io.on('connection', (socket) => {
 
   socket.on('deleteUserWithVoting', async ({ userId, userName, roomId }) => {
     const response = await getRoom(roomId);
+    const usersAmountWithAdmin = 4;
+    if (response.users.length <= usersAmountWithAdmin) {
+      socket.emit('cancelVoting');
+      return;
+    }
     const votingData = response.voting;
     votingData.id = userId;
     votingData.voices++;
