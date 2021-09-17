@@ -60,7 +60,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
-          {role === UserRole.Admin ? null : <StopOutlined style={{ fontSize: 30 }} />}
+          {role === UserRole.Admin || id === socket.id ? null : <StopOutlined style={{ fontSize: 30 }} />}
         </div>
       </div>
     </Card>
