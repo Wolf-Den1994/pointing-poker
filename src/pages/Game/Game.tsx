@@ -8,8 +8,10 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
 
 const Game: React.FC = () => {
-  const { assessments } = useTypedSelector((state) => state.userData);
   const { users, admin } = useTypedSelector((state) => state.roomData);
+  const { issueList } = useTypedSelector((state) => state.issues);
+
+  console.log(issueList);
 
   return (
     <div className={style.gamePage}>
@@ -43,7 +45,11 @@ const Game: React.FC = () => {
       <div className={style.userControl}>
         <div className={style.score}>
           <p className={style.title}>Score:</p>
-          {assessments.length && assessments.map((item) => <div key={item}>{item}</div>)}
+          {issueList.map((item, index) => {
+            console.log('item', item);
+            console.log('x', item.grades[users[index].name]);
+            return <div key={item.grades[users[index].name]}>{item.grades[users[index].name]}</div>;
+          })}
         </div>
         <div className={style.players}>
           <p className={style.title}>Players:</p>

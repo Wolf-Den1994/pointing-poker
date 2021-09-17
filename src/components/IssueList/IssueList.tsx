@@ -28,12 +28,13 @@ const IssueList: React.FC = () => {
 
   const handleOk = () => {
     setIsModalVisible(false);
-    const isDuplicate = issueList.some((issue) => issue === valueNewIssue);
+    const isDuplicate = issueList.some((issue) => issue.taskName === valueNewIssue);
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
-      emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId });
-      dispatch(addIssue(valueNewIssue));
+      // !!! need fix on be !!!
+      // emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId });
+      dispatch(addIssue({ taskName: valueNewIssue, grades: {} }));
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
         newIssue: valueNewIssue,
@@ -41,7 +42,7 @@ const IssueList: React.FC = () => {
         roomId,
         oldIssue: valueOldIssue,
       });
-      dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: valueNewIssue }));
+      dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: { taskName: valueNewIssue, grades: {} } }));
     }
     setValueNewIssue('');
   };
@@ -72,12 +73,12 @@ const IssueList: React.FC = () => {
   const classNameWrapper = isGame ? `${style.wrapper} ${style.wrapperVertical}` : `${style.wrapper}`;
 
   const elements = issueList.map((issue) => (
-    <span key={issue} className={style.issue}>
-      {issue}
+    <span key={issue.taskName} className={style.issue}>
+      {issue.taskName}
       <span className={style.edit}>
-        <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue)} />
+        <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue.taskName)} />
       </span>
-      <span className={style.delete} onClick={() => handleRemoveIssue(issue)}>
+      <span className={style.delete} onClick={() => handleRemoveIssue(issue.taskName)}>
         <DeleteOutlined style={{ fontSize: 20 }} />
       </span>
     </span>

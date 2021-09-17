@@ -107,7 +107,6 @@ export interface IMember {
   position: string;
   role: string;
   avatarUrl: string;
-  assessments: string[];
 }
 
 export interface IMessage {
@@ -124,4 +123,30 @@ export interface IGameSettingsData {
   scoreType: string;
   customizeCard: string;
   roundTime: Moment;
+}
+
+export interface IIssueData {
+  taskName: string;
+  grades: {
+    [key: string]: number | null; // username: number | null
+  };
+}
+
+export interface IInitialStateIssues {
+  issueList: IIssueData[];
+}
+
+export interface IRoomDataApi {
+  data: {
+    id: string;
+  };
+}
+
+export interface IRoomData {
+  roomId: string;
+  admin: IMember;
+  users: IMember[];
+  messages: IMessage[];
+  issues: IIssueData[];
+  voting: { id: string; voices: number; votedUsers: number };
 }

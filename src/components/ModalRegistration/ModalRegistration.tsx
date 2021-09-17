@@ -99,7 +99,6 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         position: jobStatus,
         role,
         avatarUrl: avatar,
-        assessments: ['1'], // в массив стринг добавлен для теста
       };
       const response = await getResourse(roomId);
       const { admin, users, issues, messages } = response.data;
@@ -132,7 +131,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
       if (!(firstName.length > 10) && !(lastName.length > 10)) {
         dispatch(
           // в массив стринг добавлен для теста
-          setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar, assessments: ['1'] }),
+          setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }),
         );
         submitFormGame();
         if (isDealer) {

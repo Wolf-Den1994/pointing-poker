@@ -3,6 +3,8 @@ export enum IssueActions {
   REMOVE_ISSUE = 'REMOVE_ISSUE',
   EDIT_ISSUE = 'EDIT_ISSUE',
   CHANGE_ISSUES = 'CHANGE_ISSUES',
+  ADD_GRADES = 'ADD_GRADES',
+  REMOVE_GRADES = 'REMOVE_GRADES',
 }
 
 export enum SettingsActions {
@@ -20,7 +22,6 @@ export enum UserActions {
   SET_JOB_STATUS = 'SET_JOB_STATUS',
   SET_ROLE = 'SET_ROLE',
   SET_AVATAR = 'SET_AVATAR',
-  SET_ASSESSMENT = 'SET_ASSESSMENT',
 }
 
 export enum RoomDataActions {
