@@ -21,6 +21,7 @@ export enum TextForUser {
   UserDisconnected = 'user disconnected',
   RequiredCustomizeCard = 'Customize card is required!',
   RequiredScoreType = 'Score type is required!',
+  CancelVoting = 'There are too few users for voting',
 }
 
 export enum Authors {
