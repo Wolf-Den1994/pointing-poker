@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { BASE_URL } from '../types/types';
 
-interface IRoomData {
+interface IRoomDataApi {
   data: {
     id: string;
   };
@@ -13,6 +13,6 @@ export const getResourse = async (roomId: string): Promise<AxiosResponse<any>> =
   return response;
 };
 
-export const deleteRoom = async (room: IRoomData): Promise<void> => {
+export const deleteRoom = async (room: IRoomDataApi): Promise<void> => {
   axios.delete(`${BASE_URL}/api/`, room);
 };

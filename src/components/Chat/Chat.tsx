@@ -16,7 +16,7 @@ const Chat: React.FC = () => {
   const dispatch = useDispatch();
 
   const userMessage = useTypedSelector((state) => state.userTyping);
-  const roomData = useTypedSelector((state) => state.roomData);
+  const { messages } = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -65,7 +65,7 @@ const Chat: React.FC = () => {
       <p className={style.title}>Chat</p>
       <div className={style.messageContainer}>
         <div className={style.messagies}>
-          {roomData.messages.map((item) => (
+          {messages.map((item) => (
             <p key={uuidv4()} className={style.message}>
               <span className={style.messageUser}>{item.name}: </span>
               <span className={style.messageText}>{item.message}</span>

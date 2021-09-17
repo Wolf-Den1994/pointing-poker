@@ -14,7 +14,7 @@ const SHOW_ELEMENTS = 5;
 const Planning: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { isDealer } = useTypedSelector((state) => state.lobby);
+  const { isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
 
   const { roomId } = useParams<{ roomId: string }>();

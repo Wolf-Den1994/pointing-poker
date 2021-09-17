@@ -1,11 +1,3 @@
-export enum LobbyActions {
-  IS_DEALER = 'IS_DEALER',
-}
-
-export enum HomeActions {
-  CHANGE_AVATAR = 'CHANGE_AVATAR',
-}
-
 export enum IssueActions {
   ADD_ISSUE = 'ADD_ISSUE',
   REMOVE_ISSUE = 'REMOVE_ISSUE',
@@ -37,6 +29,7 @@ export enum RoomDataActions {
   ADD_MESSAGE = 'ADD_MESSAGE',
   SET_ROOM_ID = 'SET_ROOM_ID',
   ADD_ADMIN = 'ADD_ADMIN',
+  IS_DEALER = 'IS_DEALER',
   CLEAR_ROOM_DATA = 'CLEAR_ROOM_DATA',
 }
 

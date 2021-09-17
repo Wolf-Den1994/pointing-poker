@@ -27,9 +27,8 @@ const Lobby: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { users, admin } = useTypedSelector((state) => state.roomData);
+  const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const votingData = useTypedSelector((state) => state.voting);
-  const { isDealer } = useTypedSelector((state) => state.lobby);
 
   useEffect(() => {
     on(SocketTokens.EnteredRoom, (data) => {

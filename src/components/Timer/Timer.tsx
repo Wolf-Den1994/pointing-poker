@@ -17,7 +17,7 @@ const Timer: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { isDealer } = useTypedSelector((state) => state.lobby);
+  const { isDealer } = useTypedSelector((state) => state.roomData);
   const timer = useTypedSelector((state) => state.timer);
   const { settings } = useTypedSelector((state) => state.settings);
 

@@ -38,7 +38,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   const [jobStatus, setJobStatus] = useState('');
   const [avatar, setAvatar] = useState('');
 
-  const { isDealer } = useTypedSelector((state) => state.lobby);
+  const { isDealer } = useTypedSelector((state) => state.roomData);
 
   const [formGame] = Form.useForm();
 

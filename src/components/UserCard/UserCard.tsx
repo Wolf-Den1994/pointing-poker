@@ -19,9 +19,8 @@ interface IUserCardProps {
 }
 
 const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar, id, role }: IUserCardProps) => {
-  const { users } = useTypedSelector((state) => state.roomData);
+  const { users, isDealer } = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
-  const { isDealer } = useTypedSelector((state) => state.lobby);
 
   const { roomId } = useParams<{ roomId: string }>();
 

@@ -10,7 +10,7 @@ import socket from '../../utils/soketIO';
 import style from './BtnsLobby.module.scss';
 
 const BtnsLobby: React.FC = () => {
-  const { isDealer } = useTypedSelector((state) => state.lobby);
+  const { isDealer } = useTypedSelector((state) => state.roomData);
   const userName = useTypedSelector((state) => state.userData.name);
 
   const history = useHistory();

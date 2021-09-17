@@ -6,12 +6,14 @@ interface IInitialStateRoomData {
   admin: IMember;
   users: IMember[];
   messages: IMessage[];
+  isDealer: boolean;
 }
 
 const initialState: IInitialStateRoomData = {
   admin: { id: '', name: '', lastName: '', position: '', role: 'admin', avatarUrl: '' },
   users: [],
   messages: [],
+  isDealer: true,
 };
 
 export const roomDataReducer = (state = initialState, action: AnyAction): typeof initialState => {
@@ -29,6 +31,9 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
 
     case RoomDataActions.ADD_ADMIN:
       return { ...state, admin: { ...action.payload } };
+
+    case RoomDataActions.IS_DEALER:
+      return { ...state, isDealer: action.payload };
 
     case RoomDataActions.CLEAR_ROOM_DATA:
       return initialState;
@@ -53,6 +58,11 @@ interface IRoomDataActionIMemberArray {
   payload: IMember[];
 }
 
+interface IRoomDataBoolean {
+  type: RoomDataActions;
+  payload: boolean;
+}
+
 interface IRoomDataActionClear {
   type: RoomDataActions;
 }
@@ -74,6 +84,11 @@ export const addMessage = (payload: IMessage): IRoomDataActionIMessage => ({
 
 export const addAdmin = (payload: IMember): IRoomDataActionIMember => ({
   type: RoomDataActions.ADD_ADMIN,
+  payload,
+});
+
+export const changeDealer = (payload: boolean): IRoomDataBoolean => ({
+  type: RoomDataActions.IS_DEALER,
   payload,
 });
 

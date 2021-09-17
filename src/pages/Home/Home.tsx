@@ -5,7 +5,7 @@ import socket from '../../utils/soketIO';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
-import { changeDealer } from '../../store/lobbyReducer';
+import { changeDealer } from '../../store/roomDataReducer';
 import { SocketTokens, TextForUser } from '../../types/types';
 import { on, connect } from '../../services/socket';
 import { getResourse } from '../../services/api';
