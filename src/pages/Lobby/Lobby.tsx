@@ -13,7 +13,7 @@ import IssueList from '../../components/IssueList/IssueList';
 import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
-import { addUsers, changeGameStatus, clearRoomData } from '../../store/roomDataReducer';
+import { addUsers, clearRoomData } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import Timer from '../../components/Timer/Timer';
 import { PathRoutes, SocketTokens, TextForUser } from '../../types/types';
@@ -34,8 +34,6 @@ const Lobby: React.FC = () => {
   const votingData = useTypedSelector((state) => state.voting);
 
   useEffect(() => {
-    dispatch(changeGameStatus(false));
-
     on(SocketTokens.EnteredRoom, (data) => {
       dispatch(addUsers(data.user));
       message.info(`${data.user.name}, ${TextForUser.EnteredRoom}`);
@@ -93,7 +91,6 @@ const Lobby: React.FC = () => {
   }, []);
 
   const handleStartGame = () => {
-    dispatch(changeGameStatus(true));
     history.push(`${PathRoutes.Game}/${roomId}`);
   };
 

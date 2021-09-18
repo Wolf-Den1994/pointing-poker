@@ -5,7 +5,7 @@ import socket from '../../utils/soketIO';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
-import { changeDealer, changeGameStatus } from '../../store/roomDataReducer';
+import { changeDealer } from '../../store/roomDataReducer';
 import { SocketTokens, TextForUser, UserRole } from '../../types/types';
 import { on, connect } from '../../services/socket';
 import { getResourse } from '../../services/api';
@@ -46,8 +46,6 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(changeGameStatus(false));
-
     on(SocketTokens.Disconnect, () => {
       window.location.reload();
       connect();
