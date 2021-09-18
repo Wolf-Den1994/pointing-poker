@@ -9,10 +9,13 @@ import { IIssueData, TextForUser } from '../../types/types';
 
 const SHOW_ELEMENTS = 5;
 
-const Planning: React.FC = () => {
+interface ITitleProps {
+  editAvailable: boolean;
+}
+
+const Title: React.FC<ITitleProps> = ({ editAvailable }: ITitleProps) => {
   const dispatch = useDispatch();
 
-  const { isDealer, isGame } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
 
   const [issues, setIssues] = useState<IIssueData[]>(issueList);
@@ -70,7 +73,7 @@ const Planning: React.FC = () => {
           Spring {issueList.length} planning ({createElementsPlanning()})
         </span>
       )}
-      {!isGame && isDealer ? (
+      {editAvailable ? (
         <span className={style.edit} onClick={handleRedact}>
           <EditOutlined style={{ fontSize: 24 }} />
         </span>
@@ -79,4 +82,4 @@ const Planning: React.FC = () => {
   );
 };
 
-export default Planning;
+export default Title;

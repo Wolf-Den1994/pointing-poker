@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
-import Planning from '../../components/Title/Title';
+import Title from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';
@@ -95,7 +95,7 @@ const Lobby: React.FC = () => {
         {/* {убрать таймер потом, когда будет страница game} */}
         <Timer />
         <Chat />
-        <Planning />
+        <Title editAvailable={isDealer} />
         <p className={style.scramMaster}>Scram master:</p>
         <div className={style.card}>
           {users.length ? (

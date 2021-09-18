@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import IssueList from '../../components/IssueList/IssueList';
-import Planning from '../../components/Title/Title';
+import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
@@ -24,7 +24,7 @@ const Game: React.FC = () => {
   return (
     <div className={style.gamePage}>
       <div className={style.scramControl}>
-        <Planning />
+        <Title editAvailable={false} />
         <p className={style.scramMaster}>Scram master:</p>
         <div className={style.fieldControl}>
           <div className={style.card}>
