@@ -132,6 +132,7 @@ export interface IIssueData {
   grades: {
     [key: string]: number | null; // username: number | null
   };
+  isActive: boolean;
 }
 
 export interface IInitialStateIssues {

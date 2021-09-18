@@ -5,6 +5,7 @@ export enum IssueActions {
   CHANGE_ISSUES = 'CHANGE_ISSUES',
   ADD_GRADES = 'ADD_GRADES',
   REMOVE_GRADES = 'REMOVE_GRADES',
+  SET_ACTIVE = 'SET_ACTIVE',
 }
 
 export enum SettingsActions {

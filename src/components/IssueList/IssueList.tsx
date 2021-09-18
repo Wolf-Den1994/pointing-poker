@@ -5,7 +5,7 @@ import { Input, Modal, message } from 'antd';
 import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
-import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
+import { addIssue, editIssue, removeIssue, setActiveIssue } from '../../store/issuesReducer';
 import { IssueStatus, SocketTokens, TextForUser } from '../../types/types';
 import { emit } from '../../services/socket';
 
@@ -19,6 +19,7 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
   const { roomId } = useParams<{ roomId: string }>();
 
   const { issueList } = useTypedSelector((state) => state.issues);
+  const { isDealer } = useTypedSelector((state) => state.roomData);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [valueNewIssue, setValueNewIssue] = useState('');
@@ -43,7 +44,9 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
         roomId,
         oldIssue: valueOldIssue,
       });
-      dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: { taskName: valueNewIssue, grades: {} } }));
+      dispatch(
+        editIssue({ oldIssue: valueOldIssue, newIssue: { taskName: valueNewIssue, grades: {}, isActive: false } }),
+      );
     }
     setValueNewIssue('');
   };
@@ -71,27 +74,41 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
     dispatch(removeIssue(issue));
   };
 
+  const handleIssueHiglighte = (task: string) => dispatch(setActiveIssue(task));
+
+  const сhoiceOf
+
   return (
     <div className={style.issuesList}>
       <p className={style.title}>Issues:</p>
       <div className={`${style.wrapper} ${style[view]}`}>
-        {issueList.map((issue) => (
-          <span key={issue.taskName} className={`${style.issue} ${style[view]}`}>
+        {issueList.map((issue, index) => (
+          <span
+            key={issue.taskName}
+            className={`${style.issue} ${style[view]} ${issueList[index].isActive ? style.active : null}`}
+            onClick={() => handleIssueHiglighte(issue.taskName)}
+          >
             {issue.taskName}
-            <span className={style.edit}>
-              <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue.taskName)} />
-            </span>
-            <span className={style.delete} onClick={() => handleRemoveIssue(issue.taskName)}>
-              <DeleteOutlined style={{ fontSize: 20 }} />
+            <span>
+              <span className={style.edit}>
+                {isDealer ? (
+                  <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue.taskName)} />
+                ) : null}
+              </span>
+              <span className={style.delete} onClick={() => handleRemoveIssue(issue.taskName)}>
+                {isDealer ? <DeleteOutlined style={{ fontSize: 20 }} /> : null}
+              </span>
             </span>
           </span>
         ))}
-        <span className={`${style.issue} ${style.issueCreate} ${style[view]}`} onClick={handleCreateNewIssue}>
-          Create new Issue
-          <span className={style.plus}>
-            <PlusOutlined />
+        {isDealer ? (
+          <span className={`${style.issue} ${style.issueCreate} ${style[view]}`} onClick={handleCreateNewIssue}>
+            Create new Issue
+            <span className={style.plus}>
+              <PlusOutlined />
+            </span>
           </span>
-        </span>
+        ) : null}
         <Modal title={editOrCreate} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <Input placeholder={editOrCreate} value={valueNewIssue} onChange={handleInputValue} />
         </Modal>
