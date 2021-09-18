@@ -12,7 +12,7 @@ export enum TextForUser {
   DublicateUserName = 'User with the same name already exists. Enter another name!',
   ErrorServer = 'Failed to establish a connection. Contact the system administrator. Error:',
   ValidateFirstName = 'The input is not valid First name!',
-  NameIsLong = 'The name is too long. Maximum 10 characters',
+  NameIsLong = 'The name/last name is too long. Maximum 10 characters',
   RequiredFirstName = 'Please, input your First name!',
   KickUserWithVoiting = 'You need to use another way to leave room',
   RoomDoesNotExist = 'Such room doesnt exist, try again!',
