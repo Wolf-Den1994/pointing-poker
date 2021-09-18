@@ -91,7 +91,14 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const enterRoom = async () => {
     try {
-      const userData = { id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar };
+      const userData = {
+        id,
+        name: firstName,
+        lastName,
+        position: jobStatus,
+        role,
+        avatarUrl: avatar,
+      };
       const response = await getResourse(roomId);
       const { admin, users, issues, messages } = response.data;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
@@ -120,12 +127,16 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const handleOk = () => {
     if (firstName.length) {
-      dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
-      submitFormGame();
-      if (isDealer) {
-        createNewRoom();
+      if (firstName.length <= 10 && lastName.length <= 10) {
+        dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
+        submitFormGame();
+        if (isDealer) {
+          createNewRoom();
+        } else {
+          enterRoom();
+        }
       } else {
-        enterRoom();
+        message.error(TextForUser.NameIsLong);
       }
     } else {
       message.error(TextForUser.ValidateFirstName);
@@ -152,7 +163,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         <Form form={formGame} layout="vertical" scrollToFirstError>
           {isDealer ? null : (
             <Form.Item name="observer" valuePropName="checked" label={`Connect as ${role}`} initialValue={false}>
-              <Switch onChange={handleChangeRole} />
+              <Switch onChange={handleChangeRole} checkedChildren={role} unCheckedChildren={role} />
             </Form.Item>
           )}
 

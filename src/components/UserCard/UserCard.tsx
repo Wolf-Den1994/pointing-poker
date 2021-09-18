@@ -16,9 +16,18 @@ interface IUserCardProps {
   avatar: string;
   id: string;
   role: string;
+  size?: string;
 }
 
-const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar, id, role }: IUserCardProps) => {
+const UserCard: React.FC<IUserCardProps> = ({
+  name,
+  lastName,
+  jobStatus,
+  avatar,
+  id,
+  role,
+  size = 'big',
+}: IUserCardProps) => {
   const { users, isDealer } = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
 
@@ -35,17 +44,21 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
     getMessageUserDisconnect(id);
   };
 
+  const sizeAvatar = size === 'small' ? 30 : 60;
+  const fontSizeAvatar = size === 'small' ? 14 : 36;
+  const sizeBtnKick = size === 'small' ? 12 : 30;
+
   const checkUserRoleAndId = () => role === UserRole.Admin || id === socket.id;
 
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
       <div className={style.wrapper}>
         <Avatar
-          className={style.avatar}
+          className={`${style.avatar} ${style[size]}`}
           src={avatar}
-          size={60}
+          size={sizeAvatar}
           style={{
-            fontSize: 36,
+            fontSize: fontSizeAvatar,
             textShadow: '0px 4px 4px #00000040',
             backgroundColor: '#60DABF',
           }}
@@ -54,11 +67,11 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
         </Avatar>
         <div className={style.user}>
           {users[indexUser].name === name ? <p className={style.isYou}>IT&apos;S YOU</p> : null}
-          <p className={style.name}>{`${name} ${lastName}`}</p>
+          <p className={`${style.name} ${style[size]}`}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
-          {checkUserRoleAndId() ? null : <StopOutlined style={{ fontSize: 30 }} />}
+          {checkUserRoleAndId() ? null : <StopOutlined style={{ fontSize: sizeBtnKick }} />}
         </div>
       </div>
     </Card>

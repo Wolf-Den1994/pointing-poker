@@ -3,6 +3,8 @@ export enum IssueActions {
   REMOVE_ISSUE = 'REMOVE_ISSUE',
   EDIT_ISSUE = 'EDIT_ISSUE',
   CHANGE_ISSUES = 'CHANGE_ISSUES',
+  ADD_GRADES = 'ADD_GRADES',
+  REMOVE_GRADES = 'REMOVE_GRADES',
 }
 
 export enum SettingsActions {

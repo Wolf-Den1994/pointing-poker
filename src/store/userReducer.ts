@@ -3,7 +3,12 @@ import { UserActions } from './actionTypes';
 import { IMember } from '../types/types';
 
 interface IInitialStateUser {
-  [key: string]: string;
+  id: string;
+  name: string;
+  lastName: string;
+  position: string;
+  role: string;
+  avatarUrl: string;
 }
 
 const initialState: IInitialStateUser = {

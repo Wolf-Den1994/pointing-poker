@@ -4,6 +4,7 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Home from '../../pages/Home/Home';
 import Lobby from '../../pages/Lobby/Lobby';
+import Game from '../../pages/Game/Game';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/lobby/:roomId" component={Lobby} />
+            <Route path="/game/:roomId" component={Game} />
             <Route path="*" render={() => <Redirect to="/" />} />
           </Switch>
         </div>
