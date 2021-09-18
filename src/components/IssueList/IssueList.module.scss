@@ -27,8 +27,8 @@
       align-items: center;
       transition: 0.3s;
 
-      & .vertical {
-        width: 190px;
+      &.vertical {
+        width: 290px;
         justify-content: space-between;
       }
 
@@ -36,7 +36,7 @@
         margin: 0 10px;
         cursor: pointer;
 
-        & .vertical {
+        &.vertical {
           display: none;
         }
 

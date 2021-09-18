@@ -13,7 +13,7 @@ interface IIssueListProps {
   view?: string;
 }
 
-const IssueList: React.FC<IIssueListProps> = ({ view }: IIssueListProps) => {
+const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueListProps) => {
   const dispatch = useDispatch();
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -74,9 +74,9 @@ const IssueList: React.FC<IIssueListProps> = ({ view }: IIssueListProps) => {
   };
 
   const elements = issueList.map((issue) => (
-    <span key={issue.taskName} className={`${style.issue} ${view && style.vertical}`}>
+    <span key={issue.taskName} className={`${style.issue} ${style[view]}`}>
       {issue.taskName}
-      <span className={`${style.edit} ${view && style.vertical}`}>
+      <span className={`${style.edit} ${style[view]}`}>
         <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue.taskName)} />
       </span>
       <span className={style.delete} onClick={() => handleRemoveIssue(issue.taskName)}>
@@ -88,9 +88,9 @@ const IssueList: React.FC<IIssueListProps> = ({ view }: IIssueListProps) => {
   return (
     <div className={style.issuesList}>
       <p className={style.title}>Issues:</p>
-      <div className={`${style.wrapper} ${view && style.vertical}`}>
+      <div className={`${style.wrapper} ${style[view]}`}>
         {elements}
-        <span className={`${style.issue} ${style.issueCreate}`} onClick={handleCreateNewIssue}>
+        <span className={`${style.issue} ${style.issueCreate} ${style[view]}`} onClick={handleCreateNewIssue}>
           Create new Issue
           <span className={style.plus}>
             <PlusOutlined />
