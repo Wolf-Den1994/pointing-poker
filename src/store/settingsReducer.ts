@@ -6,6 +6,7 @@ import { SettingsActions } from './actionTypes';
 interface IInitialStateSettings {
   settings: IGameSettingsData;
   cardSet: string[];
+  visibleChat: boolean;
 }
 
 const initialState: IInitialStateSettings = {
@@ -20,6 +21,7 @@ const initialState: IInitialStateSettings = {
     roundTime: moment('02:20', 'mm:ss'),
   },
   cardSet: ['pass'],
+  visibleChat: false,
 };
 
 export const settingsReducer = (state = initialState, action: AnyAction): typeof initialState => {
@@ -39,6 +41,9 @@ export const settingsReducer = (state = initialState, action: AnyAction): typeof
       newCardSetArray[index] = action.payload.newCard;
       return { ...state, cardSet: newCardSetArray };
     }
+
+    case SettingsActions.VISIBLE_CHAT:
+      return { ...state, visibleChat: action.payload };
 
     default:
       return state;
@@ -65,6 +70,11 @@ interface ICardActionsEdit {
   payload: INewCard;
 }
 
+interface IVisibleChatActions {
+  type: SettingsActions;
+  payload: boolean;
+}
+
 export const changeSettings = (payload: IGameSettingsData): ISettingsActionsIGameSettings => ({
   type: SettingsActions.CHANGE_SETTINGS,
   payload,
@@ -82,5 +92,10 @@ export const removeCard = (payload: string): ICardActionsString => ({
 
 export const editCard = (payload: INewCard): ICardActionsEdit => ({
   type: SettingsActions.EDIT_CARD,
+  payload,
+});
+
+export const setVisibleChat = (payload: boolean): IVisibleChatActions => ({
+  type: SettingsActions.VISIBLE_CHAT,
   payload,
 });

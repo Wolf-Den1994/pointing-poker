@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Button, message } from 'antd';
 import { useHistory, useParams } from 'react-router';
-import { message, Button } from 'antd';
 import Title from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
@@ -10,7 +10,6 @@ import Members from '../../components/Members/Members';
 import CustomizeCards from '../../components/CustomizeCards/CustomizeCards';
 import GameSettings from '../../components/GameSettings/GameSettings';
 import IssueList from '../../components/IssueList/IssueList';
-import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
 import { addUsers, clearRoomData } from '../../store/roomDataReducer';
@@ -23,6 +22,7 @@ import { changeIssue } from '../../store/issuesReducer';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 import VotingPopup from '../../components/VotingPopup/VoitingPopup';
 import { deleteRoom } from '../../services/api';
+import BtnChat from '../../components/BtnChat/BtnChat';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();
@@ -110,7 +110,6 @@ const Lobby: React.FC = () => {
       <div className={style.lobbyPage}>
         {/* {убрать таймер потом, когда будет страница game} */}
         <Timer />
-        <Chat />
         <Title editAvailable={isDealer} />
         <p className={style.scramMaster}>Scram master:</p>
         <div className={style.card}>
@@ -142,6 +141,7 @@ const Lobby: React.FC = () => {
             <CustomizeCards />
           </>
         ) : null}
+        <BtnChat />
       </div>
       {votingData.isVisible ? <VotingPopup userName={votingData.userName} isVisible={true} /> : null}
     </>

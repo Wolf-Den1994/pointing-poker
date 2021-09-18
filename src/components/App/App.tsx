@@ -3,8 +3,8 @@ import style from './App.module.scss';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Home from '../../pages/Home/Home';
-import Lobby from '../../pages/Lobby/Lobby';
 import Game from '../../pages/Game/Game';
+import Lobby from '../../pages/Lobby/Lobby';
 
 const App: React.FC = () => {
   return (

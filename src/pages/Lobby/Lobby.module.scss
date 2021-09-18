@@ -1,4 +1,6 @@
 .lobbyPage {
+  margin-bottom: 50px;
+
   .scramMaster {
     font-weight: bold;
     font-size: 14px;
@@ -7,6 +9,8 @@
   }
 
   .card {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
   }
 }

@@ -46,7 +46,7 @@ const UserCard: React.FC<IUserCardProps> = ({
 
   const sizeAvatar = size === 'small' ? 30 : 60;
   const fontSizeAvatar = size === 'small' ? 14 : 36;
-  const sizeBtnKick = size === 'small' ? 12 : 30;
+  const sizeBtnKick = size === 'small' ? 14 : 30;
 
   const checkUserRoleAndId = () => role === UserRole.Admin || id === socket.id;
 

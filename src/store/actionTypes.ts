@@ -12,6 +12,7 @@ export enum SettingsActions {
   ADD_CARD = 'ADD_CARD',
   REMOVE_CARD = 'REMOVE_CARD',
   EDIT_CARD = 'EDIT_CARD',
+  VISIBLE_CHAT = 'VISIBLE_CHAT',
 }
 
 export enum UserActions {
