@@ -57,7 +57,8 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
         findTask.isActive = !findTask.isActive;
         const index = state.issueList.findIndex((issue) => issue.taskName === action.payload);
 
-        const newIssuesArray = [...state.issueList];
+        const copyIssues = [...state.issueList];
+        const newIssuesArray = copyIssues.map((item) => (item.isActive ? { ...item, isActive: false } : item));
         newIssuesArray[index] = findTask;
         return { ...state, issueList: newIssuesArray };
       }

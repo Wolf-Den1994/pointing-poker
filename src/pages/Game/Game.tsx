@@ -7,6 +7,7 @@ import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
+import { LayoutViews } from '../../types/types';
 
 const Game: React.FC = () => {
   const { users, admin } = useTypedSelector((state) => state.roomData);
@@ -42,7 +43,7 @@ const Game: React.FC = () => {
           </div>
         </div>
         <div className={style.field}>
-          <IssueList view="vertical" />
+          <IssueList view={LayoutViews.Vertical} />
           <div className={style.timer}>{showTimer ? <Timer /> : null}</div>
         </div>
       </div>

@@ -6,14 +6,14 @@ import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue, setActiveIssue } from '../../store/issuesReducer';
-import { IssueStatus, SocketTokens, TextForUser } from '../../types/types';
+import { IssueStatus, LayoutViews, SocketTokens, TextForUser } from '../../types/types';
 import { emit } from '../../services/socket';
 
 interface IIssueListProps {
   view?: string;
 }
 
-const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueListProps) => {
+const IssueList: React.FC<IIssueListProps> = ({ view = LayoutViews.Horizontal }: IIssueListProps) => {
   const dispatch = useDispatch();
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -74,9 +74,14 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
     dispatch(removeIssue(issue));
   };
 
-  const handleIssueHiglighte = (task: string) => dispatch(setActiveIssue(task));
+  const handleIssueHiglighte = (task: string) => {
+    if (view === LayoutViews.Vertical) dispatch(setActiveIssue(task));
+  };
 
-  const сhoiceOf
+  const сhoiceOfActive = (index: number) => {
+    if (view === LayoutViews.Vertical) return issueList[index].isActive ? style.active : null;
+    return null;
+  };
 
   return (
     <div className={style.issuesList}>
@@ -85,7 +90,7 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
         {issueList.map((issue, index) => (
           <span
             key={issue.taskName}
-            className={`${style.issue} ${style[view]} ${issueList[index].isActive ? style.active : null}`}
+            className={`${style.issue} ${style[view]} ${сhoiceOfActive(index)}`}
             onClick={() => handleIssueHiglighte(issue.taskName)}
           >
             {issue.taskName}

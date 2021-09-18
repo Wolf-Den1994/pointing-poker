@@ -98,6 +98,11 @@ export enum SocketTokens {
   DisconnectAllSockets = 'disconnectAllSockets',
 }
 
+export enum LayoutViews {
+  Vertical = 'vertical',
+  Horizontal = 'horizontal',
+}
+
 export enum KeyboardKeys {
   Enter = 'Enter',
 }
