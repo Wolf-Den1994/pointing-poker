@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
-import { message } from 'antd';
+import { useHistory, useParams } from 'react-router';
+import { message, Button } from 'antd';
 import Title from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
@@ -13,19 +13,22 @@ import IssueList from '../../components/IssueList/IssueList';
 import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
-import { addUsers, changeGameStatus } from '../../store/roomDataReducer';
+import { addUsers, changeGameStatus, clearRoomData } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import Timer from '../../components/Timer/Timer';
 import { PathRoutes, SocketTokens, TextForUser } from '../../types/types';
-import { on } from '../../services/socket';
+import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 import VotingPopup from '../../components/VotingPopup/VoitingPopup';
+import { deleteRoom } from '../../services/api';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const { roomId } = useParams<{ roomId: string }>();
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const votingData = useTypedSelector((state) => state.voting);
@@ -89,6 +92,22 @@ const Lobby: React.FC = () => {
     };
   }, []);
 
+  const handleStartGame = () => {
+    dispatch(changeGameStatus(true));
+    history.push(`${PathRoutes.Game}/${roomId}`);
+  };
+
+  const handleCancelGame = async () => {
+    try {
+      await deleteRoom({ data: { id: roomId } });
+      emit(SocketTokens.DisconnectAll, { roomId });
+      dispatch(clearRoomData());
+      history.push(PathRoutes.Home);
+    } catch (err) {
+      message.error(`${err}`);
+    }
+  };
+
   return (
     <>
       <div className={style.lobbyPage}>
@@ -110,7 +129,14 @@ const Lobby: React.FC = () => {
           ) : null}
         </div>
         {isDealer ? <LinkToLobby /> : null}
-        <BtnsControl />
+        <BtnsControl>
+          <Button type="primary" size="large" onClick={handleStartGame}>
+            Start Game
+          </Button>
+          <Button type="ghost" size="large" onClick={handleCancelGame}>
+            Cancel game
+          </Button>
+        </BtnsControl>
         <Members />
         {isDealer ? (
           <>

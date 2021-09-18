@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Button } from 'antd';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -21,6 +22,10 @@ const Game: React.FC = () => {
   const { issueList } = useTypedSelector((state) => state.issues);
   const { showTimer } = useTypedSelector((state) => state.settings.settings);
 
+  const handleStopGame = () => {
+    dispatch(changeGameStatus(false));
+  };
+
   return (
     <div className={style.gamePage}>
       <div className={style.scramControl}>
@@ -40,7 +45,11 @@ const Game: React.FC = () => {
             ) : null}
           </div>
           <div className={style.btns}>
-            <BtnsControl />
+            <BtnsControl>
+              <Button type="primary" size="large" onClick={handleStopGame}>
+                Stop Game
+              </Button>
+            </BtnsControl>
           </div>
         </div>
         <div className={style.field}>

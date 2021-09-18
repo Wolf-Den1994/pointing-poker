@@ -32,7 +32,6 @@ export enum RoomDataActions {
   SET_ROOM_ID = 'SET_ROOM_ID',
   ADD_ADMIN = 'ADD_ADMIN',
   IS_DEALER = 'IS_DEALER',
-  IS_GAME = 'IS_GAME',
   CLEAR_ROOM_DATA = 'CLEAR_ROOM_DATA',
 }
 
