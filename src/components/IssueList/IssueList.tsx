@@ -9,7 +9,11 @@ import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
 import { IssueStatus, SocketTokens, TextForUser } from '../../types/types';
 import { emit } from '../../services/socket';
 
-const IssueList: React.FC = () => {
+interface IIssueListProps {
+  view?: string;
+}
+
+const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueListProps) => {
   const dispatch = useDispatch();
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -27,11 +31,10 @@ const IssueList: React.FC = () => {
 
   const handleOk = () => {
     setIsModalVisible(false);
-    const isDuplicate = issueList.some((issue) => issue === valueNewIssue);
+    const isDuplicate = issueList.some((issue) => issue.taskName === valueNewIssue);
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
-      emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId });
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
@@ -40,7 +43,7 @@ const IssueList: React.FC = () => {
         roomId,
         oldIssue: valueOldIssue,
       });
-      dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: valueNewIssue }));
+      dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: { taskName: valueNewIssue, grades: {} } }));
     }
     setValueNewIssue('');
   };
@@ -68,29 +71,25 @@ const IssueList: React.FC = () => {
     dispatch(removeIssue(issue));
   };
 
-  const elements = issueList.map((issue) => (
-    <span key={issue} className={style.issue}>
-      {issue}
-      <span className={style.edit}>
-        <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue)} />
-      </span>
-      <span className={style.delete} onClick={() => handleRemoveIssue(issue)}>
-        <DeleteOutlined style={{ fontSize: 20 }} />
-      </span>
-    </span>
-  ));
-
   return (
     <div className={style.issuesList}>
       <p className={style.title}>Issues:</p>
-      <div className={style.wrapper}>
-        {elements}
-        <span className={` ${style.addIssue}`} onClick={handleCreateNewIssue}>
-          <span className={`${style.issue} ${style.issueCreate}`}>
-            Create new Issue
-            <span className={style.plus}>
-              <PlusOutlined />
+      <div className={`${style.wrapper} ${style[view]}`}>
+        {issueList.map((issue) => (
+          <span key={issue.taskName} className={`${style.issue} ${style[view]}`}>
+            {issue.taskName}
+            <span className={`${style.edit} ${style[view]}`}>
+              <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue.taskName)} />
             </span>
+            <span className={style.delete} onClick={() => handleRemoveIssue(issue.taskName)}>
+              <DeleteOutlined style={{ fontSize: 20 }} />
+            </span>
+          </span>
+        ))}
+        <span className={`${style.issue} ${style.issueCreate} ${style[view]}`} onClick={handleCreateNewIssue}>
+          Create new Issue
+          <span className={style.plus}>
+            <PlusOutlined />
           </span>
         </span>
         <Modal title={editOrCreate} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>

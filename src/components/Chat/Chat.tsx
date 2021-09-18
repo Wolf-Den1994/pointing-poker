@@ -1,23 +1,20 @@
 import { Input, Button } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { CloseCircleFilled } from '@ant-design/icons';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { addMessage } from '../../store/roomDataReducer';
 import { writeMessage } from '../../store/userTypingReducer';
+import { setVisibleChat } from '../../store/settingsReducer';
 import style from './Chat.module.scss';
 import { KeyboardKeys, SocketTokens, TextForUser } from '../../types/types';
 import { on, emit } from '../../services/socket';
 
 let timeout: NodeJS.Timeout;
 
-interface IChatProps {
-  setVisibleChat: Dispatch<SetStateAction<boolean>>;
-}
-
-const Chat: React.FC<IChatProps> = ({ setVisibleChat }: IChatProps) => {
+const Chat: React.FC = () => {
   const dispatch = useDispatch();
 
   const userMessage = useTypedSelector((state) => state.userTyping);
@@ -67,7 +64,7 @@ const Chat: React.FC<IChatProps> = ({ setVisibleChat }: IChatProps) => {
     if (event.key === KeyboardKeys.Enter) handleSendMessage();
   };
 
-  const handleVisibleChat = () => setVisibleChat(false);
+  const handleVisibleChat = () => dispatch(setVisibleChat(false));
 
   const scrollToBottom = () => {
     if (scrollingChatElement && scrollingChatElement.current) {

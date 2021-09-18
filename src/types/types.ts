@@ -12,6 +12,7 @@ export enum TextForUser {
   DublicateUserName = 'User with the same name already exists. Enter another name!',
   ErrorServer = 'Failed to establish a connection. Contact the system administrator. Error:',
   ValidateFirstName = 'The input is not valid First name!',
+  NameIsLong = 'The name/last name is too long. Maximum 10 characters',
   RequiredFirstName = 'Please, input your First name!',
   KickUserWithVoiting = 'You need to use another way to leave room',
   RoomDoesNotExist = 'Such room doesnt exist, try again!',
@@ -21,6 +22,7 @@ export enum TextForUser {
   UserDisconnected = 'user disconnected',
   RequiredCustomizeCard = 'Customize card is required!',
   RequiredScoreType = 'Score type is required!',
+  CancelVoting = 'There are not enough users for voting',
 }
 
 export enum Authors {
@@ -53,7 +55,7 @@ export enum VoitingVoit {
 export enum PathRoutes {
   Home = '/',
   Lobby = '/lobby',
-  Game = 'game',
+  Game = '/game',
 }
 
 export enum IssueStatus {
@@ -92,6 +94,7 @@ export enum SocketTokens {
   SendTimeOnTimer = 'sendTimeOnTimer',
   GetIssuesList = 'getIssuesList',
   ShowCandidateToBeDeleted = 'showCandidateToBeDeleted',
+  CancelVoting = 'cancelVoting',
   DisconnectAllSockets = 'disconnectAllSockets',
 }
 
@@ -122,4 +125,31 @@ export interface IGameSettingsData {
   scoreType: string;
   customizeCard: string;
   roundTime: Moment;
+}
+
+export interface IIssueData {
+  taskName: string;
+  grades: {
+    [key: string]: number | null; // username: number | null
+  };
+}
+
+export interface IInitialStateIssues {
+  issueList: IIssueData[];
+}
+
+export interface IRoomDataApi {
+  data: {
+    id: string;
+  };
+}
+
+export interface IRoomData {
+  roomId: string;
+  gameRoom: string;
+  admin: IMember;
+  users: IMember[];
+  messages: IMessage[];
+  issues: IIssueData[];
+  voting: { id: string; voices: number; votedUsers: number };
 }

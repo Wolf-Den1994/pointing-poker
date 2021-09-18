@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
 import { Button, message } from 'antd';
-import Planning from '../../components/Planning/Planning';
+import { useHistory, useParams } from 'react-router';
+import Title from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
-import BtnsLobby from '../../components/BtnsLobby/BtnsLobby';
+import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';
 import Members from '../../components/Members/Members';
 import CustomizeCards from '../../components/CustomizeCards/CustomizeCards';
@@ -13,26 +13,29 @@ import IssueList from '../../components/IssueList/IssueList';
 import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
-import { addUsers } from '../../store/roomDataReducer';
+import { addUsers, clearRoomData } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import Timer from '../../components/Timer/Timer';
 import { PathRoutes, SocketTokens, TextForUser } from '../../types/types';
-import { on } from '../../services/socket';
+import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 import VotingPopup from '../../components/VotingPopup/VoitingPopup';
+import { deleteRoom } from '../../services/api';
+import { setVisibleChat } from '../../store/settingsReducer';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const { roomId } = useParams<{ roomId: string }>();
+
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const votingData = useTypedSelector((state) => state.voting);
+  const visibleChat = useTypedSelector((state) => state.settings.visibleChat);
 
-  const [visibleChat, setVisibleChat] = useState(false);
-
-  const handleVisibleChat = () => setVisibleChat((prev) => !prev);
+  const handleVisibleChat = () => dispatch(setVisibleChat(!visibleChat));
 
   useEffect(() => {
     on(SocketTokens.EnteredRoom, (data) => {
@@ -53,6 +56,10 @@ const Lobby: React.FC = () => {
       const newUsers = data.usersList;
       dispatch(addUsers(newUsers));
       message.info(`${data.user} ${TextForUser.LeaveRoom}`);
+    });
+
+    on(SocketTokens.CancelVoting, () => {
+      message.info(TextForUser.CancelVoting);
     });
 
     if (!isDealer) {
@@ -87,13 +94,28 @@ const Lobby: React.FC = () => {
     };
   }, []);
 
+  const handleStartGame = () => {
+    history.push(`${PathRoutes.Game}/${roomId}`);
+  };
+
+  const handleCancelGame = async () => {
+    try {
+      await deleteRoom({ data: { id: roomId } });
+      emit(SocketTokens.DisconnectAll, { roomId });
+      dispatch(clearRoomData());
+      history.push(PathRoutes.Home);
+    } catch (err) {
+      message.error(`${err}`);
+    }
+  };
+
   return (
     <>
       <div className={style.lobbyPage}>
         {/* {убрать таймер потом, когда будет страница game} */}
         <Timer />
-        {visibleChat ? <Chat setVisibleChat={setVisibleChat} /> : null}
-        <Planning />
+        {visibleChat ? <Chat /> : null}
+        <Title editAvailable={isDealer} />
         <p className={style.scramMaster}>Scram master:</p>
         <div className={style.card}>
           {users.length ? (
@@ -111,7 +133,14 @@ const Lobby: React.FC = () => {
           </Button>
         </div>
         {isDealer ? <LinkToLobby /> : null}
-        <BtnsLobby />
+        <BtnsControl>
+          <Button type="primary" size="large" onClick={handleStartGame}>
+            Start Game
+          </Button>
+          <Button type="ghost" size="large" onClick={handleCancelGame}>
+            Cancel game
+          </Button>
+        </BtnsControl>
         <Members />
         {isDealer ? (
           <>

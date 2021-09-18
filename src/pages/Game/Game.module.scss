@@ -1,0 +1,61 @@
+.gamePage {
+  display: flex;
+  justify-content: space-between;
+
+  .scramControl {
+    border-right: 4px solid #eee;
+    flex-basis: 60%;
+    padding: 0 20px;
+
+    .scramMaster {
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 16px;
+      color: #555;
+    }
+
+    .card {
+      width: 100%;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .fieldControl {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .field {
+      display: flex;
+      align-items: center;
+
+      .timer {
+        margin: 0 0 0 25px;
+        width: 200px;
+      }
+    }
+  }
+
+  .userControl {
+    padding: 0 15px;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .title {
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 30px;
+      text-align: center;
+    }
+
+    .score,
+    .players {
+      width: 50%;
+      padding: 0px 10px;
+    }
+  }
+}

@@ -1,11 +1,11 @@
-import { Card, Avatar, message } from 'antd';
+import { Card, Avatar } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import style from './UserCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import socket from '../../utils/soketIO';
-import { SocketTokens, TextForUser, UserRole } from '../../types/types';
+import { SocketTokens, UserRole } from '../../types/types';
 import { emit } from '../../services/socket';
 import getMessageUserDisconnect from '../../utils/getMessageUserDisconnect';
 
@@ -16,9 +16,18 @@ interface IUserCardProps {
   avatar: string;
   id: string;
   role: string;
+  size?: string;
 }
 
-const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar, id, role }: IUserCardProps) => {
+const UserCard: React.FC<IUserCardProps> = ({
+  name,
+  lastName,
+  jobStatus,
+  avatar,
+  id,
+  role,
+  size = 'big',
+}: IUserCardProps) => {
   const { users, isDealer } = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
 
@@ -27,10 +36,6 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
   const indexUser = users.findIndex((item) => item.name === user.name);
 
   const handleDeleteUserWithVoting = () => {
-    if (id === socket.id) {
-      message.error(TextForUser.KickUserWithVoiting);
-      return;
-    }
     emit(SocketTokens.DeleteUserWithVoting, { userId: id, userName: name, roomId });
   };
 
@@ -39,15 +44,21 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
     getMessageUserDisconnect(id);
   };
 
+  const sizeAvatar = size === 'small' ? 30 : 60;
+  const fontSizeAvatar = size === 'small' ? 14 : 36;
+  const sizeBtnKick = size === 'small' ? 14 : 30;
+
+  const checkUserRoleAndId = () => role === UserRole.Admin || id === socket.id;
+
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
       <div className={style.wrapper}>
         <Avatar
-          className={style.avatar}
+          className={`${style.avatar} ${style[size]}`}
           src={avatar}
-          size={60}
+          size={sizeAvatar}
           style={{
-            fontSize: 36,
+            fontSize: fontSizeAvatar,
             textShadow: '0px 4px 4px #00000040',
             backgroundColor: '#60DABF',
           }}
@@ -56,11 +67,11 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
         </Avatar>
         <div className={style.user}>
           {users[indexUser].name === name ? <p className={style.isYou}>IT&apos;S YOU</p> : null}
-          <p className={style.name}>{`${name} ${lastName}`}</p>
+          <p className={`${style.name} ${style[size]}`}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
-          {role === UserRole.Admin ? null : <StopOutlined style={{ fontSize: 30 }} />}
+          {checkUserRoleAndId() ? null : <StopOutlined style={{ fontSize: sizeBtnKick }} />}
         </div>
       </div>
     </Card>

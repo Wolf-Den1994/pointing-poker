@@ -3,6 +3,8 @@ export enum IssueActions {
   REMOVE_ISSUE = 'REMOVE_ISSUE',
   EDIT_ISSUE = 'EDIT_ISSUE',
   CHANGE_ISSUES = 'CHANGE_ISSUES',
+  ADD_GRADES = 'ADD_GRADES',
+  REMOVE_GRADES = 'REMOVE_GRADES',
 }
 
 export enum SettingsActions {
@@ -10,6 +12,7 @@ export enum SettingsActions {
   ADD_CARD = 'ADD_CARD',
   REMOVE_CARD = 'REMOVE_CARD',
   EDIT_CARD = 'EDIT_CARD',
+  VISIBLE_CHAT = 'VISIBLE_CHAT',
 }
 
 export enum UserActions {
