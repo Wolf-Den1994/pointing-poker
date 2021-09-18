@@ -35,8 +35,6 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
-      // !!! need fix on be !!!
-      // emit(SocketTokens.ChangeIssuesList, { newIssue: valueNewIssue, mode: 'add', roomId });
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {

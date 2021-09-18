@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import IssueList from '../../components/IssueList/IssueList';
-import Planning from '../../components/Planning/Planning';
+import Planning from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { message } from 'antd';
-import Planning from '../../components/Planning/Planning';
+import Planning from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import LinkToLobby from '../../components/LinkToLobby/LinkToLobby';

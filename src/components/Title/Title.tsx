@@ -2,13 +2,10 @@ import { EditOutlined } from '@ant-design/icons';
 import { Input, message } from 'antd';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { useParams } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeIssue } from '../../store/issuesReducer';
-import style from './Planning.module.scss';
+import style from './Title.module.scss';
 import { IIssueData, TextForUser } from '../../types/types';
-// import { IIssueData, SocketTokens, TextForUser } from '../../types/types';
-// import { emit } from '../../services/socket';
 
 const SHOW_ELEMENTS = 5;
 
@@ -17,8 +14,6 @@ const Planning: React.FC = () => {
 
   const { isDealer, isGame } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
-
-  // const { roomId } = useParams<{ roomId: string }>();
 
   const [issues, setIssues] = useState<IIssueData[]>(issueList);
   const [issuesEdit, setIssuesEdit] = useState(false);
@@ -53,8 +48,6 @@ const Planning: React.FC = () => {
         message.warning(TextForUser.AboutDublicateInLine);
         setIssues(issueList);
       } else {
-        // !!! need fix on be !!!
-        // emit(SocketTokens.ChangeIssuesList, { newIssue: issues, mode: 'all', roomId });
         dispatch(changeIssue(issues));
       }
       setIssuesEdit(false);
