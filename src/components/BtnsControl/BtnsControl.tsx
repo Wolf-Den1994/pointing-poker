@@ -24,7 +24,7 @@ const BtnsControl: React.FC = () => {
 
   const handleStartGame = () => {
     dispatch(changeGameStatus(true));
-    history.push(PathRoutes.Game);
+    history.push(`${PathRoutes.Game}/${roomId}`);
   };
 
   const handleCancelGame = async () => {

@@ -15,7 +15,7 @@ const App: React.FC = () => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/lobby/:roomId" component={Lobby} />
-            <Route path="/game" component={Game} />
+            <Route path="/game/:roomId" component={Game} />
             <Route path="*" render={() => <Redirect to="/" />} />
           </Switch>
         </div>
