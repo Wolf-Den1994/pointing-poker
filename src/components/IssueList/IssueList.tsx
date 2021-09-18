@@ -75,13 +75,15 @@ const IssueList: React.FC<IIssueListProps> = ({ view = LayoutViews.Horizontal }:
   };
 
   const handleIssueHiglighte = (task: string) => {
-    if (view === LayoutViews.Vertical) dispatch(setActiveIssue(task));
+    if (view === LayoutViews.Vertical && isDealer) dispatch(setActiveIssue(task));
   };
 
   const сhoiceOfActive = (index: number) => {
     if (view === LayoutViews.Vertical) return issueList[index].isActive ? style.active : null;
     return null;
   };
+
+  const canActive = () => (isDealer ? `${style[view]} ${style.dealer}` : style[view]);
 
   return (
     <div className={style.issuesList}>
@@ -90,7 +92,7 @@ const IssueList: React.FC<IIssueListProps> = ({ view = LayoutViews.Horizontal }:
         {issueList.map((issue, index) => (
           <span
             key={issue.taskName}
-            className={`${style.issue} ${style[view]} ${сhoiceOfActive(index)}`}
+            className={`${style.issue} ${canActive()} ${сhoiceOfActive(index)}`}
             onClick={() => handleIssueHiglighte(issue.taskName)}
           >
             {issue.taskName}

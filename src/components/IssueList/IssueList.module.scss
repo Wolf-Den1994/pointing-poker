@@ -30,11 +30,14 @@
       &.vertical {
         width: 290px;
         justify-content: space-between;
-        cursor: pointer;
       }
 
       &.active {
         background-color: #60dabf54;
+      }
+
+      &.dealer {
+        cursor: pointer;
       }
 
       .edit {
