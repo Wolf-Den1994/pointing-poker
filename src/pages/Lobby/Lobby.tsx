@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, message } from 'antd';
 import { useHistory, useParams } from 'react-router';
-import { MessageFilled, SmileFilled } from '@ant-design/icons';
 import Title from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
@@ -11,7 +10,6 @@ import Members from '../../components/Members/Members';
 import CustomizeCards from '../../components/CustomizeCards/CustomizeCards';
 import GameSettings from '../../components/GameSettings/GameSettings';
 import IssueList from '../../components/IssueList/IssueList';
-import Chat from '../../components/Chat/Chat';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
 import { addUsers, clearRoomData } from '../../store/roomDataReducer';
@@ -24,7 +22,7 @@ import { changeIssue } from '../../store/issuesReducer';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 import VotingPopup from '../../components/VotingPopup/VoitingPopup';
 import { deleteRoom } from '../../services/api';
-import { setVisibleChat } from '../../store/settingsReducer';
+import BtnChat from '../../components/BtnChat/BtnChat';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,9 +32,6 @@ const Lobby: React.FC = () => {
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const votingData = useTypedSelector((state) => state.voting);
-  const visibleChat = useTypedSelector((state) => state.settings.visibleChat);
-
-  const handleVisibleChat = () => dispatch(setVisibleChat(!visibleChat));
 
   useEffect(() => {
     on(SocketTokens.EnteredRoom, (data) => {
@@ -146,18 +141,7 @@ const Lobby: React.FC = () => {
             <CustomizeCards />
           </>
         ) : null}
-        <div className={style.wrapperChat}>
-          {visibleChat ? <Chat /> : null}
-          {visibleChat ? (
-            <Button type="primary" className={style.chatBtn} shape="circle" onClick={handleVisibleChat}>
-              <SmileFilled style={{ fontSize: '60px', color: '#fff' }} />
-            </Button>
-          ) : (
-            <Button type="primary" className={style.chatBtn} shape="circle" onClick={handleVisibleChat}>
-              <MessageFilled style={{ fontSize: '60px', color: '#fff' }} />
-            </Button>
-          )}
-        </div>
+        <BtnChat />
       </div>
       {votingData.isVisible ? <VotingPopup userName={votingData.userName} isVisible={true} /> : null}
     </>

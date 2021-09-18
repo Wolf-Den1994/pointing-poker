@@ -1,7 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from 'antd';
-import { useDispatch } from 'react-redux';
-import { MessageFilled, SmileFilled } from '@ant-design/icons';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -10,18 +8,12 @@ import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
 import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPopup';
-import { setVisibleChat } from '../../store/settingsReducer';
-import Chat from '../../components/Chat/Chat';
+import BtnChat from '../../components/BtnChat/BtnChat';
 
 const Game: React.FC = () => {
-  const dispatch = useDispatch();
-
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { showTimer } = useTypedSelector((state) => state.settings.settings);
-  const visibleChat = useTypedSelector((state) => state.settings.visibleChat);
-
-  const handleVisibleChat = () => dispatch(setVisibleChat(!visibleChat));
 
   const handleStopGame = () => {};
 
@@ -87,18 +79,7 @@ const Game: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className={style.wrapperChat}>
-        {visibleChat ? <Chat /> : null}
-        {visibleChat ? (
-          <Button type="primary" className={style.chatBtn} shape="circle" onClick={handleVisibleChat}>
-            <SmileFilled style={{ fontSize: '60px', color: '#fff' }} />
-          </Button>
-        ) : (
-          <Button type="primary" className={style.chatBtn} shape="circle" onClick={handleVisibleChat}>
-            <MessageFilled style={{ fontSize: '60px', color: '#fff' }} />
-          </Button>
-        )}
-      </div>
+      <BtnChat />
     </div>
   );
 };
