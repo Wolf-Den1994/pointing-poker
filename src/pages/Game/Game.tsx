@@ -43,7 +43,7 @@ const Game: React.FC = () => {
                 role={admin.role}
               />
             ) : null}
-            <Button type="primary" danger size="large" style={{ marginLeft: '2rem' }} onClick={handleVisibleChat}>
+            <Button type="primary" size="large" style={{ marginLeft: '2rem' }} onClick={handleVisibleChat}>
               Open/Close Chat
             </Button>
           </div>
