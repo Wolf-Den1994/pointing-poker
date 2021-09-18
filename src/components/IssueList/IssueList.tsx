@@ -78,7 +78,7 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
         {issueList.map((issue) => (
           <span key={issue.taskName} className={`${style.issue} ${style[view]}`}>
             {issue.taskName}
-            <span className={`${style.edit} ${style[view]}`}>
+            <span className={`${style.edit}`}>
               <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue.taskName)} />
             </span>
             <span className={style.delete} onClick={() => handleRemoveIssue(issue.taskName)}>
