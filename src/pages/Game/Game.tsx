@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import IssueList from '../../components/IssueList/IssueList';
 import Planning from '../../components/Planning/Planning';
 import Timer from '../../components/Timer/Timer';
@@ -6,10 +8,18 @@ import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
+import { changeGameStatus } from '../../store/roomDataReducer';
 
 const Game: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(changeGameStatus(true));
+  }, []);
+
   const { users, admin } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
+  const { showTimer } = useTypedSelector((state) => state.settings.settings);
 
   return (
     <div className={style.gamePage}>
@@ -35,9 +45,7 @@ const Game: React.FC = () => {
         </div>
         <div className={style.field}>
           <IssueList />
-          <div className={style.timer}>
-            <Timer />
-          </div>
+          <div className={style.timer}>{showTimer ? <Timer /> : null}</div>
         </div>
       </div>
       <div className={style.userControl}>

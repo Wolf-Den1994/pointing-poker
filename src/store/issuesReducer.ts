@@ -25,10 +25,7 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
     case IssueActions.ADD_GRADES:
       return {
         ...state,
-        issueList: [
-          ...state.issueList,
-          { grades: action.payload.grades, taskName: state.issueList[action.payload.index].taskName },
-        ],
+        issueList: [...state.issueList, { grades: action.payload, taskName: '' }],
       };
 
     case IssueActions.REMOVE_GRADES:
@@ -64,7 +61,6 @@ interface IIssueActionsArrayIIssueData {
 
 interface IAddGrades {
   [key: string]: number | null;
-  index: number;
 }
 
 interface IIssueActionsAddGrade {

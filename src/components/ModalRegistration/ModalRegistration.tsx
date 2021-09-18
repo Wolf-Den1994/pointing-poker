@@ -7,7 +7,7 @@ import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages } from '../../store/roomDataReducer';
-import { addGrades, changeIssue } from '../../store/issuesReducer';
+import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
 import { getResourse } from '../../services/api';
 
@@ -106,7 +106,6 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         users.push(userData);
         dispatch(addAdmin(admin));
         dispatch(addUsers(users));
-        // dispatch(addGrades({ firstName: 7, index: users.findIndex((item) => item.name === firstName) }));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
         emit(SocketTokens.EnterRoom, {
