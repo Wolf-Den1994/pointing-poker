@@ -127,7 +127,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const handleOk = () => {
     if (firstName.length) {
-      if (!(firstName.length > 10) && !(lastName.length > 10)) {
+      if (firstName.length <= 10 && lastName.length <= 10) {
         dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
         submitFormGame();
         if (isDealer) {
