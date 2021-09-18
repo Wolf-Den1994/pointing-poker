@@ -68,6 +68,7 @@ const Game: React.FC = () => {
                   avatar={item.avatarUrl}
                   id={item.id}
                   role={item.role}
+                  size="small"
                 />
               ) : null,
             )}

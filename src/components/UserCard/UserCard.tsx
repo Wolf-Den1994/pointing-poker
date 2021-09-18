@@ -16,10 +16,19 @@ interface IUserCardProps {
   avatar: string;
   id: string;
   role: string;
+  size?: string;
 }
 
-const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar, id, role }: IUserCardProps) => {
-  const { users, isDealer, isGame } = useTypedSelector((state) => state.roomData);
+const UserCard: React.FC<IUserCardProps> = ({
+  name,
+  lastName,
+  jobStatus,
+  avatar,
+  id,
+  role,
+  size = 'big',
+}: IUserCardProps) => {
+  const { users, isDealer } = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -35,18 +44,17 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
     getMessageUserDisconnect(id);
   };
 
-  const classNameFirstname = isGame ? `${style.name} ${style.nameGame}` : `${style.name}`;
-  const classNameAvatar = isGame ? `${style.avatar} ${style.avatarGame}` : `${style.avatar}`;
-  const sizeAvatar = isGame ? 30 : 60;
-  const fontSizeAvatar = isGame ? 14 : 36;
-  const sizeBtnKick = isGame ? 12 : 30;
+  const sizeAvatar = size === 'small' ? 30 : 60;
+  const fontSizeAvatar = size === 'small' ? 14 : 36;
+  const sizeBtnKick = size === 'small' ? 12 : 30;
+
   const checkUserRoleAndId = () => role === UserRole.Admin || id === socket.id;
 
   return (
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
       <div className={style.wrapper}>
         <Avatar
-          className={classNameAvatar}
+          className={`${style.avatar} ${style[size]}`}
           src={avatar}
           size={sizeAvatar}
           style={{
@@ -59,7 +67,7 @@ const UserCard: React.FC<IUserCardProps> = ({ name, lastName, jobStatus, avatar,
         </Avatar>
         <div className={style.user}>
           {users[indexUser].name === name ? <p className={style.isYou}>IT&apos;S YOU</p> : null}
-          <p className={classNameFirstname}>{`${name} ${lastName}`}</p>
+          <p className={`${style.name} ${style[size]}`}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
