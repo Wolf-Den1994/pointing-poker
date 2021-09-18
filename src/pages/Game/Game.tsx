@@ -49,9 +49,11 @@ const Game: React.FC = () => {
       <div className={style.userControl}>
         <div className={style.score}>
           <p className={style.title}>Score:</p>
-          {issueList.map((item, index) => {
-            return <div key={item.grades[users[index].name]}>{item.grades[users[index].name]}</div>;
-          })}
+          {issueList.map((item, index) =>
+            Object.keys(item.grades).length ? (
+              <div key={item.grades[users[index].name]}>{item.grades[users[index].name]}</div>
+            ) : null,
+          )}
         </div>
         <div className={style.players}>
           <p className={style.title}>Players:</p>
