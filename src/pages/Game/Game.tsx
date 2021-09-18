@@ -44,7 +44,7 @@ const Game: React.FC = () => {
           </div>
         </div>
         <div className={style.field}>
-          <IssueList />
+          <IssueList view="vertical" />
           <div className={style.timer}>{showTimer ? <Timer /> : null}</div>
         </div>
       </div>

@@ -9,13 +9,16 @@ import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
 import { IssueStatus, SocketTokens, TextForUser } from '../../types/types';
 import { emit } from '../../services/socket';
 
-const IssueList: React.FC = () => {
+interface IIssueListProps {
+  view?: string;
+}
+
+const IssueList: React.FC<IIssueListProps> = ({ view }: IIssueListProps) => {
   const dispatch = useDispatch();
 
   const { roomId } = useParams<{ roomId: string }>();
 
   const { issueList } = useTypedSelector((state) => state.issues);
-  const { isGame } = useTypedSelector((state) => state.roomData);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [valueNewIssue, setValueNewIssue] = useState('');
@@ -70,12 +73,10 @@ const IssueList: React.FC = () => {
     dispatch(removeIssue(issue));
   };
 
-  const classNameWrapper = isGame ? `${style.wrapper} ${style.wrapperVertical}` : `${style.wrapper}`;
-
   const elements = issueList.map((issue) => (
-    <span key={issue.taskName} className={style.issue}>
+    <span key={issue.taskName} className={`${style.issue} ${view && style.vertical}`}>
       {issue.taskName}
-      <span className={style.edit}>
+      <span className={`${style.edit} ${view && style.vertical}`}>
         <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue.taskName)} />
       </span>
       <span className={style.delete} onClick={() => handleRemoveIssue(issue.taskName)}>
@@ -87,7 +88,7 @@ const IssueList: React.FC = () => {
   return (
     <div className={style.issuesList}>
       <p className={style.title}>Issues:</p>
-      <div className={classNameWrapper}>
+      <div className={`${style.wrapper} ${view && style.vertical}`}>
         {elements}
         <span className={`${style.issue} ${style.issueCreate}`} onClick={handleCreateNewIssue}>
           Create new Issue

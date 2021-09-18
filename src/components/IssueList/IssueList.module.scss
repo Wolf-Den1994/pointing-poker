@@ -27,9 +27,18 @@
       align-items: center;
       transition: 0.3s;
 
+      & .vertical {
+        width: 190px;
+        justify-content: space-between;
+      }
+
       .edit {
         margin: 0 10px;
         cursor: pointer;
+
+        & .vertical {
+          display: none;
+        }
 
         :hover {
           color: #00e;
@@ -55,19 +64,10 @@
         color: #0e0;
       }
     }
-  }
 
-  .wrapperVertical {
-    flex-direction: column;
-    align-items: flex-start;
-
-    .issue {
-      width: 290px;
-      justify-content: space-between;
-    }
-
-    .edit {
-      display: none;
+    &.vertical {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 }
