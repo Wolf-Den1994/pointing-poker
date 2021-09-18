@@ -1,3 +1,4 @@
+import { SettingOutlined } from '@ant-design/icons';
 import { Button, Modal } from 'antd';
 import { useState } from 'react';
 import GameSettings from '../GameSettings/GameSettings';
@@ -11,7 +12,10 @@ const GameSettingsPopup: React.FC = () => {
 
   return (
     <>
-      <Button onClick={handleOpenModal}>Game Settings</Button>
+      <Button onClick={handleOpenModal}>
+        <SettingOutlined />
+        Game Settings
+      </Button>
       <Modal onOk={handleCloseModal} onCancel={handleCloseModal} visible={modalActive} cancelText width={680}>
         <GameSettings />
       </Modal>

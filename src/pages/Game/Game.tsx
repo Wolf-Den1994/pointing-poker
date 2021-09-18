@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from 'antd';
 import { useDispatch } from 'react-redux';
+import { WechatOutlined } from '@ant-design/icons';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -15,10 +16,9 @@ import Chat from '../../components/Chat/Chat';
 const Game: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { users, admin } = useTypedSelector((state) => state.roomData);
+  const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { showTimer } = useTypedSelector((state) => state.settings.settings);
-  const { isDealer } = useTypedSelector((state) => state.roomData);
   const visibleChat = useTypedSelector((state) => state.settings.visibleChat);
 
   const handleVisibleChat = () => dispatch(setVisibleChat(!visibleChat));
@@ -44,6 +44,7 @@ const Game: React.FC = () => {
               />
             ) : null}
             <Button type="primary" size="large" style={{ marginLeft: '2rem' }} onClick={handleVisibleChat}>
+              <WechatOutlined />
               Open/Close Chat
             </Button>
           </div>
