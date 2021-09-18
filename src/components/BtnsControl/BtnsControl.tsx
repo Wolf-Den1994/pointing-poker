@@ -18,7 +18,7 @@ const BtnsControl: React.FC = () => {
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  const handlerStopGame = () => {
+  const handleStopGame = () => {
     dispatch(changeGameStatus(false));
   };
 
@@ -49,7 +49,7 @@ const BtnsControl: React.FC = () => {
       {isDealer ? (
         <div className={style.control}>
           {isGame ? (
-            <Button type="primary" size="large" className={`${style.button} ${style.white}`} onClick={handlerStopGame}>
+            <Button type="primary" size="large" className={`${style.button} ${style.white}`} onClick={handleStopGame}>
               Stop Game
             </Button>
           ) : (
