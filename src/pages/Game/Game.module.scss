@@ -1,4 +1,22 @@
 .gamePage {
+  margin-bottom: 50px;
+}
+
+.wrapperChat {
+  position: sticky;
+  bottom: 30px;
+}
+
+.chatBtn {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  height: 85px;
+  width: 85px;
+  border-radius: 100%;
+}
+
+.gameInner {
   display: flex;
   justify-content: space-between;
 

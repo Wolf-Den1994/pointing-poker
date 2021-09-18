@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, message } from 'antd';
 import { useHistory, useParams } from 'react-router';
-import { WechatOutlined } from '@ant-design/icons';
+import { MessageFilled, SmileFilled } from '@ant-design/icons';
 import Title from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
@@ -115,7 +115,6 @@ const Lobby: React.FC = () => {
       <div className={style.lobbyPage}>
         {/* {убрать таймер потом, когда будет страница game} */}
         <Timer />
-        {visibleChat ? <Chat /> : null}
         <Title editAvailable={isDealer} />
         <p className={style.scramMaster}>Scram master:</p>
         <div className={style.card}>
@@ -129,10 +128,6 @@ const Lobby: React.FC = () => {
               role={admin.role}
             />
           ) : null}
-          <Button type="primary" size="large" style={{ marginLeft: '2rem' }} onClick={handleVisibleChat}>
-            <WechatOutlined />
-            Open/Close Chat
-          </Button>
         </div>
         {isDealer ? <LinkToLobby /> : null}
         <BtnsControl>
@@ -151,6 +146,18 @@ const Lobby: React.FC = () => {
             <CustomizeCards />
           </>
         ) : null}
+        <div className={style.wrapperChat}>
+          {visibleChat ? <Chat /> : null}
+          {visibleChat ? (
+            <Button type="primary" className={style.chatBtn} shape="circle" onClick={handleVisibleChat}>
+              <SmileFilled style={{ fontSize: '60px', color: '#fff' }} />
+            </Button>
+          ) : (
+            <Button type="primary" className={style.chatBtn} shape="circle" onClick={handleVisibleChat}>
+              <MessageFilled style={{ fontSize: '60px', color: '#fff' }} />
+            </Button>
+          )}
+        </div>
       </div>
       {votingData.isVisible ? <VotingPopup userName={votingData.userName} isVisible={true} /> : null}
     </>

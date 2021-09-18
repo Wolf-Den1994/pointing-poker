@@ -1,8 +1,14 @@
-.chat {
-  position: fixed;
-  top: 70px;
-  right: 15px;
+.wrapper {
+  position: absolute;
+  bottom: 100px;
+  right: 0;
+  flex-flow: row-reverse;
+  display: flex;
   z-index: 2;
+}
+
+.chat {
+  position: relative;
 
   background-color: #ddddddc0;
   box-shadow: 4px 4px 4px #eeeeeec0;
