@@ -21,14 +21,15 @@ const Planning: React.FC = () => {
   const createElementsPlanning = () => {
     const elements = [];
     for (let i = 0; i < issueList.length; i += 1) {
+      const { taskName } = issueList[i];
       if (i < SHOW_ELEMENTS) {
         if (i === issueList.length - 1) {
-          elements.push(<span key={issueList[i].taskName}>{issueList[i].taskName}</span>);
+          elements.push(<span key={taskName}>{taskName}</span>);
         } else {
-          elements.push(<span key={issueList[i].taskName}>{issueList[i].taskName}, </span>);
+          elements.push(<span key={taskName}>{taskName}, </span>);
         }
       } else {
-        elements.push(<span key={issueList[i].taskName}>...</span>);
+        elements.push(<span key={taskName}>...</span>);
         break;
       }
     }
