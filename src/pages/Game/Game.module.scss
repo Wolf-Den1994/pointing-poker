@@ -1,4 +1,8 @@
 .gamePage {
+  margin-bottom: 50px;
+}
+
+.gameInner {
   display: flex;
   justify-content: space-between;
 
@@ -15,8 +19,10 @@
     }
 
     .card {
-      margin-bottom: 2rem;
       width: 100%;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
     }
 
     .fieldControl {
@@ -37,7 +43,7 @@
   }
 
   .userControl {
-    padding: 0 20px;
+    padding: 0 15px;
     width: 100%;
     display: flex;
     align-items: flex-start;
@@ -48,6 +54,12 @@
       font-size: 24px;
       line-height: 30px;
       text-align: center;
+    }
+
+    .score,
+    .players {
+      width: 50%;
+      padding: 0px 10px;
     }
   }
 }

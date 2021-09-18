@@ -1,11 +1,13 @@
 import { Input, Button } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { CloseCircleFilled } from '@ant-design/icons';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { addMessage } from '../../store/roomDataReducer';
 import { writeMessage } from '../../store/userTypingReducer';
+import { setVisibleChat } from '../../store/settingsReducer';
 import style from './Chat.module.scss';
 import { KeyboardKeys, SocketTokens, TextForUser } from '../../types/types';
 import { on, emit } from '../../services/socket';
@@ -20,6 +22,8 @@ const Chat: React.FC = () => {
   const user = useTypedSelector((state) => state.userData);
 
   const { roomId } = useParams<{ roomId: string }>();
+
+  const scrollingChatElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     on(SocketTokens.SendMessage, (data) => {
@@ -46,6 +50,7 @@ const Chat: React.FC = () => {
 
   const handleSendMessage = () => {
     const { message } = userMessage;
+    if (!message.length) return;
     emit(SocketTokens.GetMessage, {
       roomId,
       user: user.name,
@@ -59,35 +64,51 @@ const Chat: React.FC = () => {
     if (event.key === KeyboardKeys.Enter) handleSendMessage();
   };
 
+  const handleVisibleChat = () => dispatch(setVisibleChat(false));
+
+  const scrollToBottom = () => {
+    if (scrollingChatElement && scrollingChatElement.current) {
+      const elem = scrollingChatElement.current;
+      elem.scrollTop = elem.scrollHeight - elem.clientHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
-    <div className={style.chat}>
-      <p className={style.title}>Chat</p>
-      <div className={style.messageContainer}>
-        <div className={style.messagies}>
-          {messages.map((item) => (
-            <p key={uuidv4()} className={style.message}>
-              <span className={style.messageUser}>{item.name}: </span>
-              <span className={style.messageText}>{item.message}</span>
-            </p>
-          ))}
+    <div className={style.wrapper}>
+      <div className={style.chat}>
+        <p className={style.title}>Chat</p>
+        <CloseCircleFilled className={style.close} onClick={handleVisibleChat} />
+        <div className={style.messageContainer} ref={scrollingChatElement}>
+          <div className={style.messagies}>
+            {messages.map((item) => (
+              <p key={uuidv4()} className={style.message}>
+                <span className={style.messageUser}>{item.name}: </span>
+                <span className={style.messageText}>{item.message}</span>
+              </p>
+            ))}
+          </div>
+          {userMessage.showWriter ? (
+            <span className={style.typingMessage}>{`${userMessage.writer} ${TextForUser.IsTyping}`}</span>
+          ) : (
+            ''
+          )}
         </div>
-        {userMessage.showWriter ? (
-          <span className={style.typingMessage}>{`${userMessage.writer} ${TextForUser.IsTyping}`}</span>
-        ) : (
-          ''
-        )}
-      </div>
-      <div className={style.setOfFields}>
-        <Input
-          className={style.input}
-          placeholder="Enter Message"
-          value={userMessage.message}
-          onChange={handleTyping}
-          onKeyPress={handleSendMessageOnEnter}
-        />
-        <Button type="primary" onClick={handleSendMessage}>
-          Send
-        </Button>
+        <div className={style.setOfFields}>
+          <Input
+            className={style.input}
+            placeholder="Enter Message"
+            value={userMessage.message}
+            onChange={handleTyping}
+            onKeyPress={handleSendMessageOnEnter}
+          />
+          <Button type="primary" onClick={handleSendMessage}>
+            Send
+          </Button>
+        </div>
       </div>
     </div>
   );
