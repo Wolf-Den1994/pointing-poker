@@ -95,7 +95,10 @@ const IssueList: React.FC<IIssueListProps> = ({ view = LayoutViews.Horizontal }:
             className={`${style.issue} ${canActive()} ${сhoiceOfActive(index)}`}
             onClick={() => handleIssueHiglighte(issue.taskName)}
           >
-            {issue.taskName}
+            <div>
+              <div className={style.current}>current</div>
+              <span>{issue.taskName}</span>
+            </div>
             <span>
               <span className={style.edit}>
                 {isDealer ? (
