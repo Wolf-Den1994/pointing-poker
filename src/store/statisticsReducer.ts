@@ -3,7 +3,7 @@ import { StatisticsActions } from './actionTypes';
 
 interface IStatisticData {
   card: string;
-  grades: string;
+  rate: string;
 }
 
 interface IInitialStateStatistics {

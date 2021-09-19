@@ -15,7 +15,7 @@ const Statistics: React.FC = () => {
             <div className={style.card}>
               <GameCard view={item.card} layout={LayoutViews.Statistics} />
             </div>
-            <div className={style.percent}>{statistics[index].grades}</div>
+            <div className={style.percent}>{statistics[index].rate}</div>
           </span>
         ))}
       </div>

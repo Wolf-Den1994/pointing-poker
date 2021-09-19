@@ -92,7 +92,8 @@ interface IIssueActionsArrayIIssueData {
 
 interface IAddGrades {
   grades: {
-    [key: string]: number | null;
+    name: string;
+    grade: number | null;
   };
   taskName: string;
 }

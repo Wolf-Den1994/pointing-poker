@@ -18,15 +18,15 @@ import { setStatistics } from '../../store/statisticsReducer';
 const statistics = [
   {
     card: '10',
-    grades: '42.8%',
+    rate: '42.8%',
   },
   {
     card: '5',
-    grades: '28.5%',
+    rate: '28.5%',
   },
   {
     card: 'pass',
-    grades: '28.5%',
+    rate: '28.5%',
   },
 ];
 
