@@ -15,7 +15,7 @@ import style from './Lobby.module.scss';
 import { addUsers, clearRoomData } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import Timer from '../../components/Timer/Timer';
-import { PathRoutes, SocketTokens, TextForUser } from '../../types/types';
+import { OptionSettings, PathRoutes, SocketTokens, TextForUser } from '../../types/types';
 import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
 import { changeIssue } from '../../store/issuesReducer';
@@ -31,6 +31,7 @@ const Lobby: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
+  const { settings } = useTypedSelector((state) => state.settings);
   const votingData = useTypedSelector((state) => state.voting);
 
   useEffect(() => {
@@ -138,7 +139,7 @@ const Lobby: React.FC = () => {
           <>
             <IssueList />
             <GameSettings />
-            <CustomizeCards />
+            {settings.scoreType !== OptionSettings.StoryPoint ? <CustomizeCards /> : null}
           </>
         ) : null}
         <BtnChat />

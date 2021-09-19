@@ -9,9 +9,10 @@ import { TextForUser } from '../../types/types';
 
 interface IGameCardProps {
   view: string;
+  layout?: string;
 }
 
-const GameCard: React.FC<IGameCardProps> = ({ view }: IGameCardProps) => {
+const GameCard: React.FC<IGameCardProps> = ({ view, layout = 'default' }: IGameCardProps) => {
   const dispatch = useDispatch();
 
   const { cardSet } = useTypedSelector((store) => store.settings);
@@ -59,12 +60,16 @@ const GameCard: React.FC<IGameCardProps> = ({ view }: IGameCardProps) => {
     <div className={style.card}>
       <div className={style.wrapper}>
         <div className={`${style.additionally} ${style.additionallyTop} ${style[view]}`}>{viewIsNumber}</div>
-        <div className={style.edit} onClick={handleEditCard}>
-          <EditOutlined />
-        </div>
-        <div className={style.remove} onClick={() => handleRemoveCard(valueView)}>
-          <DeleteOutlined />
-        </div>
+        {layout === 'default' ? (
+          <>
+            <div className={style.edit} onClick={handleEditCard}>
+              <EditOutlined />
+            </div>
+            <div className={style.remove} onClick={() => handleRemoveCard(valueView)}>
+              <DeleteOutlined />
+            </div>
+          </>
+        ) : null}
         <div className={style.wrapperScoreType}>
           {editIsActive ? (
             <div className={style.editInput}>

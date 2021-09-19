@@ -20,7 +20,7 @@ const initialState: IInitialStateSettings = {
     customizeCard: '',
     roundTime: moment('02:20', 'mm:ss'),
   },
-  cardSet: ['pass'],
+  cardSet: [],
   visibleChat: false,
 };
 
@@ -41,6 +41,9 @@ export const settingsReducer = (state = initialState, action: AnyAction): typeof
       newCardSetArray[index] = action.payload.newCard;
       return { ...state, cardSet: newCardSetArray };
     }
+
+    case SettingsActions.SET_CARDS:
+      return { ...state, cardSet: action.payload };
 
     case SettingsActions.VISIBLE_CHAT:
       return { ...state, visibleChat: action.payload };
@@ -70,6 +73,11 @@ interface ICardActionsEdit {
   payload: INewCard;
 }
 
+interface ICardActionsSet {
+  type: SettingsActions;
+  payload: string[];
+}
+
 interface IVisibleChatActions {
   type: SettingsActions;
   payload: boolean;
@@ -92,6 +100,11 @@ export const removeCard = (payload: string): ICardActionsString => ({
 
 export const editCard = (payload: INewCard): ICardActionsEdit => ({
   type: SettingsActions.EDIT_CARD,
+  payload,
+});
+
+export const setCards = (payload: string[]): ICardActionsSet => ({
+  type: SettingsActions.SET_CARDS,
   payload,
 });
 

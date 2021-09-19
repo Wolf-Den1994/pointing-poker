@@ -1,0 +1,20 @@
+.statistics {
+  .title {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+    text-align: center;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    .percent {
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 30px;
+      text-align: center;
+    }
+  }
+}

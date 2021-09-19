@@ -1,11 +1,17 @@
 import { Form, Input, Select, Switch, TimePicker } from 'antd';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import style from './GameSettings.module.scss';
-import { changeSettings } from '../../store/settingsReducer';
+import { changeSettings, setCards } from '../../store/settingsReducer';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { IGameSettingsData, OptionSettings, TextForUser } from '../../types/types';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { startTime } from '../../store/timerReducer';
+
+const arrayFibonacci = ['pass', '0', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89'];
+const arrayModifiedFibonacci = ['pass', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100'];
+const arrayPowerOfTwo = ['pass', '0', '1', '2', '4', '8', '16', '32', '64'];
+const arrayCustomYour = ['pass'];
 
 const GameSettings: React.FC = () => {
   const [formSettings] = Form.useForm();
@@ -31,6 +37,23 @@ const GameSettings: React.FC = () => {
       dispatch(startTime(defaultTime));
     }
   };
+
+  useEffect(() => {
+    switch (scoreType) {
+      case OptionSettings.Fibonacci:
+        dispatch(setCards(arrayFibonacci));
+        break;
+      case OptionSettings.ModifiedFibonacci:
+        dispatch(setCards(arrayModifiedFibonacci));
+        break;
+      case OptionSettings.PowerOfTwo:
+        dispatch(setCards(arrayPowerOfTwo));
+        break;
+      default:
+        dispatch(setCards(arrayCustomYour));
+        break;
+    }
+  }, [scoreType]);
 
   return (
     <div className={style.settings}>

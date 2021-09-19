@@ -10,6 +10,7 @@ import style from './Game.module.scss';
 import { LayoutViews } from '../../types/types';
 import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
+import Statistics from '../../components/Statistics/Statistics';
 
 const Game: React.FC = () => {
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
@@ -50,6 +51,7 @@ const Game: React.FC = () => {
             <IssueList view={LayoutViews.Vertical} />
             <div className={style.timer}>{showTimer ? <Timer /> : null}</div>
           </div>
+          <Statistics />
         </div>
         <div className={style.userControl}>
           <div className={style.score}>
