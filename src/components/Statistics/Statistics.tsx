@@ -1,3 +1,4 @@
+import { LayoutViews } from '../../types/types';
 import GameCard from '../GameCard/GameCard';
 import style from './Statistics.module.scss';
 
@@ -11,7 +12,7 @@ const Statistics: React.FC = () => {
         {['10', '5', 'pass'].map((item, index) => (
           <span key={item}>
             <div className={style.card}>
-              <GameCard view={item} layout="statistics" />
+              <GameCard view={item} layout={LayoutViews.Statistics} />
             </div>
             <div className={style.percent}>{grades[index]}</div>
           </span>

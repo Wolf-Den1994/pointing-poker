@@ -5,14 +5,14 @@ import { useDispatch } from 'react-redux';
 import { editCard, removeCard } from '../../store/settingsReducer';
 import style from './GameCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { TextForUser } from '../../types/types';
+import { LayoutViews, TextForUser } from '../../types/types';
 
 interface IGameCardProps {
   view: string;
   layout?: string;
 }
 
-const GameCard: React.FC<IGameCardProps> = ({ view, layout = 'default' }: IGameCardProps) => {
+const GameCard: React.FC<IGameCardProps> = ({ view, layout = LayoutViews.Default }: IGameCardProps) => {
   const dispatch = useDispatch();
 
   const { cardSet } = useTypedSelector((store) => store.settings);
@@ -60,7 +60,7 @@ const GameCard: React.FC<IGameCardProps> = ({ view, layout = 'default' }: IGameC
     <div className={style.card}>
       <div className={style.wrapper}>
         <div className={`${style.additionally} ${style.additionallyTop} ${style[view]}`}>{viewIsNumber}</div>
-        {layout === 'default' ? (
+        {layout === LayoutViews.Default ? (
           <>
             <div className={style.edit} onClick={handleEditCard}>
               <EditOutlined />

@@ -14,7 +14,6 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
 import { addUsers, clearRoomData } from '../../store/roomDataReducer';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
-import Timer from '../../components/Timer/Timer';
 import { OptionSettings, PathRoutes, SocketTokens, TextForUser } from '../../types/types';
 import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
@@ -109,8 +108,6 @@ const Lobby: React.FC = () => {
   return (
     <>
       <div className={style.lobbyPage}>
-        {/* {убрать таймер потом, когда будет страница game} */}
-        <Timer />
         <Title editAvailable={isDealer} />
         <p className={style.scramMaster}>Scram master:</p>
         <div className={style.card}>
