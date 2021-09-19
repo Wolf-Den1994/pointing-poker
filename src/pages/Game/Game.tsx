@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from 'antd';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -11,13 +13,35 @@ import { LayoutViews } from '../../types/types';
 import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import Statistics from '../../components/Statistics/Statistics';
+import { setStatistics } from '../../store/statisticsReducer';
+
+const statistics = [
+  {
+    card: '10',
+    grades: '42.8%',
+  },
+  {
+    card: '5',
+    grades: '28.5%',
+  },
+  {
+    card: 'pass',
+    grades: '28.5%',
+  },
+];
 
 const Game: React.FC = () => {
+  const dispatch = useDispatch();
+
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { showTimer } = useTypedSelector((state) => state.settings.settings);
 
   const handleStopGame = () => {};
+
+  useEffect(() => {
+    dispatch(setStatistics(statistics));
+  }, []);
 
   return (
     <div className={style.gamePage}>
@@ -58,7 +82,7 @@ const Game: React.FC = () => {
             <p className={style.title}>Score:</p>
             {issueList.map((item, index) =>
               Object.keys(item.grades).length ? (
-                <div key={item.grades[users[index].name]}>{item.grades[users[index].name]}</div>
+                <div key={item.grades[index].name}>{item.grades[index].name}</div>
               ) : null,
             )}
           </div>

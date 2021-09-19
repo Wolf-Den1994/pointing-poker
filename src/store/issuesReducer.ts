@@ -13,7 +13,7 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
           ...state.issueList,
           {
             taskName: action.payload,
-            grades: state.issueList.find((item) => item.taskName === action.payload)?.grades || {},
+            grades: state.issueList.find((item) => item.taskName === action.payload)?.grades || [],
             isActive: state.issueList.find((item) => item.taskName === action.payload)?.isActive || false,
           },
         ],

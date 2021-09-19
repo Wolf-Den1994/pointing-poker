@@ -42,7 +42,7 @@ const Title: React.FC<ITitleProps> = ({ editAvailable }: ITitleProps) => {
   const handleEditIssues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const result = newValue.split(',').map((issue) => issue.trim());
-    setIssues(result.map((item) => ({ taskName: item, grades: {}, isActive: false })));
+    setIssues(result.map((item) => ({ taskName: item, grades: [], isActive: false })));
   };
 
   const handleRedact = () => {

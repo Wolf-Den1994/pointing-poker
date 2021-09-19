@@ -45,7 +45,7 @@ const IssueList: React.FC<IIssueListProps> = ({ view = LayoutViews.Horizontal }:
         oldIssue: valueOldIssue,
       });
       dispatch(
-        editIssue({ oldIssue: valueOldIssue, newIssue: { taskName: valueNewIssue, grades: {}, isActive: false } }),
+        editIssue({ oldIssue: valueOldIssue, newIssue: { taskName: valueNewIssue, grades: [], isActive: false } }),
       );
     }
     setValueNewIssue('');

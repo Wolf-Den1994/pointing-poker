@@ -1,20 +1,21 @@
+import useTypedSelector from '../../hooks/useTypedSelector';
 import { LayoutViews } from '../../types/types';
 import GameCard from '../GameCard/GameCard';
 import style from './Statistics.module.scss';
 
-const grades = ['42.8%', '28.5%', '28.5%'];
-
 const Statistics: React.FC = () => {
+  const { statistics } = useTypedSelector((state) => state.statistics);
+
   return (
     <div className={style.statistics}>
       <p className={style.title}>Statistics:</p>
       <div className={style.wrapper}>
-        {['10', '5', 'pass'].map((item, index) => (
-          <span key={item}>
+        {statistics.map((item, index) => (
+          <span key={item.card}>
             <div className={style.card}>
-              <GameCard view={item} layout={LayoutViews.Statistics} />
+              <GameCard view={item.card} layout={LayoutViews.Statistics} />
             </div>
-            <div className={style.percent}>{grades[index]}</div>
+            <div className={style.percent}>{statistics[index].grades}</div>
           </span>
         ))}
       </div>

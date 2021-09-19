@@ -137,8 +137,9 @@ export interface IGameSettingsData {
 export interface IIssueData {
   taskName: string;
   grades: {
-    [key: string]: number | null; // username: number | null
-  };
+    name: string;
+    grades: number | null;
+  }[];
   isActive: boolean;
 }
 
