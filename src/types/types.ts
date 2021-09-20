@@ -68,6 +68,12 @@ export enum PathRoutes {
   Game = '/game',
 }
 
+export enum GameRooms {
+  Lobby = 'lobby',
+  GameDenied = 'gameDenied',
+  GameAllow = 'gameAllow',
+}
+
 export enum IssueStatus {
   Create = 'New Issue',
   Edit = 'Edit Issue',

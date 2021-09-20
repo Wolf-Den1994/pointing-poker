@@ -7,7 +7,7 @@ import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
 import { addMessage, addUsers, changeDealer } from '../../store/roomDataReducer';
-import { PathRoutes, SocketTokens, TextForUser, UserRole } from '../../types/types';
+import { GameRooms, PathRoutes, SocketTokens, TextForUser, UserRole } from '../../types/types';
 import { on, connect, emit } from '../../services/socket';
 import { getResourse } from '../../services/api';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
@@ -37,11 +37,11 @@ const Home: React.FC = () => {
   };
 
   const getPermissionToEnterGame = async (roomName: string, adminId: string) => {
-    if (roomName === 'game' && requestIsSend) {
+    if (roomName === GameRooms.GameDenied && requestIsSend) {
       showErrorMessage();
       return;
     }
-    if (roomName === 'game') {
+    if (roomName === GameRooms.GameDenied) {
       emit(SocketTokens.RequestForEntering, { userId: socket.id, adminId });
       setRequestIsSend(true);
       return;
