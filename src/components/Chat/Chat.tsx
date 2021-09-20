@@ -10,7 +10,7 @@ import { writeMessage } from '../../store/userTypingReducer';
 import { setVisibleChat } from '../../store/settingsReducer';
 import style from './Chat.module.scss';
 import { KeyboardKeys, SocketTokens, TextForUser } from '../../types/types';
-import { on, emit } from '../../services/socket';
+import { emit } from '../../services/socket';
 
 let timeout: NodeJS.Timeout;
 
@@ -24,12 +24,6 @@ const Chat: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const scrollingChatElement = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    on(SocketTokens.SendMessage, (data) => {
-      dispatch(addMessage(data));
-    });
-  }, []);
 
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(writeMessage(e.target.value));
