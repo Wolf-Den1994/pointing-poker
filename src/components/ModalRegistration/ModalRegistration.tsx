@@ -6,7 +6,7 @@ import moment from 'moment';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
-import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser } from '../../types/types';
+import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser, GameRooms } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setGameRoom } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { emit, once, on } from '../../services/socket';
@@ -116,13 +116,13 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           user: userData,
           roomId,
         });
-        if (gameRoom === 'game') {
+        if (gameRoom !== GameRooms.Lobby) {
           on(SocketTokens.EnteredRoom, (data) => {
             dispatch(addUsers(data.user));
             message.info(`${data.user.name}, ${TextForUser.EnteredRoom}`);
           });
         }
-        const path = gameRoom === 'lobby' ? PathRoutes.Lobby : PathRoutes.Game;
+        const path = gameRoom === GameRooms.Lobby ? PathRoutes.Lobby : PathRoutes.Game;
         history.push(`${path}/${roomId}`);
       } else {
         message.error(TextForUser.DublicateUserName);
