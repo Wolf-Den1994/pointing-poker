@@ -43,12 +43,6 @@ const Game: React.FC = () => {
   const { issueList } = useTypedSelector((state) => state.issues);
   const { showTimer } = useTypedSelector((state) => state.settings.settings);
 
-  const handleStopGame = () => {};
-
-  const handleResultGame = () => {
-    history.push(`${PathRoutes.Result}/${roomId}`);
-  };
-
   const handleIssueHighlight = (task: string) => {
     dispatch(setActiveIssue(task));
   };
@@ -56,6 +50,14 @@ const Game: React.FC = () => {
   useEffect(() => {
     dispatch(setStatistics(statistics));
   }, []);
+
+  const handleStopGame = () => {};
+
+  const handleResultGame = () => {
+    history.push(`${PathRoutes.Result}/${roomId}`);
+  };
+
+  const handleToggleRound = () => {};
 
   return (
     <div className={style.gamePage}>
@@ -88,7 +90,7 @@ const Game: React.FC = () => {
                 Show the game Result
               </Button>
               {showTimer ? (
-                <Button type="primary" size="large">
+                <Button type="primary" size="large" onClick={handleToggleRound}>
                   <PlayCircleOutlined />
                   Run round
                 </Button>
