@@ -13,10 +13,9 @@ const initialState: IInitialStateIssues = { issueList: [] };
 export const issuesReducer = (state = initialState, action: AnyAction): typeof initialState => {
   switch (action.type) {
     case IssueActions.ADD_ISSUE: {
-      const findTask = state.issueList.find((item) => item.taskName === action.payload) || defalitIssue;
       return {
         ...state,
-        issueList: [...state.issueList, { ...findTask, taskName: action.payload }],
+        issueList: [...state.issueList, { ...defalitIssue, taskName: action.payload }],
       };
     }
 
