@@ -9,10 +9,10 @@ import { TextForUser } from '../../types/types';
 
 interface IGameCardProps {
   view: string;
-  isCustomize?: boolean;
+  enableActions?: boolean;
 }
 
-const GameCard: React.FC<IGameCardProps> = ({ view, isCustomize }: IGameCardProps) => {
+const GameCard: React.FC<IGameCardProps> = ({ view, enableActions }: IGameCardProps) => {
   const dispatch = useDispatch();
 
   const { cardSet } = useTypedSelector((store) => store.settings);
@@ -60,7 +60,7 @@ const GameCard: React.FC<IGameCardProps> = ({ view, isCustomize }: IGameCardProp
     <div className={style.card}>
       <div className={style.wrapper}>
         <div className={`${style.additionally} ${style.additionallyTop} ${style[view]}`}>{viewIsNumber}</div>
-        {isCustomize ? (
+        {enableActions ? (
           <>
             <div className={style.edit} onClick={handleEditCard}>
               <EditOutlined />
