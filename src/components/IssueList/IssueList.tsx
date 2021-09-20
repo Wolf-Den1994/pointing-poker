@@ -50,7 +50,7 @@ const IssueList: React.FC<IIssueListProps> = ({
         roomId,
         oldIssue: valueOldIssue,
       });
-      dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: valueNewIssue }));
+      dispatch(editIssue({ oldTaskName: valueOldIssue, newTaskName: valueNewIssue }));
     }
     setValueNewIssue('');
   };
