@@ -86,6 +86,8 @@ const IssueList: React.FC<IIssueListProps> = ({
 
   const canActive = () => (enableHighlight && isDealer ? `${style[view]} ${style.dealer}` : style[view]);
 
+  const handleHighlight = (task: string) => isDealer && onHighlight && onHighlight(task);
+
   return (
     <div className={style.issuesList}>
       <p className={style.title}>Issues:</p>
@@ -94,7 +96,7 @@ const IssueList: React.FC<IIssueListProps> = ({
           <span
             key={issue.taskName}
             className={`${style.issue} ${canActive()} ${сhoiceOfActive(issue)}`}
-            onClick={() => isDealer && onHighlight && onHighlight(issue.taskName)}
+            onClick={() => handleHighlight(issue.taskName)}
           >
             <div>
               <div className={style.current}>current</div>
