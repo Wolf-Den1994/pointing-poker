@@ -42,10 +42,15 @@ const IssueList: React.FC<IIssueListProps> = ({
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
+      emit(SocketTokens.ChangeIssuesList, {
+        newIssue: { taskName: valueNewIssue, grades: [], isActive: false },
+        mode: 'add',
+        roomId,
+      });
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
-        newIssue: valueNewIssue,
+        newIssue: { taskName: valueNewIssue, grades: [], isActive: false }, // правильно передавть обьект Issue
         mode: 'change',
         roomId,
         oldIssue: valueOldIssue,
