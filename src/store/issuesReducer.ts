@@ -2,7 +2,7 @@ import { AnyAction } from 'redux';
 import { IInitialStateIssues, IIssueData } from '../types/types';
 import { IssueActions } from './actionTypes';
 
-const defalitIssue = {
+const defaultIssue = {
   taskName: '',
   grades: [],
   isActive: false,
@@ -15,7 +15,7 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
     case IssueActions.ADD_ISSUE: {
       return {
         ...state,
-        issueList: [...state.issueList, { ...defalitIssue, taskName: action.payload }],
+        issueList: [...state.issueList, { ...defaultIssue, taskName: action.payload }],
       };
     }
 
@@ -33,7 +33,7 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
       return { ...state, issueList: action.payload };
 
     case IssueActions.ADD_GRADES: {
-      const findTask = state.issueList.find((item) => item.taskName === action.payload.taskName) || defalitIssue;
+      const findTask = state.issueList.find((item) => item.taskName === action.payload.taskName) || defaultIssue;
       return {
         ...state,
         issueList: [...state.issueList, { ...findTask, grades: action.payload.grades }],
