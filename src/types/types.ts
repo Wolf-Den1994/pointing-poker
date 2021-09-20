@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
 
-export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
+export const BASE_URL = 'http://localhost:8000';
 
 export const cardSets = {
   arrayFibonacci: ['pass', '0', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89'],
@@ -30,6 +30,9 @@ export enum TextForUser {
   RequiredCustomizeCard = 'Customize card is required!',
   RequiredScoreType = 'Score type is required!',
   CancelVoting = 'There are not enough users for voting',
+  AdminAllow = 'Admin allows to enter the room',
+  AdminNotAllow = 'Admin doesn`t allow to enter the room',
+  CancelEnterTheRoom = 'You need to wait for the admin`s decision to re-try to enter the room!',
 }
 
 export enum Authors {
@@ -103,6 +106,14 @@ export enum SocketTokens {
   ShowCandidateToBeDeleted = 'showCandidateToBeDeleted',
   CancelVoting = 'cancelVoting',
   DisconnectAllSockets = 'disconnectAllSockets',
+  RedirectUserToGamePage = 'redirectUserToGamePage',
+  AdminsResponse = 'adminsResponse',
+  RequestForEntering = 'requestForEntering',
+  RedirectAllToGamePage = 'redirectAllToGamePage',
+  AdminsAnswerForRequest = 'adminsAnswerForRequest',
+  GetNewSettingsFromAdmin = 'getNewSettingsFromAdmin',
+  SendNewSettingsToUsers = 'sendNewSettingsToUsers',
+  ResponseForEnteringRequest = 'responseForEnteringRequest',
 }
 
 export enum LayoutViews {
@@ -166,4 +177,5 @@ export interface IRoomData {
   messages: IMessage[];
   issues: IIssueData[];
   voting: { id: string; voices: number; votedUsers: number };
+  settings: IGameSettingsData;
 }
