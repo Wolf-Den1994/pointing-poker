@@ -2,14 +2,16 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import { useHistory } from 'react-router';
+import moment from 'moment';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser } from '../../types/types';
-import { addAdmin, addUsers, getAllMessages } from '../../store/roomDataReducer';
+import { addAdmin, addUsers, getAllMessages, setGameRoom } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
-import { emit, once } from '../../services/socket';
+import { emit, once, on } from '../../services/socket';
 import { getResourse } from '../../services/api';
+import { changeSettings } from '../../store/settingsReducer';
 
 interface IModalRegistrationProps {
   role: string;
@@ -100,11 +102,13 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         avatarUrl: avatar,
       };
       const response = await getResourse(roomId);
-      const { admin, users, issues, messages } = response.data;
+      const { admin, users, issues, messages, gameRoom, settings } = response.data;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
         users.push(userData);
         dispatch(addAdmin(admin));
+        dispatch(setGameRoom(gameRoom));
+        dispatch(changeSettings({ ...settings, roundTime: moment(response.data.settings.roundTime, 'mm:ss') }));
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
@@ -112,7 +116,14 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           user: userData,
           roomId,
         });
-        history.push(`${PathRoutes.Lobby}/${roomId}`);
+        if (gameRoom === 'game') {
+          on(SocketTokens.EnteredRoom, (data) => {
+            dispatch(addUsers(data.user));
+            message.info(`${data.user.name}, ${TextForUser.EnteredRoom}`);
+          });
+        }
+        const path = gameRoom === 'lobby' ? PathRoutes.Lobby : PathRoutes.Game;
+        history.push(`${path}/${roomId}`);
       } else {
         message.error(TextForUser.DublicateUserName);
         return;
