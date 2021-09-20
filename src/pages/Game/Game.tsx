@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { LogoutOutlined, PlayCircleOutlined, SaveOutlined } from '@ant-design/icons';
+import { useHistory, useParams } from 'react-router';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -10,7 +11,7 @@ import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
-import { LayoutViews } from '../../types/types';
+import { LayoutViews, PathRoutes } from '../../types/types';
 import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import Statistics from '../../components/Statistics/Statistics';
@@ -34,6 +35,9 @@ const statistics = [
 
 const Game: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const { roomId } = useParams<{ roomId: string }>();
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
@@ -41,7 +45,9 @@ const Game: React.FC = () => {
 
   const handleStopGame = () => {};
 
-  const handleResultGame = () => {};
+  const handleResultGame = () => {
+    history.push(`${PathRoutes.Result}/${roomId}`);
+  };
 
   const handleIssueHighlight = (task: string) => {
     dispatch(setActiveIssue(task));
@@ -81,11 +87,12 @@ const Game: React.FC = () => {
                 <SaveOutlined />
                 Show the game Result
               </Button>
-              {}
-              <Button type="primary" size="large">
-                <PlayCircleOutlined />
-                Run round
-              </Button>
+              {showTimer ? (
+                <Button type="primary" size="large">
+                  <PlayCircleOutlined />
+                  Run round
+                </Button>
+              ) : null}
             </BtnsControl>
           </div>
           {isDealer ? <GameSettingsPopup /> : null}

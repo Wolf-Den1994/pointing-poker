@@ -63,6 +63,7 @@ export enum PathRoutes {
   Home = '/',
   Lobby = '/lobby',
   Game = '/game',
+  Result = '/result',
 }
 
 export enum IssueStatus {
