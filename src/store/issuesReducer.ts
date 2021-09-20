@@ -2,12 +2,18 @@ import { AnyAction } from 'redux';
 import { IInitialStateIssues, IIssueData } from '../types/types';
 import { IssueActions } from './actionTypes';
 
+const defalitIssue = {
+  taskName: '',
+  grades: [],
+  isActive: false,
+};
+
 const initialState: IInitialStateIssues = { issueList: [] };
 
 export const issuesReducer = (state = initialState, action: AnyAction): typeof initialState => {
   switch (action.type) {
     case IssueActions.ADD_ISSUE: {
-      const findTask = state.issueList.find((item) => item.taskName === action.payload) || ({} as IIssueData);
+      const findTask = state.issueList.find((item) => item.taskName === action.payload) || defalitIssue;
       return {
         ...state,
         issueList: [...state.issueList, { ...findTask, taskName: action.payload }],
@@ -28,7 +34,7 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
       return { ...state, issueList: action.payload };
 
     case IssueActions.ADD_GRADES: {
-      const findTask = state.issueList.find((item) => item.taskName === action.payload.taskName) || ({} as IIssueData);
+      const findTask = state.issueList.find((item) => item.taskName === action.payload.taskName) || defalitIssue;
       return {
         ...state,
         issueList: [...state.issueList, { ...findTask, grades: action.payload.grades }],
@@ -41,19 +47,13 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
         issueList: state.issueList.filter((issue) => issue.grades[action.payload] !== action.payload),
       };
 
-    case IssueActions.SET_ACTIVE: {
-      const findTask = state.issueList.find((item) => item.taskName === action.payload);
-      if (findTask) {
-        findTask.isActive = !findTask.isActive;
-        const index = state.issueList.findIndex((issue) => issue.taskName === action.payload);
-
-        const copyIssues = [...state.issueList];
-        const newIssuesArray = copyIssues.map((item) => (item.isActive ? { ...item, isActive: false } : item));
-        newIssuesArray[index] = findTask;
-        return { ...state, issueList: newIssuesArray };
-      }
-      return state;
-    }
+    case IssueActions.SET_ACTIVE:
+      return {
+        ...state,
+        issueList: state.issueList.map((item) =>
+          item.taskName === action.payload ? { ...item, isActive: !item.isActive } : { ...item, isActive: false },
+        ),
+      };
 
     default:
       return state;

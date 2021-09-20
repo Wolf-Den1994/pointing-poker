@@ -112,7 +112,9 @@ const GameSettings: React.FC = () => {
         >
           <Select value={scoreType} size="large">
             <Select.OptGroup label="Default:">
-              <Select.Option value={OptionSettings.StoryPoint}>{OptionSettings.StoryPoint}</Select.Option>
+              <Select.Option value={OptionSettings.StoryPoint} disabled>
+                {OptionSettings.StoryPoint}
+              </Select.Option>
             </Select.OptGroup>
             <Select.OptGroup label="Math:">
               <Select.Option value={OptionSettings.Fibonacci}>{OptionSettings.Fibonacci}</Select.Option>
