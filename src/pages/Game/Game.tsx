@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Button } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { LogoutOutlined, PlayCircleOutlined, SaveOutlined } from '@ant-design/icons';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -40,6 +41,8 @@ const Game: React.FC = () => {
 
   const handleStopGame = () => {};
 
+  const handleResultGame = () => {};
+
   const handleIssueHighlight = (task: string) => {
     dispatch(setActiveIssue(task));
   };
@@ -70,8 +73,18 @@ const Game: React.FC = () => {
           </div>
           <div className={style.btns}>
             <BtnsControl>
-              <Button type="primary" size="large" onClick={handleStopGame}>
+              <Button size="large" onClick={handleStopGame}>
+                <LogoutOutlined />
                 Stop Game
+              </Button>
+              <Button size="large" onClick={handleResultGame}>
+                <SaveOutlined />
+                Show the game Result
+              </Button>
+              {}
+              <Button type="primary" size="large">
+                <PlayCircleOutlined />
+                Run round
               </Button>
             </BtnsControl>
           </div>
