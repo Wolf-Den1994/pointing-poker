@@ -34,11 +34,6 @@ const Lobby: React.FC = () => {
   const { settings } = useTypedSelector((state) => state.settings);
 
   useEffect(() => {
-    on(SocketTokens.EnteredRoom, (data) => {
-      dispatch(addUsers(data.user));
-      message.info(`${data.user.name}, ${TextForUser.EnteredRoom}`);
-    });
-
     on(SocketTokens.RedirectUserToGamePage, (data) => {
       if (data.timer) dispatch(startTime(data.timer));
       dispatch(changeSettings({ ...data.settings, roundTime: moment(data.settings.roundTime, 'mm:ss') }));

@@ -116,12 +116,6 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           user: userData,
           roomId,
         });
-        if (gameRoom !== GameRooms.Lobby) {
-          on(SocketTokens.EnteredRoom, (data) => {
-            dispatch(addUsers(data.user));
-            message.info(`${data.user.name}, ${TextForUser.EnteredRoom}`);
-          });
-        }
         const path = gameRoom === GameRooms.Lobby ? PathRoutes.Lobby : PathRoutes.Game;
         history.push(`${path}/${roomId}`);
       } else {

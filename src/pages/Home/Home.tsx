@@ -79,6 +79,10 @@ const Home: React.FC = () => {
       window.location.reload();
       connect();
     });
+    on(SocketTokens.EnteredRoom, (data) => {
+      dispatch(addUsers(data.user));
+      message.info(`${data.user.name}, ${TextForUser.EnteredRoom}`);
+    });
     on(SocketTokens.SendMessage, (data) => {
       dispatch(addMessage(data));
     });
