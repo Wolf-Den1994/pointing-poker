@@ -19,15 +19,15 @@ import { setActiveIssue } from '../../store/issuesReducer';
 const statistics = [
   {
     card: '10',
-    rate: '42.8%',
+    averageGrade: '42.8%',
   },
   {
     card: '5',
-    rate: '28.5%',
+    averageGrade: '28.5%',
   },
   {
     card: 'pass',
-    rate: '28.5%',
+    averageGrade: '28.5%',
   },
 ];
 

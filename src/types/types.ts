@@ -108,8 +108,6 @@ export enum SocketTokens {
 export enum LayoutViews {
   Vertical = 'vertical',
   Horizontal = 'horizontal',
-  Statistics = 'statistics',
-  Default = 'default',
 }
 
 export enum KeyboardKeys {

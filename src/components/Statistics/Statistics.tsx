@@ -1,5 +1,4 @@
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { LayoutViews } from '../../types/types';
 import GameCard from '../GameCard/GameCard';
 import style from './Statistics.module.scss';
 
@@ -10,12 +9,12 @@ const Statistics: React.FC = () => {
     <div className={style.statistics}>
       <p className={style.title}>Statistics:</p>
       <div className={style.wrapper}>
-        {statistics.map((item, index) => (
+        {statistics.map((item) => (
           <span key={item.card}>
             <div className={style.card}>
-              <GameCard view={item.card} layout={LayoutViews.Statistics} />
+              <GameCard view={item.card} />
             </div>
-            <div className={style.percent}>{statistics[index].rate}</div>
+            <div className={style.percent}>{item.averageGrade}</div>
           </span>
         ))}
       </div>
