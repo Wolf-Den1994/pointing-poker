@@ -62,7 +62,8 @@ const IssueList: React.FC<IIssueListProps> = ({
     setValueNewIssue('');
   };
 
-  const handleEditIssue = (issue: string) => {
+  const handleEditIssue = (issue: string, event: React.MouseEvent) => {
+    event.stopPropagation();
     setEditOrCreate(IssueStatus.Edit);
     setValueNewIssue(issue);
     setValueOldIssue(issue);
@@ -76,7 +77,8 @@ const IssueList: React.FC<IIssueListProps> = ({
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setValueNewIssue(e.target.value);
 
-  const handleRemoveIssue = (issue: string) => {
+  const handleRemoveIssue = (issue: string, event: React.MouseEvent) => {
+    event.stopPropagation();
     dispatch(removeIssue(issue));
   };
 
@@ -101,10 +103,10 @@ const IssueList: React.FC<IIssueListProps> = ({
             <span>
               <span className={style.edit}>
                 {isDealer ? (
-                  <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue.taskName)} />
+                  <EditOutlined style={{ fontSize: 20 }} onClick={(event) => handleEditIssue(issue.taskName, event)} />
                 ) : null}
               </span>
-              <span className={style.delete} onClick={() => handleRemoveIssue(issue.taskName)}>
+              <span className={style.delete} onClick={(event) => handleRemoveIssue(issue.taskName, event)}>
                 {isDealer ? <DeleteOutlined style={{ fontSize: 20 }} /> : null}
               </span>
             </span>
