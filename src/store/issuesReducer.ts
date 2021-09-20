@@ -147,7 +147,7 @@ export const removeGrades = (payload: string): IIssueActionsString => ({
 });
 
 export const editGrades = (payload: IEditGrades): IIssueActionEditGrade => ({
-  type: IssueActions.EDIT_ISSUE,
+  type: IssueActions.EDIT_GRADES,
   payload,
 });
 
