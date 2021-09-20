@@ -10,6 +10,16 @@ export const room = {
     voices: 0,
     votedUsers: 0,
   },
+  settings: {
+    isDealerActive: false,
+    voteAfterRoundEnd: false,
+    autoFlipCards: false,
+    autoAdmitMembers: false,
+    showTimer: false,
+    scoreType: 'story point',
+    customizeCard: '',
+    roundTime: '2021-09-18T21:02:20.000Z',
+  },
 };
 
 export const clearVoting = {
