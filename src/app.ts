@@ -62,7 +62,7 @@ io.on('connection', (socket) => {
     socket.broadcast.to(adminId).emit(SocketTokens.AdminsAnswerForRequest, { userId });
   });
 
-  socket.on(SocketTokens.ResponseForEnteringRequest, ({ id, response: boolean }) => {
+  socket.on(SocketTokens.ResponseForEnteringRequest, ({ id, response }) => {
     socket.to(id).emit(SocketTokens.AdminsResponse, { response });
   });
 
