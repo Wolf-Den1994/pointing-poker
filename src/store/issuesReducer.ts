@@ -49,9 +49,7 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
     case IssueActions.SET_ACTIVE:
       return {
         ...state,
-        issueList: state.issueList.map((item) =>
-          item.taskName === action.payload ? { ...item, isActive: !item.isActive } : { ...item, isActive: false },
-        ),
+        issueList: state.issueList.map((item) => ({ ...item, isActive: item.taskName === action.payload })),
       };
 
     default:

@@ -8,22 +8,22 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { TextForUser } from '../../types/types';
 
 interface IGameCardProps {
-  valueOnScreen: string;
+  children: string;
   enableActions?: boolean;
 }
 
-const GameCard: React.FC<IGameCardProps> = ({ valueOnScreen, enableActions }: IGameCardProps) => {
+const GameCard: React.FC<IGameCardProps> = ({ children, enableActions }: IGameCardProps) => {
   const dispatch = useDispatch();
 
   const { cardSet } = useTypedSelector((store) => store.settings);
 
   const [editIsActive, setEditIsActive] = useState(false);
-  const [valueView, setValueView] = useState(valueOnScreen);
+  const [valueView, setValueView] = useState(children);
   const [newValueCard, setNewValueCard] = useState('');
   const [oldValueCard, setOldValueCard] = useState('');
 
   const viewIsNumber = Number.isNaN(+valueView) ? null : valueView;
-  const classNameView = viewIsNumber ? style.number : `${style.scoreType} ${style[valueOnScreen]}`;
+  const classNameView = viewIsNumber ? style.number : `${style.scoreType} ${style[children]}`;
 
   const handleEditCard = () => {
     if (editIsActive) {
@@ -59,7 +59,7 @@ const GameCard: React.FC<IGameCardProps> = ({ valueOnScreen, enableActions }: IG
   return (
     <div className={style.card}>
       <div className={style.wrapper}>
-        <div className={`${style.additionally} ${style.additionallyTop} ${style[valueOnScreen]}`}>{viewIsNumber}</div>
+        <div className={`${style.additionally} ${style.additionallyTop} ${style[children]}`}>{viewIsNumber}</div>
         {enableActions ? (
           <>
             <div className={style.edit} onClick={handleEditCard}>
@@ -85,10 +85,8 @@ const GameCard: React.FC<IGameCardProps> = ({ valueOnScreen, enableActions }: IG
             <div className={classNameView}>{viewIsNumber}</div>
           )}
         </div>
-        <div className={style.cost}>{valueOnScreen[0].toUpperCase() + valueOnScreen.slice(1)}</div>
-        <div className={`${style.additionally} ${style.additionallyBottom} ${style[valueOnScreen]}`}>
-          {viewIsNumber}
-        </div>
+        <div className={style.cost}>{children[0].toUpperCase() + children.slice(1)}</div>
+        <div className={`${style.additionally} ${style.additionallyBottom} ${style[children]}`}>{viewIsNumber}</div>
       </div>
     </div>
   );

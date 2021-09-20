@@ -40,7 +40,9 @@ const CustomizeCards: React.FC = () => {
       <p className={style.title}>Add card values:</p>
       <div className={style.wrapper}>
         {cardSet.map((item) => (
-          <GameCard key={item} valueOnScreen={item} enableActions />
+          <GameCard key={item} enableActions>
+            {item}
+          </GameCard>
         ))}
         <div className={style.add} onClick={handleShowAddCard}>
           {addIsActive ? (
