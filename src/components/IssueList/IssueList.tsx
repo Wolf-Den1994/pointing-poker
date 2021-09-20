@@ -5,16 +5,21 @@ import { Input, Modal, message } from 'antd';
 import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
-import { addIssue, editIssue, removeIssue, setActiveIssue } from '../../store/issuesReducer';
-import { IssueStatus, LayoutViews, SocketTokens, TextForUser } from '../../types/types';
+import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
+import { IIssueData, IssueStatus, LayoutViews, SocketTokens, TextForUser } from '../../types/types';
 import { emit } from '../../services/socket';
 
 interface IIssueListProps {
   view?: string;
+  enableHighlight?: boolean;
   onHighlight?: (task: string) => void;
 }
 
-const IssueList: React.FC<IIssueListProps> = ({ onHighlight, view = LayoutViews.Horizontal }: IIssueListProps) => {
+const IssueList: React.FC<IIssueListProps> = ({
+  onHighlight,
+  enableHighlight,
+  view = LayoutViews.Horizontal,
+}: IIssueListProps) => {
   const dispatch = useDispatch();
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -75,21 +80,18 @@ const IssueList: React.FC<IIssueListProps> = ({ onHighlight, view = LayoutViews.
     dispatch(removeIssue(issue));
   };
 
-  const сhoiceOfActive = (index: number) => {
-    if (view === LayoutViews.Vertical && issueList[index].isActive) return style.active;
-    return '';
-  };
+  const сhoiceOfActive = (issue: IIssueData) => (enableHighlight && issue.isActive ? style.active : '');
 
-  const canActive = () => (isDealer ? `${style[view]} ${style.dealer}` : style[view]);
+  const canActive = () => (enableHighlight && isDealer ? `${style[view]} ${style.dealer}` : style[view]);
 
   return (
     <div className={style.issuesList}>
       <p className={style.title}>Issues:</p>
       <div className={`${style.wrapper} ${style[view]}`}>
-        {issueList.map((issue, index) => (
+        {issueList.map((issue) => (
           <span
             key={issue.taskName}
-            className={`${style.issue} ${canActive()} ${сhoiceOfActive(index)}`}
+            className={`${style.issue} ${canActive()} ${сhoiceOfActive(issue)}`}
             onClick={() => isDealer && onHighlight && onHighlight(issue.taskName)}
           >
             <div>

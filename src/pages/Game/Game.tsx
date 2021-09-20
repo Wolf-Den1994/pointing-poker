@@ -77,7 +77,7 @@ const Game: React.FC = () => {
           </div>
           {isDealer ? <GameSettingsPopup /> : null}
           <div className={style.field}>
-            <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} />
+            <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
             <div className={style.timer}>{showTimer ? <Timer /> : null}</div>
           </div>
           <Statistics />
