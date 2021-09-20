@@ -24,7 +24,7 @@ import {
 } from './types/types';
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,7 +37,7 @@ const io = new Server(httpServer, {
 });
 app.use('/api', router);
 
-io.on(SocketTokens.Connection, (socket) => {
+io.on('connection', (socket) => {
   socket.on(SocketTokens.CreateRoom, async ({ data }) => {
     const roomId = uuidv4();
     socket.join(roomId);
@@ -62,7 +62,7 @@ io.on(SocketTokens.Connection, (socket) => {
     socket.broadcast.to(adminId).emit(SocketTokens.AdminsAnswerForRequest, { userId });
   });
 
-  socket.on(SocketTokens.ResponseForEnteringRequest, ({ id, response }) => {
+  socket.on(SocketTokens.ResponseForEnteringRequest, ({ id, response: boolean }) => {
     socket.to(id).emit(SocketTokens.AdminsResponse, { response });
   });
 
