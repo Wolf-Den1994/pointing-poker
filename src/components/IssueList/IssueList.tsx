@@ -6,19 +6,26 @@ import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
-import { IssueStatus, SocketTokens, TextForUser } from '../../types/types';
+import { IIssueData, IssueStatus, LayoutViews, SocketTokens, TextForUser } from '../../types/types';
 import { emit } from '../../services/socket';
 
 interface IIssueListProps {
   view?: string;
+  enableHighlight?: boolean;
+  onHighlight?: (task: string) => void;
 }
 
-const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueListProps) => {
+const IssueList: React.FC<IIssueListProps> = ({
+  onHighlight,
+  enableHighlight,
+  view = LayoutViews.Horizontal,
+}: IIssueListProps) => {
   const dispatch = useDispatch();
 
   const { roomId } = useParams<{ roomId: string }>();
 
   const { issueList } = useTypedSelector((state) => state.issues);
+  const { isDealer } = useTypedSelector((state) => state.roomData);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [valueNewIssue, setValueNewIssue] = useState('');
@@ -43,7 +50,7 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
         roomId,
         oldIssue: valueOldIssue,
       });
-      dispatch(editIssue({ oldIssue: valueOldIssue, newIssue: { taskName: valueNewIssue, grades: {} } }));
+      dispatch(editIssue({ oldTaskName: valueOldIssue, newTaskName: valueNewIssue }));
     }
     setValueNewIssue('');
   };
@@ -53,7 +60,8 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
     setValueNewIssue('');
   };
 
-  const handleEditIssue = (issue: string) => {
+  const handleEditIssue = (issue: string, event: React.MouseEvent) => {
+    event.stopPropagation();
     setEditOrCreate(IssueStatus.Edit);
     setValueNewIssue(issue);
     setValueOldIssue(issue);
@@ -67,31 +75,51 @@ const IssueList: React.FC<IIssueListProps> = ({ view = 'horizontal' }: IIssueLis
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => setValueNewIssue(e.target.value);
 
-  const handleRemoveIssue = (issue: string) => {
+  const handleRemoveIssue = (issue: string, event: React.MouseEvent) => {
+    event.stopPropagation();
     dispatch(removeIssue(issue));
   };
+
+  const сhoiceOfActive = (issue: IIssueData) => (enableHighlight && issue.isActive ? style.active : '');
+
+  const canActive = () => (enableHighlight && isDealer ? style.dealer : '');
+
+  const handleHighlight = (task: string) => isDealer && onHighlight && onHighlight(task);
 
   return (
     <div className={style.issuesList}>
       <p className={style.title}>Issues:</p>
       <div className={`${style.wrapper} ${style[view]}`}>
         {issueList.map((issue) => (
-          <span key={issue.taskName} className={`${style.issue} ${style[view]}`}>
-            {issue.taskName}
-            <span className={`${style.edit} ${style[view]}`}>
-              <EditOutlined style={{ fontSize: 20 }} onClick={() => handleEditIssue(issue.taskName)} />
-            </span>
-            <span className={style.delete} onClick={() => handleRemoveIssue(issue.taskName)}>
-              <DeleteOutlined style={{ fontSize: 20 }} />
+          <span
+            key={issue.taskName}
+            className={`${style.issue} ${style[view]} ${canActive()} ${сhoiceOfActive(issue)}`}
+            onClick={() => handleHighlight(issue.taskName)}
+          >
+            <div>
+              <div className={style.current}>current</div>
+              <span>{issue.taskName}</span>
+            </div>
+            <span>
+              <span className={style.edit}>
+                {isDealer ? (
+                  <EditOutlined style={{ fontSize: 20 }} onClick={(event) => handleEditIssue(issue.taskName, event)} />
+                ) : null}
+              </span>
+              <span className={style.delete} onClick={(event) => handleRemoveIssue(issue.taskName, event)}>
+                {isDealer ? <DeleteOutlined style={{ fontSize: 20 }} /> : null}
+              </span>
             </span>
           </span>
         ))}
-        <span className={`${style.issue} ${style.issueCreate} ${style[view]}`} onClick={handleCreateNewIssue}>
-          Create new Issue
-          <span className={style.plus}>
-            <PlusOutlined />
+        {isDealer ? (
+          <span className={`${style.issue} ${style.issueCreate} ${style[view]}`} onClick={handleCreateNewIssue}>
+            Create new Issue
+            <span className={style.plus}>
+              <PlusOutlined />
+            </span>
           </span>
-        </span>
+        ) : null}
         <Modal title={editOrCreate} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <Input placeholder={editOrCreate} value={valueNewIssue} onChange={handleInputValue} />
         </Modal>

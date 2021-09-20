@@ -1,10 +1,12 @@
 export enum IssueActions {
-  ADD_ISSUE = 'ADD_ISSUE',
-  REMOVE_ISSUE = 'REMOVE_ISSUE',
-  EDIT_ISSUE = 'EDIT_ISSUE',
-  CHANGE_ISSUES = 'CHANGE_ISSUES',
+  ADD_TASK = 'ADD_TASK',
+  REMOVE_TASK = 'REMOVE_TASK',
+  EDIT_TASK = 'EDIT_TASK',
   ADD_GRADES = 'ADD_GRADES',
   REMOVE_GRADES = 'REMOVE_GRADES',
+  EDIT_GRADES = 'EDIT_GRADES',
+  SET_ACTIVE = 'SET_ACTIVE',
+  CHANGE_ISSUES = 'CHANGE_ISSUES',
 }
 
 export enum SettingsActions {
@@ -12,6 +14,7 @@ export enum SettingsActions {
   ADD_CARD = 'ADD_CARD',
   REMOVE_CARD = 'REMOVE_CARD',
   EDIT_CARD = 'EDIT_CARD',
+  SET_CARDS = 'SET_CARDS',
   VISIBLE_CHAT = 'VISIBLE_CHAT',
 }
 
@@ -52,4 +55,11 @@ export enum UserTypingActions {
 export enum TimerActions {
   START_TIME = 'START_TIME',
   RESET_TIME = 'RESET_TIME',
+}
+
+export enum StatisticsActions {
+  ADD_STATISTIC = 'ADD_STATISTIC',
+  REMOVE_STATISTIC = 'REMOVE_STATISTIC',
+  EDIT_STATISTIC = 'EDIT_STATISTIC',
+  SET_STATISTICS = 'SET_STATISTICS',
 }

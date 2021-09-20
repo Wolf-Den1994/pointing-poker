@@ -19,9 +19,9 @@ const BtnChat: React.FC = () => {
         {visibleChat ? <Chat /> : null}
         <Button type="primary" className={style.chatBtn} shape="circle" onClick={handleVisibleChat}>
           {visibleChat ? (
-            <SmileFilled style={{ fontSize: '60px', color: '#fff' }} />
+            <SmileFilled style={{ fontSize: '42px', color: '#fff' }} />
           ) : (
-            <MessageFilled style={{ fontSize: '60px', color: '#fff' }} />
+            <MessageFilled style={{ fontSize: '42px', color: '#fff' }} />
           )}
         </Button>
       </div>

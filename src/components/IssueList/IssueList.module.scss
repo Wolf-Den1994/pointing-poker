@@ -27,18 +27,34 @@
       align-items: center;
       transition: 0.3s;
 
+      .current {
+        display: none;
+      }
+
       &.vertical {
         width: 290px;
         justify-content: space-between;
       }
 
+      &.active {
+        background-color: #60dabf54;
+
+        .current {
+          margin: 0;
+          font-size: 11px;
+          display: block;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+      }
+
+      &.dealer {
+        cursor: pointer;
+      }
+
       .edit {
         margin: 0 10px;
         cursor: pointer;
-
-        &.vertical {
-          display: none;
-        }
 
         :hover {
           color: #00e;

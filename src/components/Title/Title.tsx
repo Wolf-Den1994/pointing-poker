@@ -42,12 +42,13 @@ const Title: React.FC<ITitleProps> = ({ editAvailable }: ITitleProps) => {
   const handleEditIssues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const result = newValue.split(',').map((issue) => issue.trim());
-    setIssues(result.map((item) => ({ taskName: item, grades: {} })));
+    setIssues(result.map((item) => ({ taskName: item, grades: [], isActive: false })));
   };
 
   const handleRedact = () => {
     if (issuesEdit) {
-      const isDuplicate = issues.some((issue, index) => issues.indexOf(issue) !== index);
+      const tasks = issues.map((item) => item.taskName);
+      const isDuplicate = tasks.some((task, index) => tasks.indexOf(task) !== index);
       if (isDuplicate) {
         message.warning(TextForUser.AboutDublicateInLine);
         setIssues(issueList);
