@@ -36,12 +36,18 @@ export enum RoomDataActions {
   SET_ROOM_ID = 'SET_ROOM_ID',
   ADD_ADMIN = 'ADD_ADMIN',
   IS_DEALER = 'IS_DEALER',
+  SET_GAME_ROOM = 'SET_GAME_ROOM',
   CLEAR_ROOM_DATA = 'CLEAR_ROOM_DATA',
 }
 
 export enum VotingActions {
   SET_DELETED_USER = 'SET_DELETED_USER',
   SET_MODAL_VISIBLE = 'SET_MODAL_VISIBLE',
+}
+
+export enum RequestActions {
+  ADD_USER_ID = 'ADD_USER_ID',
+  DELETE_USER_ID = 'DELETE_USER_ID',
 }
 
 export enum UserTypingActions {
