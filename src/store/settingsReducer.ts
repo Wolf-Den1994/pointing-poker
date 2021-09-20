@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { AnyAction } from 'redux';
-import { IGameSettingsData, OptionSettings } from '../types/types';
+import { IGameSettingsData, OptionSettings, cardSets } from '../types/types';
 import { SettingsActions } from './actionTypes';
 
 interface IInitialStateSettings {
@@ -27,7 +27,16 @@ const initialState: IInitialStateSettings = {
 export const settingsReducer = (state = initialState, action: AnyAction): typeof initialState => {
   switch (action.type) {
     case SettingsActions.CHANGE_SETTINGS:
-      return { ...state, settings: action.payload };
+      switch (action.payload.scoreType) {
+        case OptionSettings.Fibonacci:
+          return { ...state, settings: action.payload, cardSet: cardSets.arrayFibonacci };
+        case OptionSettings.ModifiedFibonacci:
+          return { ...state, settings: action.payload, cardSet: cardSets.arrayModifiedFibonacci };
+        case OptionSettings.PowerOfTwo:
+          return { ...state, settings: action.payload, cardSet: cardSets.arrayPowerOfTwo };
+        default:
+          return { ...state, settings: action.payload, cardSet: cardSets.arrayCustomYour };
+      }
 
     case SettingsActions.ADD_CARD:
       return { ...state, cardSet: [...state.cardSet, action.payload] };

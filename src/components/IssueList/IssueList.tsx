@@ -11,9 +11,10 @@ import { emit } from '../../services/socket';
 
 interface IIssueListProps {
   view?: string;
+  onHighlight?: (task: string) => void;
 }
 
-const IssueList: React.FC<IIssueListProps> = ({ view = LayoutViews.Horizontal }: IIssueListProps) => {
+const IssueList: React.FC<IIssueListProps> = ({ onHighlight, view = LayoutViews.Horizontal }: IIssueListProps) => {
   const dispatch = useDispatch();
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -74,13 +75,9 @@ const IssueList: React.FC<IIssueListProps> = ({ view = LayoutViews.Horizontal }:
     dispatch(removeIssue(issue));
   };
 
-  const handleIssueHiglighte = (task: string) => {
-    if (view === LayoutViews.Vertical && isDealer) dispatch(setActiveIssue(task));
-  };
-
   const сhoiceOfActive = (index: number) => {
-    if (view === LayoutViews.Vertical) return issueList[index].isActive ? style.active : null;
-    return null;
+    if (view === LayoutViews.Vertical && issueList[index].isActive) return style.active;
+    return '';
   };
 
   const canActive = () => (isDealer ? `${style[view]} ${style.dealer}` : style[view]);
@@ -93,7 +90,7 @@ const IssueList: React.FC<IIssueListProps> = ({ view = LayoutViews.Horizontal }:
           <span
             key={issue.taskName}
             className={`${style.issue} ${canActive()} ${сhoiceOfActive(index)}`}
-            onClick={() => handleIssueHiglighte(issue.taskName)}
+            onClick={() => isDealer && onHighlight && onHighlight(issue.taskName)}
           >
             <div>
               <div className={style.current}>current</div>

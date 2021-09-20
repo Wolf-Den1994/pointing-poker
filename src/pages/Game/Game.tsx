@@ -14,6 +14,7 @@ import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPo
 import BtnChat from '../../components/BtnChat/BtnChat';
 import Statistics from '../../components/Statistics/Statistics';
 import { setStatistics } from '../../store/statisticsReducer';
+import { setActiveIssue } from '../../store/issuesReducer';
 
 const statistics = [
   {
@@ -38,6 +39,10 @@ const Game: React.FC = () => {
   const { showTimer } = useTypedSelector((state) => state.settings.settings);
 
   const handleStopGame = () => {};
+
+  const handleIssueHighlight = (task: string) => {
+    dispatch(setActiveIssue(task));
+  };
 
   useEffect(() => {
     dispatch(setStatistics(statistics));
@@ -72,7 +77,7 @@ const Game: React.FC = () => {
           </div>
           {isDealer ? <GameSettingsPopup /> : null}
           <div className={style.field}>
-            <IssueList view={LayoutViews.Vertical} />
+            <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} />
             <div className={style.timer}>{showTimer ? <Timer /> : null}</div>
           </div>
           <Statistics />

@@ -2,6 +2,13 @@ import { Moment } from 'moment';
 
 export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
 
+export const cardSets = {
+  arrayFibonacci: ['pass', '0', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89'],
+  arrayModifiedFibonacci: ['pass', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100'],
+  arrayPowerOfTwo: ['pass', '0', '1', '2', '4', '8', '16', '32', '64'],
+  arrayCustomYour: ['pass'],
+};
+
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',
   AboutDublicateInLine = 'There is a duplicate in the line. Check the line!',

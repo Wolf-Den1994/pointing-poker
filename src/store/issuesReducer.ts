@@ -6,18 +6,13 @@ const initialState: IInitialStateIssues = { issueList: [] };
 
 export const issuesReducer = (state = initialState, action: AnyAction): typeof initialState => {
   switch (action.type) {
-    case IssueActions.ADD_ISSUE:
+    case IssueActions.ADD_ISSUE: {
+      const findTask = state.issueList.find((item) => item.taskName === action.payload) || ({} as IIssueData);
       return {
         ...state,
-        issueList: [
-          ...state.issueList,
-          {
-            taskName: action.payload,
-            grades: state.issueList.find((item) => item.taskName === action.payload)?.grades || [],
-            isActive: state.issueList.find((item) => item.taskName === action.payload)?.isActive || false,
-          },
-        ],
+        issueList: [...state.issueList, { ...findTask, taskName: action.payload }],
       };
+    }
 
     case IssueActions.REMOVE_ISSUE:
       return { ...state, issueList: state.issueList.filter((issue) => issue.taskName !== action.payload) };
@@ -32,18 +27,13 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
     case IssueActions.CHANGE_ISSUES:
       return { ...state, issueList: action.payload };
 
-    case IssueActions.ADD_GRADES:
+    case IssueActions.ADD_GRADES: {
+      const findTask = state.issueList.find((item) => item.taskName === action.payload.taskName) || ({} as IIssueData);
       return {
         ...state,
-        issueList: [
-          ...state.issueList,
-          {
-            taskName: state.issueList.find((item) => item.taskName === action.payload.taskName)?.taskName || '',
-            grades: action.payload.grades,
-            isActive: state.issueList.find((item) => item.taskName === action.payload.taskName)?.isActive || false,
-          },
-        ],
+        issueList: [...state.issueList, { ...findTask, grades: action.payload.grades }],
       };
+    }
 
     case IssueActions.REMOVE_GRADES:
       return {
