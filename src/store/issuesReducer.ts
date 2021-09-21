@@ -51,7 +51,7 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
         ...state,
         issueList: state.issueList.map((item) => ({
           ...item,
-          grades: item.taskName === action.payload.taskName && action.payload.newGrade,
+          grades: item.taskName === action.payload.taskName ? action.payload.newGrade : item.grades,
         })),
       };
     }
