@@ -39,6 +39,8 @@ const Game: React.FC = () => {
   const { issueList } = useTypedSelector((state) => state.issues);
   const { showTimer } = useTypedSelector((state) => state.settings.settings);
 
+  const findIssue = issueList.find((issue) => issue.isActive);
+
   const handleStopGame = () => {};
 
   const handleIssueHighlight = (task: string) => {
@@ -86,36 +88,18 @@ const Game: React.FC = () => {
         <div className={style.userControl}>
           <div className={style.score}>
             <p className={style.title}>Score:</p>
-            {issueList.map((item) => {
-              if (Object.keys(item.grades).length) {
-                if (item.isActive) {
-                  return (
-                    item.grades.length &&
-                    item.grades.map((score, index) =>
-                      index !== 0 ? (
-                        <div className={style.data} key={score.name + score.grade}>
-                          {score.grade ? (
-                            <span>{score.grade}</span>
-                          ) : (
-                            <span className={style.dash}>
-                              <LineOutlined />
-                            </span>
-                          )}
-                        </div>
-                      ) : null,
-                    )
-                  );
-                }
-                return null;
-              }
-              return users.map((user, index) =>
-                index !== 0 ? (
-                  <div className={style.data} key={user.name}>
+            {users.map((user) => {
+              const findGrade = findIssue?.grades.find((grade) => grade.name === user.name);
+              return (
+                <div className={style.data} key={user.name}>
+                  {findGrade?.grade ? (
+                    <span>{findGrade?.grade}</span>
+                  ) : (
                     <span className={style.dash}>
                       <LineOutlined />
                     </span>
-                  </div>
-                ) : null,
+                  )}
+                </div>
               );
             })}
           </div>
