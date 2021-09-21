@@ -7,9 +7,7 @@ const NotFound: React.FC = () => {
   return (
     <div className={style.error}>
       <div className={style.wrapper}>
-        <Link to={PathRoutes.Home} className={style.oops}>
-          <img className={style.image} src={imageNotFound} alt="404-error" />
-        </Link>
+        <img src={imageNotFound} alt="404-error" />
         <div className={style.page}>{TextForUser.PageNotFound}</div>
         <Link to={PathRoutes.Home} className={style.back}>
           {TextForUser.GoBack}
