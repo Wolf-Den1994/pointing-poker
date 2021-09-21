@@ -1,5 +1,4 @@
 import { Button, Modal } from 'antd';
-import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { emit } from '../../services/socket';
@@ -7,7 +6,7 @@ import { deleteUserRequest } from '../../store/requestsForEnterReducer';
 import { SocketTokens } from '../../types/types';
 import styles from './RequestPopup.module.scss';
 
-const RequestPopup: FC = () => {
+const RequestPopup: React.FC = () => {
   const dispatch = useDispatch();
 
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
