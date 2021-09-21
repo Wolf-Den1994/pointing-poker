@@ -24,10 +24,31 @@ export const RoomModel = new Schema({
     },
   ],
   messages: [{ name: String, message: String }],
-  issues: [String],
+  issues: [
+    {
+      taskName: { type: String },
+      grades: [
+        {
+          name: { type: String },
+          grade: { type: Number },
+        },
+      ],
+      isActive: { type: Boolean },
+    },
+  ],
   voting: {
     id: String,
     voices: Number,
     votedUsers: Number,
+  },
+  settings: {
+    isDealerActive: { type: Boolean },
+    voteAfterRoundEnd: { type: Boolean },
+    autoFlipCards: { type: Boolean },
+    autoAdmitMembers: { type: Boolean },
+    showTimer: { type: Boolean },
+    scoreType: { type: String },
+    customizeCard: { type: String },
+    roundTime: { type: String },
   },
 });

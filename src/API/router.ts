@@ -1,7 +1,5 @@
 import { Router } from 'express';
-import {
-  deleteRoom, getRoom,
-} from './mongoDB';
+import { deleteRoom, getRoom } from './mongoDB';
 
 export const router = Router();
 
