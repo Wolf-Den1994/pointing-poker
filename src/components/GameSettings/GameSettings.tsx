@@ -1,4 +1,4 @@
-import { Form, Input, Select, Switch, TimePicker } from 'antd';
+import { Form, Input, Select, Switch, InputNumber } from 'antd';
 import { useDispatch } from 'react-redux';
 import style from './GameSettings.module.scss';
 import { changeSettings } from '../../store/settingsReducer';
@@ -27,7 +27,7 @@ const GameSettings: React.FC = () => {
     dispatch(changeSettings({ ...data }));
 
     if (currentData.roundTime) {
-      const defaultTime = Number(currentData.roundTime.seconds()) + Number(currentData.roundTime.minutes()) * 60;
+      const defaultTime = currentData.roundTime * 60;
       dispatch(startTime(defaultTime));
     }
   };
@@ -164,19 +164,11 @@ const GameSettings: React.FC = () => {
           <Form.Item
             name="roundTime"
             valuePropName="checked"
-            label={<span style={{ fontSize: 18 }}>Round time:</span>}
+            label={<span style={{ fontSize: 18 }}>Round time (minutes):</span>}
             colon={false}
             initialValue={roundTime}
           >
-            <TimePicker
-              value={roundTime}
-              format={'mm:ss'}
-              clearIcon
-              allowClear={false}
-              hideDisabledOptions={true}
-              size="large"
-              placeholder="Select a time"
-            />
+            <InputNumber value={roundTime} bordered min={0} max={30} keyboard={true} size="large" placeholder="Mins" />
           </Form.Item>
         ) : null}
       </Form>
