@@ -86,10 +86,14 @@ const IssueList: React.FC<IIssueListProps> = ({
 
   const handleHighlight = (task: string) => {
     if (isDealer && onHighlight) onHighlight(task);
-    const grades = issueList.map((issue) => issue.grades.map((grade) => grade.grade)).flat();
-    const names = issueList.map((issue) => issue.grades.map((grade) => grade.name)).flat();
-    const newGrade = users.map((user, index) => ({ name: names[index] || user.name, grade: grades[index] || 0 }));
-    dispatch(editGrades({ newGrade, taskName: task }));
+    const issue = issueList.find((item) => item.taskName === task);
+    if (issue) {
+      const newGrade = users.map((user) => {
+        const findGrade = issue.grades.find((grade) => grade.name === user.name);
+        return { name: findGrade?.name || user.name, grade: findGrade?.grade || 0 };
+      });
+      dispatch(editGrades({ newGrade, taskName: task }));
+    }
   };
 
   return (
