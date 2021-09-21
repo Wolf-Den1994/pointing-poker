@@ -18,7 +18,7 @@ export const room = {
     showTimer: false,
     scoreType: 'story point',
     customizeCard: '',
-    roundTime: 0,
+    roundTime: 1,
   },
 };
 
