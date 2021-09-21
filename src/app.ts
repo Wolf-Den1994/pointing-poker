@@ -69,7 +69,7 @@ io.on('connection', (socket) => {
   socket.on(SocketTokens.RedirectAllToGamePage, async ({ roomId, settings, timer }) => {
     const response = await getRoom(roomId);
     response.settings = settings;
-    response.gameRoom = GameRoom.GameDenied;
+    response.gameRoom = GameRoom.GameLocked;
     await updateRoom(response);
     socket.broadcast.to(roomId).emit(SocketTokens.RedirectUserToGamePage, { settings, timer });
   });
@@ -109,7 +109,7 @@ io.on('connection', (socket) => {
     if (settings.autoAdmitMembers) {
       response.gameRoom = GameRoom.GameAllow;
     } else {
-      response.gameRoom = GameRoom.GameDenied;
+      response.gameRoom = GameRoom.GameLocked;
     }
     response.settings = settings;
     await updateRoom(response);
