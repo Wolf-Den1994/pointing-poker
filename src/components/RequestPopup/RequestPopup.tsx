@@ -11,8 +11,8 @@ const RequestPopup: React.FC = () => {
 
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
 
-  const handleRequest = (event: React.MouseEvent) => {
-    const btn = event.currentTarget as HTMLInputElement;
+  const handleRequest = (event: React.MouseEvent<HTMLInputElement>) => {
+    const btn = event.currentTarget;
     const response = btn.name === 'confirm';
     const btnId = btn.dataset.id as string;
     emit(SocketTokens.ResponseForEnteringRequest, { id: btnId, response });
