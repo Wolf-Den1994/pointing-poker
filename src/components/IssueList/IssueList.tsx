@@ -50,7 +50,7 @@ const IssueList: React.FC<IIssueListProps> = ({
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
-        newIssue: { taskName: valueNewIssue, grades: [], isActive: false }, // правильно передавть обьект Issue
+        newIssue: valueNewIssue,
         mode: IssuesListMode.Change,
         roomId,
         oldIssue: valueOldIssue,
