@@ -24,7 +24,9 @@ const GameSettings: React.FC = () => {
   } = settings;
 
   const handleChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
-    dispatch(changeSettings(data));
+    const newSettings = { ...data };
+    if (!currentData.roundTime) newSettings.roundTime = 1;
+    dispatch(changeSettings(newSettings));
 
     if (currentData.roundTime) {
       const defaultTime = currentData.roundTime * 60;
