@@ -49,6 +49,6 @@ export const RoomModel = new Schema({
     showTimer: { type: Boolean },
     scoreType: { type: String },
     customizeCard: { type: String },
-    roundTime: { type: String },
+    roundTime: { type: Number },
   },
 });
