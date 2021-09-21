@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { AnyAction } from 'redux';
 import { IGameSettingsData, OptionSettings, cardSets } from '../types/types';
 import { SettingsActions } from './actionTypes';
