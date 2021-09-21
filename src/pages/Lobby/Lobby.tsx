@@ -35,7 +35,7 @@ const Lobby: React.FC = () => {
   useEffect(() => {
     on(SocketTokens.RedirectUserToGamePage, (data) => {
       if (data.timer) dispatch(startTime(data.timer));
-      dispatch(changeSettings({ ...data.settings }));
+      dispatch(changeSettings(data.settings));
       history.push(`${PathRoutes.Game}/${roomId}`);
     });
 

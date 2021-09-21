@@ -70,7 +70,7 @@ const Game: React.FC = () => {
 
     on(SocketTokens.GetNewSettingsFromAdmin, (data) => {
       dispatch(startTime(data.time));
-      dispatch(changeSettings({ ...data.settings }));
+      dispatch(changeSettings(data.settings));
     });
 
     window.onload = () => {

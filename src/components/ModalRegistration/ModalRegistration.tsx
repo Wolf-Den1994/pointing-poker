@@ -109,7 +109,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         users.push(userData);
         dispatch(addAdmin(admin));
         dispatch(setGameRoom(gameRoom));
-        dispatch(changeSettings({ ...settings }));
+        dispatch(changeSettings(settings));
         dispatch(startTime(timerTime));
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
