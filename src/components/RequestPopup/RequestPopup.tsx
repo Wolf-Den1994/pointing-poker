@@ -14,8 +14,9 @@ const RequestPopup: React.FC = () => {
   const handleRequest = (event: React.MouseEvent) => {
     const btn = event.currentTarget as HTMLInputElement;
     const response = btn.name === 'confirm';
-    emit(SocketTokens.ResponseForEnteringRequest, { id: btn.dataset.id, response });
-    dispatch(deleteUserRequest(btn.dataset.id as string));
+    const btnId = btn.dataset.id as string;
+    emit(SocketTokens.ResponseForEnteringRequest, { id: btnId, response });
+    dispatch(deleteUserRequest(btnId));
   };
 
   return (
