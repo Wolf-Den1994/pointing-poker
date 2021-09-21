@@ -24,7 +24,7 @@ const GameSettings: React.FC = () => {
   } = settings;
 
   const handleChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
-    dispatch(changeSettings({ ...data }));
+    dispatch(changeSettings(data));
 
     if (currentData.roundTime) {
       const defaultTime = currentData.roundTime * 60;
@@ -168,7 +168,16 @@ const GameSettings: React.FC = () => {
             colon={false}
             initialValue={roundTime}
           >
-            <InputNumber value={roundTime} bordered min={0} max={30} keyboard={true} size="large" placeholder="Mins" />
+            <InputNumber
+              value={roundTime}
+              bordered
+              min={1}
+              max={30}
+              keyboard={true}
+              size="large"
+              placeholder="Minutes"
+              style={{ width: '100%' }}
+            />
           </Form.Item>
         ) : null}
       </Form>
