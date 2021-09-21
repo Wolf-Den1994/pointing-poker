@@ -9,7 +9,7 @@ import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser, GameRooms } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setGameRoom } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
-import { emit, once, on } from '../../services/socket';
+import { emit, once } from '../../services/socket';
 import { getResourse } from '../../services/api';
 import { changeSettings } from '../../store/settingsReducer';
 
