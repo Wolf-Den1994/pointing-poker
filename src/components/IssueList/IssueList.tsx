@@ -6,7 +6,7 @@ import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
-import { IIssueData, IssueStatus, LayoutViews, SocketTokens, TextForUser } from '../../types/types';
+import { IIssueData, IssuesListMode, IssueStatus, LayoutViews, SocketTokens, TextForUser } from '../../types/types';
 import { emit } from '../../services/socket';
 
 interface IIssueListProps {
@@ -42,11 +42,16 @@ const IssueList: React.FC<IIssueListProps> = ({
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
+      emit(SocketTokens.ChangeIssuesList, {
+        newIssue: { taskName: valueNewIssue, grades: [], isActive: false },
+        mode: IssuesListMode.Add,
+        roomId,
+      });
       dispatch(addIssue(valueNewIssue));
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
         newIssue: valueNewIssue,
-        mode: 'change',
+        mode: IssuesListMode.Change,
         roomId,
         oldIssue: valueOldIssue,
       });

@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { emit } from '../../services/socket';
 import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
-import { SocketTokens, VoitingVoit } from '../../types/types';
-import styles from './VoitingPopup.module.scss';
+import { SocketTokens, VotingVoit } from '../../types/types';
+import styles from './VotingPopup.module.scss';
 
 interface IModalVisibilityProps {
   isVisible: boolean;
@@ -17,19 +17,19 @@ const VotingPopup: FC<IModalVisibilityProps> = ({ isVisible, userName }) => {
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  const resetVoitingData = () => {
+  const resetVotingData = () => {
     dispatch(setNameOfDeletedUser(''));
     dispatch(changeModalActivity(false));
   };
 
   const handleCancel = () => {
-    emit(SocketTokens.ToVoteFor, { voice: VoitingVoit.Against, user: userName, roomId });
-    resetVoitingData();
+    emit(SocketTokens.ToVoteFor, { voice: VotingVoit.Against, user: userName, roomId });
+    resetVotingData();
   };
 
   const handleOk = () => {
-    emit(SocketTokens.ToVoteFor, { voice: VoitingVoit.For, user: userName, roomId });
-    resetVoitingData();
+    emit(SocketTokens.ToVoteFor, { voice: VotingVoit.For, user: userName, roomId });
+    resetVotingData();
   };
 
   return (

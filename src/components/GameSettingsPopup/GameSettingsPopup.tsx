@@ -1,14 +1,26 @@
 import { SettingOutlined } from '@ant-design/icons';
 import { Button, Modal } from 'antd';
 import { useState } from 'react';
+import { useParams } from 'react-router';
 import GameSettings from '../GameSettings/GameSettings';
+import useTypedSelector from '../../hooks/useTypedSelector';
+import { SocketTokens } from '../../types/types';
+import { emit } from '../../services/socket';
 
 const GameSettingsPopup: React.FC = () => {
   const [modalActive, setModalActive] = useState(false);
+  const { settings } = useTypedSelector((state) => state.settings);
+  const { time } = useTypedSelector((state) => state.timer);
+  const { roomId } = useParams<{ roomId: string }>();
 
   const handleOpenModal = () => setModalActive(true);
 
   const handleCloseModal = () => setModalActive(false);
+
+  const handleSubmitModal = () => {
+    emit(SocketTokens.SendNewSettingsToUsers, { roomId, settings, time });
+    setModalActive(false);
+  };
 
   return (
     <>
@@ -16,7 +28,7 @@ const GameSettingsPopup: React.FC = () => {
         <SettingOutlined />
         Game Settings
       </Button>
-      <Modal onOk={handleCloseModal} onCancel={handleCloseModal} visible={modalActive} cancelText width={680}>
+      <Modal onOk={handleSubmitModal} onCancel={handleCloseModal} visible={modalActive} cancelText width={680}>
         <GameSettings />
       </Modal>
     </>

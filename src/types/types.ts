@@ -30,6 +30,9 @@ export enum TextForUser {
   RequiredCustomizeCard = 'Customize card is required!',
   RequiredScoreType = 'Score type is required!',
   CancelVoting = 'There are not enough users for voting',
+  AdminAllow = 'Admin allows to enter the room',
+  AdminNotAllow = 'Admin doesn`t allow to enter the room',
+  CancelEnterTheRoom = 'You need to wait for the admin`s decision to re-try to enter the room!',
   GoBack = 'Go back and try a different link.',
   PageNotFound = 'page not found',
 }
@@ -56,7 +59,7 @@ export enum UserRole {
   Observer = 'observer',
 }
 
-export enum VoitingVoit {
+export enum VotingVoit {
   Against = 'against',
   For = 'for',
 }
@@ -65,6 +68,18 @@ export enum PathRoutes {
   Home = '/',
   Lobby = '/lobby',
   Game = '/game',
+}
+
+export enum GameRooms {
+  Lobby = 'lobby',
+  GameLocked = 'gameLocked',
+  GameAllow = 'gameAllow',
+}
+
+export enum IssuesListMode {
+  Add = 'add',
+  Change = 'change',
+  All = 'all',
 }
 
 export enum IssueStatus {
@@ -105,6 +120,14 @@ export enum SocketTokens {
   ShowCandidateToBeDeleted = 'showCandidateToBeDeleted',
   CancelVoting = 'cancelVoting',
   DisconnectAllSockets = 'disconnectAllSockets',
+  RedirectUserToGamePage = 'redirectUserToGamePage',
+  AdminsResponse = 'adminsResponse',
+  RequestForEntering = 'requestForEntering',
+  RedirectAllToGamePage = 'redirectAllToGamePage',
+  AdminsAnswerForRequest = 'adminsAnswerForRequest',
+  GetNewSettingsFromAdmin = 'getNewSettingsFromAdmin',
+  SendNewSettingsToUsers = 'sendNewSettingsToUsers',
+  ResponseForEnteringRequest = 'responseForEnteringRequest',
 }
 
 export enum LayoutViews {
@@ -168,4 +191,5 @@ export interface IRoomData {
   messages: IMessage[];
   issues: IIssueData[];
   voting: { id: string; voices: number; votedUsers: number };
+  settings: IGameSettingsData;
 }

@@ -1,22 +1,53 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Input, message } from 'antd';
+import { useHistory } from 'react-router';
 import socket from '../../utils/soketIO';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
 import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
-import { changeDealer } from '../../store/roomDataReducer';
-import { SocketTokens, TextForUser, UserRole } from '../../types/types';
-import { on, connect } from '../../services/socket';
+import { addMessage, addUsers, changeDealer } from '../../store/roomDataReducer';
+import { GameRooms, PathRoutes, SocketTokens, TextForUser, UserRole } from '../../types/types';
+import { on, connect, emit } from '../../services/socket';
 import { getResourse } from '../../services/api';
+import { setShowWriter, setWriter } from '../../store/userTypingReducer';
+import { startTime } from '../../store/timerReducer';
+import { changeIssue } from '../../store/issuesReducer';
+import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingReducer';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [modalActive, setModalActive] = useState(false);
   const [role, setRole] = useState('');
   const [id, setId] = useState('');
   const [roomId, setRoomId] = useState('');
+  const [requestIsSend, setRequestIsSend] = useState(false);
+
+  const showErrorMessage = () => {
+    message.info(TextForUser.CancelEnterTheRoom);
+  };
+
+  const positiveResponse = () => {
+    setId(socket.id);
+    setRole(UserRole.Player);
+    dispatch(changeDealer(false));
+    setModalActive(true);
+  };
+
+  const getPermissionToEnterGame = async (roomName: string, adminId: string) => {
+    if (roomName === GameRooms.GameLocked && requestIsSend) {
+      showErrorMessage();
+      return;
+    }
+    if (roomName === GameRooms.GameLocked) {
+      emit(SocketTokens.RequestForEntering, { userId: socket.id, adminId });
+      setRequestIsSend(true);
+      return;
+    }
+    positiveResponse();
+  };
 
   const handleStartNewGame = () => {
     setId(socket.id);
@@ -32,11 +63,9 @@ const Home: React.FC = () => {
   const handleConnectToGame = async () => {
     try {
       const response = await getResourse(roomId);
-      if (response.data) {
-        setId(socket.id);
-        setRole(UserRole.Player);
-        dispatch(changeDealer(false));
-        setModalActive(true);
+      const { data } = response;
+      if (data) {
+        getPermissionToEnterGame(data.gameRoom, data.admin.id);
       } else {
         message.error(TextForUser.RoomDoesNotExist);
       }
@@ -50,7 +79,66 @@ const Home: React.FC = () => {
       window.location.reload();
       connect();
     });
-  });
+
+    on(SocketTokens.EnteredRoom, (data) => {
+      dispatch(addUsers(data.user));
+      message.info(`${data.user.name}, ${TextForUser.EnteredRoom}`);
+    });
+
+    on(SocketTokens.SendMessage, (data) => {
+      dispatch(addMessage(data));
+    });
+
+    on(SocketTokens.AdminsResponse, (data) => {
+      if (data.response) {
+        positiveResponse();
+        message.info(TextForUser.AdminAllow);
+      } else {
+        message.error(TextForUser.AdminNotAllow);
+      }
+      setRequestIsSend(false);
+    });
+
+    on(SocketTokens.SendMessageWriter, (data) => {
+      dispatch(setShowWriter(data.active));
+      dispatch(setWriter(data.name));
+    });
+
+    on(SocketTokens.WillBeDisconnected, () => {
+      history.push(PathRoutes.Home);
+    });
+
+    on(SocketTokens.UserLeaveTheRoom, (data) => {
+      const newUsers = data.usersList;
+      dispatch(addUsers(newUsers));
+      message.info(`${data.user} ${TextForUser.LeaveRoom}`);
+    });
+
+    on(SocketTokens.CancelVoting, () => {
+      message.info(TextForUser.CancelVoting);
+    });
+
+    on(SocketTokens.SendUserDisconnected, (data) => {
+      message.warning(`${data}, ${TextForUser.UserDisconnected}`);
+    });
+
+    on(SocketTokens.SendTimeOnTimer, (data) => {
+      dispatch(startTime(data));
+    });
+
+    on(SocketTokens.GetIssuesList, (data) => {
+      dispatch(changeIssue(data.issues));
+    });
+
+    on(SocketTokens.ShowCandidateToBeDeleted, (data) => {
+      dispatch(changeModalActivity(true));
+      dispatch(setNameOfDeletedUser(data.name));
+    });
+
+    on(SocketTokens.DisconnectAllSockets, () => {
+      history.push(PathRoutes.Home);
+    });
+  }, []);
 
   return (
     <>
