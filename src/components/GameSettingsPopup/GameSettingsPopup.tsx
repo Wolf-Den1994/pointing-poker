@@ -15,9 +15,10 @@ const GameSettingsPopup: React.FC = () => {
 
   const handleOpenModal = () => setModalActive(true);
 
-  const handleCloseModal = () => {
-    const newSettings = { ...settings, roundTime: settings.roundTime.format() };
-    emit(SocketTokens.SendNewSettingsToUsers, { roomId, settings: newSettings, time });
+  const handleCloseModal = () => setModalActive(false);
+
+  const handleSubmitModal = () => {
+    emit(SocketTokens.SendNewSettingsToUsers, { roomId, settings, time });
     setModalActive(false);
   };
 
@@ -27,7 +28,7 @@ const GameSettingsPopup: React.FC = () => {
         <SettingOutlined />
         Game Settings
       </Button>
-      <Modal onOk={handleCloseModal} onCancel={handleCloseModal} visible={modalActive} cancelText width={680}>
+      <Modal onOk={handleSubmitModal} onCancel={handleCloseModal} visible={modalActive} cancelText width={680}>
         <GameSettings />
       </Modal>
     </>
