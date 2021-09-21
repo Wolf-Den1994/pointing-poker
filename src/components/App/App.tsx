@@ -1,10 +1,11 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import style from './App.module.scss';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Home from '../../pages/Home/Home';
 import Game from '../../pages/Game/Game';
 import Lobby from '../../pages/Lobby/Lobby';
+import NotFound from '../../pages/NotFound/NotFound';
 
 const App: React.FC = () => {
   return (
@@ -14,9 +15,9 @@ const App: React.FC = () => {
         <div className="container">
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/lobby/:roomId" component={Lobby} />
-            <Route path="/game/:roomId" component={Game} />
-            <Route path="*" render={() => <Redirect to="/" />} />
+            <Route exact path="/lobby/:roomId" component={Lobby} />
+            <Route exact path="/game/:roomId" component={Game} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </div>
       </main>

@@ -33,6 +33,8 @@ export enum TextForUser {
   AdminAllow = 'Admin allows to enter the room',
   AdminNotAllow = 'Admin doesn`t allow to enter the room',
   CancelEnterTheRoom = 'You need to wait for the admin`s decision to re-try to enter the room!',
+  GoBack = 'Go back and try a different link.',
+  PageNotFound = 'page not found',
 }
 
 export enum Authors {

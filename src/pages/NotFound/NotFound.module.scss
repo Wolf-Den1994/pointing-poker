@@ -1,0 +1,50 @@
+.error {
+  min-height: 100vh;
+  position: relative;
+
+  .wrapper {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    padding: 0px 30px;
+    transform: translate(-50%, -50%);
+  }
+
+  .page {
+    text-transform: uppercase;
+    font-size: 66px;
+    line-height: 66px;
+    color: #333333;
+    font-family: 'Bebas Neue', cursive;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  .back {
+    text-transform: uppercase;
+    text-align: center;
+    color: #10c1b0;
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+
+    &:hover {
+      color: #15ffe8;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .error {
+    .page {
+      font-size: 52px;
+      line-height: 52px;
+    }
+  }
+}
