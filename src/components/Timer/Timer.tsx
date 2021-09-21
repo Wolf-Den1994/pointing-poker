@@ -26,7 +26,7 @@ const Timer: React.FC = () => {
   let newTime: number;
 
   if (settings.roundTime) {
-    newTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
+    newTime = settings.roundTime * 60;
   } else {
     newTime = 140;
   }
