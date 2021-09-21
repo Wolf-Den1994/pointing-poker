@@ -16,11 +16,11 @@ const initialState: IInitialStateSettings = {
     autoFlipCards: false,
     autoAdmitMembers: false,
     showTimer: false,
-    scoreType: OptionSettings.StoryPoint,
+    scoreType: OptionSettings.Fibonacci,
     customizeCard: '',
     roundTime: moment('02:20', 'mm:ss'),
   },
-  cardSet: [],
+  cardSet: cardSets.arrayFibonacci,
   visibleChat: false,
 };
 

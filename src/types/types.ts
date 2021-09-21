@@ -71,7 +71,6 @@ export enum IssueStatus {
 }
 
 export enum OptionSettings {
-  StoryPoint = 'select story point',
   Fibonacci = 'fibonacci',
   ModifiedFibonacci = 'modified fibonacci',
   PowerOfTwo = 'power of two',
