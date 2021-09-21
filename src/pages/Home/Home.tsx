@@ -79,13 +79,16 @@ const Home: React.FC = () => {
       window.location.reload();
       connect();
     });
+
     on(SocketTokens.EnteredRoom, (data) => {
       dispatch(addUsers(data.user));
       message.info(`${data.user.name}, ${TextForUser.EnteredRoom}`);
     });
+
     on(SocketTokens.SendMessage, (data) => {
       dispatch(addMessage(data));
     });
+
     on(SocketTokens.AdminsResponse, (data) => {
       if (data.response) {
         positiveResponse();
@@ -95,6 +98,7 @@ const Home: React.FC = () => {
       }
       setRequestIsSend(false);
     });
+
     on(SocketTokens.SendMessageWriter, (data) => {
       dispatch(setShowWriter(data.active));
       dispatch(setWriter(data.name));
@@ -113,6 +117,7 @@ const Home: React.FC = () => {
     on(SocketTokens.CancelVoting, () => {
       message.info(TextForUser.CancelVoting);
     });
+
     on(SocketTokens.SendUserDisconnected, (data) => {
       message.warning(`${data}, ${TextForUser.UserDisconnected}`);
     });
