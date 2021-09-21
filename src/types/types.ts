@@ -41,7 +41,7 @@ export interface Room {
     showTimer: boolean;
     scoreType: string;
     customizeCard: string;
-    roundTime: string;
+    roundTime: number;
   };
 }
 
@@ -62,12 +62,11 @@ export enum ChangeIssueModes {
 
 export enum GameRoom {
   LOBBY = 'lobby',
-  GameDenied = 'gameDenied',
+  GameLocked = 'gameLocked',
   GameAllow = 'gameDenied',
 }
 
 export enum SocketTokens {
-  Connection = 'connection',
   CreateRoom = 'createRoom',
   ReturnRoomId = 'returnRoomId',
   EnterRoom = 'enterRoom',
