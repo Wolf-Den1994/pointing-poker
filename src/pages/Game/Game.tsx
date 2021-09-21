@@ -24,7 +24,7 @@ import { startTime } from '../../store/timerReducer';
 import { changeSettings } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
 import { setActiveIssue } from '../../store/issuesReducer';
-import VotingPopup from '../../components/VotingPopup/VoitingPopup';
+import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
   {

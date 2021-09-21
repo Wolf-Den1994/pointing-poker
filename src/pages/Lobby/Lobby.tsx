@@ -17,7 +17,7 @@ import { clearRoomData } from '../../store/roomDataReducer';
 import { OptionSettings, PathRoutes, SocketTokens } from '../../types/types';
 import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
-import VotingPopup from '../../components/VotingPopup/VoitingPopup';
+import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { deleteRoom } from '../../services/api';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import { changeSettings } from '../../store/settingsReducer';

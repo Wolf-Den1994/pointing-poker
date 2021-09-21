@@ -59,7 +59,7 @@ export enum UserRole {
   Observer = 'observer',
 }
 
-export enum VoitingVoit {
+export enum VotingVoit {
   Against = 'against',
   For = 'for',
 }
