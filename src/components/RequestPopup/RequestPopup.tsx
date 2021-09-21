@@ -28,7 +28,7 @@ const RequestPopup: React.FC = () => {
               visible={true}
               centered
               footer={[
-                <div key="modal-voting-wrapper">
+                <div key="modal-voting-wrapper" className={styles.request__btns}>
                   <Button type="primary" size="large" data-id={el} name="confirm" onClick={handleRequest}>
                     Confirm
                   </Button>
