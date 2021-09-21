@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
 
-export const BASE_URL = 'http://localhost:8000';
+export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
 
 export const cardSets = {
   arrayFibonacci: ['pass', '0', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89'],
@@ -72,6 +72,12 @@ export enum GameRooms {
   Lobby = 'lobby',
   GameDenied = 'gameDenied',
   GameAllow = 'gameAllow',
+}
+
+export enum IssuesListMode {
+  Add = 'add',
+  Change = 'change',
+  All = 'all',
 }
 
 export enum IssueStatus {
