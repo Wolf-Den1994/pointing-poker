@@ -108,7 +108,15 @@ const Game: React.FC = () => {
                 }
                 return null;
               }
-              return null;
+              return users.map((user, index) =>
+                index !== 0 ? (
+                  <div className={style.data} key={user.name}>
+                    <span className={style.dash}>
+                      <LineOutlined />
+                    </span>
+                  </div>
+                ) : null,
+              );
             })}
           </div>
           <div className={style.players}>

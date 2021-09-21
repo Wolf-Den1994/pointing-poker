@@ -5,7 +5,7 @@ import { Input, Modal, message } from 'antd';
 import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
-import { addIssue, editGrades, editIssue, removeIssue } from '../../store/issuesReducer';
+import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
 import { IIssueData, IssueStatus, LayoutViews, SocketTokens, TextForUser } from '../../types/types';
 import { emit } from '../../services/socket';
 
@@ -25,7 +25,7 @@ const IssueList: React.FC<IIssueListProps> = ({
   const { roomId } = useParams<{ roomId: string }>();
 
   const { issueList } = useTypedSelector((state) => state.issues);
-  const { isDealer, users } = useTypedSelector((state) => state.roomData);
+  const { isDealer } = useTypedSelector((state) => state.roomData);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [valueNewIssue, setValueNewIssue] = useState('');
@@ -84,17 +84,7 @@ const IssueList: React.FC<IIssueListProps> = ({
 
   const canActive = () => (enableHighlight && isDealer ? style.dealer : '');
 
-  const handleHighlight = (task: string) => {
-    if (isDealer && onHighlight) onHighlight(task);
-    const issue = issueList.find((item) => item.taskName === task);
-    if (issue) {
-      const newGrade = users.map((user) => {
-        const findGrade = issue.grades.find((grade) => grade.name === user.name);
-        return { name: findGrade?.name || user.name, grade: findGrade?.grade || 0 };
-      });
-      dispatch(editGrades({ newGrade, taskName: task }));
-    }
-  };
+  const handleHighlight = (task: string) => isDealer && onHighlight && onHighlight(task);
 
   return (
     <div className={style.issuesList}>
