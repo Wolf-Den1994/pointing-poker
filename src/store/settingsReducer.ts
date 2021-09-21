@@ -17,7 +17,7 @@ const initialState: IInitialStateSettings = {
     showTimer: false,
     scoreType: OptionSettings.StoryPoint,
     customizeCard: '',
-    roundTime: 0,
+    roundTime: 1,
   },
   cardSet: [],
   visibleChat: false,
