@@ -99,7 +99,7 @@ interface IIssueActionsArrayIIssueData {
 }
 
 interface IAddGrades {
-  grades: IGrades;
+  grades: IGrades[];
   taskName: string;
 }
 
@@ -110,17 +110,12 @@ interface IIssueActionsAddGrade {
 
 interface INewGrades {
   taskName: string;
-  newGrade: IGrades;
+  newGrade: IGrades[];
 }
 
 interface IEditGrades {
   type: IssueActions;
   payload: INewGrades;
-}
-
-interface IIssueActionEditGrade {
-  type: IssueActions;
-  payload: IEditGrades;
 }
 
 export const addIssue = (payload: string): IIssueActionsString => ({
@@ -148,7 +143,7 @@ export const removeGrades = (payload: string): IIssueActionsString => ({
   payload,
 });
 
-export const editGrades = (payload: IEditGrades): IIssueActionEditGrade => ({
+export const editGrades = (payload: INewGrades): IEditGrades => ({
   type: IssueActions.EDIT_GRADES,
   payload,
 });

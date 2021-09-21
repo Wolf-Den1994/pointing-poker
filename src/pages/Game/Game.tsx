@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Button } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { LineOutlined } from '@ant-design/icons';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -85,11 +86,27 @@ const Game: React.FC = () => {
         <div className={style.userControl}>
           <div className={style.score}>
             <p className={style.title}>Score:</p>
-            {issueList.map((item, index) =>
-              Object.keys(item.grades).length ? (
-                <div key={item.grades[index].name}>{item.grades[index].name}</div>
-              ) : null,
-            )}
+            {issueList.map((item) => {
+              if (Object.keys(item.grades).length) {
+                return (
+                  item.grades.length &&
+                  item.grades.map((score, index) =>
+                    index !== 0 ? (
+                      <div className={style.data} key={score.name + score.grade}>
+                        {score.grade ? (
+                          <span>{score.grade}</span>
+                        ) : (
+                          <span className={style.dash}>
+                            <LineOutlined />
+                          </span>
+                        )}
+                      </div>
+                    ) : null,
+                  )
+                );
+              }
+              return null;
+            })}
           </div>
           <div className={style.players}>
             <p className={style.title}>Players:</p>
