@@ -30,6 +30,8 @@ export enum TextForUser {
   RequiredCustomizeCard = 'Customize card is required!',
   RequiredScoreType = 'Score type is required!',
   CancelVoting = 'There are not enough users for voting',
+  GoBack = 'Go back and try a different link.',
+  PageNotFound = 'page not found',
 }
 
 export enum Authors {
