@@ -1,9 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Button } from 'antd';
 import { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { LogoutOutlined, PlayCircleOutlined, SaveOutlined } from '@ant-design/icons';
-import { useHistory, useParams } from 'react-router';
+import { v4 as uuidv4 } from 'uuid';
+import { Button, message } from 'antd';
+import moment from 'moment';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -11,12 +12,20 @@ import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
-import { LayoutViews, PathRoutes } from '../../types/types';
+import { LayoutViews, SocketTokens, PathRoutes } from '../../types/types';
 import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import Statistics from '../../components/Statistics/Statistics';
+import { addUserRequest } from '../../store/requestsForEnterReducer';
+import RequestPopup from '../../components/RequestPopup/RequestPopup';
+import { deleteRoom } from '../../services/api';
+import { emit, on } from '../../services/socket';
+import { clearRoomData } from '../../store/roomDataReducer';
+import { startTime } from '../../store/timerReducer';
+import { changeSettings } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
 import { setActiveIssue } from '../../store/issuesReducer';
+import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
   {
@@ -42,16 +51,43 @@ const Game: React.FC = () => {
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { showTimer } = useTypedSelector((state) => state.settings.settings);
+  const { requestsFromUsers } = useTypedSelector((state) => state.requests);
+  const votingData = useTypedSelector((state) => state.voting);
 
   const handleIssueHighlight = (task: string) => {
     dispatch(setActiveIssue(task));
   };
 
+  const handleStopGame = async () => {
+    try {
+      await deleteRoom({ data: { id: roomId } });
+      emit(SocketTokens.DisconnectAll, { roomId });
+      dispatch(clearRoomData());
+      history.push(PathRoutes.Home);
+    } catch (err) {
+      message.error(`${err}`);
+    }
+  };
+
   useEffect(() => {
     dispatch(setStatistics(statistics));
-  }, []);
+    on(SocketTokens.AdminsAnswerForRequest, (data) => {
+      dispatch(addUserRequest(data.userId));
+    });
 
-  const handleStopGame = () => {};
+    on(SocketTokens.GetNewSettingsFromAdmin, (data) => {
+      dispatch(startTime(data.time));
+      dispatch(changeSettings({ ...data.settings, roundTime: moment(data.settings.roundTime, 'mm:ss') }));
+    });
+
+    window.onload = () => {
+      history.push(PathRoutes.Home);
+    };
+
+    return () => {
+      window.onload = null;
+    };
+  }, []);
 
   const handleResultGame = () => {
     history.push(`${PathRoutes.Result}/${roomId}`);
@@ -134,6 +170,8 @@ const Game: React.FC = () => {
         </div>
       </div>
       <BtnChat />
+      {votingData.isVisible ? <VotingPopup userName={votingData.userName} isVisible={true} /> : null}
+      {!requestsFromUsers.length ? null : <RequestPopup />}
     </div>
   );
 };

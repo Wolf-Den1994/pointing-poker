@@ -3,6 +3,7 @@ import { IMember, IMessage } from '../types/types';
 import { RoomDataActions } from './actionTypes';
 
 interface IInitialStateRoomData {
+  gameRoom: string;
   admin: IMember;
   users: IMember[];
   messages: IMessage[];
@@ -10,6 +11,7 @@ interface IInitialStateRoomData {
 }
 
 const initialState: IInitialStateRoomData = {
+  gameRoom: 'lobby',
   admin: { id: '', name: '', lastName: '', position: '', role: 'admin', avatarUrl: '' },
   users: [],
   messages: [],
@@ -34,6 +36,9 @@ export const roomDataReducer = (state = initialState, action: AnyAction): typeof
 
     case RoomDataActions.IS_DEALER:
       return { ...state, isDealer: action.payload };
+
+    case RoomDataActions.SET_GAME_ROOM:
+      return { ...state, gameRoom: action.payload };
 
     case RoomDataActions.CLEAR_ROOM_DATA:
       return initialState;
@@ -68,6 +73,11 @@ interface IRoomDataBoolean {
   payload: boolean;
 }
 
+interface IRoomDataString {
+  type: RoomDataActions;
+  payload: string;
+}
+
 interface IRoomDataActionClear {
   type: RoomDataActions;
 }
@@ -94,6 +104,11 @@ export const addAdmin = (payload: IMember): IRoomDataActionIMember => ({
 
 export const changeDealer = (payload: boolean): IRoomDataBoolean => ({
   type: RoomDataActions.IS_DEALER,
+  payload,
+});
+
+export const setGameRoom = (payload: string): IRoomDataString => ({
+  type: RoomDataActions.SET_GAME_ROOM,
   payload,
 });
 
