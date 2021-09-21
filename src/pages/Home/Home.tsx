@@ -37,11 +37,11 @@ const Home: React.FC = () => {
   };
 
   const getPermissionToEnterGame = async (roomName: string, adminId: string) => {
-    if (roomName === GameRooms.GameDenied && requestIsSend) {
+    if (roomName === GameRooms.GameLocked && requestIsSend) {
       showErrorMessage();
       return;
     }
-    if (roomName === GameRooms.GameDenied) {
+    if (roomName === GameRooms.GameLocked) {
       emit(SocketTokens.RequestForEntering, { userId: socket.id, adminId });
       setRequestIsSend(true);
       return;

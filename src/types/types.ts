@@ -70,7 +70,7 @@ export enum PathRoutes {
 
 export enum GameRooms {
   Lobby = 'lobby',
-  GameDenied = 'gameDenied',
+  GameLocked = 'gameLocked',
   GameAllow = 'gameAllow',
 }
 
