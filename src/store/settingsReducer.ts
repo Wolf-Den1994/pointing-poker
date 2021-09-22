@@ -1,10 +1,10 @@
 import { AnyAction } from 'redux';
-import { IGameSettingsData, OptionSettings, cardSets } from '../types/types';
+import { IGameSettingsData, OptionSettings, cardSets, ICardData } from '../types/types';
 import { SettingsActions } from './actionTypes';
 
 interface IInitialStateSettings {
   settings: IGameSettingsData;
-  cardSet: string[];
+  cardSet: ICardData[];
   visibleChat: boolean;
 }
 
@@ -41,17 +41,28 @@ export const settingsReducer = (state = initialState, action: AnyAction): typeof
       return { ...state, cardSet: [...state.cardSet, action.payload] };
 
     case SettingsActions.REMOVE_CARD:
-      return { ...state, cardSet: state.cardSet.filter((card) => card !== action.payload) };
+      return { ...state, cardSet: state.cardSet.filter((card) => card.card !== action.payload) };
 
-    case SettingsActions.EDIT_CARD: {
-      const index = state.cardSet.findIndex((card) => card === action.payload.oldCard);
-      const newCardSetArray = [...state.cardSet];
-      newCardSetArray[index] = action.payload.newCard;
-      return { ...state, cardSet: newCardSetArray };
-    }
+    case SettingsActions.EDIT_CARD:
+      return {
+        ...state,
+        cardSet: state.cardSet.map((card) => ({
+          ...card,
+          card: card.card === action.payload.oldCard ? action.payload.newCard : card.card,
+        })),
+      };
 
     case SettingsActions.SET_CARDS:
       return { ...state, cardSet: action.payload };
+
+    case SettingsActions.SET_ACTIVE_CARD:
+      return {
+        ...state,
+        cardSet: state.cardSet.map((card) => ({
+          ...card,
+          isActive: card.card === action.payload && !card.isActive,
+        })),
+      };
 
     case SettingsActions.VISIBLE_CHAT:
       return { ...state, visibleChat: action.payload };
@@ -71,9 +82,14 @@ interface ICardActionsString {
   payload: string;
 }
 
+interface ICardActionsICardData {
+  type: SettingsActions;
+  payload: ICardData;
+}
+
 interface INewCard {
   oldCard: string;
-  newCard: string;
+  newCard: ICardData;
 }
 
 interface ICardActionsEdit {
@@ -83,7 +99,7 @@ interface ICardActionsEdit {
 
 interface ICardActionsSet {
   type: SettingsActions;
-  payload: string[];
+  payload: ICardData[];
 }
 
 interface IVisibleChatActions {
@@ -96,7 +112,7 @@ export const changeSettings = (payload: IGameSettingsData): ISettingsActionsIGam
   payload,
 });
 
-export const addCard = (payload: string): ICardActionsString => ({
+export const addCard = (payload: ICardData): ICardActionsICardData => ({
   type: SettingsActions.ADD_CARD,
   payload,
 });
@@ -111,8 +127,13 @@ export const editCard = (payload: INewCard): ICardActionsEdit => ({
   payload,
 });
 
-export const setCards = (payload: string[]): ICardActionsSet => ({
+export const setCards = (payload: ICardData[]): ICardActionsSet => ({
   type: SettingsActions.SET_CARDS,
+  payload,
+});
+
+export const setActiveCard = (payload: string): ICardActionsString => ({
+  type: SettingsActions.SET_ACTIVE_CARD,
   payload,
 });
 

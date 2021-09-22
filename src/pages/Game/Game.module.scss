@@ -40,6 +40,11 @@
         width: 200px;
       }
     }
+
+    .gameCards {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
 
   .userControl {
@@ -48,6 +53,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    flex-basis: 40%;
 
     .title {
       font-weight: bold;

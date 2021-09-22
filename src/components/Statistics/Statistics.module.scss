@@ -9,11 +9,12 @@
   .wrapper {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 
     .percent {
       font-weight: bold;
-      font-size: 24px;
-      line-height: 30px;
+      font-size: 17px;
+      line-height: 21px;
       text-align: center;
     }
   }
