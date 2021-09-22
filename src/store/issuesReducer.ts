@@ -4,10 +4,7 @@ import { IssueActions } from './actionTypes';
 
 const defaultIssue = {
   taskName: '',
-  grades: [
-    { name: '123', grade: 5 },
-    { name: '12332', grade: 10 },
-  ], // поменять на [] обратно
+  grades: [],
   isActive: false,
 };
 
@@ -32,14 +29,6 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
           ...item,
           taskName: item.taskName === action.payload.oldTaskName && action.payload.newTaskName,
         })),
-      };
-    }
-
-    case IssueActions.ADD_GRADES: {
-      const findTask = state.issueList.find((item) => item.taskName === action.payload.taskName) || defaultIssue;
-      return {
-        ...state,
-        issueList: [...state.issueList, { ...findTask, grades: action.payload.grades }],
       };
     }
 
@@ -101,16 +90,6 @@ interface IIssueActionsArrayIIssueData {
   payload: IIssueData[];
 }
 
-interface IAddGrades {
-  grades: IGrades[];
-  taskName: string;
-}
-
-interface IIssueActionsAddGrade {
-  type: IssueActions;
-  payload: IAddGrades;
-}
-
 interface INewGrades {
   taskName: string;
   newGrade: IGrades[];
@@ -133,11 +112,6 @@ export const removeIssue = (payload: string): IIssueActionsString => ({
 
 export const editIssue = (payload: INewIssue): IIssueActionsEdit => ({
   type: IssueActions.EDIT_TASK,
-  payload,
-});
-
-export const addGrades = (payload: IAddGrades): IIssueActionsAddGrade => ({
-  type: IssueActions.ADD_GRADES,
   payload,
 });
 
