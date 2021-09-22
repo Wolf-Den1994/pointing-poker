@@ -62,7 +62,6 @@ const Game: React.FC = () => {
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
-  // const { cardSet } = useTypedSelector((store) => store.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
 
