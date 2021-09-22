@@ -12,7 +12,7 @@ const Statistics: React.FC = () => {
         {statistics.map((item) => (
           <span key={item.card}>
             <div className={style.card}>
-              <GameCard>{item.card}</GameCard>
+              <GameCard small>{item.card}</GameCard>
             </div>
             <div className={style.percent}>{item.averageGrade}</div>
           </span>

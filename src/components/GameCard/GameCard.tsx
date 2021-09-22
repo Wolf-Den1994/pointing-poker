@@ -10,9 +10,10 @@ import { TextForUser } from '../../types/types';
 interface IGameCardProps {
   children: string;
   enableActions?: boolean;
+  small?: boolean;
 }
 
-const GameCard: React.FC<IGameCardProps> = ({ children, enableActions }: IGameCardProps) => {
+const GameCard: React.FC<IGameCardProps> = ({ children, enableActions, small }: IGameCardProps) => {
   const dispatch = useDispatch();
 
   const { cardSet } = useTypedSelector((store) => store.settings);
@@ -57,7 +58,7 @@ const GameCard: React.FC<IGameCardProps> = ({ children, enableActions }: IGameCa
   };
 
   return (
-    <div className={style.card}>
+    <div className={small ? `${style.card} ${style.small}` : style.card}>
       <div className={style.wrapper}>
         <div className={`${style.additionally} ${style.additionallyTop} ${style[children]}`}>{viewIsNumber}</div>
         {enableActions ? (

@@ -28,7 +28,7 @@ import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
   {
-    card: '10',
+    card: '101',
     averageGrade: '42.8%',
   },
   {
