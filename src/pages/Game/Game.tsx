@@ -48,6 +48,8 @@ const statistics = [
   },
 ];
 
+let interval: NodeJS.Timeout;
+
 const Game: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -58,7 +60,7 @@ const Game: React.FC = () => {
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
-  const { showTimer } = useTypedSelector((state) => state.settings.settings);
+  const { settings } = useTypedSelector((state) => state.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
 
@@ -103,27 +105,31 @@ const Game: React.FC = () => {
     history.push(`${PathRoutes.Result}/${roomId}`);
   };
 
+  let timeSeconds = settings.roundTime * 60;
+
   const handleStartTimer = () => {
     setDisableButton(true);
-    // interval = setInterval(() => {
-    //   dispatch(startTime((newTime -= 1)));
-    //   emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId });
-    //   if (newTime <= 0) {
-    //     dispatch(startTime(0));
-    //     clearInterval(interval);
-    //   }
-    // }, 1000);
+    interval = setInterval(() => {
+      dispatch(startTime((timeSeconds -= 1)));
+      emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
+      if (timeSeconds <= 0) {
+        dispatch(startTime(0));
+        clearInterval(interval);
+      }
+    }, 1000);
   };
 
   const handleResetTimer = () => {
-    // emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId });
+    emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
     setDisableButton(false);
-    // clearInterval(interval);
-    // dispatch(startTime(newTime));
+    clearInterval(interval);
+    dispatch(startTime(timeSeconds));
   };
 
   const handleRestoreVotes = () => {
     // issue list, находим active задачу, а далее очищаем grades.
+    // const activeGrades = issueList.find((issue) => issue.isActive)?.grades;
+    // if (activeIssue) dispatch(removeGrades(activeIssue));
   };
 
   return (
@@ -165,7 +171,7 @@ const Game: React.FC = () => {
           {isDealer ? (
             <div className={style.box}>
               <GameSettingsPopup />
-              {showTimer ? (
+              {settings.showTimer ? (
                 <>
                   <Button type="primary" size="large" disabled={disableButton} onClick={handleStartTimer}>
                     <PlayCircleOutlined />
@@ -181,7 +187,7 @@ const Game: React.FC = () => {
           ) : null}
           <div className={style.field}>
             <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
-            <div className={style.timer}>{showTimer ? <Timer /> : null}</div>
+            <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
           <Statistics />
         </div>
