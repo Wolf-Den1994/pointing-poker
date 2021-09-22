@@ -1,5 +1,3 @@
-import { Moment } from 'moment';
-
 export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
 
 export const cardSets = {
@@ -89,7 +87,6 @@ export enum IssueStatus {
 }
 
 export enum OptionSettings {
-  StoryPoint = 'select story point',
   Fibonacci = 'fibonacci',
   ModifiedFibonacci = 'modified fibonacci',
   PowerOfTwo = 'power of two',
@@ -162,7 +159,7 @@ export interface IGameSettingsData {
   showTimer: boolean;
   scoreType: string;
   customizeCard: string;
-  roundTime: Moment;
+  roundTime: number;
 }
 
 export interface IIssueData {

@@ -4,6 +4,7 @@
   width: 100%;
   box-shadow: 4px 4px 4px #00000040;
   border-radius: 4px;
+  position: relative;
 
   .wrapper {
     display: flex;
@@ -58,6 +59,17 @@
       right: 10px;
       top: calc(50% - 10px);
       cursor: pointer;
+    }
+  }
+
+  .crownWrapper {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+
+    .crown {
+      color: #60dabf;
+      font-size: 18px;
     }
   }
 }

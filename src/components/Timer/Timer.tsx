@@ -23,13 +23,7 @@ const Timer: React.FC = () => {
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  let newTime: number;
-
-  if (settings.roundTime) {
-    newTime = Number(settings.roundTime.seconds()) + Number(settings.roundTime.minutes()) * 60;
-  } else {
-    newTime = 140;
-  }
+  let newTime = settings.roundTime * 60;
 
   const handleStartTimer = () => {
     setDisableButton(true);
