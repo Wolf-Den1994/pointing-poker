@@ -9,6 +9,7 @@ import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
+import GameCard from '../../components/GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
 import { LayoutViews, SocketTokens, PathRoutes } from '../../types/types';
@@ -49,6 +50,7 @@ const Game: React.FC = () => {
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { showTimer } = useTypedSelector((state) => state.settings.settings);
+  const { cardSet } = useTypedSelector((store) => store.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
 
@@ -120,6 +122,13 @@ const Game: React.FC = () => {
             <div className={style.timer}>{showTimer ? <Timer /> : null}</div>
           </div>
           <Statistics />
+          <div className={style.gameCards}>
+            {cardSet.map((card) => (
+              <GameCard key={card} allowSelection>
+                {card}
+              </GameCard>
+            ))}
+          </div>
         </div>
         <div className={style.userControl}>
           <div className={style.score}>

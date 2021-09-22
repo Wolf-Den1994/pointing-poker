@@ -11,9 +11,10 @@ interface IGameCardProps {
   children: string;
   enableActions?: boolean;
   small?: boolean;
+  allowSelection?: boolean;
 }
 
-const GameCard: React.FC<IGameCardProps> = ({ children, enableActions, small }: IGameCardProps) => {
+const GameCard: React.FC<IGameCardProps> = ({ children, enableActions, small, allowSelection }: IGameCardProps) => {
   const dispatch = useDispatch();
 
   const { cardSet } = useTypedSelector((store) => store.settings);
@@ -57,8 +58,11 @@ const GameCard: React.FC<IGameCardProps> = ({ children, enableActions, small }: 
     setNewValueCard(e.target.value);
   };
 
+  const classNameSmall = small ? style.small : '';
+  const classNameTextSelection = allowSelection ? style.textSelection : '';
+
   return (
-    <div className={small ? `${style.card} ${style.small}` : style.card}>
+    <div className={`${style.card} ${classNameSmall} ${classNameTextSelection}`}>
       <div className={style.wrapper}>
         <div className={`${style.additionally} ${style.additionallyTop} ${style[children]}`}>{viewIsNumber}</div>
         {enableActions ? (

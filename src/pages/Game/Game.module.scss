@@ -40,6 +40,11 @@
         width: 200px;
       }
     }
+
+    .gameCards {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
 
   .userControl {
