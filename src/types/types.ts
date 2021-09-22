@@ -151,7 +151,6 @@ export interface IGameSettingsData {
   autoAdmitMembers: boolean;
   showTimer: boolean;
   scoreType: string;
-  customizeCard: string;
   roundTime: number;
 }
 
