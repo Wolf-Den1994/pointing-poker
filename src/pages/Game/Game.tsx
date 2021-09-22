@@ -107,7 +107,7 @@ const Game: React.FC = () => {
 
   let timeSeconds = settings.roundTime * 60;
 
-  const handleStartTimer = () => {
+  const handleStartRound = () => {
     setDisableButton(true);
     interval = setInterval(() => {
       dispatch(startTime((timeSeconds -= 1)));
@@ -115,11 +115,12 @@ const Game: React.FC = () => {
       if (timeSeconds <= 0) {
         dispatch(startTime(0));
         clearInterval(interval);
+        // блокируем выбор карт пользователями, но, если Changing card in round end включена, то нет.
       }
     }, 1000);
   };
 
-  const handleResetTimer = () => {
+  const handleResetRound = () => {
     emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
     setDisableButton(false);
     clearInterval(interval);
@@ -173,11 +174,11 @@ const Game: React.FC = () => {
               <GameSettingsPopup />
               {settings.showTimer ? (
                 <>
-                  <Button type="primary" size="large" disabled={disableButton} onClick={handleStartTimer}>
+                  <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
                     <PlayCircleOutlined />
                     Start Round
                   </Button>
-                  <Button type="primary" size="large" onClick={handleResetTimer}>
+                  <Button type="primary" size="large" onClick={handleResetRound}>
                     <UndoOutlined />
                     Reset Round
                   </Button>
