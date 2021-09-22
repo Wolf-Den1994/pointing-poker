@@ -59,10 +59,10 @@ const GameCard: React.FC<IGameCardProps> = ({ children, enableActions, small, al
   };
 
   const classNameSmall = small ? style.small : '';
-  const classNameTextSelection = allowSelection ? style.textSelection : '';
+  const classNameAllowSelection = allowSelection ? style.allowSelection : '';
 
   return (
-    <div className={`${style.card} ${classNameSmall} ${classNameTextSelection}`}>
+    <div className={`${style.card} ${classNameSmall} ${classNameAllowSelection}`}>
       <div className={style.wrapper}>
         <div className={`${style.additionally} ${style.additionallyTop} ${style[children]}`}>{viewIsNumber}</div>
         {enableActions ? (
