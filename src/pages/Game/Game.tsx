@@ -145,31 +145,18 @@ const Game: React.FC = () => {
           <div className={style.players}>
             <p className={style.title}>Players:</p>
             {users.length &&
-              users.map((item, index) =>
-                index !== 0 ? (
-                  <UserCard
-                    key={uuidv4()}
-                    jobStatus={item.position}
-                    name={item.name}
-                    lastName={item.lastName}
-                    avatar={item.avatarUrl}
-                    id={item.id}
-                    role={item.role}
-                    size="small"
-                  />
-                ) : (
-                  <UserCard
-                    key={uuidv4()}
-                    jobStatus={item.position}
-                    name={item.name}
-                    lastName={item.lastName}
-                    avatar={item.avatarUrl}
-                    id={item.id}
-                    role={item.role}
-                    size="small"
-                  />
-                ),
-              )}
+              users.map((item) => (
+                <UserCard
+                  key={uuidv4()}
+                  jobStatus={item.position}
+                  name={item.name}
+                  lastName={item.lastName}
+                  avatar={item.avatarUrl}
+                  id={item.id}
+                  role={item.role}
+                  size="small"
+                />
+              ))}
           </div>
         </div>
       </div>
