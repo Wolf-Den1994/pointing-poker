@@ -3,7 +3,6 @@ import { useHistory, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, message } from 'antd';
-import moment from 'moment';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -71,7 +70,7 @@ const Game: React.FC = () => {
 
     on(SocketTokens.GetNewSettingsFromAdmin, (data) => {
       dispatch(startTime(data.time));
-      dispatch(changeSettings({ ...data.settings, roundTime: moment(data.settings.roundTime, 'mm:ss') }));
+      dispatch(changeSettings(data.settings));
     });
 
     window.onload = () => {

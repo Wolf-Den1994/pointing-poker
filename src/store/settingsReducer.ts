@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { AnyAction } from 'redux';
 import { IGameSettingsData, OptionSettings, cardSets } from '../types/types';
 import { SettingsActions } from './actionTypes';
@@ -18,7 +17,7 @@ const initialState: IInitialStateSettings = {
     showTimer: false,
     scoreType: OptionSettings.StoryPoint,
     customizeCard: '',
-    roundTime: moment('02:20', 'mm:ss'),
+    roundTime: 1,
   },
   cardSet: [],
   visibleChat: false,

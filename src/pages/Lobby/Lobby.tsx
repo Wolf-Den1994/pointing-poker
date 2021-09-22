@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, message } from 'antd';
 import { useHistory, useParams } from 'react-router';
-import moment from 'moment';
 import Title from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
@@ -36,7 +35,7 @@ const Lobby: React.FC = () => {
   useEffect(() => {
     on(SocketTokens.RedirectUserToGamePage, (data) => {
       if (data.timer) dispatch(startTime(data.timer));
-      dispatch(changeSettings({ ...data.settings, roundTime: moment(data.settings.roundTime, 'mm:ss') }));
+      dispatch(changeSettings(data.settings));
       history.push(`${PathRoutes.Game}/${roomId}`);
     });
 
@@ -50,9 +49,8 @@ const Lobby: React.FC = () => {
   }, []);
 
   const handleStartGame = () => {
-    const newSettings = { ...settings, roundTime: settings.roundTime.format() };
     const time = settings.showTimer ? timer.time : null;
-    emit(SocketTokens.RedirectAllToGamePage, { roomId, settings: newSettings, timer: time });
+    emit(SocketTokens.RedirectAllToGamePage, { roomId, settings, timer: time });
     history.push(`${PathRoutes.Game}/${roomId}`);
   };
 
