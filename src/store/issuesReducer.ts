@@ -4,7 +4,10 @@ import { IssueActions } from './actionTypes';
 
 const defaultIssue = {
   taskName: '',
-  grades: [],
+  grades: [
+    { name: '123', grade: 5 },
+    { name: '12332', grade: 10 },
+  ], // поменять на [] обратно
   isActive: false,
 };
 

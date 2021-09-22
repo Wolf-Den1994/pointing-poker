@@ -30,7 +30,7 @@ import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
 import { changeSettings } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
-import { setActiveIssue } from '../../store/issuesReducer';
+import { editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
@@ -128,9 +128,14 @@ const Game: React.FC = () => {
   };
 
   const handleRestoreVotes = () => {
-    // issue list, находим active задачу, а далее очищаем grades.
-    // const activeGrades = issueList.find((issue) => issue.isActive)?.grades;
-    // if (activeIssue) dispatch(removeGrades(activeIssue));
+    const activeIssue = issueList.find((issue) => issue.isActive);
+    if (activeIssue) {
+      const newGradesArr = activeIssue.grades.map((grade) => {
+        const newGrade = { ...grade, grade: 0 };
+        return { ...newGrade };
+      });
+      dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+    }
   };
 
   return (
