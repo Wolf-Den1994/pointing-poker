@@ -1,12 +1,5 @@
 export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
 
-export const cardSets = {
-  arrayFibonacci: ['pass', '0', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89'],
-  arrayModifiedFibonacci: ['pass', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100'],
-  arrayPowerOfTwo: ['pass', '0', '1', '2', '4', '8', '16', '32', '64'],
-  arrayCustomYour: ['pass'],
-};
-
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',
   AboutDublicateInLine = 'There is a duplicate in the line. Check the line!',
@@ -190,3 +183,51 @@ export interface IRoomData {
   voting: { id: string; voices: number; votedUsers: number };
   settings: IGameSettingsData;
 }
+
+export interface ICardData {
+  card: string;
+  isActive: boolean;
+}
+
+export const cardSets = {
+  arrayFibonacci: [
+    { card: 'pass', isActive: false },
+    { card: '0', isActive: false },
+    { card: '1', isActive: false },
+    { card: '2', isActive: false },
+    { card: '3', isActive: false },
+    { card: '5', isActive: false },
+    { card: '8', isActive: false },
+    { card: '13', isActive: false },
+    { card: '21', isActive: false },
+    { card: '34', isActive: false },
+    { card: '55', isActive: false },
+    { card: '89', isActive: false },
+  ],
+  arrayModifiedFibonacci: [
+    { card: 'pass', isActive: false },
+    { card: '0', isActive: false },
+    { card: '0.5', isActive: false },
+    { card: '1', isActive: false },
+    { card: '2', isActive: false },
+    { card: '3', isActive: false },
+    { card: '5', isActive: false },
+    { card: '8', isActive: false },
+    { card: '13', isActive: false },
+    { card: '20', isActive: false },
+    { card: '40', isActive: false },
+    { card: '100', isActive: false },
+  ],
+  arrayPowerOfTwo: [
+    { card: 'pass', isActive: false },
+    { card: '0', isActive: false },
+    { card: '1', isActive: false },
+    { card: '2', isActive: false },
+    { card: '4', isActive: false },
+    { card: '8', isActive: false },
+    { card: '16', isActive: false },
+    { card: '32', isActive: false },
+    { card: '64', isActive: false },
+  ],
+  arrayCustomYour: [{ card: 'pass', isActive: false }],
+};

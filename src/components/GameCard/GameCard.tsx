@@ -2,7 +2,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { editCard, removeCard } from '../../store/settingsReducer';
+import { editCard, removeCard, setActiveCard } from '../../store/settingsReducer';
 import style from './GameCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { TextForUser } from '../../types/types';
@@ -12,9 +12,16 @@ interface IGameCardProps {
   enableActions?: boolean;
   small?: boolean;
   allowSelection?: boolean;
+  active?: string;
 }
 
-const GameCard: React.FC<IGameCardProps> = ({ children, enableActions, small, allowSelection }: IGameCardProps) => {
+const GameCard: React.FC<IGameCardProps> = ({
+  children,
+  enableActions,
+  small,
+  allowSelection,
+  active = 'notActive',
+}: IGameCardProps) => {
   const dispatch = useDispatch();
 
   const { cardSet } = useTypedSelector((store) => store.settings);
@@ -30,7 +37,7 @@ const GameCard: React.FC<IGameCardProps> = ({ children, enableActions, small, al
   const handleEditCard = () => {
     if (editIsActive) {
       if (newValueCard) {
-        const isDuplicate = cardSet.some((card) => card === newValueCard);
+        const isDuplicate = cardSet.some((card) => card.card === newValueCard);
         if (isDuplicate) {
           message.warning(TextForUser.AboutDublicate);
           setValueView(oldValueCard);
@@ -38,7 +45,7 @@ const GameCard: React.FC<IGameCardProps> = ({ children, enableActions, small, al
           message.warning(TextForUser.AboutNumber);
           setValueView(oldValueCard);
         } else {
-          dispatch(editCard({ oldCard: oldValueCard, newCard: newValueCard }));
+          dispatch(editCard({ oldCard: oldValueCard, newCard: { card: newValueCard, isActive: false } }));
         }
       } else {
         message.warning(TextForUser.AboutEmpty);
@@ -58,11 +65,20 @@ const GameCard: React.FC<IGameCardProps> = ({ children, enableActions, small, al
     setNewValueCard(e.target.value);
   };
 
+  const handleSectCard = () => {
+    if (allowSelection) {
+      dispatch(setActiveCard(children));
+    }
+  };
+
   const classNameSmall = small ? style.small : '';
   const classNameAllowSelection = allowSelection ? style.allowSelection : '';
 
   return (
-    <div className={`${style.card} ${classNameSmall} ${classNameAllowSelection}`}>
+    <div
+      className={`${style.card} ${classNameSmall} ${classNameAllowSelection} ${style[active]}`}
+      onClick={handleSectCard}
+    >
       <div className={style.wrapper}>
         <div className={`${style.additionally} ${style.additionallyTop} ${style[children]}`}>{viewIsNumber}</div>
         {enableActions ? (

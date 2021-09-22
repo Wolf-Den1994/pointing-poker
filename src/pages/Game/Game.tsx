@@ -125,11 +125,17 @@ const Game: React.FC = () => {
           </div>
           <Statistics />
           <div className={style.gameCards}>
-            {cardSet.map((card) => (
-              <GameCard key={card} allowSelection>
-                {card}
-              </GameCard>
-            ))}
+            {cardSet.map(({ card, isActive }) =>
+              isActive ? (
+                <GameCard key={card} allowSelection active="active">
+                  {card}
+                </GameCard>
+              ) : (
+                <GameCard key={card} allowSelection>
+                  {card}
+                </GameCard>
+              ),
+            )}
           </div>
         </div>
         <div className={style.userControl}>
