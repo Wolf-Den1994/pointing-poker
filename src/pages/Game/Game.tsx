@@ -16,6 +16,7 @@ import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
+import GameCard from '../../components/GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
 import { LayoutViews, SocketTokens, PathRoutes } from '../../types/types';
@@ -35,7 +36,7 @@ import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
   {
-    card: '10',
+    card: '101',
     averageGrade: '42.8%',
   },
   {
@@ -60,7 +61,8 @@ const Game: React.FC = () => {
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
-  const { settings } = useTypedSelector((state) => state.settings);
+  const { settings, cardSet } = useTypedSelector((state) => state.settings);
+  // const { cardSet } = useTypedSelector((store) => store.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
 
@@ -196,6 +198,19 @@ const Game: React.FC = () => {
             <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
           <Statistics />
+          <div className={style.gameCards}>
+            {cardSet.map(({ card, isActive }) =>
+              isActive ? (
+                <GameCard key={card} allowSelection active="active">
+                  {card}
+                </GameCard>
+              ) : (
+                <GameCard key={card} allowSelection>
+                  {card}
+                </GameCard>
+              ),
+            )}
+          </div>
         </div>
         <div className={style.userControl}>
           <div className={style.score}>

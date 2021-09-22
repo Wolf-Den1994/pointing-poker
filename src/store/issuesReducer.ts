@@ -27,7 +27,7 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
         ...state,
         issueList: state.issueList.map((item) => ({
           ...item,
-          taskName: item.taskName === action.payload.oldTaskName && action.payload.newTaskName,
+          taskName: item.taskName === action.payload.oldTaskName ? action.payload.newTaskName : item.taskName,
         })),
       };
     }

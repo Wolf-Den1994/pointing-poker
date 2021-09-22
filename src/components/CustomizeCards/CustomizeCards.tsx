@@ -21,13 +21,13 @@ const CustomizeCards: React.FC = () => {
   };
 
   const handleAddCard = () => {
-    const isDuplicate = cardSet.some((card) => card === valueInput);
+    const isDuplicate = cardSet.some((card) => card.card === valueInput);
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (Number.isNaN(+valueInput)) {
       message.warning(TextForUser.AboutNumber);
     } else {
-      dispatch(addCard(valueInput));
+      dispatch(addCard({ card: valueInput, isActive: false }));
       setAddIsActive(false);
       setValueInput('');
     }
@@ -39,9 +39,9 @@ const CustomizeCards: React.FC = () => {
     <div className={style.customizeCards}>
       <p className={style.title}>Add card values:</p>
       <div className={style.wrapper}>
-        {cardSet.map((item) => (
-          <GameCard key={item} enableActions>
-            {item}
+        {cardSet.map(({ card }) => (
+          <GameCard key={card} enableActions>
+            {card}
           </GameCard>
         ))}
         <div className={style.add} onClick={handleShowAddCard}>
