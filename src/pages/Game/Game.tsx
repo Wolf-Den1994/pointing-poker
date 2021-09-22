@@ -1,7 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { LogoutOutlined, PlayCircleOutlined, SaveOutlined, LineOutlined } from '@ant-design/icons';
+import {
+  LogoutOutlined,
+  PlayCircleOutlined,
+  SaveOutlined,
+  LineOutlined,
+  UndoOutlined,
+  FileSyncOutlined,
+} from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, message } from 'antd';
 import IssueList from '../../components/IssueList/IssueList';
@@ -44,6 +51,8 @@ const statistics = [
 const Game: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [disableButton, setDisableButton] = useState(false);
 
   const { roomId } = useParams<{ roomId: string }>();
 
@@ -94,7 +103,28 @@ const Game: React.FC = () => {
     history.push(`${PathRoutes.Result}/${roomId}`);
   };
 
-  const handleToggleRound = () => {};
+  const handleStartTimer = () => {
+    setDisableButton(true);
+    // interval = setInterval(() => {
+    //   dispatch(startTime((newTime -= 1)));
+    //   emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId });
+    //   if (newTime <= 0) {
+    //     dispatch(startTime(0));
+    //     clearInterval(interval);
+    //   }
+    // }, 1000);
+  };
+
+  const handleResetTimer = () => {
+    // emit(SocketTokens.SetTimeOnTimer, { time: newTime, roomId });
+    setDisableButton(false);
+    // clearInterval(interval);
+    // dispatch(startTime(newTime));
+  };
+
+  const handleRestoreVotes = () => {
+    // issue list, находим active задачу, а далее очищаем grades.
+  };
 
   return (
     <div className={style.gamePage}>
@@ -126,15 +156,29 @@ const Game: React.FC = () => {
                 <SaveOutlined />
                 Show the game Result
               </Button>
-              {showTimer ? (
-                <Button type="primary" size="large" onClick={handleToggleRound}>
-                  <PlayCircleOutlined />
-                  Run round
-                </Button>
-              ) : null}
+              <Button type="primary" size="large" onClick={handleRestoreVotes}>
+                <FileSyncOutlined />
+                Restore votes
+              </Button>
             </BtnsControl>
           </div>
-          {isDealer ? <GameSettingsPopup /> : null}
+          {isDealer ? (
+            <div className={style.box}>
+              <GameSettingsPopup />
+              {showTimer ? (
+                <>
+                  <Button type="primary" size="large" disabled={disableButton} onClick={handleStartTimer}>
+                    <PlayCircleOutlined />
+                    Start Round
+                  </Button>
+                  <Button type="primary" size="large" onClick={handleResetTimer}>
+                    <UndoOutlined />
+                    Reset Round
+                  </Button>
+                </>
+              ) : null}
+            </div>
+          ) : null}
           <div className={style.field}>
             <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
             <div className={style.timer}>{showTimer ? <Timer /> : null}</div>

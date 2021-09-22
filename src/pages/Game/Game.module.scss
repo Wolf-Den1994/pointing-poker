@@ -40,6 +40,12 @@
         width: 200px;
       }
     }
+
+    .box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 
   .userControl {
