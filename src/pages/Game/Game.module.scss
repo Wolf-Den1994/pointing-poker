@@ -60,6 +60,18 @@
     .players {
       width: 50%;
       padding: 0px 10px;
+
+      .data {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 9px;
+        height: 52px;
+
+        .dash {
+          font-size: 25px;
+        }
+      }
     }
   }
 }

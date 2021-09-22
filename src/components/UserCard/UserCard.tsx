@@ -1,5 +1,5 @@
 import { Card, Avatar } from 'antd';
-import { StopOutlined } from '@ant-design/icons';
+import { CrownOutlined, StopOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import style from './UserCard.module.scss';
@@ -74,6 +74,11 @@ const UserCard: React.FC<IUserCardProps> = ({
           {checkUserRoleAndId() ? null : <StopOutlined style={{ fontSize: sizeBtnKick }} />}
         </div>
       </div>
+      {role === UserRole.Admin ? (
+        <span className={style.crownWrapper}>
+          <CrownOutlined className={style.crown} />
+        </span>
+      ) : null}
     </Card>
   );
 };

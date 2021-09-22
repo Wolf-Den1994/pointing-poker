@@ -12,16 +12,8 @@ const GameSettings: React.FC = () => {
 
   const dispatch = useDispatch();
   const { settings } = useTypedSelector((state) => state.settings);
-  const {
-    isDealerActive,
-    voteAfterRoundEnd,
-    autoAdmitMembers,
-    autoFlipCards,
-    showTimer,
-    scoreType,
-    customizeCard,
-    roundTime,
-  } = settings;
+  const { isDealerActive, voteAfterRoundEnd, autoAdmitMembers, autoFlipCards, showTimer, scoreType, roundTime } =
+    settings;
 
   const handleChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
     const newSettings = { ...data };
@@ -113,11 +105,6 @@ const GameSettings: React.FC = () => {
           ]}
         >
           <Select value={scoreType} size="large">
-            <Select.OptGroup label="Default:">
-              <Select.Option value={OptionSettings.StoryPoint} disabled>
-                {OptionSettings.StoryPoint}
-              </Select.Option>
-            </Select.OptGroup>
             <Select.OptGroup label="Math:">
               <Select.Option value={OptionSettings.Fibonacci}>{OptionSettings.Fibonacci}</Select.Option>
               <Select.Option value={OptionSettings.ModifiedFibonacci}>{OptionSettings.ModifiedFibonacci}</Select.Option>
@@ -127,30 +114,6 @@ const GameSettings: React.FC = () => {
               <Select.Option value={OptionSettings.CustomYour}>{OptionSettings.CustomYour}</Select.Option>
             </Select.OptGroup>
           </Select>
-        </Form.Item>
-
-        <Form.Item
-          noStyle
-          shouldUpdate={(prevValues, currentValues) => prevValues.scoreType !== currentValues.scoreType}
-        >
-          {({ getFieldValue }) =>
-            getFieldValue('scoreType') === 'custom/your' ? (
-              <Form.Item
-                name="customizeCard"
-                label={<span style={{ fontSize: 18 }}>Customize card type:</span>}
-                colon={false}
-                initialValue={customizeCard}
-                rules={[
-                  {
-                    required: true,
-                    message: TextForUser.RequiredCustomizeCard,
-                  },
-                ]}
-              >
-                <Input size="large" placeholder="Your card type name" maxLength={28} />
-              </Form.Item>
-            ) : null
-          }
         </Form.Item>
 
         <Form.Item

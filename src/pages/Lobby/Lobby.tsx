@@ -13,7 +13,7 @@ import IssueList from '../../components/IssueList/IssueList';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
 import { clearRoomData } from '../../store/roomDataReducer';
-import { OptionSettings, PathRoutes, SocketTokens } from '../../types/types';
+import { PathRoutes, SocketTokens } from '../../types/types';
 import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
@@ -96,7 +96,7 @@ const Lobby: React.FC = () => {
           <>
             <IssueList />
             <GameSettings />
-            {settings.scoreType !== OptionSettings.StoryPoint ? <CustomizeCards /> : null}
+            <CustomizeCards />
           </>
         ) : null}
         <BtnChat />
