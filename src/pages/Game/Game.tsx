@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
+import { LineOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, message } from 'antd';
-import moment from 'moment';
 import IssueList from '../../components/IssueList/IssueList';
 import Title from '../../components/Title/Title';
 import Timer from '../../components/Timer/Timer';
@@ -54,6 +54,12 @@ const Game: React.FC = () => {
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
 
+  const findIssue = issueList.find((issue) => issue.isActive);
+
+  const handleIssueHighlight = (task: string) => {
+    dispatch(setActiveIssue(task));
+  };
+
   const handleStopGame = async () => {
     try {
       await deleteRoom({ data: { id: roomId } });
@@ -73,7 +79,7 @@ const Game: React.FC = () => {
 
     on(SocketTokens.GetNewSettingsFromAdmin, (data) => {
       dispatch(startTime(data.time));
-      dispatch(changeSettings({ ...data.settings, roundTime: moment(data.settings.roundTime, 'mm:ss') }));
+      dispatch(changeSettings(data.settings));
     });
 
     window.onload = () => {
@@ -84,10 +90,6 @@ const Game: React.FC = () => {
       window.onload = null;
     };
   }, []);
-
-  const handleIssueHighlight = (task: string) => {
-    dispatch(setActiveIssue(task));
-  };
 
   return (
     <div className={style.gamePage}>
@@ -133,29 +135,36 @@ const Game: React.FC = () => {
         <div className={style.userControl}>
           <div className={style.score}>
             <p className={style.title}>Score:</p>
-            {issueList.map((item, index) =>
-              Object.keys(item.grades).length ? (
-                <div key={item.grades[index].name}>{item.grades[index].name}</div>
-              ) : null,
-            )}
+            {users.map((user) => {
+              const findGrade = findIssue?.grades.find((grade) => grade.name === user.name);
+              return (
+                <div className={style.data} key={user.name}>
+                  {findGrade?.grade ? (
+                    <span>{findGrade?.grade}</span>
+                  ) : (
+                    <span className={style.dash}>
+                      <LineOutlined />
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
           <div className={style.players}>
             <p className={style.title}>Players:</p>
             {users.length &&
-              users.map((item, index) =>
-                index !== 0 ? (
-                  <UserCard
-                    key={uuidv4()}
-                    jobStatus={item.position}
-                    name={item.name}
-                    lastName={item.lastName}
-                    avatar={item.avatarUrl}
-                    id={item.id}
-                    role={item.role}
-                    size="small"
-                  />
-                ) : null,
-              )}
+              users.map((item) => (
+                <UserCard
+                  key={uuidv4()}
+                  jobStatus={item.position}
+                  name={item.name}
+                  lastName={item.lastName}
+                  avatar={item.avatarUrl}
+                  id={item.id}
+                  role={item.role}
+                  size="small"
+                />
+              ))}
           </div>
         </div>
       </div>

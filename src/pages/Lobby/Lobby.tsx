@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, message } from 'antd';
 import { useHistory, useParams } from 'react-router';
-import moment from 'moment';
 import Title from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
@@ -14,7 +13,7 @@ import IssueList from '../../components/IssueList/IssueList';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
 import { clearRoomData } from '../../store/roomDataReducer';
-import { OptionSettings, PathRoutes, SocketTokens } from '../../types/types';
+import { PathRoutes, SocketTokens } from '../../types/types';
 import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
@@ -36,7 +35,7 @@ const Lobby: React.FC = () => {
   useEffect(() => {
     on(SocketTokens.RedirectUserToGamePage, (data) => {
       if (data.timer) dispatch(startTime(data.timer));
-      dispatch(changeSettings({ ...data.settings, roundTime: moment(data.settings.roundTime, 'mm:ss') }));
+      dispatch(changeSettings(data.settings));
       history.push(`${PathRoutes.Game}/${roomId}`);
     });
 
@@ -50,9 +49,8 @@ const Lobby: React.FC = () => {
   }, []);
 
   const handleStartGame = () => {
-    const newSettings = { ...settings, roundTime: settings.roundTime.format() };
     const time = settings.showTimer ? timer.time : null;
-    emit(SocketTokens.RedirectAllToGamePage, { roomId, settings: newSettings, timer: time });
+    emit(SocketTokens.RedirectAllToGamePage, { roomId, settings, timer: time });
     history.push(`${PathRoutes.Game}/${roomId}`);
   };
 
@@ -98,7 +96,7 @@ const Lobby: React.FC = () => {
           <>
             <IssueList />
             <GameSettings />
-            {settings.scoreType !== OptionSettings.StoryPoint ? <CustomizeCards /> : null}
+            <CustomizeCards />
           </>
         ) : null}
         <BtnChat />

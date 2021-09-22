@@ -6,7 +6,7 @@ interface IInitialStateTimer {
 }
 
 const initialState: IInitialStateTimer = {
-  time: 140,
+  time: 60,
 };
 
 export const timerReducer = (state = initialState, action: AnyAction): typeof initialState => {

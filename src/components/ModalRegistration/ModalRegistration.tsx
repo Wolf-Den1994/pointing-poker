@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import { useHistory } from 'react-router';
-import moment from 'moment';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
@@ -12,6 +11,7 @@ import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
 import { getResourse } from '../../services/api';
 import { changeSettings } from '../../store/settingsReducer';
+import { startTime } from '../../store/timerReducer';
 
 interface IModalRegistrationProps {
   role: string;
@@ -103,12 +103,14 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
       };
       const response = await getResourse(roomId);
       const { admin, users, issues, messages, gameRoom, settings } = response.data;
+      const timerTime = settings.roundTime * 60;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
         users.push(userData);
         dispatch(addAdmin(admin));
         dispatch(setGameRoom(gameRoom));
-        dispatch(changeSettings({ ...settings, roundTime: moment(response.data.settings.roundTime, 'mm:ss') }));
+        dispatch(changeSettings(settings));
+        dispatch(startTime(timerTime));
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
