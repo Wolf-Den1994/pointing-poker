@@ -1,5 +1,6 @@
 import { Button, Modal } from 'antd';
 import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { emit } from '../../services/socket';
 import { deleteUserRequest } from '../../store/requestsForEnterReducer';
@@ -23,7 +24,7 @@ const RequestPopup: React.FC = () => {
     <>
       {requestsFromUsers.map((el) => {
         return (
-          <div key={el} className={styles.request}>
+          <div key={uuidv4()} className={styles.request}>
             <Modal
               closable={false}
               visible={true}
@@ -40,7 +41,7 @@ const RequestPopup: React.FC = () => {
               ]}
             >
               <h2 className={styles.header}>
-                Allow the user with id <span className={styles.user}>{el}</span> enter the room
+                Allow the user with id <span className={styles.user}>{el}</span> enter the room?
               </h2>
             </Modal>
           </div>

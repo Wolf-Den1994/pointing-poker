@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { LineOutlined } from '@ant-design/icons';
+import { LogoutOutlined, PlayCircleOutlined, SaveOutlined, LineOutlined, UndoOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, message } from 'antd';
 import IssueList from '../../components/IssueList/IssueList';
@@ -24,7 +24,7 @@ import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
 import { changeSettings } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
-import { setActiveIssue } from '../../store/issuesReducer';
+import { editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
@@ -42,15 +42,19 @@ const statistics = [
   },
 ];
 
+let interval: NodeJS.Timeout;
+
 const Game: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [disableButton, setDisableButton] = useState(false);
+
   const { roomId } = useParams<{ roomId: string }>();
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
-  const { showTimer } = useTypedSelector((state) => state.settings.settings);
-  const { cardSet } = useTypedSelector((store) => store.settings);
+  const { settings, cardSet } = useTypedSelector((state) => state.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
 
@@ -91,6 +95,41 @@ const Game: React.FC = () => {
     };
   }, []);
 
+  const handleResultGame = () => {
+    history.push(`${PathRoutes.Result}/${roomId}`);
+  };
+
+  let timeSeconds = settings.roundTime * 60;
+
+  const handleStartRound = () => {
+    setDisableButton(true);
+    interval = setInterval(() => {
+      dispatch(startTime((timeSeconds -= 1)));
+      emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
+      if (timeSeconds <= 0) {
+        dispatch(startTime(0));
+        clearInterval(interval);
+        // блокируем выбор карт пользователями, но, если Changing card in round end включена, то нет.
+      }
+    }, 1000);
+  };
+
+  const handleResetRound = () => {
+    emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
+    setDisableButton(false);
+    clearInterval(interval);
+    dispatch(startTime(timeSeconds));
+
+    const activeIssue = issueList.find((issue) => issue.isActive);
+    if (activeIssue) {
+      const newGradesArr = activeIssue.grades.map((grade) => {
+        const newGrade = { ...grade, grade: 0 };
+        return { ...newGrade };
+      });
+      dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+    }
+  };
+
   return (
     <div className={style.gamePage}>
       <div className={style.gameInner}>
@@ -113,15 +152,36 @@ const Game: React.FC = () => {
           </div>
           <div className={style.btns}>
             <BtnsControl>
-              <Button type="primary" size="large" onClick={handleStopGame}>
+              <Button size="large" onClick={handleStopGame}>
+                <LogoutOutlined />
                 Stop Game
+              </Button>
+              <Button size="large" onClick={handleResultGame}>
+                <SaveOutlined />
+                Show the game Result
               </Button>
             </BtnsControl>
           </div>
-          {isDealer ? <GameSettingsPopup /> : null}
+          {isDealer ? (
+            <div className={style.box}>
+              <GameSettingsPopup />
+              {settings.showTimer ? (
+                <>
+                  <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
+                    <PlayCircleOutlined />
+                    Start Round
+                  </Button>
+                  <Button type="primary" size="large" onClick={handleResetRound}>
+                    <UndoOutlined />
+                    Reset Round
+                  </Button>
+                </>
+              ) : null}
+            </div>
+          ) : null}
           <div className={style.field}>
             <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
-            <div className={style.timer}>{showTimer ? <Timer /> : null}</div>
+            <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
           <Statistics />
           <div className={style.gameCards}>

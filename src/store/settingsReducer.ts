@@ -16,7 +16,6 @@ const initialState: IInitialStateSettings = {
     autoAdmitMembers: false,
     showTimer: false,
     scoreType: OptionSettings.Fibonacci,
-    customizeCard: '',
     roundTime: 1,
   },
   cardSet: cardSets.arrayFibonacci,
