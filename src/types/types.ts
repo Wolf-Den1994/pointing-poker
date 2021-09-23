@@ -129,6 +129,11 @@ export enum KeyboardKeys {
   Enter = 'Enter',
 }
 
+export enum FileExtensions {
+  XLSX = 'xlsx',
+  CSV = 'csv',
+}
+
 export interface IMember {
   id: string;
   name: string;

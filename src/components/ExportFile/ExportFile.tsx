@@ -4,6 +4,7 @@ import ExportCSV from '../ExportCSV/ExportCSV';
 import ExportXLSX from '../ExportXLSX/ExportXLSX';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './ExportFile.module.scss';
+import { FileExtensions } from '../../types/types';
 
 const { Option } = Select;
 
@@ -21,11 +22,11 @@ const ExportFile: React.FC = () => {
     <div className={style.exportFile}>
       <span>Download the result of the game in format:</span>
       <Select defaultValue={downloadExtension} style={{ width: 70 }} onChange={handleChangeDownloadExtension}>
-        <Option value="xlsx">xlsx</Option>
-        <Option value="csv">csv</Option>
+        <Option value={FileExtensions.XLSX}>{FileExtensions.XLSX}</Option>
+        <Option value={FileExtensions.CSV}>{FileExtensions.CSV}</Option>
       </Select>
       <span onClick={handleExportFile}>
-        {downloadExtension === 'xlsx' ? (
+        {downloadExtension === FileExtensions.XLSX ? (
           <ExportXLSX xlsxData={statistics} file={filename} />
         ) : (
           <ExportCSV scvData={statistics} filename={filename} />
