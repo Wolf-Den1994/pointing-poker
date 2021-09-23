@@ -5,6 +5,7 @@ import Footer from '../Footer/Footer';
 import Home from '../../pages/Home/Home';
 import Game from '../../pages/Game/Game';
 import Lobby from '../../pages/Lobby/Lobby';
+import Result from '../../pages/Result/Result';
 import NotFound from '../../pages/NotFound/NotFound';
 
 const App: React.FC = () => {
@@ -15,8 +16,9 @@ const App: React.FC = () => {
         <div className="container">
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/lobby/:roomId" component={Lobby} />
-            <Route exact path="/game/:roomId" component={Game} />
+            <Route path="/lobby/:roomId" component={Lobby} />
+            <Route path="/game/:roomId" component={Game} />
+            <Route path="/result/:roomId" component={Result} />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>

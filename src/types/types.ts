@@ -59,6 +59,7 @@ export enum PathRoutes {
   Home = '/',
   Lobby = '/lobby',
   Game = '/game',
+  Result = '/result',
 }
 
 export enum GameRooms {
@@ -150,7 +151,6 @@ export interface IGameSettingsData {
   autoAdmitMembers: boolean;
   showTimer: boolean;
   scoreType: string;
-  customizeCard: string;
   roundTime: number;
 }
 
