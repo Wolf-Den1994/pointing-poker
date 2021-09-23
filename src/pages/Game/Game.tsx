@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
-import {
-  LogoutOutlined,
-  PlayCircleOutlined,
-  SaveOutlined,
-  LineOutlined,
-  UndoOutlined,
-  FileSyncOutlined,
-} from '@ant-design/icons';
+import { LogoutOutlined, PlayCircleOutlined, SaveOutlined, LineOutlined, UndoOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, message } from 'antd';
 import IssueList from '../../components/IssueList/IssueList';
@@ -126,9 +119,7 @@ const Game: React.FC = () => {
     setDisableButton(false);
     clearInterval(interval);
     dispatch(startTime(timeSeconds));
-  };
 
-  const handleRestoreVotes = () => {
     const activeIssue = issueList.find((issue) => issue.isActive);
     if (activeIssue) {
       const newGradesArr = activeIssue.grades.map((grade) => {
@@ -168,10 +159,6 @@ const Game: React.FC = () => {
               <Button size="large" onClick={handleResultGame}>
                 <SaveOutlined />
                 Show the game Result
-              </Button>
-              <Button type="primary" size="large" onClick={handleRestoreVotes}>
-                <FileSyncOutlined />
-                Restore votes
               </Button>
             </BtnsControl>
           </div>
