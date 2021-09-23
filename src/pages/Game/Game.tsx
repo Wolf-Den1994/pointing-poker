@@ -22,7 +22,7 @@ import { deleteRoom } from '../../services/api';
 import { emit, on } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
-import { changeSettings } from '../../store/settingsReducer';
+import { changeSettings, setActiveCard } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
 import { editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
@@ -49,6 +49,7 @@ const Game: React.FC = () => {
   const history = useHistory();
 
   const [disableButton, setDisableButton] = useState(false);
+  const [allowSelectionCard, setAllowSelectionCard] = useState(true);
 
   const { roomId } = useParams<{ roomId: string }>();
 
@@ -103,6 +104,7 @@ const Game: React.FC = () => {
 
   const handleStartRound = () => {
     setDisableButton(true);
+
     interval = setInterval(() => {
       dispatch(startTime((timeSeconds -= 1)));
       emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
@@ -110,6 +112,11 @@ const Game: React.FC = () => {
         dispatch(startTime(0));
         clearInterval(interval);
         // блокируем выбор карт пользователями, но, если Changing card in round end включена, то нет.
+        if (settings.voteAfterRoundEnd) {
+          setAllowSelectionCard(true);
+        } else {
+          setAllowSelectionCard(false);
+        }
       }
     }, 1000);
   };
@@ -128,6 +135,9 @@ const Game: React.FC = () => {
       });
       dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
     }
+
+    setAllowSelectionCard(true);
+    dispatch(setActiveCard(''));
   };
 
   return (
@@ -188,11 +198,11 @@ const Game: React.FC = () => {
             <div className={style.gameCards}>
               {cardSet.map(({ card, isActive }) =>
                 isActive ? (
-                  <GameCard key={card} allowSelection active="active">
+                  <GameCard key={card} allowSelection={allowSelectionCard} active="active">
                     {card}
                   </GameCard>
                 ) : (
-                  <GameCard key={card} allowSelection>
+                  <GameCard key={card} allowSelection={allowSelectionCard}>
                     {card}
                   </GameCard>
                 ),

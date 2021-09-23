@@ -36,6 +36,8 @@ const IssueList: React.FC<IIssueListProps> = ({
     setIsModalVisible(true);
   };
 
+  const handleHighlight = (task: string) => isDealer && onHighlight && onHighlight(task);
+
   const handleOk = () => {
     setIsModalVisible(false);
     const isDuplicate = issueList.some((issue) => issue.taskName === valueNewIssue);
@@ -48,6 +50,7 @@ const IssueList: React.FC<IIssueListProps> = ({
         roomId,
       });
       dispatch(addIssue(valueNewIssue));
+      handleHighlight(valueNewIssue);
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
         newIssue: valueNewIssue,
@@ -88,8 +91,6 @@ const IssueList: React.FC<IIssueListProps> = ({
   const сhoiceOfActive = (issue: IIssueData) => (enableHighlight && issue.isActive ? style.active : '');
 
   const canActive = () => (enableHighlight && isDealer ? style.dealer : '');
-
-  const handleHighlight = (task: string) => isDealer && onHighlight && onHighlight(task);
 
   return (
     <div className={style.issuesList}>
