@@ -111,12 +111,14 @@ const Game: React.FC = () => {
       if (timeSeconds <= 0) {
         dispatch(startTime(0));
         clearInterval(interval);
-        // блокируем выбор карт пользователями, но, если Changing card in round end включена, то нет.
+
         if (settings.voteAfterRoundEnd) {
           setAllowSelectionCard(true);
         } else {
           setAllowSelectionCard(false);
         }
+        // с сервера береём данные и диспатчим в issueList, чтобы в score был (внизу пример)
+        // dispatch(editGrades({ taskName: '123', newGrade: [{ grade: 5, name: 'asdasd' }] }));
       }
     }, 1000);
   };
@@ -134,6 +136,7 @@ const Game: React.FC = () => {
         return { ...newGrade };
       });
       dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+      // так же кидаем запрос на сервер с новыми данными (нулевыми оценками)
     }
 
     setAllowSelectionCard(true);
