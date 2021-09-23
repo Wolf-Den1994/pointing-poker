@@ -1,9 +1,4 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
-import { Button } from 'antd';
 import style from './Result.module.scss';
-import Title from '../../components/Title/Title';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import ExportFile from '../../components/ExportFile/ExportFile';

@@ -19,7 +19,6 @@ const ExportFile: React.FC = () => {
         result.push({ issue: el.taskName, card: elem.card, averageValue: elem.averageValue });
       });
     });
-    console.log(result);
     return result;
   };
   return (
