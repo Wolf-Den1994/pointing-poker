@@ -43,6 +43,10 @@ export interface Room {
     customizeCard: string;
     roundTime: number;
   };
+  cardSet: {
+    card: string;
+    isActive: boolean;
+  }[];
 }
 
 export interface User {
@@ -58,6 +62,7 @@ export enum ChangeIssueModes {
   ADD = 'add',
   CHANGE = 'change',
   ALL = 'all',
+  DELETE = 'delete',
 }
 
 export enum GameRoom {
@@ -97,4 +102,8 @@ export enum SocketTokens {
   DisconnectOne = 'disconnectOne',
   Disconnecting = 'disconnecting',
   Disconnect = 'disconnect',
+  RedirectAllToResultPage = 'redirectAllToResultPage',
+  RedirectToResultPage = 'redirectToResultPage',
+  SendActiveIssueToUser = 'sendActiveIssueToUser',
+  GetActiveIssue = 'getActiveIssue',
 }
