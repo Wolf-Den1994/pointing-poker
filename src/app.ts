@@ -66,7 +66,12 @@ io.on('connection', (socket) => {
     socket.to(id).emit(SocketTokens.AdminsResponse, { response });
   });
 
-  socket.on(SocketTokens.RedirectAllToGamePage, async ({ roomId, settings, cardSet, timer }) => {
+  socket.on(SocketTokens.RedirectAllToGamePage, async ({
+    roomId,
+    settings,
+    cardSet,
+    timer,
+  }) => {
     const response = await getRoom(roomId);
     response.settings = settings;
     response.cardSet = cardSet;
@@ -99,7 +104,7 @@ io.on('connection', (socket) => {
     const response = await getRoom(roomId);
     if (mode === ChangeIssueModes.ADD) {
       response.issues.push(newIssue);
-    } else if (mode === ChangeIssueModes.DELETE){
+    } else if (mode === ChangeIssueModes.DELETE) {
       const index = response.issues.findIndex((el) => el.taskName === newIssue);
       response.issues.splice(index, 1);
     } else if (mode === ChangeIssueModes.ALL) {
@@ -116,12 +121,17 @@ io.on('connection', (socket) => {
     const response = await getRoom(roomId);
     response.issues.forEach((el) => {
       el.isActive = false;
-      if(el.taskName === issueName) el.isActive = true;
-    })
+      if (el.taskName === issueName) el.isActive = true;
+    });
     socket.broadcast.to(roomId).emit(SocketTokens.GetActiveIssue, { issueName });
-  })
+  });
 
-  socket.on(SocketTokens.SendNewSettingsToUsers, async ({ roomId, settings, cardSet, time }) => {
+  socket.on(SocketTokens.SendNewSettingsToUsers, async ({
+    roomId,
+    settings,
+    cardSet,
+    time,
+  }) => {
     const response = await getRoom(roomId);
     if (settings.autoAdmitMembers) {
       response.gameRoom = GameRoom.GameAllow;
