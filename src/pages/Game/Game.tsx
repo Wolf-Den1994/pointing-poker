@@ -184,19 +184,21 @@ const Game: React.FC = () => {
             <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
           <Statistics />
-          <div className={style.gameCards}>
-            {cardSet.map(({ card, isActive }) =>
-              isActive ? (
-                <GameCard key={card} allowSelection active="active">
-                  {card}
-                </GameCard>
-              ) : (
-                <GameCard key={card} allowSelection>
-                  {card}
-                </GameCard>
-              ),
-            )}
-          </div>
+          {!settings.isDealerActive && isDealer ? null : (
+            <div className={style.gameCards}>
+              {cardSet.map(({ card, isActive }) =>
+                isActive ? (
+                  <GameCard key={card} allowSelection active="active">
+                    {card}
+                  </GameCard>
+                ) : (
+                  <GameCard key={card} allowSelection>
+                    {card}
+                  </GameCard>
+                ),
+              )}
+            </div>
+          )}
         </div>
         <div className={style.userControl}>
           <div className={style.score}>
