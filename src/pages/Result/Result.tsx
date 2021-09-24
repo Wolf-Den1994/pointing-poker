@@ -8,17 +8,15 @@ const Result: React.FC = () => {
   const { statistics } = useTypedSelector((state) => state.statistics);
 
   return (
-    <>
-      <div className={style.wrapper}>
-        <p className={style.tasks}>
-          Spring {statistics.length} planning ({createElementsPlanning(statistics)})
-        </p>
-        <ExportFile />
-        {statistics.map((elem) => {
-          return <IssueCard key={elem.taskName} data={elem} />;
-        })}
-      </div>
-    </>
+    <div className={style.wrapper}>
+      <p className={style.tasks}>
+        Spring {statistics.length} planning ({createElementsPlanning(statistics)})
+      </p>
+      <ExportFile />
+      {statistics.map((elem) => {
+        return <IssueCard key={elem.taskName} data={elem} />;
+      })}
+    </div>
   );
 };
 
