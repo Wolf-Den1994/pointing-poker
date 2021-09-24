@@ -51,5 +51,10 @@ export const RoomModel = new Schema({
     customizeCard: { type: String },
     roundTime: { type: Number },
   },
-  cardSet: [],
+  cardSet: [
+    {
+      card: { type: String },
+      isActive: { type: Boolean },
+    },
+  ],
 });
