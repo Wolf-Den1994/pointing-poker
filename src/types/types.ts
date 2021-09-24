@@ -72,7 +72,7 @@ export enum IssuesListMode {
   Add = 'add',
   Change = 'change',
   All = 'all',
-  DELETE = 'delete',
+  Delete = 'delete',
 }
 
 export enum IssueStatus {
