@@ -186,34 +186,36 @@ const Game: React.FC = () => {
               ) : null}
             </div>
           </div>
-          <div className={style.btns}>
-            <BtnsControl>
-              <Button size="large" onClick={handleStopGame}>
-                <LogoutOutlined />
-                Stop Game
-              </Button>
-              <Button size="large" onClick={handleResultGame}>
-                <SaveOutlined />
-                Show the game Result
-              </Button>
-            </BtnsControl>
-          </div>
           {isDealer ? (
-            <div className={style.box}>
-              <GameSettingsPopup />
-              {settings.showTimer ? (
-                <>
-                  <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
-                    <PlayCircleOutlined />
-                    Start Round
+            <>
+              <div className={style.btns}>
+                <BtnsControl>
+                  <Button size="large" onClick={handleStopGame}>
+                    <LogoutOutlined />
+                    Stop Game
                   </Button>
-                  <Button type="primary" size="large" onClick={handleResetRound}>
-                    <UndoOutlined />
-                    Reset Round
+                  <Button size="large" onClick={handleResultGame}>
+                    <SaveOutlined />
+                    Show the game Result
                   </Button>
-                </>
-              ) : null}
-            </div>
+                </BtnsControl>
+              </div>
+              <div className={style.box}>
+                <GameSettingsPopup />
+                {settings.showTimer ? (
+                  <>
+                    <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
+                      <PlayCircleOutlined />
+                      Start Round
+                    </Button>
+                    <Button type="primary" size="large" onClick={handleResetRound}>
+                      <UndoOutlined />
+                      Reset Round
+                    </Button>
+                  </>
+                ) : null}
+              </div>
+            </>
           ) : null}
           <div className={style.field}>
             <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
