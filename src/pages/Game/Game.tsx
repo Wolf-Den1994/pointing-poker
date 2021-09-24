@@ -88,6 +88,10 @@ const Game: React.FC = () => {
       dispatch(changeSettings(data.settings));
     });
 
+    on(SocketTokens.GetIssuesList, (data) => {
+      dispatch(editGrades(data));
+    });
+
     window.onload = () => {
       history.push(PathRoutes.Home);
     };
@@ -121,11 +125,20 @@ const Game: React.FC = () => {
 
         const activeCard = cardSet.find((card) => card.isActive)?.card;
         const activeIssue = issueList.find((issue) => issue.isActive)?.taskName;
+
         if (activeIssue) {
           if (activeCard) {
+            emit(SocketTokens.ChangeIssuesList, {
+              newIssue: { taskName: activeIssue, grades: [{ name: user.name, grade: activeCard }], isActive: true },
+              roomId,
+            });
             dispatch(editGrades({ taskName: activeIssue, newGrade: [{ name: user.name, grade: activeCard }] }));
           } else {
             const passCard = cardSet.find((card) => card.card === 'pass')?.card as string;
+            emit(SocketTokens.ChangeIssuesList, {
+              newIssue: { taskName: activeIssue, grades: [{ name: user.name, grade: passCard }], isActive: true },
+              roomId,
+            });
             dispatch(editGrades({ taskName: activeIssue, newGrade: [{ name: user.name, grade: passCard }] }));
           }
         }
@@ -144,6 +157,10 @@ const Game: React.FC = () => {
       const newGradesArr = activeIssue.grades.map((grade) => {
         const newGrade = { ...grade, grade: null };
         return { ...newGrade };
+      });
+      emit(SocketTokens.ChangeIssuesList, {
+        newIssue: { taskName: activeIssue, grades: [{ name: user.name, grade: newGradesArr }], isActive: true },
+        roomId,
       });
       dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
     }
