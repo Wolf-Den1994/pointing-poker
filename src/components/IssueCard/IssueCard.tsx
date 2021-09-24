@@ -21,7 +21,7 @@ const IssueCard: React.FC<IUserCardProps> = ({ data }: IUserCardProps) => {
         {data.statisticValues.map((el) => {
           return (
             <div key={el.card} className={style.item}>
-              <GameCard>{String(el.card)}</GameCard>
+              <GameCard>{el.card}</GameCard>
               <p className={style.text}>{`${el.averageValue}%`}</p>
             </div>
           );
