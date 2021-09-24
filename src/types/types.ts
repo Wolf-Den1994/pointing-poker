@@ -158,7 +158,7 @@ export interface IIssueData {
   taskName: string;
   grades: {
     name: string;
-    grade: number | null;
+    grade: string | null;
   }[];
   isActive: boolean;
 }

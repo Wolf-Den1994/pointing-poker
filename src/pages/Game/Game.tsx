@@ -53,6 +53,7 @@ const Game: React.FC = () => {
 
   const { roomId } = useParams<{ roomId: string }>();
 
+  const user = useTypedSelector((state) => state.userData);
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
@@ -117,6 +118,17 @@ const Game: React.FC = () => {
         } else {
           setAllowSelectionCard(false);
         }
+
+        const activeCard = cardSet.find((card) => card.isActive)?.card;
+        const activeIssue = issueList.find((issue) => issue.isActive)?.taskName;
+        if (activeIssue) {
+          if (activeCard) {
+            dispatch(editGrades({ taskName: activeIssue, newGrade: [{ name: user.name, grade: activeCard }] }));
+          } else {
+            const passCard = cardSet.find((card) => card.card === 'pass')?.card as string;
+            dispatch(editGrades({ taskName: activeIssue, newGrade: [{ name: user.name, grade: passCard }] }));
+          }
+        }
       }
     }, 1000);
   };
@@ -130,7 +142,7 @@ const Game: React.FC = () => {
     const activeIssue = issueList.find((issue) => issue.isActive);
     if (activeIssue) {
       const newGradesArr = activeIssue.grades.map((grade) => {
-        const newGrade = { ...grade, grade: 0 };
+        const newGrade = { ...grade, grade: null };
         return { ...newGrade };
       });
       dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
@@ -213,10 +225,10 @@ const Game: React.FC = () => {
         <div className={style.userControl}>
           <div className={style.score}>
             <p className={style.title}>Score:</p>
-            {users.map((user) => {
-              const findGrade = findIssue?.grades.find((grade) => grade.name === user.name);
+            {users.map((member) => {
+              const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
               return (
-                <div className={style.data} key={user.name}>
+                <div className={style.data} key={member.name}>
                   {findGrade?.grade ? (
                     <span>{findGrade?.grade}</span>
                   ) : (

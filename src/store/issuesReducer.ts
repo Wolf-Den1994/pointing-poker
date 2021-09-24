@@ -67,7 +67,7 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
 
 interface IGrades {
   name: string;
-  grade: number | null;
+  grade: string | null;
 }
 
 interface IIssueActionsString {
