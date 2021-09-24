@@ -110,11 +110,11 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         dispatch(addAdmin(admin));
         dispatch(setGameRoom(gameRoom));
         dispatch(changeSettings(settings));
-        if (cardSet) dispatch(setCards(cardSet));
         dispatch(startTime(timerTime));
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
+        if (cardSet) dispatch(setCards(cardSet));
         emit(SocketTokens.EnterRoom, {
           user: userData,
           roomId,
