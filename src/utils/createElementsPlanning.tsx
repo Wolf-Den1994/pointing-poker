@@ -1,5 +1,5 @@
 interface StatisticsIntro {
-  itemName: string;
+  taskName: string;
 }
 
 const SHOW_ELEMENTS = 5;
@@ -7,15 +7,15 @@ const SHOW_ELEMENTS = 5;
 const createElementsPlanning = (itemsList: StatisticsIntro[]): JSX.Element[] => {
   const elements = [];
   for (let i = 0; i < itemsList.length; i += 1) {
-    const { itemName } = itemsList[i];
+    const { taskName } = itemsList[i];
     if (i < SHOW_ELEMENTS) {
       if (i === itemsList.length - 1) {
-        elements.push(<span key={itemName}>{itemName}</span>);
+        elements.push(<span key={taskName}>{taskName}</span>);
       } else {
-        elements.push(<span key={itemName}>{itemName}, </span>);
+        elements.push(<span key={taskName}>{taskName}, </span>);
       }
     } else {
-      elements.push(<span key={itemName}>...</span>);
+      elements.push(<span key={taskName}>...</span>);
       break;
     }
   }
