@@ -33,15 +33,15 @@ const statistics = [
     statisticValues: [
       {
         card: '101',
-        averageValue: '42.8%',
+        averageValue: '42.8',
       },
       {
         card: '5',
-        averageValue: '28.5%',
+        averageValue: '28.5',
       },
       {
         card: 'pass',
-        averageValue: '28.5%',
+        averageValue: '28.5',
       },
     ],
   },
@@ -50,15 +50,15 @@ const statistics = [
     statisticValues: [
       {
         card: '10',
-        averageValue: '9.8%',
+        averageValue: '9.8',
       },
       {
         card: '58',
-        averageValue: '26.5%',
+        averageValue: '26.5',
       },
       {
         card: 'pass',
-        averageValue: '78.5%',
+        averageValue: '78.5',
       },
     ],
   },
