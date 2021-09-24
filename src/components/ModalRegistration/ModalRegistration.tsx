@@ -10,7 +10,7 @@ import { addAdmin, addUsers, getAllMessages, setGameRoom } from '../../store/roo
 import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
 import { getResourse } from '../../services/api';
-import { changeSettings } from '../../store/settingsReducer';
+import { changeSettings, setCards } from '../../store/settingsReducer';
 import { startTime } from '../../store/timerReducer';
 
 interface IModalRegistrationProps {
@@ -102,7 +102,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         avatarUrl: avatar,
       };
       const response = await getResourse(roomId);
-      const { admin, users, issues, messages, gameRoom, settings } = response.data;
+      const { admin, users, issues, messages, gameRoom, settings, cardSet } = response.data;
       const timerTime = settings.roundTime * 60;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
@@ -114,6 +114,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
+        if (cardSet) dispatch(setCards(cardSet));
         emit(SocketTokens.EnterRoom, {
           user: userData,
           roomId,

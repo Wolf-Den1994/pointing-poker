@@ -19,7 +19,7 @@ import { startTime } from '../../store/timerReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { deleteRoom } from '../../services/api';
 import BtnChat from '../../components/BtnChat/BtnChat';
-import { changeSettings } from '../../store/settingsReducer';
+import { changeSettings, setCards } from '../../store/settingsReducer';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,12 +30,13 @@ const Lobby: React.FC = () => {
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const timer = useTypedSelector((state) => state.timer);
   const votingData = useTypedSelector((state) => state.voting);
-  const { settings } = useTypedSelector((state) => state.settings);
+  const { settings, cardSet } = useTypedSelector((state) => state.settings);
 
   useEffect(() => {
     on(SocketTokens.RedirectUserToGamePage, (data) => {
       if (data.timer) dispatch(startTime(data.timer));
       dispatch(changeSettings(data.settings));
+      dispatch(setCards(data.cardSet));
       history.push(`${PathRoutes.Game}/${roomId}`);
     });
 
@@ -50,7 +51,7 @@ const Lobby: React.FC = () => {
 
   const handleStartGame = () => {
     const time = settings.showTimer ? timer.time : null;
-    emit(SocketTokens.RedirectAllToGamePage, { roomId, settings, timer: time });
+    emit(SocketTokens.RedirectAllToGamePage, { roomId, settings, cardSet, timer: time });
     history.push(`${PathRoutes.Game}/${roomId}`);
   };
 

@@ -22,23 +22,45 @@ import { deleteRoom } from '../../services/api';
 import { emit, on } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
-import { changeSettings } from '../../store/settingsReducer';
+import { changeSettings, setCards } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
 import { editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
   {
-    card: '101',
-    averageGrade: '42.8%',
+    taskName: 'test',
+    statisticValues: [
+      {
+        card: '101',
+        averageValue: '42.8',
+      },
+      {
+        card: '5',
+        averageValue: '28.5',
+      },
+      {
+        card: 'pass',
+        averageValue: '28.5',
+      },
+    ],
   },
   {
-    card: '5',
-    averageGrade: '28.5%',
-  },
-  {
-    card: 'pass',
-    averageGrade: '28.5%',
+    taskName: 'test2',
+    statisticValues: [
+      {
+        card: '10',
+        averageValue: '9.8',
+      },
+      {
+        card: '58',
+        averageValue: '26.5',
+      },
+      {
+        card: 'pass',
+        averageValue: '78.5',
+      },
+    ],
   },
 ];
 
@@ -57,10 +79,13 @@ const Game: React.FC = () => {
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
+  const [activeIssueValue, setActiveIssueValue] = useState('');
 
   const findIssue = issueList.find((issue) => issue.isActive);
 
   const handleIssueHighlight = (task: string) => {
+    emit(SocketTokens.SendActiveIssueToUser, { roomId, issueName: task });
+    setActiveIssueValue(task);
     dispatch(setActiveIssue(task));
   };
 
@@ -84,6 +109,16 @@ const Game: React.FC = () => {
     on(SocketTokens.GetNewSettingsFromAdmin, (data) => {
       dispatch(startTime(data.time));
       dispatch(changeSettings(data.settings));
+      dispatch(setCards(data.cardSet));
+    });
+
+    on(SocketTokens.RedirectToResultPage, () => {
+      history.push(`${PathRoutes.Result}/${roomId}`);
+    });
+
+    on(SocketTokens.GetActiveIssue, (data) => {
+      setActiveIssueValue(data.issueName);
+      dispatch(setActiveIssue(data.issueName));
     });
 
     window.onload = () => {
@@ -96,6 +131,7 @@ const Game: React.FC = () => {
   }, []);
 
   const handleResultGame = () => {
+    emit(SocketTokens.RedirectAllToResultPage, { roomId });
     history.push(`${PathRoutes.Result}/${roomId}`);
   };
 
@@ -183,7 +219,7 @@ const Game: React.FC = () => {
             <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
             <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
-          <Statistics />
+          <Statistics activeIssue={activeIssueValue} />
           <div className={style.gameCards}>
             {cardSet.map(({ card, isActive }) =>
               isActive ? (

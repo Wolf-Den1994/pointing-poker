@@ -3,8 +3,9 @@ import { CSVLink } from 'react-csv';
 import { Button, message } from 'antd';
 
 const headers = [
+  { label: 'Issue', key: 'issue' },
   { label: 'Card', key: 'card' },
-  { label: 'Average Grade', key: 'averageGrade' },
+  { label: 'Average Value', key: 'averageValue' },
 ];
 
 const fileExtension = '.csv';
@@ -19,7 +20,13 @@ const ExportCSV: React.FC<IExportCSVProps> = ({ csvData, filename }: IExportCSVP
   const handleDownloadCSV = () => message.info(`The download of the CSV file has started!`);
 
   return (
-    <CSVLink data={csvData} headers={headers} filename={filename + fileExtension} onClick={handleDownloadCSV}>
+    <CSVLink
+      data={csvData}
+      headers={headers}
+      filename={filename + fileExtension}
+      separator={';'}
+      onClick={handleDownloadCSV}
+    >
       <Button type="primary">
         <DownloadOutlined />
         <span>CSV</span>
