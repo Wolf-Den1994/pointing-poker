@@ -30,7 +30,7 @@ export const RoomModel = new Schema({
       grades: [
         {
           name: { type: String },
-          grade: { type: Number },
+          grade: { type: Schema.Types.Mixed },
         },
       ],
       isActive: { type: Boolean },
@@ -51,4 +51,10 @@ export const RoomModel = new Schema({
     customizeCard: { type: String },
     roundTime: { type: Number },
   },
+  cardSet: [
+    {
+      card: { type: String },
+      isActive: { type: Boolean },
+    },
+  ],
 });

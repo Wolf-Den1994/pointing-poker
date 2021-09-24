@@ -20,6 +20,7 @@ export const room = {
     customizeCard: '',
     roundTime: 1,
   },
+  cardSet: [],
 };
 
 export const clearVoting = {
