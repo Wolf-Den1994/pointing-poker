@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { SchemaType } from 'mongoose';
 
 const { Schema } = mongoose;
 
@@ -30,7 +30,7 @@ export const RoomModel = new Schema({
       grades: [
         {
           name: { type: String },
-          grade: { type: Number },
+          grade: { type: Schema.Types.Mixed },
         },
       ],
       isActive: { type: Boolean },
