@@ -186,36 +186,34 @@ const Game: React.FC = () => {
               ) : null}
             </div>
           </div>
+          <div className={style.btns}>
+            <BtnsControl>
+              <Button size="large" onClick={handleStopGame}>
+                <LogoutOutlined />
+                Stop Game
+              </Button>
+              <Button size="large" onClick={handleResultGame}>
+                <SaveOutlined />
+                Show the game Result
+              </Button>
+            </BtnsControl>
+          </div>
           {isDealer ? (
-            <>
-              <div className={style.btns}>
-                <BtnsControl>
-                  <Button size="large" onClick={handleStopGame}>
-                    <LogoutOutlined />
-                    Stop Game
+            <div className={style.box}>
+              <GameSettingsPopup />
+              {settings.showTimer ? (
+                <>
+                  <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
+                    <PlayCircleOutlined />
+                    Start Round
                   </Button>
-                  <Button size="large" onClick={handleResultGame}>
-                    <SaveOutlined />
-                    Show the game Result
+                  <Button type="primary" size="large" onClick={handleResetRound}>
+                    <UndoOutlined />
+                    Reset Round
                   </Button>
-                </BtnsControl>
-              </div>
-              <div className={style.box}>
-                <GameSettingsPopup />
-                {settings.showTimer ? (
-                  <>
-                    <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
-                      <PlayCircleOutlined />
-                      Start Round
-                    </Button>
-                    <Button type="primary" size="large" onClick={handleResetRound}>
-                      <UndoOutlined />
-                      Reset Round
-                    </Button>
-                  </>
-                ) : null}
-              </div>
-            </>
+                </>
+              ) : null}
+            </div>
           ) : null}
           <div className={style.field}>
             <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
