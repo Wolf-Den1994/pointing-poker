@@ -12,6 +12,7 @@ interface SavedIssuesList {
 
 const ExportFile: React.FC = () => {
   const { statistics } = useTypedSelector((state) => state.statistics);
+
   const resultArrs = () => {
     const result: SavedIssuesList[] = [];
     statistics.forEach((el) => {
@@ -21,6 +22,7 @@ const ExportFile: React.FC = () => {
     });
     return result;
   };
+
   return (
     <div className={style.exportFile}>
       <span>Download the result of the game in format:</span>
