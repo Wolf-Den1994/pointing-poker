@@ -4,6 +4,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './ExportFile.module.scss';
 
 const filename = 'result-game-pointing-poker';
+
 interface SavedIssuesList {
   issue?: string;
   card?: string;
