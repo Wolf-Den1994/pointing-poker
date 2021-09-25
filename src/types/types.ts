@@ -23,12 +23,10 @@ export interface Room {
   issues: [
     {
       taskName: string;
-      grades: [
-        {
-          name: string;
-          grade: string | null;
-        },
-      ];
+      grades: {
+        name: string;
+        grade: string | null;
+      }[];
       isActive: boolean;
     },
   ];
@@ -106,4 +104,5 @@ export enum SocketTokens {
   RedirectToResultPage = 'redirectToResultPage',
   SendActiveIssueToUser = 'sendActiveIssueToUser',
   GetActiveIssue = 'getActiveIssue',
+  EditIssueGrade = 'editIssueGrade',
 }
