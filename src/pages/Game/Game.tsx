@@ -24,7 +24,7 @@ import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
 import { changeSettings, setActiveCard, setCards } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
-import { editGrades, setActiveIssue } from '../../store/issuesReducer';
+import { addGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
@@ -76,7 +76,6 @@ const Game: React.FC = () => {
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  const user = useTypedSelector((state) => state.userData);
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
@@ -123,8 +122,14 @@ const Game: React.FC = () => {
       dispatch(setActiveIssue(data.issueName));
     });
 
-    on(SocketTokens.GetIssuesList, (data) => {
-      dispatch(editGrades(data));
+    on('getNewIssueGrade', (data) => {
+      console.log(data, 'Effect');
+      dispatch(
+        addGrades({
+          taskName: data.userData.taskName,
+          newGrade: { name: data.userData.name, grade: data.userData.grade },
+        }),
+      );
     });
 
     window.onload = () => {
@@ -158,26 +163,6 @@ const Game: React.FC = () => {
         } else {
           setAllowSelectionCard(false);
         }
-
-        const activeCard = cardSet.find((card) => card.isActive)?.card;
-        const activeIssue = issueList.find((issue) => issue.isActive)?.taskName;
-
-        if (activeIssue) {
-          if (activeCard) {
-            emit(SocketTokens.ChangeIssuesList, {
-              newIssue: { taskName: activeIssue, grades: [{ name: user.name, grade: activeCard }], isActive: true },
-              roomId,
-            });
-            dispatch(editGrades({ taskName: activeIssue, newGrade: [{ name: user.name, grade: activeCard }] }));
-          } else {
-            const passCard = cardSet.find((card) => card.card === 'pass')?.card as string;
-            emit(SocketTokens.ChangeIssuesList, {
-              newIssue: { taskName: activeIssue, grades: [{ name: user.name, grade: passCard }], isActive: true },
-              roomId,
-            });
-            dispatch(editGrades({ taskName: activeIssue, newGrade: [{ name: user.name, grade: passCard }] }));
-          }
-        }
       }
     }, 1000);
   };
@@ -188,18 +173,19 @@ const Game: React.FC = () => {
     clearInterval(interval);
     dispatch(startTime(timeSeconds));
 
-    const activeIssue = issueList.find((issue) => issue.isActive);
-    if (activeIssue) {
-      const newGradesArr = activeIssue.grades.map((grade) => {
-        const newGrade = { ...grade, grade: null };
-        return { ...newGrade };
-      });
-      emit(SocketTokens.ChangeIssuesList, {
-        newIssue: { taskName: activeIssue, grades: [{ name: user.name, grade: newGradesArr }], isActive: true },
-        roomId,
-      });
-      dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
-    }
+    // const activeIssue = issueList.find((issue) => issue.isActive);
+    // if (activeIssue) {
+    //   const newGradesArr = activeIssue.grades.map((grade) => {
+    //     const newGrade = { ...grade, grade: null };
+    //     return { ...newGrade };
+    //   });
+    //   emit('test', {
+    //     newIssue: activeIssue.taskName || '',
+    //     roomId,
+    //     grades: { name: user.name, grade: newGradesArr },
+    //   });
+    //   dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+    // }
 
     setAllowSelectionCard(true);
     dispatch(setActiveCard(''));
@@ -280,6 +266,7 @@ const Game: React.FC = () => {
             <p className={style.title}>Score:</p>
             {users.map((member) => {
               const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
+              console.log(findGrade, 'findGrade');
               return (
                 <div className={style.data} key={member.name}>
                   {findGrade?.grade ? (

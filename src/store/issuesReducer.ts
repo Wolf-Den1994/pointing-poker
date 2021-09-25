@@ -32,6 +32,31 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
       };
     }
 
+    case IssueActions.ADD_GRADES:
+      // const index = state.issueList.findIndex((el) => el.taskName === action.payload.taskName);
+      // const newIssue = { ...state.issueList[index] };
+      // const name = newIssue.grades.findIndex((el) => el.name === action.payload.newGrade.name);
+      // if (name < 0) {
+      //   newIssue.grades.push(action.payload.newGrade);
+      // } else {
+      //   newIssue.grades[name].grade = action.payload.newGrade.grade;
+      // }
+      // state.issueList.splice(index, 1, newIssue);
+      // return state;
+
+      console.log(action.payload, 'ACTION');
+      return {
+        ...state,
+        issueList: state.issueList.map((issue) => ({
+          ...issue,
+          grades: issue.grades.map((grade) =>
+            grade.name === action.payload.newGrade.name
+              ? { ...grade, grade: action.payload.newGrade.grade }
+              : action.payload.newGrade,
+          ),
+        })),
+      };
+
     case IssueActions.REMOVE_GRADES:
       return {
         ...state,
@@ -95,6 +120,15 @@ interface INewGrades {
   newGrade: IGrades[];
 }
 
+interface IAddGrades {
+  type: IssueActions;
+  payload: INewGrade;
+}
+interface INewGrade {
+  taskName: string;
+  newGrade: IGrades;
+}
+
 interface IEditGrades {
   type: IssueActions;
   payload: INewGrades;
@@ -112,6 +146,11 @@ export const removeIssue = (payload: string): IIssueActionsString => ({
 
 export const editIssue = (payload: INewIssue): IIssueActionsEdit => ({
   type: IssueActions.EDIT_TASK,
+  payload,
+});
+
+export const addGrades = (payload: INewGrade): IAddGrades => ({
+  type: IssueActions.ADD_GRADES,
   payload,
 });
 
