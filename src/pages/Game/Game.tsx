@@ -76,6 +76,7 @@ const Game: React.FC = () => {
 
   const { roomId } = useParams<{ roomId: string }>();
 
+  const { name } = useTypedSelector((state) => state.userData);
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
@@ -122,8 +123,8 @@ const Game: React.FC = () => {
       dispatch(setActiveIssue(data.issueName));
     });
 
-    on('getNewIssueGrade', (data) => {
-      console.log(data, 'Effect');
+    on(SocketTokens.GetNewIssueGrade, (data) => {
+      console.log(data.issues, 'Effect');
       dispatch(
         addGrades({
           taskName: data.userData.taskName,
@@ -185,6 +186,12 @@ const Game: React.FC = () => {
     //     grades: { name: user.name, grade: newGradesArr },
     //   });
     //   dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+    // }
+
+    // const taskName = issueList.find((issue) => issue.isActive)?.taskName;
+    // if (taskName) {
+    //   emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
+    //   dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
     // }
 
     setAllowSelectionCard(true);

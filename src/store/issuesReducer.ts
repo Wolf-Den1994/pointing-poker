@@ -33,28 +33,26 @@ export const issuesReducer = (state = initialState, action: AnyAction): typeof i
     }
 
     case IssueActions.ADD_GRADES:
-      // const index = state.issueList.findIndex((el) => el.taskName === action.payload.taskName);
-      // const newIssue = { ...state.issueList[index] };
-      // const name = newIssue.grades.findIndex((el) => el.name === action.payload.newGrade.name);
-      // if (name < 0) {
-      //   newIssue.grades.push(action.payload.newGrade);
-      // } else {
-      //   newIssue.grades[name].grade = action.payload.newGrade.grade;
-      // }
-      // state.issueList.splice(index, 1, newIssue);
-      // return state;
-
-      console.log(action.payload, 'ACTION');
       return {
         ...state,
-        issueList: state.issueList.map((issue) => ({
-          ...issue,
-          grades: issue.grades.map((grade) =>
-            grade.name === action.payload.newGrade.name
-              ? { ...grade, grade: action.payload.newGrade.grade }
-              : action.payload.newGrade,
-          ),
-        })),
+        issueList: state.issueList.map((issue) => {
+          let userName;
+          if (issue.taskName === action.payload.taskName) {
+            userName = issue.grades.find((grade) => grade.name === action.payload.newGrade.name);
+          }
+          return issue.taskName === action.payload.taskName
+            ? {
+                ...issue,
+                grades: userName
+                  ? issue.grades.map((grade) =>
+                      grade.name === action.payload.newGrade.name
+                        ? { ...grade, grade: action.payload.newGrade.grade }
+                        : grade,
+                    )
+                  : [...issue.grades, action.payload.newGrade],
+              }
+            : issue;
+        }),
       };
 
     case IssueActions.REMOVE_GRADES:

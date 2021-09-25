@@ -6,7 +6,7 @@ import { useParams } from 'react-router';
 import { editCard, removeCard, setActiveCard } from '../../store/settingsReducer';
 import style from './GameCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { TextForUser } from '../../types/types';
+import { SocketTokens, TextForUser } from '../../types/types';
 import { addGrades } from '../../store/issuesReducer';
 import { emit } from '../../services/socket';
 
@@ -75,10 +75,8 @@ const GameCard: React.FC<IGameCardProps> = ({
   const handleSectCard = () => {
     if (allowSelection) {
       const taskName = issueList.find((issue) => issue.isActive)?.taskName;
-      // check
       if (taskName) {
-        console.log('YES');
-        emit('editIssueGrade', { roomId, userData: { taskName, name, grade: children } });
+        emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
         dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
         dispatch(setActiveCard(children));
       }

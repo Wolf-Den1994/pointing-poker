@@ -125,6 +125,8 @@ export enum SocketTokens {
   RedirectToResultPage = 'redirectToResultPage',
   GetActiveIssue = 'getActiveIssue',
   RedirectAllToResultPage = 'redirectAllToResultPage',
+  GetNewIssueGrade = 'getNewIssueGrade',
+  EditIssueGrade = 'editIssueGrade',
 }
 
 export enum LayoutViews {
