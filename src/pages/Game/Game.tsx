@@ -24,7 +24,7 @@ import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
 import { changeSettings, setActiveCard, setCards } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
-import { addGrades, setActiveIssue } from '../../store/issuesReducer';
+import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
@@ -76,7 +76,6 @@ const Game: React.FC = () => {
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  const { name } = useTypedSelector((state) => state.userData);
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
@@ -124,7 +123,6 @@ const Game: React.FC = () => {
     });
 
     on(SocketTokens.GetNewIssueGrade, (data) => {
-      console.log(data.issues, 'Effect');
       dispatch(
         addGrades({
           taskName: data.userData.taskName,
@@ -174,28 +172,17 @@ const Game: React.FC = () => {
     clearInterval(interval);
     dispatch(startTime(timeSeconds));
 
-    // const activeIssue = issueList.find((issue) => issue.isActive);
-    // if (activeIssue) {
-    //   const newGradesArr = activeIssue.grades.map((grade) => {
-    //     const newGrade = { ...grade, grade: null };
-    //     return { ...newGrade };
-    //   });
-    //   emit('test', {
-    //     newIssue: activeIssue.taskName || '',
-    //     roomId,
-    //     grades: { name: user.name, grade: newGradesArr },
-    //   });
-    //   dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
-    // }
-
-    // const taskName = issueList.find((issue) => issue.isActive)?.taskName;
-    // if (taskName) {
-    //   emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
-    //   dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
-    // }
-
-    setAllowSelectionCard(true);
-    dispatch(setActiveCard(''));
+    const activeIssue = issueList.find((issue) => issue.isActive);
+    if (activeIssue) {
+      const newGradesArr = activeIssue.grades.map((grade) => {
+        const newGrade = { ...grade, grade: null };
+        emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: activeIssue.taskName, ...newGrade } });
+        return { ...newGrade };
+      });
+      dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+      setAllowSelectionCard(true);
+      dispatch(setActiveCard(''));
+    }
   };
 
   return (
@@ -273,7 +260,6 @@ const Game: React.FC = () => {
             <p className={style.title}>Score:</p>
             {users.map((member) => {
               const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
-              console.log(findGrade, 'findGrade');
               return (
                 <div className={style.data} key={member.name}>
                   {findGrade?.grade ? (
