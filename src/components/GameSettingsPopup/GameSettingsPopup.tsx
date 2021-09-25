@@ -9,7 +9,7 @@ import { emit } from '../../services/socket';
 
 const GameSettingsPopup: React.FC = () => {
   const [modalActive, setModalActive] = useState(false);
-  const { settings } = useTypedSelector((state) => state.settings);
+  const { settings, cardSet } = useTypedSelector((state) => state.settings);
   const { time } = useTypedSelector((state) => state.timer);
   const { roomId } = useParams<{ roomId: string }>();
 
@@ -18,7 +18,7 @@ const GameSettingsPopup: React.FC = () => {
   const handleCloseModal = () => setModalActive(false);
 
   const handleSubmitModal = () => {
-    emit(SocketTokens.SendNewSettingsToUsers, { roomId, settings, time });
+    emit(SocketTokens.SendNewSettingsToUsers, { roomId, settings, cardSet, time });
     setModalActive(false);
   };
 

@@ -22,23 +22,45 @@ import { deleteRoom } from '../../services/api';
 import { emit, on } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
-import { changeSettings, setActiveCard } from '../../store/settingsReducer';
+import { changeSettings, setActiveCard, setCards } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
 import { editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
   {
-    card: '101',
-    averageGrade: '42.8%',
+    taskName: 'test',
+    statisticValues: [
+      {
+        card: '101',
+        averageValue: '42.8',
+      },
+      {
+        card: '5',
+        averageValue: '28.5',
+      },
+      {
+        card: 'pass',
+        averageValue: '28.5',
+      },
+    ],
   },
   {
-    card: '5',
-    averageGrade: '28.5%',
-  },
-  {
-    card: 'pass',
-    averageGrade: '28.5%',
+    taskName: 'test2',
+    statisticValues: [
+      {
+        card: '10',
+        averageValue: '9.8',
+      },
+      {
+        card: '58',
+        averageValue: '26.5',
+      },
+      {
+        card: 'pass',
+        averageValue: '78.5',
+      },
+    ],
   },
 ];
 
@@ -50,6 +72,7 @@ const Game: React.FC = () => {
 
   const [disableButton, setDisableButton] = useState(false);
   const [allowSelectionCard, setAllowSelectionCard] = useState(true);
+  const [activeIssueValue, setActiveIssueValue] = useState('');
 
   const { roomId } = useParams<{ roomId: string }>();
 
@@ -63,6 +86,8 @@ const Game: React.FC = () => {
   const findIssue = issueList.find((issue) => issue.isActive);
 
   const handleIssueHighlight = (task: string) => {
+    emit(SocketTokens.SendActiveIssueToUser, { roomId, issueName: task });
+    setActiveIssueValue(task);
     dispatch(setActiveIssue(task));
   };
 
@@ -86,6 +111,16 @@ const Game: React.FC = () => {
     on(SocketTokens.GetNewSettingsFromAdmin, (data) => {
       dispatch(startTime(data.time));
       dispatch(changeSettings(data.settings));
+      dispatch(setCards(data.cardSet));
+    });
+
+    on(SocketTokens.RedirectToResultPage, () => {
+      history.push(`${PathRoutes.Result}/${roomId}`);
+    });
+
+    on(SocketTokens.GetActiveIssue, (data) => {
+      setActiveIssueValue(data.issueName);
+      dispatch(setActiveIssue(data.issueName));
     });
 
     on(SocketTokens.GetIssuesList, (data) => {
@@ -102,6 +137,7 @@ const Game: React.FC = () => {
   }, []);
 
   const handleResultGame = () => {
+    emit(SocketTokens.RedirectAllToResultPage, { roomId });
     history.push(`${PathRoutes.Result}/${roomId}`);
   };
 
@@ -222,7 +258,7 @@ const Game: React.FC = () => {
             <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
             <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
-          <Statistics />
+          <Statistics activeIssue={activeIssueValue} />
           {!settings.isDealerActive && isDealer ? null : (
             <div className={style.gameCards}>
               {cardSet.map(({ card, isActive }) =>

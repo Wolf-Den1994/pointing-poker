@@ -72,6 +72,7 @@ export enum IssuesListMode {
   Add = 'add',
   Change = 'change',
   All = 'all',
+  Delete = 'delete',
 }
 
 export enum IssueStatus {
@@ -119,6 +120,10 @@ export enum SocketTokens {
   GetNewSettingsFromAdmin = 'getNewSettingsFromAdmin',
   SendNewSettingsToUsers = 'sendNewSettingsToUsers',
   ResponseForEnteringRequest = 'responseForEnteringRequest',
+  SendActiveIssueToUser = 'sendActiveIssueToUser',
+  RedirectToResultPage = 'redirectToResultPage',
+  GetActiveIssue = 'getActiveIssue',
+  RedirectAllToResultPage = 'redirectAllToResultPage',
 }
 
 export enum LayoutViews {
@@ -182,11 +187,20 @@ export interface IRoomData {
   issues: IIssueData[];
   voting: { id: string; voices: number; votedUsers: number };
   settings: IGameSettingsData;
+  cardSet: ICardData[];
 }
 
 export interface ICardData {
   card: string;
   isActive: boolean;
+}
+
+export interface IStatisticData {
+  taskName: string;
+  statisticValues: {
+    card: string;
+    averageValue: string;
+  }[];
 }
 
 export const cardSets = {

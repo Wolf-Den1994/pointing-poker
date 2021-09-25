@@ -6,8 +6,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeIssue } from '../../store/issuesReducer';
 import style from './Title.module.scss';
 import { IIssueData, TextForUser } from '../../types/types';
-
-const SHOW_ELEMENTS = 5;
+import createElementsPlanning from '../../utils/createElementsPlanning';
 
 interface ITitleProps {
   editAvailable: boolean;
@@ -20,24 +19,6 @@ const Title: React.FC<ITitleProps> = ({ editAvailable }: ITitleProps) => {
 
   const [issues, setIssues] = useState<IIssueData[]>(issueList);
   const [issuesEdit, setIssuesEdit] = useState(false);
-
-  const createElementsPlanning = () => {
-    const elements = [];
-    for (let i = 0; i < issueList.length; i += 1) {
-      const { taskName } = issueList[i];
-      if (i < SHOW_ELEMENTS) {
-        if (i === issueList.length - 1) {
-          elements.push(<span key={taskName}>{taskName}</span>);
-        } else {
-          elements.push(<span key={taskName}>{taskName}, </span>);
-        }
-      } else {
-        elements.push(<span key={taskName}>...</span>);
-        break;
-      }
-    }
-    return elements;
-  };
 
   const handleEditIssues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -71,7 +52,7 @@ const Title: React.FC<ITitleProps> = ({ editAvailable }: ITitleProps) => {
         <Input value={valueIssues} onInput={handleEditIssues} />
       ) : (
         <span className={style.tasks}>
-          Spring {issueList.length} planning ({createElementsPlanning()})
+          Spring {issueList.length} planning ({createElementsPlanning(issueList)})
         </span>
       )}
       {editAvailable ? (

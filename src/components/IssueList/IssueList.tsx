@@ -85,6 +85,7 @@ const IssueList: React.FC<IIssueListProps> = ({
 
   const handleRemoveIssue = (issue: string, event: React.MouseEvent) => {
     event.stopPropagation();
+    emit(SocketTokens.ChangeIssuesList, { newIssue: issue, mode: IssuesListMode.Delete, roomId });
     dispatch(removeIssue(issue));
   };
 
