@@ -102,19 +102,29 @@ io.on('connection', (socket) => {
     oldIssue = '',
   }) => {
     const response = await getRoom(roomId);
-    if (mode === ChangeIssueModes.ADD) {
-      response.issues.push(newIssue);
-    } else if (mode === ChangeIssueModes.DELETE) {
-      const index = response.issues.findIndex((el) => el.taskName === newIssue);
-      response.issues.splice(index, 1);
-    } else if (mode === ChangeIssueModes.ALL) {
-      response.issues = newIssue;
-    } else {
-      const index = response.issues.findIndex((el) => el.taskName === oldIssue);
-      response.issues[index].taskName = newIssue;
+    switch (mode) {
+      case ChangeIssueModes.ADD:
+        response.issues.push(newIssue);
+        break;
+      case ChangeIssueModes.DELETE: {
+        const index = response.issues.findIndex((el) => el.taskName === newIssue);
+        response.issues.splice(index, 1);
+        break;
+      }
+      case ChangeIssueModes.CHANGE: {
+        const index = response.issues.findIndex((el) => el.taskName === oldIssue);
+        response.issues[index].taskName = newIssue;
+        break;
+      }
+      default:
+        response.issues = newIssue;
     }
     updateRoom(response);
     socket.broadcast.to(roomId).emit(SocketTokens.GetIssuesList, { issues: response.issues });
+  });
+
+  socket.on(SocketTokens.EditIssueGrade, ({ roomId, userData }) => {
+    socket.broadcast.in(roomId).emit(SocketTokens.GetNewIssueGrade, { userData });
   });
 
   socket.on(SocketTokens.SendActiveIssueToUser, async ({ roomId, issueName }) => {
