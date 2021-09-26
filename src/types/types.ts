@@ -105,4 +105,5 @@ export enum SocketTokens {
   SendActiveIssueToUser = 'sendActiveIssueToUser',
   GetActiveIssue = 'getActiveIssue',
   EditIssueGrade = 'editIssueGrade',
+  GetNewIssueGrade = 'getNewIssueGrade',
 }

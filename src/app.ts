@@ -123,7 +123,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on(SocketTokens.EditIssueGrade, ({ roomId, userData }) => {
-    socket.broadcast.in(roomId).emit('getNewIssueGrade', { userData });
+    socket.broadcast.in(roomId).emit(SocketTokens.GetNewIssueGrade, { userData });
   });
 
   socket.on(SocketTokens.SendActiveIssueToUser, async ({ roomId, issueName }) => {
