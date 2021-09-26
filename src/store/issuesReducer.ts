@@ -122,6 +122,7 @@ interface IAddGrades {
   type: IssueActions;
   payload: INewGrade;
 }
+
 interface INewGrade {
   taskName: string;
   newGrade: IGrades;
