@@ -165,7 +165,7 @@ const Home: React.FC = () => {
                 Connect
               </Button>
             </div>
-            <p>
+            <p className={style.connectText}>
               Enter <span className={style.span}>ID</span> to join the lobby.
             </p>
           </div>

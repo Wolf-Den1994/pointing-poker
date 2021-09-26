@@ -24,7 +24,7 @@ const GameSettingsPopup: React.FC = () => {
 
   return (
     <>
-      <Button onClick={handleOpenModal}>
+      <Button onClick={handleOpenModal} size="large">
         <SettingOutlined />
         Game Settings
       </Button>

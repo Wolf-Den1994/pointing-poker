@@ -47,6 +47,7 @@ const UserCard: React.FC<IUserCardProps> = ({
   const sizeAvatar = size === 'small' ? 30 : 60;
   const fontSizeAvatar = size === 'small' ? 14 : 36;
   const sizeBtnKick = size === 'small' ? 14 : 30;
+  const sizeCrown = size === 'small' ? 18 : 26;
 
   const checkUserRoleAndId = () => role === UserRole.Admin || id === socket.id;
 
@@ -66,7 +67,11 @@ const UserCard: React.FC<IUserCardProps> = ({
           {getFirstUpLetters(`${name} ${lastName}`)}
         </Avatar>
         <div className={style.user}>
-          {users[indexUser].name === name ? <p className={style.isYou}>IT&apos;S YOU</p> : null}
+          {users[indexUser].name === name ? (
+            <p className={style.isYou}>IT&apos;S YOU</p>
+          ) : (
+            <p className={style.isYouEmpty}></p>
+          )}
           <p className={`${style.name} ${style[size]}`}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
@@ -76,7 +81,7 @@ const UserCard: React.FC<IUserCardProps> = ({
       </div>
       {role === UserRole.Admin ? (
         <span className={style.crownWrapper}>
-          <CrownOutlined className={style.crown} />
+          <CrownOutlined className={style.crown} style={{ fontSize: sizeCrown }} />
         </span>
       ) : null}
     </Card>

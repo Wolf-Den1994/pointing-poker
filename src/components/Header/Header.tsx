@@ -16,6 +16,7 @@ const Header: React.FC = () => {
         </div>
       </div>
       <div className={style.bottom}></div>
+      <div className={style.underBottom}></div>
     </header>
   );
 };
