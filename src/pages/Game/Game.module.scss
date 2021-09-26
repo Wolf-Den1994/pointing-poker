@@ -1,5 +1,6 @@
 .gamePage {
-  margin-bottom: 50px;
+  background: #fff;
+  padding: 25px;
 }
 
 .gameInner {
@@ -12,10 +13,8 @@
     padding: 0 20px;
 
     .scramMaster {
-      font-weight: bold;
-      font-size: 14px;
-      line-height: 16px;
-      color: #555;
+      font-size: 20px;
+      line-height: 22px;
     }
 
     .card {
@@ -49,8 +48,8 @@
 
     .gameCards {
       display: flex;
-      justify-content: space-around;
       flex-wrap: wrap;
+      justify-content: center;
     }
   }
 
@@ -79,7 +78,7 @@
         align-items: center;
         justify-content: center;
         margin: 9px;
-        height: 52px;
+        height: 74px;
 
         .dash {
           font-size: 25px;

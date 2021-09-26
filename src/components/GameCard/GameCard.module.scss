@@ -36,7 +36,7 @@
       cursor: pointer;
 
       :hover {
-        color: #00e;
+        color: #1890ff;
       }
     }
 
@@ -69,13 +69,13 @@
       }
 
       &.additionallyTop {
-        top: 6px;
-        left: 6px;
+        top: 8px;
+        left: 8px;
       }
 
       &.additionallyBottom {
-        bottom: 6px;
-        right: 6px;
+        bottom: 8px;
+        right: 8px;
         transform: rotate(180deg);
       }
     }
@@ -124,7 +124,7 @@
   }
 
   &.small {
-    max-width: 65px;
+    max-width: 70px;
     border: 2px solid #eee;
 
     .wrapper {

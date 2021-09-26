@@ -1,29 +1,32 @@
 .header {
-  margin-bottom: 20px;
-
   .logo {
     position: absolute;
-    top: 22px;
+    top: 5px;
     left: 12px;
-    width: 63px;
-    height: 63px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
     cursor: pointer;
   }
 
   .top {
-    height: 50px;
-    background-color: #000;
+    height: 38px;
+    background-color: #1890ff;
   }
 
   .bottom {
-    height: 20px;
-    background-color: #66999b;
+    height: 19px;
+    background-color: #6fb9ff;
+  }
+
+  .underBottom {
+    height: 9px;
+    background-color: #add7ff;
   }
 
   .title {
     font-size: 26px;
-    line-height: 50px;
+    line-height: 38px;
     text-align: center;
     color: #fff;
   }

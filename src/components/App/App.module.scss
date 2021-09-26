@@ -2,4 +2,10 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #edf6fd;
+
+  .main {
+    padding: 20px;
+    font-family: 'Poppins', 'Segoe UI', 'Roboto', sans-serif;
+  }
 }
