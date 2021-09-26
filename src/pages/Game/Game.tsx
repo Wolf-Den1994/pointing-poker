@@ -82,6 +82,8 @@ const Game: React.FC = () => {
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
 
+  const findIssue = issueList.find((issue) => issue.isActive);
+
   const handleIssueHighlight = (task: string) => {
     emit(SocketTokens.SendActiveIssueToUser, { roomId, issueName: task });
     setActiveIssueValue(task);
@@ -138,19 +140,18 @@ const Game: React.FC = () => {
     };
   }, []);
 
-  const { name } = useTypedSelector((state) => state.userData);
+  // const { name } = useTypedSelector((state) => state.userData);
 
-  const findIssue = issueList.find((issue) => issue.isActive);
-  const taskName = findIssue?.taskName;
+  // const taskName = findIssue?.taskName;
 
-  useEffect(() => {
-    if (taskName) {
-      const findGrade = findIssue?.grades.every((grade) => grade.grade === 'In progress');
-      console.log(findGrade, 'findGrade');
-      emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: 'In progress' } });
-      dispatch(addGrades({ taskName, newGrade: { name, grade: 'In progress' } }));
-    }
-  }, [taskName]);
+  // useEffect(() => {
+  //   if (taskName) {
+  //     const findGrade = findIssue?.grades.every((grade) => grade.grade === 'In progress');
+  //     console.log(findGrade, 'findGrade');
+  //     emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: 'In progress' } });
+  //     dispatch(addGrades({ taskName, newGrade: { name, grade: 'In progress' } }));
+  //   }
+  // }, [taskName]);
 
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });
