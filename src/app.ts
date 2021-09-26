@@ -102,19 +102,20 @@ io.on('connection', (socket) => {
     oldIssue = '',
   }) => {
     const response = await getRoom(roomId);
-    let index;
     switch (mode) {
       case ChangeIssueModes.ADD:
         response.issues.push(newIssue);
         break;
-      case ChangeIssueModes.DELETE:
-        index = response.issues.findIndex((el) => el.taskName === newIssue);
+      case ChangeIssueModes.DELETE: {
+        const index = response.issues.findIndex((el) => el.taskName === newIssue);
         response.issues.splice(index, 1);
         break;
-      case ChangeIssueModes.CHANGE:
-        index = response.issues.findIndex((el) => el.taskName === oldIssue);
+      }
+      case ChangeIssueModes.CHANGE: {
+        const index = response.issues.findIndex((el) => el.taskName === oldIssue);
         response.issues[index].taskName = newIssue;
         break;
+      }
       default:
         response.issues = newIssue;
     }
