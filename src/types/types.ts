@@ -124,6 +124,8 @@ export enum SocketTokens {
   RedirectToResultPage = 'redirectToResultPage',
   GetActiveIssue = 'getActiveIssue',
   RedirectAllToResultPage = 'redirectAllToResultPage',
+  GetNewIssueGrade = 'getNewIssueGrade',
+  EditIssueGrade = 'editIssueGrade',
 }
 
 export enum LayoutViews {
@@ -163,7 +165,7 @@ export interface IIssueData {
   taskName: string;
   grades: {
     name: string;
-    grade: number | null;
+    grade: string | null;
   }[];
   isActive: boolean;
 }

@@ -22,9 +22,9 @@ import { deleteRoom } from '../../services/api';
 import { emit, on } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
-import { changeSettings, setCards } from '../../store/settingsReducer';
+import { changeSettings, setActiveCard, setCards } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
-import { editGrades, setActiveIssue } from '../../store/issuesReducer';
+import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 
 const statistics = [
@@ -71,6 +71,8 @@ const Game: React.FC = () => {
   const history = useHistory();
 
   const [disableButton, setDisableButton] = useState(false);
+  const [allowSelectionCard, setAllowSelectionCard] = useState(true);
+  const [activeIssueValue, setActiveIssueValue] = useState('');
 
   const { roomId } = useParams<{ roomId: string }>();
 
@@ -79,7 +81,6 @@ const Game: React.FC = () => {
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
-  const [activeIssueValue, setActiveIssueValue] = useState('');
 
   const findIssue = issueList.find((issue) => issue.isActive);
 
@@ -121,6 +122,15 @@ const Game: React.FC = () => {
       dispatch(setActiveIssue(data.issueName));
     });
 
+    on(SocketTokens.GetNewIssueGrade, (data) => {
+      dispatch(
+        addGrades({
+          taskName: data.userData.taskName,
+          newGrade: { name: data.userData.name, grade: data.userData.grade },
+        }),
+      );
+    });
+
     window.onload = () => {
       history.push(PathRoutes.Home);
     };
@@ -139,13 +149,19 @@ const Game: React.FC = () => {
 
   const handleStartRound = () => {
     setDisableButton(true);
+
     interval = setInterval(() => {
       dispatch(startTime((timeSeconds -= 1)));
       emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
       if (timeSeconds <= 0) {
         dispatch(startTime(0));
         clearInterval(interval);
-        // блокируем выбор карт пользователями, но, если Changing card in round end включена, то нет.
+
+        if (settings.voteAfterRoundEnd) {
+          setAllowSelectionCard(true);
+        } else {
+          setAllowSelectionCard(false);
+        }
       }
     }, 1000);
   };
@@ -159,10 +175,13 @@ const Game: React.FC = () => {
     const activeIssue = issueList.find((issue) => issue.isActive);
     if (activeIssue) {
       const newGradesArr = activeIssue.grades.map((grade) => {
-        const newGrade = { ...grade, grade: 0 };
+        const newGrade = { ...grade, grade: null };
+        emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: activeIssue.taskName, ...newGrade } });
         return { ...newGrade };
       });
       dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+      setAllowSelectionCard(true);
+      dispatch(setActiveCard(''));
     }
   };
 
@@ -220,27 +239,29 @@ const Game: React.FC = () => {
             <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
           <Statistics activeIssue={activeIssueValue} />
-          <div className={style.gameCards}>
-            {cardSet.map(({ card, isActive }) =>
-              isActive ? (
-                <GameCard key={card} allowSelection active="active">
-                  {card}
-                </GameCard>
-              ) : (
-                <GameCard key={card} allowSelection>
-                  {card}
-                </GameCard>
-              ),
-            )}
-          </div>
+          {!settings.isDealerActive && isDealer ? null : (
+            <div className={style.gameCards}>
+              {cardSet.map(({ card, isActive }) =>
+                isActive ? (
+                  <GameCard key={card} allowSelection={allowSelectionCard} active="active">
+                    {card}
+                  </GameCard>
+                ) : (
+                  <GameCard key={card} allowSelection={allowSelectionCard}>
+                    {card}
+                  </GameCard>
+                ),
+              )}
+            </div>
+          )}
         </div>
         <div className={style.userControl}>
           <div className={style.score}>
             <p className={style.title}>Score:</p>
-            {users.map((user) => {
-              const findGrade = findIssue?.grades.find((grade) => grade.name === user.name);
+            {users.map((member) => {
+              const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
               return (
-                <div className={style.data} key={user.name}>
+                <div className={style.data} key={member.name}>
                   {findGrade?.grade ? (
                     <span>{findGrade?.grade}</span>
                   ) : (

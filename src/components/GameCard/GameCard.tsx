@@ -2,10 +2,13 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 import { editCard, removeCard, setActiveCard } from '../../store/settingsReducer';
 import style from './GameCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { TextForUser } from '../../types/types';
+import { SocketTokens, TextForUser } from '../../types/types';
+import { addGrades } from '../../store/issuesReducer';
+import { emit } from '../../services/socket';
 
 interface IGameCardProps {
   children: string;
@@ -24,7 +27,11 @@ const GameCard: React.FC<IGameCardProps> = ({
 }: IGameCardProps) => {
   const dispatch = useDispatch();
 
+  const { roomId } = useParams<{ roomId: string }>();
+
   const { cardSet } = useTypedSelector((store) => store.settings);
+  const { issueList } = useTypedSelector((state) => state.issues);
+  const { name } = useTypedSelector((state) => state.userData);
 
   const [editIsActive, setEditIsActive] = useState(false);
   const [valueView, setValueView] = useState(children);
@@ -67,7 +74,12 @@ const GameCard: React.FC<IGameCardProps> = ({
 
   const handleSectCard = () => {
     if (allowSelection) {
-      dispatch(setActiveCard(children));
+      const taskName = issueList.find((issue) => issue.isActive)?.taskName;
+      if (taskName) {
+        emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
+        dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
+        dispatch(setActiveCard(children));
+      }
     }
   };
 

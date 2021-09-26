@@ -6,7 +6,15 @@ import { useState } from 'react';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './IssueList.module.scss';
 import { addIssue, editIssue, removeIssue } from '../../store/issuesReducer';
-import { IIssueData, IssuesListMode, IssueStatus, LayoutViews, SocketTokens, TextForUser } from '../../types/types';
+import {
+  IIssueData,
+  IssuesListMode,
+  IssueStatus,
+  KeyboardKeys,
+  LayoutViews,
+  SocketTokens,
+  TextForUser,
+} from '../../types/types';
 import { emit } from '../../services/socket';
 
 interface IIssueListProps {
@@ -36,6 +44,8 @@ const IssueList: React.FC<IIssueListProps> = ({
     setIsModalVisible(true);
   };
 
+  const handleHighlight = (task: string) => isDealer && onHighlight && onHighlight(task);
+
   const handleOk = () => {
     setIsModalVisible(false);
     const isDuplicate = issueList.some((issue) => issue.taskName === valueNewIssue);
@@ -48,6 +58,7 @@ const IssueList: React.FC<IIssueListProps> = ({
         roomId,
       });
       dispatch(addIssue(valueNewIssue));
+      handleHighlight(valueNewIssue);
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
         newIssue: valueNewIssue,
@@ -58,6 +69,10 @@ const IssueList: React.FC<IIssueListProps> = ({
       dispatch(editIssue({ oldTaskName: valueOldIssue, newTaskName: valueNewIssue }));
     }
     setValueNewIssue('');
+  };
+
+  const handleSendIssueOnEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === KeyboardKeys.Enter) handleOk();
   };
 
   const handleCancel = () => {
@@ -89,8 +104,6 @@ const IssueList: React.FC<IIssueListProps> = ({
   const сhoiceOfActive = (issue: IIssueData) => (enableHighlight && issue.isActive ? style.active : '');
 
   const canActive = () => (enableHighlight && isDealer ? style.dealer : '');
-
-  const handleHighlight = (task: string) => isDealer && onHighlight && onHighlight(task);
 
   return (
     <div className={style.issuesList}>
@@ -127,7 +140,12 @@ const IssueList: React.FC<IIssueListProps> = ({
           </span>
         ) : null}
         <Modal title={editOrCreate} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-          <Input placeholder={editOrCreate} value={valueNewIssue} onChange={handleInputValue} />
+          <Input
+            placeholder={editOrCreate}
+            value={valueNewIssue}
+            onChange={handleInputValue}
+            onKeyPress={handleSendIssueOnEnter}
+          />
         </Modal>
       </div>
     </div>
