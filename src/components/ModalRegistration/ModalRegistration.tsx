@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import { useHistory } from 'react-router';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { setData } from '../../store/userReducer';
-import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser, GameRooms } from '../../types/types';
+import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser, GameRooms, LocalUserData } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setGameRoom } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
@@ -53,16 +53,29 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
     reader.readAsDataURL(file);
   };
 
+  useEffect(() => {
+    const localFirstName = window.localStorage.getItem(LocalUserData.FirstName);
+    const localLastName = window.localStorage.getItem(LocalUserData.LastName);
+    const localJobStatus = window.localStorage.getItem(LocalUserData.JobStatus);
+
+    if (localFirstName) setFirstName(localFirstName);
+    if (localLastName) setLastName(localLastName);
+    if (localJobStatus) setJobStatus(localJobStatus);
+  }, []);
+
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
+    window.localStorage.setItem(LocalUserData.FirstName, e.target.value);
   };
 
   const handleChangeSurname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
+    window.localStorage.setItem(LocalUserData.LastName, e.target.value);
   };
 
   const handleChangePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJobStatus(e.target.value);
+    window.localStorage.setItem(LocalUserData.JobStatus, e.target.value);
   };
 
   const handleChangeRole = (checked: boolean) => {
@@ -179,6 +192,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
             name="name"
             label="First name:"
             tooltip="What do you want others to call you?"
+            initialValue={firstName}
             rules={[
               {
                 type: 'string',
@@ -196,7 +210,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           <Form.Item
             name="surname"
             label="Surname name:"
-            initialValue={''}
+            initialValue={lastName}
             rules={[
               {
                 type: 'string',
@@ -209,7 +223,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           <Form.Item
             name="job"
             label="Job position:"
-            initialValue={''}
+            initialValue={jobStatus}
             rules={[
               {
                 type: 'string',
@@ -226,7 +240,16 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           {avatar && avatar.length ? (
             <Avatar shape="circle" size={64} src={avatar} alt="avatar" />
           ) : (
-            <Avatar shape="circle" size={64} alt="avatar">
+            <Avatar
+              shape="circle"
+              size={64}
+              alt="avatar"
+              style={{
+                fontSize: 33,
+                textShadow: '0px 4px 4px #00000040',
+                backgroundColor: '#60DABF',
+              }}
+            >
               {getFirstUpLetters(`${firstName} ${lastName}`)}
             </Avatar>
           )}
