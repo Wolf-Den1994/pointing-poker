@@ -146,9 +146,12 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
     }
   };
 
+  const checkLengthFields = firstName.length <= 10 && lastName.length <= 10 && jobStatus.length <= 10;
+
   const handleOk = () => {
-    if (firstName.length) {
-      if (firstName.length <= 10 && lastName.length <= 10) {
+    const regex = new RegExp('^[a-zA-Zа-яА-ЯёЁ0-9-]+$'); // all EN and RU letters with numbers and - (hyphen)
+    if (firstName.length > 2 && regex.test(firstName)) {
+      if (checkLengthFields) {
         dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
         submitFormGame();
         if (isDealer) {
