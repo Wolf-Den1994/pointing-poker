@@ -140,19 +140,6 @@ const Game: React.FC = () => {
     };
   }, []);
 
-  // const { name } = useTypedSelector((state) => state.userData);
-
-  // const taskName = findIssue?.taskName;
-
-  // useEffect(() => {
-  //   if (taskName) {
-  //     const findGrade = findIssue?.grades.every((grade) => grade.grade === 'In progress');
-  //     console.log(findGrade, 'findGrade');
-  //     emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: 'In progress' } });
-  //     dispatch(addGrades({ taskName, newGrade: { name, grade: 'In progress' } }));
-  //   }
-  // }, [taskName]);
-
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });
     history.push(`${PathRoutes.Result}/${roomId}`);
