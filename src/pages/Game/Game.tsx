@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { LogoutOutlined, PlayCircleOutlined, SaveOutlined, LineOutlined, UndoOutlined } from '@ant-design/icons';
+import {
+  LogoutOutlined,
+  PlayCircleOutlined,
+  SaveOutlined,
+  LineOutlined,
+  UndoOutlined,
+  RotateLeftOutlined,
+} from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, message } from 'antd';
 import IssueList from '../../components/IssueList/IssueList';
@@ -185,6 +192,8 @@ const Game: React.FC = () => {
     }
   };
 
+  const handleFlipCards = () => {};
+
   return (
     <div className={style.gamePage}>
       <div className={style.gameInner}>
@@ -211,7 +220,11 @@ const Game: React.FC = () => {
                 <LogoutOutlined />
                 Stop Game
               </Button>
-              <Button size="large" onClick={handleResultGame}>
+              <Button size="large" type="primary" onClick={handleFlipCards}>
+                <RotateLeftOutlined />
+                Flip Cards
+              </Button>
+              <Button size="large" type="primary" onClick={handleResultGame}>
                 <SaveOutlined />
                 Show the game Result
               </Button>
