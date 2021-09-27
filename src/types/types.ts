@@ -137,6 +137,12 @@ export enum KeyboardKeys {
   Enter = 'Enter',
 }
 
+export enum LocalUserData {
+  FirstName = 'firstName',
+  LastName = 'lastName',
+  JobStatus = 'jobStatus',
+}
+
 export interface IMember {
   id: string;
   name: string;
