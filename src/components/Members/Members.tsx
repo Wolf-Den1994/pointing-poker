@@ -7,7 +7,7 @@ const Members: React.FC = () => {
   const { users } = useTypedSelector((state) => state.roomData);
 
   const onlyTeamMembers = users.filter((_, index) => index !== 0);
-  const elements = onlyTeamMembers.map((item) => (
+  const membersCards = onlyTeamMembers.map((item) => (
     <UserCard
       key={uuidv4()}
       jobStatus={item.position}
@@ -18,10 +18,15 @@ const Members: React.FC = () => {
       role={item.role}
     />
   ));
+
   return (
     <div className={style.members}>
-      <p className={style.title}>Members:</p>
-      <div className={style.users}>{elements}</div>
+      {membersCards.length ? (
+        <>
+          <p className={style.title}>Members:</p>
+          <div className={style.users}>{membersCards}</div>
+        </>
+      ) : null}
     </div>
   );
 };

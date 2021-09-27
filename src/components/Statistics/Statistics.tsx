@@ -13,17 +13,21 @@ const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps)
 
   return (
     <div className={style.statistics}>
-      <p className={style.title}>Statistics:</p>
-      <div className={style.wrapper}>
-        {findNeededStatistic(activeIssue)?.map((item) => (
-          <span key={item.card}>
-            <div className={style.card}>
-              <GameCard small>{item.card}</GameCard>
-            </div>
-            <div className={style.percent}>{item.averageValue}</div>
-          </span>
-        ))}
-      </div>
+      {findNeededStatistic(activeIssue)?.length ? (
+        <>
+          <p className={style.title}>Statistics:</p>
+          <div className={style.wrapper}>
+            {findNeededStatistic(activeIssue)?.map((item) => (
+              <span key={item.card}>
+                <div className={style.card}>
+                  <GameCard small>{item.card}</GameCard>
+                </div>
+                <div className={style.percent}>{item.averageValue}</div>
+              </span>
+            ))}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

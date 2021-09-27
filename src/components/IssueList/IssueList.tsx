@@ -107,7 +107,7 @@ const IssueList: React.FC<IIssueListProps> = ({
 
   return (
     <div className={style.issuesList}>
-      <p className={style.title}>Issues:</p>
+      {!issueList.length && !isDealer ? null : <p className={style.title}>Issues:</p>}
       <div className={`${style.wrapper} ${style[view]}`}>
         {issueList.map((issue) => (
           <span
