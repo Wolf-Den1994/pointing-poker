@@ -85,7 +85,6 @@ const Game: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
-  const { name } = useTypedSelector((state) => state.userData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
@@ -99,7 +98,6 @@ const Game: React.FC = () => {
     emit(SocketTokens.SendActiveIssueToUser, { roomId, issueName: task });
     setActiveIssueValue(task);
     dispatch(setActiveIssue(task));
-    emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: task, name, grade: 'In progress' } });
   };
 
   const handleStopGame = async () => {
@@ -162,7 +160,12 @@ const Game: React.FC = () => {
   }, []);
 
   const handleFlipCards = () => {
-    emit(SocketTokens.OffProgress, { roomId, progress: false });
+    emit(SocketTokens.OffProgress, {
+      roomId,
+      progress: false,
+      taskName: findIssue?.taskName,
+      grades: findIssue?.grades,
+    });
     dispatch(setOffProgress());
   };
 

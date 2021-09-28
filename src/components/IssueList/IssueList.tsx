@@ -58,7 +58,6 @@ const IssueList: React.FC<IIssueListProps> = ({
         roomId,
       });
       dispatch(addIssue(valueNewIssue));
-      handleHighlight(valueNewIssue);
     } else if (!isDuplicate) {
       emit(SocketTokens.ChangeIssuesList, {
         newIssue: valueNewIssue,
