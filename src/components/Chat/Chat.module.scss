@@ -5,6 +5,7 @@
   flex-flow: row-reverse;
   display: flex;
   z-index: 2;
+  pointer-events: auto;
 }
 
 .chat {

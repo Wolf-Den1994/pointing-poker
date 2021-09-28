@@ -1,6 +1,7 @@
 .wrapperChat {
   position: sticky;
   bottom: 20px;
+  pointer-events: none;
 
   .chatBtn {
     position: relative;
@@ -9,5 +10,6 @@
     height: 60px;
     width: 60px;
     border-radius: 100%;
+    pointer-events: auto;
   }
 }

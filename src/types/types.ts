@@ -253,3 +253,9 @@ export const cardSets = {
   ],
   arrayCustomYour: [{ card: 'pass', isActive: false }],
 };
+
+export interface SavedIssuesList {
+  issue?: string;
+  card?: string;
+  averageValue?: string;
+}

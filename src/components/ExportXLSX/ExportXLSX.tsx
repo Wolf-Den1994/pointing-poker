@@ -2,18 +2,19 @@ import { Button, message } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { SavedIssuesList } from '../../types/types';
 
 const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
 const fileExtension = '.xlsx';
 
 interface IExportXLSXProps {
-  xlsxData: unknown[];
+  xlsxData: SavedIssuesList[];
   file: string;
 }
 
 const ExportXLSX: React.FC<IExportXLSXProps> = ({ xlsxData, file }: IExportXLSXProps) => {
-  const exportToXLSX = (work: unknown[], fileName: string) => {
+  const exportToXLSX = (work: SavedIssuesList[], fileName: string) => {
     const ws = XLSX.utils.json_to_sheet(work);
     const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
