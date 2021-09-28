@@ -73,7 +73,6 @@ const statistics = [
 ];
 
 let interval: NodeJS.Timeout;
-// let isInProgress = 0;
 
 const Game: React.FC = () => {
   const dispatch = useDispatch();
@@ -145,11 +144,11 @@ const Game: React.FC = () => {
       dispatch(setOnProgress());
     });
 
-    on('testON', () => {
+    on(SocketTokens.OnProgress, () => {
       dispatch(setOnProgress());
     });
 
-    on('testOFF', () => {
+    on(SocketTokens.OffProgress, () => {
       dispatch(setOffProgress());
     });
 
