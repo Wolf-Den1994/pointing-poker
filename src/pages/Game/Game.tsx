@@ -100,7 +100,6 @@ const Game: React.FC = () => {
     setActiveIssueValue(task);
     dispatch(setActiveIssue(task));
     emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: task, name, grade: 'In progress' } });
-    dispatch(addGrades({ taskName: task, newGrade: { name, grade: 'In progress' } }));
   };
 
   const handleStopGame = async () => {
@@ -142,6 +141,7 @@ const Game: React.FC = () => {
           newGrade: { name: data.userData.name, grade: data.userData.grade },
         }),
       );
+      dispatch(setOnProgress());
     });
 
     on('testON', () => {
@@ -294,7 +294,7 @@ const Game: React.FC = () => {
                 dispatch(setOnProgress());
                 emit(SocketTokens.OnProgress, { roomId, progress: true });
               }
-              if (progress) {
+              if (progress && !isDealer) {
                 return (
                   <div className={style.data} key={member.name}>
                     <span>In progress</span>
