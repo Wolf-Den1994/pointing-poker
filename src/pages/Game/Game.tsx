@@ -92,6 +92,7 @@ const Game: React.FC = () => {
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
   const { progress } = useTypedSelector((state) => state.progress);
+  const timer = useTypedSelector((state) => state.timer);
 
   const findIssue = issueList.find((issue) => issue.isActive);
 
@@ -165,6 +166,10 @@ const Game: React.FC = () => {
     emit(SocketTokens.OffProgress, { roomId, progress: false });
     dispatch(setOffProgress());
   };
+
+  useEffect(() => {
+    if (timer.time === 0) if (settings.autoFlipCards) handleFlipCards();
+  }, [timer]);
 
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });

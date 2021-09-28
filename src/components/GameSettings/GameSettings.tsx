@@ -50,7 +50,7 @@ const GameSettings: React.FC = () => {
         <Form.Item
           name="autoFlipCards"
           valuePropName="checked"
-          label={<span style={{ fontSize: 18 }}>Flip card automatically once all vote:</span>}
+          label={<span style={{ fontSize: 18 }}>Flip the card automatically after the end of the round:</span>}
           colon={false}
           initialValue={autoFlipCards}
         >
