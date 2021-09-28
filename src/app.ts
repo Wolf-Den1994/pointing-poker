@@ -131,7 +131,14 @@ io.on('connection', (socket) => {
     socket.broadcast.in(roomId).emit(SocketTokens.OnProgress, progress);
   });
 
-  socket.on(SocketTokens.OffProgress, ({ roomId, progress }) => {
+  socket.on(SocketTokens.OffProgress, async ({
+    roomId, progress, taskName, grades,
+  }) => {
+    const response = await getRoom(roomId);
+    response.issues.forEach((el) => {
+      if (el.taskName === taskName) el.grades = grades;
+    });
+    await updateRoom(response);
     socket.broadcast.in(roomId).emit(SocketTokens.OffProgress, progress);
   });
 
