@@ -57,4 +57,7 @@ export const RoomModel = new Schema({
       isActive: { type: Boolean },
     },
   ],
+  progress: {
+    progress: { type: Boolean },
+  },
 });

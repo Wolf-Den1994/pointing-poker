@@ -45,6 +45,7 @@ export interface Room {
     card: string;
     isActive: boolean;
   }[];
+  progress: { progress: boolean };
 }
 
 export interface User {
@@ -106,4 +107,6 @@ export enum SocketTokens {
   GetActiveIssue = 'getActiveIssue',
   EditIssueGrade = 'editIssueGrade',
   GetNewIssueGrade = 'getNewIssueGrade',
+  OnProgress = 'onProgress',
+  OffProgress = 'offProgress',
 }

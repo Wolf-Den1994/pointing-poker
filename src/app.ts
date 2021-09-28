@@ -127,6 +127,14 @@ io.on('connection', (socket) => {
     socket.broadcast.in(roomId).emit(SocketTokens.GetNewIssueGrade, { userData });
   });
 
+  socket.on(SocketTokens.OnProgress, ({ roomId, progress }) => {
+    socket.broadcast.in(roomId).emit('testON', progress);
+  });
+
+  socket.on(SocketTokens.OffProgress, ({ roomId, progress }) => {
+    socket.broadcast.in(roomId).emit('testOFF', progress);
+  });
+
   socket.on(SocketTokens.SendActiveIssueToUser, async ({ roomId, issueName }) => {
     const response = await getRoom(roomId);
     response.issues.forEach((el) => {
