@@ -14,7 +14,7 @@
     flex-direction: row;
 
     .avatar {
-      margin-right: 27px;
+      margin-right: 20px;
       background-color: #87d068;
       font-weight: bold;
 
@@ -30,8 +30,8 @@
 
       .isYou {
         margin-bottom: 5px;
-        font-size: 14px;
-        line-height: 12px;
+        font-size: 12px;
+        line-height: 14px;
         font-weight: 300;
       }
 
@@ -42,8 +42,8 @@
 
       .name {
         margin-bottom: 5px;
-        font-size: 29px;
-        line-height: 34px;
+        font-size: 22px;
+        line-height: 24px;
 
         &.small {
           font-size: 16px;
@@ -79,6 +79,31 @@
     .crown {
       color: #60dabf;
       font-size: 18px;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .userCard {
+    max-width: 100%;
+
+    .wrapper {
+      display: block;
+      text-align: center;
+
+      .avatar {
+        margin-right: 0;
+      }
+
+      .user {
+        align-items: center;
+        margin-top: 5px;
+      }
+
+      .kick {
+        right: 15px;
+        top: 15px;
+      }
     }
   }
 }

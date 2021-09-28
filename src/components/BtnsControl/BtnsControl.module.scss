@@ -11,3 +11,21 @@
     justify-content: flex-end;
   }
 }
+
+@media (max-width: 450px) {
+  .btnsControl {
+    .control {
+      display: block;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      margin: 15px auto 0px auto;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}
