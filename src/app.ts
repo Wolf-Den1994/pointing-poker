@@ -128,11 +128,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on(SocketTokens.OnProgress, ({ roomId, progress }) => {
-    socket.broadcast.in(roomId).emit('testON', progress);
+    socket.broadcast.in(roomId).emit(SocketTokens.OnProgress, progress);
   });
 
   socket.on(SocketTokens.OffProgress, ({ roomId, progress }) => {
-    socket.broadcast.in(roomId).emit('testOFF', progress);
+    socket.broadcast.in(roomId).emit(SocketTokens.OffProgress, progress);
   });
 
   socket.on(SocketTokens.SendActiveIssueToUser, async ({ roomId, issueName }) => {
