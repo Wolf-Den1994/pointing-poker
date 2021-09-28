@@ -70,3 +70,8 @@ export enum StatisticsActions {
   EDIT_STATISTIC = 'EDIT_STATISTIC',
   SET_STATISTICS = 'SET_STATISTICS',
 }
+
+export enum ProgressVoiting {
+  OFF_PROGRESS = 'OFF_PROGRESS',
+  ON_PROGRESS = 'ON_PROGRESS',
+}

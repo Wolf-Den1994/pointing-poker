@@ -33,6 +33,7 @@ import { changeSettings, setActiveCard, setCards } from '../../store/settingsRed
 import { setStatistics } from '../../store/statisticsReducer';
 import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
+import { setOffProgress, setOnProgress } from '../../store/progressReducer';
 
 const statistics = [
   {
@@ -72,6 +73,7 @@ const statistics = [
 ];
 
 let interval: NodeJS.Timeout;
+// let isInProgress = 0;
 
 const Game: React.FC = () => {
   const dispatch = useDispatch();
@@ -84,10 +86,12 @@ const Game: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { users, admin, isDealer } = useTypedSelector((state) => state.roomData);
+  const { name } = useTypedSelector((state) => state.userData);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
+  const { progress } = useTypedSelector((state) => state.progress);
 
   const findIssue = issueList.find((issue) => issue.isActive);
 
@@ -95,6 +99,8 @@ const Game: React.FC = () => {
     emit(SocketTokens.SendActiveIssueToUser, { roomId, issueName: task });
     setActiveIssueValue(task);
     dispatch(setActiveIssue(task));
+    emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: task, name, grade: 'In progress' } });
+    dispatch(addGrades({ taskName: task, newGrade: { name, grade: 'In progress' } }));
   };
 
   const handleStopGame = async () => {
@@ -138,6 +144,14 @@ const Game: React.FC = () => {
       );
     });
 
+    on('testON', () => {
+      dispatch(setOnProgress());
+    });
+
+    on('testOFF', () => {
+      dispatch(setOffProgress());
+    });
+
     window.onload = () => {
       history.push(PathRoutes.Home);
     };
@@ -146,6 +160,11 @@ const Game: React.FC = () => {
       window.onload = null;
     };
   }, []);
+
+  const handleFlipCards = () => {
+    emit(SocketTokens.OffProgress, { roomId, progress: false });
+    dispatch(setOffProgress());
+  };
 
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });
@@ -191,8 +210,6 @@ const Game: React.FC = () => {
       dispatch(setActiveCard(''));
     }
   };
-
-  const handleFlipCards = () => {};
 
   return (
     <div className={style.gamePage}>
@@ -273,6 +290,17 @@ const Game: React.FC = () => {
             <p className={style.title}>Score:</p>
             {users.map((member) => {
               const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
+              if (findGrade?.grade === 'In progress' && !progress) {
+                dispatch(setOnProgress());
+                emit(SocketTokens.OnProgress, { roomId, progress: true });
+              }
+              if (progress) {
+                return (
+                  <div className={style.data} key={member.name}>
+                    <span>In progress</span>
+                  </div>
+                );
+              }
               return (
                 <div className={style.data} key={member.name}>
                   {findGrade?.grade ? (
