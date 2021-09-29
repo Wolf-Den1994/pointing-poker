@@ -116,4 +116,8 @@ export enum SocketTokens {
   OffProgress = 'offProgress',
   WillBeDisconnected = 'willBeDisconnected',
   UserLeaveTheRoom = 'userLeaveTheRoom',
+  DisableCards = 'disableCards',
+  EnableCards = 'enableCards',
+  ShowStatistics = 'showStatistics',
+  HideStatistics = 'hideStatistics',
 }
