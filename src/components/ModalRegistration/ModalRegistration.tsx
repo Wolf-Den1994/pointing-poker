@@ -207,6 +207,10 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
                 required: true,
                 message: TextForUser.RequiredFirstName,
               },
+              {
+                len: 3,
+                message: TextForUser.RequiredFirstName,
+              },
             ]}
           >
             <Input placeholder="Rick" onChange={handleChangeName} />

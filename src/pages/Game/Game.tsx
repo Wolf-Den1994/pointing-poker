@@ -212,24 +212,26 @@ const Game: React.FC = () => {
   };
 
   const handleResetRound = () => {
-    emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
-    setDisableButtonStart(false);
-    clearInterval(interval);
-    dispatch(startTime(timeSeconds));
+    if (findIssue?.isActive) {
+      emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
+      setDisableButtonStart(false);
+      clearInterval(interval);
+      dispatch(startTime(timeSeconds));
 
-    const activeIssue = issueList.find((issue) => issue.isActive);
-    if (activeIssue) {
-      const newGradesArr = activeIssue.grades.map((grade) => {
-        const newGrade = { ...grade, grade: null };
-        emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: activeIssue.taskName, ...newGrade } });
-        return { ...newGrade };
-      });
-      dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+      const activeIssue = issueList.find((issue) => issue.isActive);
+      if (activeIssue) {
+        const newGradesArr = activeIssue.grades.map((grade) => {
+          const newGrade = { ...grade, grade: null };
+          emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: activeIssue.taskName, ...newGrade } });
+          return { ...newGrade };
+        });
+        dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
 
-      setAllowSelectionCard(false);
-      emit(SocketTokens.DisableCards, { roomId, enableCards: false });
+        setAllowSelectionCard(false);
+        emit(SocketTokens.DisableCards, { roomId, enableCards: false });
 
-      dispatch(setActiveCard(''));
+        dispatch(setActiveCard(''));
+      }
     }
   };
 
