@@ -24,7 +24,7 @@ import {
 } from './types/types';
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -132,14 +132,20 @@ io.on('connection', (socket) => {
   });
 
   socket.on(SocketTokens.OffProgress, async ({
-    roomId, progress, taskName, grades,
+    roomId, progress, taskName, grades, statistics,
   }) => {
     const response = await getRoom(roomId);
     response.issues.forEach((el) => {
       if (el.taskName === taskName) el.grades = grades;
     });
+    const findStatisticIndex = response.statistics.findIndex((el) => el.taskName === taskName);
+    if (findStatisticIndex >= 0) {
+      response.statistics[findStatisticIndex] = statistics;
+    } else {
+      response.statistics.push(statistics);
+    }
     await updateRoom(response);
-    socket.broadcast.in(roomId).emit(SocketTokens.OffProgress, progress);
+    socket.broadcast.in(roomId).emit(SocketTokens.OffProgress, { progress, statistics });
   });
 
   socket.on(SocketTokens.SendActiveIssueToUser, async ({ roomId, issueName }) => {
