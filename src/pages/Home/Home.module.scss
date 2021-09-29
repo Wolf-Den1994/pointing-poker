@@ -99,3 +99,23 @@
     }
   }
 }
+
+@media (max-width: 450px) {
+  .wrapper {
+    .row {
+      .box {
+        button {
+          width: 100%;
+        }
+
+        .connect {
+          display: block;
+
+          input {
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+  }
+}

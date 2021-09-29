@@ -42,6 +42,10 @@
 
 @media (max-width: 450px) {
   .error {
+    .wrapper {
+      padding: 0 15px;
+    }
+
     .page {
       font-size: 52px;
       line-height: 52px;
