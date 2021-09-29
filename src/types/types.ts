@@ -128,6 +128,10 @@ export enum SocketTokens {
   EditIssueGrade = 'editIssueGrade',
   OnProgress = 'onProgress',
   OffProgress = 'offProgress',
+  DisableCards = 'disableCards',
+  EnableCards = 'enableCards',
+  ShowStatistics = 'showStatistics',
+  HideStatistics = 'hideStatistics',
 }
 
 export enum LayoutViews {

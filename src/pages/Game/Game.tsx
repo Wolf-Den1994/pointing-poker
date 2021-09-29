@@ -42,8 +42,9 @@ const Game: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [disableButton, setDisableButton] = useState(false);
-  const [allowSelectionCard, setAllowSelectionCard] = useState(true);
+  const [disableButtonStart, setDisableButtonStart] = useState(true);
+  const [allowSelectionCard, setAllowSelectionCard] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
   const [activeIssueValue, setActiveIssueValue] = useState('');
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -70,19 +71,31 @@ const Game: React.FC = () => {
     dispatch(addStatistics(countStatistics(issue)));
     dispatch(setOffProgress());
     dispatch(disableActiveCards());
+    setDisableButtonStart(false);
+
+    setShowStatistics(true);
+    emit(SocketTokens.ShowStatistics, { roomId, showStatistics: true });
+
+    if (!settings.voteAfterRoundEnd) {
+      setAllowSelectionCard(false);
+      emit(SocketTokens.DisableCards, { roomId, enableCards: false });
+    }
   };
 
   const handleIssueHighlight = (task: string) => {
     emit(SocketTokens.SendActiveIssueToUser, { roomId, issueName: task });
     setActiveIssueValue(task);
-    dispatch(setOnProgress());
-    emit(SocketTokens.OnProgress, { roomId, progress: true });
     dispatch(setActiveIssue(task));
+    setDisableButtonStart(false);
+
     if (findIssue) {
       if (findIssue.isActive) {
         handleFlipCards();
       }
     }
+
+    setAllowSelectionCard(false);
+    emit(SocketTokens.DisableCards, { roomId, enableCards: false });
   };
 
   const handleStopGame = async () => {
@@ -137,6 +150,22 @@ const Game: React.FC = () => {
       dispatch(addStatistics(data.statistics));
     });
 
+    on(SocketTokens.EnableCards, () => {
+      setAllowSelectionCard(true);
+    });
+
+    on(SocketTokens.DisableCards, () => {
+      setAllowSelectionCard(false);
+    });
+
+    on(SocketTokens.ShowStatistics, () => {
+      setShowStatistics(true);
+    });
+
+    on(SocketTokens.HideStatistics, () => {
+      setShowStatistics(false);
+    });
+
     window.onload = () => {
       history.push(PathRoutes.Home);
     };
@@ -158,27 +187,33 @@ const Game: React.FC = () => {
   let timeSeconds = settings.roundTime * 60;
 
   const handleStartRound = () => {
-    setDisableButton(true);
+    if (findIssue?.isActive) {
+      setDisableButtonStart(true);
 
-    interval = setInterval(() => {
-      dispatch(startTime((timeSeconds -= 1)));
-      emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
-      if (timeSeconds <= 0) {
-        dispatch(startTime(0));
-        clearInterval(interval);
+      if (settings.showTimer)
+        interval = setInterval(() => {
+          dispatch(startTime((timeSeconds -= 1)));
+          emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
+          if (timeSeconds <= 0) {
+            dispatch(startTime(0));
+            clearInterval(interval);
+          }
+        }, 1000);
 
-        if (settings.voteAfterRoundEnd) {
-          setAllowSelectionCard(true);
-        } else {
-          setAllowSelectionCard(false);
-        }
-      }
-    }, 1000);
+      dispatch(setOnProgress());
+      emit(SocketTokens.OnProgress, { roomId, progress: true });
+
+      setAllowSelectionCard(true);
+      emit(SocketTokens.EnableCards, { roomId, enableCards: true });
+
+      setShowStatistics(false);
+      emit(SocketTokens.HideStatistics, { roomId, showStatistics: false });
+    }
   };
 
   const handleResetRound = () => {
     emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
-    setDisableButton(false);
+    setDisableButtonStart(false);
     clearInterval(interval);
     dispatch(startTime(timeSeconds));
 
@@ -190,7 +225,10 @@ const Game: React.FC = () => {
         return { ...newGrade };
       });
       dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
-      setAllowSelectionCard(true);
+
+      setAllowSelectionCard(false);
+      emit(SocketTokens.DisableCards, { roomId, enableCards: false });
+
       dispatch(setActiveCard(''));
     }
   };
@@ -234,7 +272,7 @@ const Game: React.FC = () => {
           {isDealer ? (
             <div className={style.box}>
               <GameSettingsPopup />
-              <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
+              <Button type="primary" size="large" disabled={disableButtonStart} onClick={handleStartRound}>
                 <PlayCircleOutlined />
                 Start Round
               </Button>
@@ -248,7 +286,7 @@ const Game: React.FC = () => {
             <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
             <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
-          <Statistics activeIssue={activeIssueValue} />
+          {showStatistics ? <Statistics activeIssue={activeIssueValue} /> : null}
           {!settings.isDealerActive && isDealer ? null : (
             <div className={style.gameCards}>
               {cardSet.map(({ card, isActive }) =>
