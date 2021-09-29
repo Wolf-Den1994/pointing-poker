@@ -63,6 +63,9 @@ export const settingsReducer = (state = initialState, action: AnyAction): typeof
         })),
       };
 
+    case SettingsActions.DISABLE_ACTIVE:
+      return { ...state, cardSet: state.cardSet.map((card) => ({ ...card, isActive: false })) };
+
     case SettingsActions.VISIBLE_CHAT:
       return { ...state, visibleChat: action.payload };
 
@@ -106,6 +109,10 @@ interface IVisibleChatActions {
   payload: boolean;
 }
 
+interface IDisableActiveCards {
+  type: SettingsActions;
+}
+
 export const changeSettings = (payload: IGameSettingsData): ISettingsActionsIGameSettings => ({
   type: SettingsActions.CHANGE_SETTINGS,
   payload,
@@ -134,6 +141,10 @@ export const setCards = (payload: ICardData[]): ICardActionsSet => ({
 export const setActiveCard = (payload: string): ICardActionsString => ({
   type: SettingsActions.SET_ACTIVE_CARD,
   payload,
+});
+
+export const disableActiveCards = (): IDisableActiveCards => ({
+  type: SettingsActions.DISABLE_ACTIVE,
 });
 
 export const setVisibleChat = (payload: boolean): IVisibleChatActions => ({

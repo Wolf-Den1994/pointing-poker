@@ -29,7 +29,7 @@ import { deleteRoom } from '../../services/api';
 import { emit, on } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
-import { changeSettings, setActiveCard, setCards } from '../../store/settingsReducer';
+import { changeSettings, setActiveCard, setCards, disableActiveCards } from '../../store/settingsReducer';
 import { setStatistics } from '../../store/statisticsReducer';
 import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
@@ -94,10 +94,28 @@ const Game: React.FC = () => {
 
   const findIssue = issueList.find((issue) => issue.isActive);
 
+  const handleFlipCards = () => {
+    emit(SocketTokens.OffProgress, {
+      roomId,
+      progress: false,
+      taskName: findIssue?.taskName,
+      grades: findIssue?.grades,
+    });
+    dispatch(setOffProgress());
+    dispatch(disableActiveCards());
+  };
+
   const handleIssueHighlight = (task: string) => {
     emit(SocketTokens.SendActiveIssueToUser, { roomId, issueName: task });
     setActiveIssueValue(task);
+    dispatch(setOnProgress());
+    emit(SocketTokens.OnProgress, { roomId, progress: true });
     dispatch(setActiveIssue(task));
+    if (findIssue) {
+      if (findIssue.isActive) {
+        handleFlipCards();
+      }
+    }
   };
 
   const handleStopGame = async () => {
@@ -128,6 +146,7 @@ const Game: React.FC = () => {
     });
 
     on(SocketTokens.GetActiveIssue, (data) => {
+      console.log('getActiveIssue', data.issueName); // Дважды срабатывает
       setActiveIssueValue(data.issueName);
       dispatch(setActiveIssue(data.issueName));
     });
@@ -147,6 +166,7 @@ const Game: React.FC = () => {
     });
 
     on(SocketTokens.OffProgress, () => {
+      dispatch(disableActiveCards());
       dispatch(setOffProgress());
     });
 
@@ -158,16 +178,6 @@ const Game: React.FC = () => {
       window.onload = null;
     };
   }, []);
-
-  const handleFlipCards = () => {
-    emit(SocketTokens.OffProgress, {
-      roomId,
-      progress: false,
-      taskName: findIssue?.taskName,
-      grades: findIssue?.grades,
-    });
-    dispatch(setOffProgress());
-  };
 
   useEffect(() => {
     if (timer.time === 0) if (settings.autoFlipCards) handleFlipCards();
@@ -257,18 +267,14 @@ const Game: React.FC = () => {
           {isDealer ? (
             <div className={style.box}>
               <GameSettingsPopup />
-              {settings.showTimer ? (
-                <>
-                  <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
-                    <PlayCircleOutlined />
-                    Start Round
-                  </Button>
-                  <Button type="primary" size="large" onClick={handleResetRound}>
-                    <UndoOutlined />
-                    Reset Round
-                  </Button>
-                </>
-              ) : null}
+              <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
+                <PlayCircleOutlined />
+                Start Round
+              </Button>
+              <Button type="primary" size="large" onClick={handleResetRound}>
+                <UndoOutlined />
+                Reset Round
+              </Button>
             </div>
           ) : null}
           <div className={style.field}>
@@ -297,10 +303,6 @@ const Game: React.FC = () => {
             <p className={style.title}>Score:</p>
             {users.map((member) => {
               const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
-              if (findGrade?.grade === 'In progress' && !progress) {
-                dispatch(setOnProgress());
-                emit(SocketTokens.OnProgress, { roomId, progress: true });
-              }
               if (progress && !isDealer) {
                 return (
                   <div className={style.data} key={member.name}>
