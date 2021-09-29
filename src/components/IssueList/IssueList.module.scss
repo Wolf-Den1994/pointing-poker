@@ -96,13 +96,26 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 680px) {
   .issuesList {
+    width: 100%;
+
     .wrapper {
-      display: block;
+      flex-direction: column;
+      flex-wrap: inherit;
 
       .issue {
         justify-content: space-between;
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .issuesList {
+    .wrapper {
+      .issue {
         font-size: 18px;
         line-height: 24px;
       }

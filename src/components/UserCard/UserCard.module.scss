@@ -83,10 +83,14 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 680px) {
   .userCard {
     max-width: 100%;
+  }
+}
 
+@media (max-width: 450px) {
+  .userCard {
     .wrapper {
       display: block;
       text-align: center;

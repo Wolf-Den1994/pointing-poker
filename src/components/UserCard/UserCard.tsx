@@ -55,7 +55,7 @@ const UserCard: React.FC<IUserCardProps> = ({
     <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
       <div className={style.wrapper}>
         <Avatar
-          className={`${style.avatar} ${style[size]}`}
+          className={`${style.avatar} ${size}`}
           src={avatar}
           size={sizeAvatar}
           style={{
@@ -72,7 +72,7 @@ const UserCard: React.FC<IUserCardProps> = ({
           ) : (
             <p className={style.isYouEmpty}></p>
           )}
-          <p className={`${style.name} ${style[size]}`}>{`${name} ${lastName}`}</p>
+          <p className={`${style.name} ${size}`}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>

@@ -101,10 +101,124 @@
 }
 
 @media (max-width: 1000px) {
+  .gameInner {
+    flex-direction: column-reverse;
+    gap: 20px;
+
+    .scramControl {
+      border-right: inherit;
+    }
+
+    .userControl {
+      flex-basis: 100%;
+
+      .title {
+        max-width: 300px;
+        width: 100%;
+      }
+
+      .score,
+      .players {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  .gameInner {
+    .scramControl {
+      .field {
+        flex-direction: column-reverse;
+      }
+
+      .box {
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+
+    .userControl {
+      gap: 20px;
+      padding: 0 20px;
+
+      .title {
+        max-width: 100%;
+      }
+
+      .score {
+        width: 30%;
+      }
+
+      .score,
+      .players {
+        padding: 0px;
+
+        .data {
+          max-width: 100%;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 500px) {
   .gamePage {
     padding: 25px 15px;
+  }
+
+  .gameInner {
+    .scramControl {
+      padding: inherit;
+
+      .scramMaster {
+      }
+
+      .card {
+      }
+
+      .fieldControl {
+      }
+
+      .field {
+        .timer {
+        }
+      }
+
+      .box {
+        button {
+        }
+      }
+
+      .gameCards {
+      }
+    }
+
+    .userControl {
+      padding: inherit;
+      // ТУТ
+
+      .title {
+      }
+
+      .score {
+      }
+
+      .players {
+      }
+
+      .score,
+      .players {
+        .data {
+          .dash {
+          }
+        }
+      }
+    }
   }
 }

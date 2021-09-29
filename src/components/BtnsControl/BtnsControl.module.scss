@@ -12,20 +12,11 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 680px) {
   .btnsControl {
     .control {
-      display: block;
-    }
-
-    button {
-      display: block;
-      width: 100%;
-      margin: 15px auto 0px auto;
-
-      &:first-child {
-        margin-top: 0;
-      }
+      flex-direction: column;
+      gap: 15px;
     }
   }
 }
