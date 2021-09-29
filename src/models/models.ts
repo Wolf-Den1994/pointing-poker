@@ -60,4 +60,11 @@ export const RoomModel = new Schema({
   progress: {
     progress: { type: Boolean },
   },
+  statistics: [{
+    taskName: { type: String },
+    statisticValues: [{
+      card: { type: String },
+      averageValue: { type: String },
+    }],
+  }],
 });

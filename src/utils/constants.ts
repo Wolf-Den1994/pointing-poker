@@ -22,6 +22,7 @@ export const room = {
   },
   cardSet: [],
   progress: { progress: false },
+  statistics: [],
 };
 
 export const clearVoting = {

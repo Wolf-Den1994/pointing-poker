@@ -44,6 +44,13 @@ export interface Room {
     isActive: boolean;
   }[];
   progress: { progress: boolean };
+  statistics: {
+    taskName: string ;
+    statisticValues: {
+      card: string ;
+      averageValue: string ;
+    }[],
+  }[],
 }
 
 export interface User {
