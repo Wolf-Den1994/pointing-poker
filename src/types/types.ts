@@ -12,6 +12,8 @@ export enum TextForUser {
   ValidateFirstName = 'The input is not valid First name is short. Minimum 3 characters and no additional characters!',
   NameIsLong = 'The first name or last name or job status is too long. Maximum 10 characters!',
   RequiredFirstName = 'Please, input your First name!',
+  RequiredSurName = 'Please, check length Last name!',
+  RequiredJobStatus = 'Please, check length Job position!',
   KickUserWithVoiting = 'You need to use another way to leave room',
   RoomDoesNotExist = 'Such room doesnt exist, try again!',
   SomethingGoingWrong = 'Something is going wrong, try again!',

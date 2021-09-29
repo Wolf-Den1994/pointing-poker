@@ -43,6 +43,7 @@ const Game: React.FC = () => {
   const history = useHistory();
 
   const [disableButtonStart, setDisableButtonStart] = useState(true);
+  const [disableButtonFlipCards, setDisableButtonFlipCards] = useState(true);
   const [allowSelectionCard, setAllowSelectionCard] = useState(false);
   const [showStatistics, setShowStatistics] = useState(false);
   const [activeIssueValue, setActiveIssueValue] = useState('');
@@ -60,6 +61,7 @@ const Game: React.FC = () => {
   const findIssue = issueList.find((issue) => issue.isActive);
 
   const handleFlipCards = () => {
+    setDisableButtonFlipCards(true);
     const issue = findIssue as IIssueData;
     emit(SocketTokens.OffProgress, {
       roomId,
@@ -83,6 +85,7 @@ const Game: React.FC = () => {
   };
 
   const handleIssueHighlight = (task: string) => {
+    setDisableButtonFlipCards(true);
     emit(SocketTokens.SendActiveIssueToUser, { roomId, issueName: task });
     setActiveIssueValue(task);
     dispatch(setActiveIssue(task));
@@ -91,6 +94,7 @@ const Game: React.FC = () => {
     if (findIssue) {
       if (findIssue.isActive) {
         handleFlipCards();
+        clearInterval(interval);
       }
     }
 
@@ -125,7 +129,6 @@ const Game: React.FC = () => {
     });
 
     on(SocketTokens.GetActiveIssue, (data) => {
-      console.log('getActiveIssue', data.issueName); // Дважды срабатывает
       setActiveIssueValue(data.issueName);
       dispatch(setActiveIssue(data.issueName));
     });
@@ -190,7 +193,8 @@ const Game: React.FC = () => {
     if (findIssue?.isActive) {
       setDisableButtonStart(true);
 
-      if (settings.showTimer)
+      if (settings.showTimer) {
+        clearInterval(interval);
         interval = setInterval(() => {
           dispatch(startTime((timeSeconds -= 1)));
           emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
@@ -199,6 +203,7 @@ const Game: React.FC = () => {
             clearInterval(interval);
           }
         }, 1000);
+      }
 
       dispatch(setOnProgress());
       emit(SocketTokens.OnProgress, { roomId, progress: true });
@@ -208,6 +213,8 @@ const Game: React.FC = () => {
 
       setShowStatistics(false);
       emit(SocketTokens.HideStatistics, { roomId, showStatistics: false });
+
+      setDisableButtonFlipCards(false);
     }
   };
 
@@ -264,7 +271,7 @@ const Game: React.FC = () => {
                 <LogoutOutlined />
                 Stop Game
               </Button>
-              <Button size="large" type="primary" onClick={handleFlipCards}>
+              <Button size="large" type="primary" disabled={disableButtonFlipCards} onClick={handleFlipCards}>
                 <RotateLeftOutlined />
                 Flip Cards
               </Button>

@@ -208,7 +208,11 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
                 message: TextForUser.RequiredFirstName,
               },
               {
-                len: 3,
+                min: 3,
+                message: TextForUser.RequiredFirstName,
+              },
+              {
+                max: 10,
                 message: TextForUser.RequiredFirstName,
               },
             ]}
@@ -218,11 +222,15 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
           <Form.Item
             name="surname"
-            label="Surname name:"
+            label="Last name:"
             initialValue={lastName}
             rules={[
               {
                 type: 'string',
+              },
+              {
+                max: 10,
+                message: TextForUser.RequiredSurName,
               },
             ]}
           >
@@ -236,6 +244,10 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
             rules={[
               {
                 type: 'string',
+              },
+              {
+                max: 10,
+                message: TextForUser.RequiredJobStatus,
               },
             ]}
           >
