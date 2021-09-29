@@ -218,6 +218,9 @@ const Game: React.FC = () => {
       clearInterval(interval);
       dispatch(startTime(timeSeconds));
 
+      setShowStatistics(false);
+      emit(SocketTokens.HideStatistics, { roomId, showStatistics: false });
+
       const activeIssue = issueList.find((issue) => issue.isActive);
       if (activeIssue) {
         const newGradesArr = activeIssue.grades.map((grade) => {
