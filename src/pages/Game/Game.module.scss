@@ -57,8 +57,7 @@
     padding-left: 15px;
     width: 100%;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    gap: 20px;
     flex-basis: 40%;
 
     .title {
@@ -78,19 +77,19 @@
 
     .score,
     .players {
-      padding: 0px 10px;
-
       .data {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 9px 0px;
-        height: 74px;
+        height: 80px;
+        margin: 10px 0px;
         max-width: 300px;
         width: 100%;
         box-shadow: 4px 4px 4px #00000040;
         border-radius: 4px;
         border: 1px solid #d9d9d9;
+        font-size: 20px;
+        font-weight: 600;
 
         .dash {
           font-size: 25px;
@@ -175,48 +174,30 @@
   .gameInner {
     .scramControl {
       padding: inherit;
-
-      .scramMaster {
-      }
-
-      .card {
-      }
-
-      .fieldControl {
-      }
-
-      .field {
-        .timer {
-        }
-      }
-
-      .box {
-        button {
-        }
-      }
-
-      .gameCards {
-      }
     }
 
     .userControl {
       padding: inherit;
-      // ТУТ
+    }
+  }
+}
 
-      .title {
-      }
+@media (max-width: 450px) {
+  .gamePage {
+    padding: 25px 15px;
+  }
 
+  .gameInner {
+    .userControl {
       .score {
-      }
-
-      .players {
+        width: 25%;
       }
 
       .score,
       .players {
         .data {
-          .dash {
-          }
+          height: 125px;
+          font-size: 16px;
         }
       }
     }
