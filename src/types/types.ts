@@ -198,6 +198,7 @@ export interface IRoomData {
   voting: { id: string; voices: number; votedUsers: number };
   settings: IGameSettingsData;
   cardSet: ICardData[];
+  statistics: IStatisticData[];
 }
 
 export interface ICardData {

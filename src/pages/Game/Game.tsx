@@ -19,7 +19,7 @@ import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import GameCard from '../../components/GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
-import { LayoutViews, SocketTokens, PathRoutes } from '../../types/types';
+import { LayoutViews, SocketTokens, PathRoutes, IIssueData } from '../../types/types';
 import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import Statistics from '../../components/Statistics/Statistics';
@@ -30,47 +30,11 @@ import { emit, on } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
 import { changeSettings, setActiveCard, setCards, disableActiveCards } from '../../store/settingsReducer';
-import { setStatistics } from '../../store/statisticsReducer';
+import { addStatistics } from '../../store/statisticsReducer';
 import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { setOffProgress, setOnProgress } from '../../store/progressReducer';
-
-const statistics = [
-  {
-    taskName: 'test',
-    statisticValues: [
-      {
-        card: '101',
-        averageValue: '42.8',
-      },
-      {
-        card: '5',
-        averageValue: '28.5',
-      },
-      {
-        card: 'pass',
-        averageValue: '28.5',
-      },
-    ],
-  },
-  {
-    taskName: 'test2',
-    statisticValues: [
-      {
-        card: '10',
-        averageValue: '9.8',
-      },
-      {
-        card: '58',
-        averageValue: '26.5',
-      },
-      {
-        card: 'pass',
-        averageValue: '78.5',
-      },
-    ],
-  },
-];
+import countStatistics from '../../utils/countStatistic';
 
 let interval: NodeJS.Timeout;
 
@@ -95,12 +59,15 @@ const Game: React.FC = () => {
   const findIssue = issueList.find((issue) => issue.isActive);
 
   const handleFlipCards = () => {
+    const issue = findIssue as IIssueData;
     emit(SocketTokens.OffProgress, {
       roomId,
       progress: false,
       taskName: findIssue?.taskName,
       grades: findIssue?.grades,
+      statistics: countStatistics(issue),
     });
+    dispatch(addStatistics(countStatistics(issue)));
     dispatch(setOffProgress());
     dispatch(disableActiveCards());
   };
@@ -130,7 +97,6 @@ const Game: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(setStatistics(statistics));
     on(SocketTokens.AdminsAnswerForRequest, (data) => {
       dispatch(addUserRequest(data.userId));
     });
@@ -165,9 +131,10 @@ const Game: React.FC = () => {
       dispatch(setOnProgress());
     });
 
-    on(SocketTokens.OffProgress, () => {
-      dispatch(disableActiveCards());
+    on(SocketTokens.OffProgress, (data) => {
       dispatch(setOffProgress());
+      dispatch(disableActiveCards());
+      dispatch(addStatistics(data.statistics));
     });
 
     window.onload = () => {
