@@ -108,11 +108,11 @@ const IssueList: React.FC<IIssueListProps> = ({
   return (
     <div className={style.issuesList}>
       <p className={style.title}>Issues:</p>
-      <div className={`${style.wrapper} ${view}`}>
+      <div className={`${style.wrapper} ${style[view]}`}>
         {issueList.map((issue) => (
           <span
             key={issue.taskName}
-            className={`${style.issue} ${view} ${canActive()} ${сhoiceOfActive(issue)}`}
+            className={`${style.issue} ${style[view]} ${canActive()} ${сhoiceOfActive(issue)}`}
             onClick={() => handleHighlight(issue.taskName)}
           >
             <div>
@@ -132,7 +132,7 @@ const IssueList: React.FC<IIssueListProps> = ({
           </span>
         ))}
         {isDealer ? (
-          <span className={`${style.issue} ${style.issueCreate} ${view}`} onClick={handleCreateNewIssue}>
+          <span className={`${style.issue} ${style.issueCreate} ${style[view]}`} onClick={handleCreateNewIssue}>
             Create new Issue
             <span className={style.plus}>
               <PlusOutlined />

@@ -107,6 +107,19 @@
       .issue {
         justify-content: space-between;
         width: 100%;
+
+        &.vertical {
+          width: 100%;
+        }
+
+        .delete {
+          margin: 0px;
+        }
+      }
+
+      &.vertical {
+        align-items: center;
+        flex-wrap: inherit;
       }
     }
   }

@@ -52,7 +52,7 @@ const UserCard: React.FC<IUserCardProps> = ({
   const checkUserRoleAndId = () => role === UserRole.Admin || id === socket.id;
 
   return (
-    <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
+    <Card className={style.userCard} bodyStyle={{ padding: 10, minHeight: 80 }}>
       <div className={style.wrapper}>
         <Avatar
           className={`${style.avatar} ${size}`}
@@ -72,7 +72,7 @@ const UserCard: React.FC<IUserCardProps> = ({
           ) : (
             <p className={style.isYouEmpty}></p>
           )}
-          <p className={`${style.name} ${size}`}>{`${name} ${lastName}`}</p>
+          <p className={`${style.name} ${style[size]}`}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
         <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
