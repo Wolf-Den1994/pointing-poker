@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
+export const BASE_URL = 'http://localhost:8000';
 
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',
@@ -10,9 +10,11 @@ export enum TextForUser {
   DublicateUserName = 'User with the same name already exists. Enter another name!',
   ErrorServer = 'Failed to establish a connection. Contact the system administrator. Error:',
   ValidateFirstName = 'The input is not valid First name is short. Minimum 3 characters and no additional characters!',
-  NameIsLong = 'For first name maximum 10 characters and for last name maximum 14 characters!',
+  // eslint-disable-next-line max-len
+  NameIsLong = 'For first name maximum 10 characters and for last name maximum 14 characters and for job position maximum 26 characters!',
   RequiredFirstName = 'Please, input your First name!',
   RequiredSurName = 'Please, check length Last name!',
+  RequiredJobStatus = 'Please, check length Job position!',
   KickUserWithVoiting = 'You need to use another way to leave room',
   RoomDoesNotExist = 'Such room doesnt exist, try again!',
   SomethingGoingWrong = 'Something is going wrong, try again!',

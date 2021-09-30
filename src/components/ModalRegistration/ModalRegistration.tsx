@@ -148,7 +148,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
     }
   };
 
-  const checkLengthFields = firstName.length <= 10 && lastName.length <= 14;
+  const checkLengthFields = firstName.length <= 10 && lastName.length <= 14 && jobStatus.length <= 26;
 
   const handleOk = () => {
     const regex = new RegExp('^[a-zA-Zа-яА-ЯёЁ0-9-]+$');
@@ -244,6 +244,10 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
             rules={[
               {
                 type: 'string',
+              },
+              {
+                max: 26,
+                message: TextForUser.RequiredJobStatus,
               },
             ]}
           >
