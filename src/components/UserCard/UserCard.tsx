@@ -28,7 +28,7 @@ const UserCard: React.FC<IUserCardProps> = ({
   role,
   size = 'big',
 }: IUserCardProps) => {
-  const { users, isDealer } = useTypedSelector((state) => state.roomData);
+  const { users, isDealer, isObserver } = useTypedSelector((state) => state.roomData);
   const user = useTypedSelector((state) => state.userData);
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -75,9 +75,11 @@ const UserCard: React.FC<IUserCardProps> = ({
           <p className={`${style.name} ${style[size]}`}>{`${name} ${lastName}`}</p>
           <p className={style.jobStatus}>{jobStatus}</p>
         </div>
-        <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
-          {checkUserRoleAndId() ? null : <StopOutlined style={{ fontSize: sizeBtnKick }} />}
-        </div>
+        {isObserver ? null : (
+          <div className={style.kick} onClick={isDealer ? handleDeleteUser : handleDeleteUserWithVoting} data-id={id}>
+            {checkUserRoleAndId() ? null : <StopOutlined style={{ fontSize: sizeBtnKick }} />}
+          </div>
+        )}
       </div>
       {role === UserRole.Admin ? (
         <span className={style.crownWrapper}>
