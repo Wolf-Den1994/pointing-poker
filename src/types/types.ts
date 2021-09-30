@@ -223,6 +223,21 @@ export interface IStatisticData {
   }[];
 }
 
+export interface SavedIssuesList {
+  issue?: string;
+  card?: string;
+  averageValue?: string;
+}
+
+export interface IStatisticValues {
+  card: string;
+  averageValue: string;
+}
+
+export interface IGradesObject {
+  [grade: string]: number;
+}
+
 export const cardSets = {
   arrayFibonacci: [
     { card: 'pass', isActive: false },
@@ -265,9 +280,3 @@ export const cardSets = {
   ],
   arrayCustomYour: [{ card: 'pass', isActive: false }],
 };
-
-export interface SavedIssuesList {
-  issue?: string;
-  card?: string;
-  averageValue?: string;
-}
