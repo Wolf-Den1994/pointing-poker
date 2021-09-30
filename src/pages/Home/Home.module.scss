@@ -70,6 +70,8 @@
 
 @media (max-width: 500px) {
   .wrapper {
+    padding: 25px 15px 110px 15px;
+
     .row {
       text-align: center;
 
@@ -85,11 +87,35 @@
 
       .box {
         display: block;
+
+        .connectText {
+          margin-top: 0.5em;
+        }
       }
     }
 
     .lobby {
       display: block;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .wrapper {
+    .row {
+      .box {
+        button {
+          width: 100%;
+        }
+
+        .connect {
+          display: block;
+
+          input {
+            margin-bottom: 10px;
+          }
+        }
+      }
     }
   }
 }

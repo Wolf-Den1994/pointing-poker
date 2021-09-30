@@ -20,3 +20,9 @@
     margin-bottom: 50px;
   }
 }
+
+@media (max-width: 500px) {
+  .wrapper {
+    padding: 25px 15px 60px;
+  }
+}

@@ -1,6 +1,7 @@
 import { DownloadOutlined } from '@ant-design/icons';
 import { CSVLink } from 'react-csv';
 import { Button, message } from 'antd';
+import { SavedIssuesList } from '../../types/types';
 
 const headers = [
   { label: 'Issue', key: 'issue' },
@@ -11,8 +12,7 @@ const headers = [
 const fileExtension = '.csv';
 
 interface IExportCSVProps {
-  /* eslint-disable @typescript-eslint/ban-types */
-  csvData: object[];
+  csvData: SavedIssuesList[];
   filename: string;
 }
 

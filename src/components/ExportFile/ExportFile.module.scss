@@ -11,3 +11,33 @@
   margin-left: 10px;
   margin-bottom: 30px;
 }
+
+@media (max-width: 650px) {
+  .exportFile {
+    flex-direction: column;
+    margin-left: 0px;
+
+    .format {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    button {
+      margin-bottom: 10px;
+      width: 100px;
+    }
+
+    a {
+      width: 100px;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .exportFile {
+    button,
+    a {
+      width: 100%;
+    }
+  }
+}
