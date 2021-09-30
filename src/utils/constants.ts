@@ -21,6 +21,8 @@ export const room = {
     roundTime: 1,
   },
   cardSet: [],
+  progress: { progress: false },
+  statistics: [],
 };
 
 export const clearVoting = {

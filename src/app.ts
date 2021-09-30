@@ -127,6 +127,43 @@ io.on('connection', (socket) => {
     socket.broadcast.in(roomId).emit(SocketTokens.GetNewIssueGrade, { userData });
   });
 
+  socket.on(SocketTokens.OnProgress, ({ roomId, progress }) => {
+    socket.broadcast.in(roomId).emit(SocketTokens.OnProgress, progress);
+  });
+
+  socket.on(SocketTokens.OffProgress, async ({
+    roomId, progress, taskName, grades, statistics,
+  }) => {
+    const response = await getRoom(roomId);
+    response.issues.forEach((el) => {
+      if (el.taskName === taskName) el.grades = grades;
+    });
+    const findStatisticIndex = response.statistics.findIndex((el) => el.taskName === taskName);
+    if (findStatisticIndex >= 0) {
+      response.statistics[findStatisticIndex] = statistics;
+    } else {
+      response.statistics.push(statistics);
+    }
+    await updateRoom(response);
+    socket.broadcast.in(roomId).emit(SocketTokens.OffProgress, { progress, statistics });
+  });
+
+  socket.on(SocketTokens.EnableCards, ({ roomId, enableCards }) => {
+    socket.broadcast.in(roomId).emit(SocketTokens.EnableCards, enableCards);
+  });
+
+  socket.on(SocketTokens.DisableCards, ({ roomId, enableCards }) => {
+    socket.broadcast.in(roomId).emit(SocketTokens.DisableCards, enableCards);
+  });
+
+  socket.on(SocketTokens.ShowStatistics, ({ roomId, showStatistics }) => {
+    socket.broadcast.in(roomId).emit(SocketTokens.ShowStatistics, showStatistics);
+  });
+
+  socket.on(SocketTokens.HideStatistics, ({ roomId, showStatistics }) => {
+    socket.broadcast.in(roomId).emit(SocketTokens.HideStatistics, showStatistics);
+  });
+
   socket.on(SocketTokens.SendActiveIssueToUser, async ({ roomId, issueName }) => {
     const response = await getRoom(roomId);
     response.issues.forEach((el) => {

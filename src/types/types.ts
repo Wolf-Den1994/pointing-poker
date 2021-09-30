@@ -20,16 +20,14 @@ export interface Room {
     },
   ];
   messages: [{ name: string; message: string }];
-  issues: [
-    {
-      taskName: string;
-      grades: {
-        name: string;
-        grade: string | null;
-      }[];
-      isActive: boolean;
-    },
-  ];
+  issues: {
+    taskName: string;
+    grades: {
+      name: string;
+      grade: string | null;
+    }[];
+    isActive: boolean;
+  }[];
   voting: { id: string; voices: number; votedUsers: number };
   settings: {
     isDealerActive: boolean;
@@ -45,6 +43,14 @@ export interface Room {
     card: string;
     isActive: boolean;
   }[];
+  progress: { progress: boolean };
+  statistics: {
+    taskName: string ;
+    statisticValues: {
+      card: string ;
+      averageValue: string ;
+    }[],
+  }[],
 }
 
 export interface User {
@@ -106,4 +112,12 @@ export enum SocketTokens {
   GetActiveIssue = 'getActiveIssue',
   EditIssueGrade = 'editIssueGrade',
   GetNewIssueGrade = 'getNewIssueGrade',
+  OnProgress = 'onProgress',
+  OffProgress = 'offProgress',
+  WillBeDisconnected = 'willBeDisconnected',
+  UserLeaveTheRoom = 'userLeaveTheRoom',
+  DisableCards = 'disableCards',
+  EnableCards = 'enableCards',
+  ShowStatistics = 'showStatistics',
+  HideStatistics = 'hideStatistics',
 }
