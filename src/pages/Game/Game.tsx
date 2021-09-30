@@ -7,7 +7,7 @@ import {
   SaveOutlined,
   LineOutlined,
   UndoOutlined,
-  RotateLeftOutlined,
+  SafetyOutlined,
 } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, message } from 'antd';
@@ -74,6 +74,7 @@ const Game: React.FC = () => {
       dispatch(addStatistics(countStatistics(findIssue)));
     }
 
+    clearInterval(interval);
     dispatch(setOffProgress());
     dispatch(disableActiveCards());
     setDisableButtonStart(false);
@@ -273,8 +274,8 @@ const Game: React.FC = () => {
                 Stop Game
               </Button>
               <Button size="large" type="primary" disabled={disableButtonFlipCards} onClick={handleFlipCards}>
-                <RotateLeftOutlined />
-                Flip Cards
+                <SafetyOutlined />
+                End Round
               </Button>
               <Button size="large" type="primary" onClick={handleResultGame}>
                 <SaveOutlined />
