@@ -11,3 +11,12 @@
     justify-content: flex-end;
   }
 }
+
+@media (max-width: 680px) {
+  .btnsControl {
+    .control {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
+}

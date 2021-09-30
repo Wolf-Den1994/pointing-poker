@@ -2,14 +2,9 @@ import ExportCSV from '../ExportCSV/ExportCSV';
 import ExportXLSX from '../ExportXLSX/ExportXLSX';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './ExportFile.module.scss';
+import { SavedIssuesList } from '../../types/types';
 
 const filename = 'result-game-pointing-poker';
-
-interface SavedIssuesList {
-  issue?: string;
-  card?: string;
-  averageValue?: string;
-}
 
 const ExportFile: React.FC = () => {
   const { statistics } = useTypedSelector((state) => state.statistics);
@@ -26,7 +21,7 @@ const ExportFile: React.FC = () => {
 
   return (
     <div className={style.exportFile}>
-      <span>Download the result of the game in format:</span>
+      <span className={style.format}>Download the result of the game in format:</span>
       <ExportXLSX xlsxData={resultArrs()} file={filename} />
       <ExportCSV csvData={resultArrs()} filename={filename} />
     </div>

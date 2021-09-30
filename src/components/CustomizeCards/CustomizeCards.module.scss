@@ -48,3 +48,11 @@
     }
   }
 }
+
+@media (max-width: 450px) {
+  .customizeCards {
+    .wrapper {
+      justify-content: center;
+    }
+  }
+}

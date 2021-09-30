@@ -1,14 +1,6 @@
-import { IIssueData } from '../types/types';
+import { IIssueData, IStatisticData } from '../types/types';
 
-interface CountStatisticsReturn {
-  taskName: string;
-  statisticValues: {
-    card: string;
-    averageValue: string;
-  }[];
-}
-
-const countStatistics = (issue: IIssueData): CountStatisticsReturn => {
+const countStatistics = (issue: IIssueData): IStatisticData => {
   const obj: { [grade: string]: number } = {};
 
   issue.grades.forEach((grade) => {

@@ -148,10 +148,10 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
     }
   };
 
-  const checkLengthFields = firstName.length <= 10 && lastName.length <= 10 && jobStatus.length <= 10;
+  const checkLengthFields = firstName.length <= 10 && lastName.length <= 14;
 
   const handleOk = () => {
-    const regex = new RegExp('^[a-zA-Zа-яА-ЯёЁ0-9-]+$'); // all EN and RU letters with numbers and - (hyphen)
+    const regex = new RegExp('^[a-zA-Zа-яА-ЯёЁ0-9-]+$');
     if (firstName.length > 2 && regex.test(firstName)) {
       if (checkLengthFields) {
         dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
@@ -229,7 +229,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
                 type: 'string',
               },
               {
-                max: 10,
+                max: 14,
                 message: TextForUser.RequiredSurName,
               },
             ]}
@@ -244,10 +244,6 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
             rules={[
               {
                 type: 'string',
-              },
-              {
-                max: 10,
-                message: TextForUser.RequiredJobStatus,
               },
             ]}
           >

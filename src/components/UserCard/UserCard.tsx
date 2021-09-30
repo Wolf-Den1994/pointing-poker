@@ -45,17 +45,17 @@ const UserCard: React.FC<IUserCardProps> = ({
   };
 
   const sizeAvatar = size === 'small' ? 30 : 60;
-  const fontSizeAvatar = size === 'small' ? 14 : 36;
-  const sizeBtnKick = size === 'small' ? 14 : 30;
+  const fontSizeAvatar = size === 'small' ? 18 : 36;
+  const sizeBtnKick = size === 'small' ? 18 : 24;
   const sizeCrown = size === 'small' ? 18 : 26;
 
   const checkUserRoleAndId = () => role === UserRole.Admin || id === socket.id;
 
   return (
-    <Card className={style.userCard} bodyStyle={{ padding: 10 }}>
+    <Card className={style.userCard} bodyStyle={{ padding: 10, minHeight: 80 }}>
       <div className={style.wrapper}>
         <Avatar
-          className={`${style.avatar} ${style[size]}`}
+          className={`${style.avatar} ${size}`}
           src={avatar}
           size={sizeAvatar}
           style={{
