@@ -4,6 +4,7 @@ import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import { useHistory } from 'react-router';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
+import { checkForLettersAndNumbers } from '../../utils/regex';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser, GameRooms, LocalUserData } from '../../types/types';
 import { addAdmin, addUsers, getAllMessages, setGameRoom } from '../../store/roomDataReducer';
@@ -151,8 +152,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   const checkLengthFields = firstName.length <= 10 && lastName.length <= 14 && jobStatus.length <= 26;
 
   const handleOk = () => {
-    const regex = new RegExp('^[a-zA-Zа-яА-ЯёЁ0-9-]+$');
-    if (firstName.length > 2 && regex.test(firstName)) {
+    if (firstName.length > 2 && checkForLettersAndNumbers(firstName)) {
       if (checkLengthFields) {
         dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
         submitFormGame();
@@ -209,11 +209,11 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
               },
               {
                 min: 3,
-                message: TextForUser.RequiredFirstName,
+                message: TextForUser.RequiredMinLengthFirstName,
               },
               {
                 max: 10,
-                message: TextForUser.RequiredFirstName,
+                message: TextForUser.RequiredMaxLengthFirstName,
               },
             ]}
           >

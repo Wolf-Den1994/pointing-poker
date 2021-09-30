@@ -19,7 +19,7 @@ import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import GameCard from '../../components/GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
-import { LayoutViews, SocketTokens, PathRoutes, IIssueData } from '../../types/types';
+import { LayoutViews, SocketTokens, PathRoutes } from '../../types/types';
 import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import Statistics from '../../components/Statistics/Statistics';
@@ -62,15 +62,18 @@ const Game: React.FC = () => {
 
   const handleFlipCards = () => {
     setDisableButtonFlipCards(true);
-    const issue = findIssue as IIssueData;
-    emit(SocketTokens.OffProgress, {
-      roomId,
-      progress: false,
-      taskName: findIssue?.taskName,
-      grades: findIssue?.grades,
-      statistics: countStatistics(issue),
-    });
-    dispatch(addStatistics(countStatistics(issue)));
+
+    if (findIssue) {
+      emit(SocketTokens.OffProgress, {
+        roomId,
+        progress: false,
+        taskName: findIssue.taskName,
+        grades: findIssue.grades,
+        statistics: countStatistics(findIssue),
+      });
+      dispatch(addStatistics(countStatistics(findIssue)));
+    }
+
     dispatch(setOffProgress());
     dispatch(disableActiveCards());
     setDisableButtonStart(false);
@@ -91,11 +94,9 @@ const Game: React.FC = () => {
     dispatch(setActiveIssue(task));
     setDisableButtonStart(false);
 
-    if (findIssue) {
-      if (findIssue.isActive) {
-        handleFlipCards();
-        clearInterval(interval);
-      }
+    if (findIssue?.isActive) {
+      handleFlipCards();
+      clearInterval(interval);
     }
 
     setAllowSelectionCard(false);
@@ -179,7 +180,7 @@ const Game: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (timer.time === 0) if (settings.autoFlipCards) handleFlipCards();
+    if (!timer.time && settings.autoFlipCards) handleFlipCards();
   }, [timer]);
 
   const handleResultGame = () => {

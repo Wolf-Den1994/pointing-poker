@@ -13,6 +13,8 @@ export enum TextForUser {
   // eslint-disable-next-line max-len
   NameIsLong = 'For first name maximum 10 characters and for last name maximum 14 characters and for job position maximum 26 characters!',
   RequiredFirstName = 'Please, input your First name!',
+  RequiredMinLengthFirstName = 'Please, input your First name! Minimum 3 characters',
+  RequiredMaxLengthFirstName = 'Please, shorten your First name to 10 characters!',
   RequiredSurName = 'Please, check length Last name!',
   RequiredJobStatus = 'Please, check length Job position!',
   KickUserWithVoiting = 'You need to use another way to leave room',

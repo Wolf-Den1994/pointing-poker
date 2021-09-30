@@ -14,31 +14,30 @@ const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps)
   const [lengthAverageValue, setLengthAverageValue] = useState(0);
 
   const findNeededStatistic = (taskName: string) => statistics.find((el) => el.taskName === taskName)?.statisticValues;
+  const activeStatistic = findNeededStatistic(activeIssue);
 
-  const sumValues = findNeededStatistic(activeIssue)?.reduce(
-    (prev, curr) => (curr.card === 'pass' ? prev : prev + +curr.card),
-    0,
-  );
+  const sumValues = activeStatistic?.reduce((prev, curr) => (curr.card === 'pass' ? prev : prev + +curr.card), 0);
 
   useEffect(() => {
     if (sumValues) {
-      const arrValues = findNeededStatistic(activeIssue);
-      if (arrValues) {
+      if (activeStatistic) {
         let counterPass = 0;
-        for (let i = 0; i < arrValues.length; i += 1) if (arrValues[i].card === 'pass') counterPass += 1;
-        setLengthAverageValue(sumValues / (arrValues.length - counterPass));
+        for (let i = 0; i < activeStatistic.length; i += 1) {
+          if (activeStatistic[i].card === 'pass') counterPass += 1;
+        }
+        setLengthAverageValue(sumValues / (activeStatistic.length - counterPass));
       }
     }
   }, [statistics]);
 
   return (
     <div className={style.statistics}>
-      {findNeededStatistic(activeIssue)?.length ? (
+      {activeStatistic?.length ? (
         <>
           <div>
             <p className={style.title}>Statistics:</p>
             <div className={style.wrapper}>
-              {findNeededStatistic(activeIssue)?.map((item) => (
+              {activeStatistic?.map((item) => (
                 <span key={item.card}>
                   <div className={style.card}>
                     <GameCard small>{item.card}</GameCard>

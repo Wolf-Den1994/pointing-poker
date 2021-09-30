@@ -17,10 +17,10 @@ export const statisticsReducer = (state = initialState, action: AnyAction): type
       return { ...state, statistics: action.payload };
 
     case StatisticsActions.ADD_STATISTICS: {
-      const statisticIn = state.statistics.find((stat) => stat.taskName === action.payload.taskName);
+      const foundStatistics = state.statistics.find((stat) => stat.taskName === action.payload.taskName);
       return {
         ...state,
-        statistics: statisticIn
+        statistics: foundStatistics
           ? state.statistics.map((stat) => (stat.taskName === action.payload.taskName ? action.payload : stat))
           : [...state.statistics, action.payload],
       };
