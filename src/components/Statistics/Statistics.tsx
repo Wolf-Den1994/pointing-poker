@@ -19,14 +19,12 @@ const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps)
   const sumValues = activeStatistic?.reduce((prev, curr) => (curr.card === 'pass' ? prev : prev + +curr.card), 0);
 
   useEffect(() => {
-    if (sumValues) {
-      if (activeStatistic) {
-        let counterPass = 0;
-        for (let i = 0; i < activeStatistic.length; i += 1) {
-          if (activeStatistic[i].card === 'pass') counterPass += 1;
-        }
-        setLengthAverageValue(sumValues / (activeStatistic.length - counterPass));
+    if (sumValues && activeStatistic) {
+      let counterPass = 0;
+      for (let i = 0; i < activeStatistic.length; i += 1) {
+        if (activeStatistic[i].card === 'pass') counterPass += 1;
       }
+      setLengthAverageValue(sumValues / (activeStatistic.length - counterPass));
     }
   }, [statistics]);
 

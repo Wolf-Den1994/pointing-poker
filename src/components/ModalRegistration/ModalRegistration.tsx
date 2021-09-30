@@ -149,20 +149,14 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
     }
   };
 
-  const checkLengthFields = firstName.length <= 10 && lastName.length <= 14 && jobStatus.length <= 26;
-
   const handleOk = () => {
     if (firstName.length > 2 && checkForLettersAndNumbers(firstName)) {
-      if (checkLengthFields) {
-        dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
-        submitFormGame();
-        if (isDealer) {
-          createNewRoom();
-        } else {
-          enterRoom();
-        }
+      dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
+      submitFormGame();
+      if (isDealer) {
+        createNewRoom();
       } else {
-        message.error(TextForUser.NameIsLong);
+        enterRoom();
       }
     } else {
       message.error(TextForUser.ValidateFirstName);
@@ -211,10 +205,6 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
                 min: 3,
                 message: TextForUser.RequiredMinLengthFirstName,
               },
-              {
-                max: 10,
-                message: TextForUser.RequiredMaxLengthFirstName,
-              },
             ]}
           >
             <Input placeholder="Rick" onChange={handleChangeName} />
@@ -228,10 +218,6 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
               {
                 type: 'string',
               },
-              {
-                max: 14,
-                message: TextForUser.RequiredSurName,
-              },
             ]}
           >
             <Input placeholder="Griffin" onChange={handleChangeSurname} />
@@ -244,10 +230,6 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
             rules={[
               {
                 type: 'string',
-              },
-              {
-                max: 26,
-                message: TextForUser.RequiredJobStatus,
               },
             ]}
           >

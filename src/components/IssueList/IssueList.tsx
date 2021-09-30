@@ -114,7 +114,7 @@ const IssueList: React.FC<IIssueListProps> = ({
             className={`${style.issue} ${style[view]} ${canActive()} ${сhoiceOfActive(issue)}`}
             onClick={() => handleHighlight(issue.taskName)}
           >
-            <div>
+            <div className={style.task}>
               <div className={style.current}>current</div>
               <span>{issue.taskName}</span>
             </div>
