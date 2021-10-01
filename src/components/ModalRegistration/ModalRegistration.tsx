@@ -7,7 +7,14 @@ import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { checkForLettersAndNumbers } from '../../utils/regex';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser, GameRooms, LocalUserData } from '../../types/types';
-import { addAdmin, addUsers, getAllMessages, setGameRoom, setRoomId } from '../../store/roomDataReducer';
+import {
+  addAdmin,
+  addUsers,
+  getAllMessages,
+  setGameRoom,
+  setRoomId,
+  changeObserver,
+} from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
 import { getResourse } from '../../services/api';
@@ -83,8 +90,10 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   const handleChangeRole = (checked: boolean) => {
     if (checked) {
       onRole(UserRole.Observer);
+      dispatch(changeObserver(true));
     } else {
       onRole(UserRole.Player);
+      dispatch(changeObserver(false));
     }
   };
 
