@@ -330,7 +330,7 @@ const Game: React.FC = () => {
                   </div>
                 );
               }
-              if (member.role === UserRole.Observer) {
+              if ((member.role === UserRole.Admin && !settings.isDealerActive) || member.role === UserRole.Observer) {
                 return (
                   <div className={style.data} key={member.name}>
                     <EyeOutlined />
