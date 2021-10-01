@@ -7,7 +7,7 @@ import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { checkForLettersAndNumbers } from '../../utils/regex';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser, GameRooms, LocalUserData } from '../../types/types';
-import { addAdmin, addUsers, getAllMessages, setGameRoom } from '../../store/roomDataReducer';
+import { addAdmin, addUsers, getAllMessages, setGameRoom, setRoomId } from '../../store/roomDataReducer';
 import { changeIssue } from '../../store/issuesReducer';
 import { emit, once } from '../../services/socket';
 import { getResourse } from '../../services/api';
@@ -101,6 +101,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
       onRoomId(data.id);
       dispatch(addAdmin(data.user));
       dispatch(addUsers(data.user));
+      dispatch(setRoomId(data.id));
       onModalActive(false);
       history.push(`${PathRoutes.Lobby}/${data.id}`);
     });
@@ -122,6 +123,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
         users.push(userData);
+        dispatch(setRoomId(roomId));
         dispatch(addAdmin(admin));
         dispatch(setGameRoom(gameRoom));
         dispatch(changeSettings(settings));
