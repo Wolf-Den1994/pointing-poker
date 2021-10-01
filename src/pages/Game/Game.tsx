@@ -8,6 +8,7 @@ import {
   LineOutlined,
   UndoOutlined,
   SafetyOutlined,
+  EyeOutlined,
 } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, message } from 'antd';
@@ -19,7 +20,7 @@ import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import GameCard from '../../components/GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
-import { LayoutViews, SocketTokens, PathRoutes } from '../../types/types';
+import { LayoutViews, SocketTokens, PathRoutes, UserRole } from '../../types/types';
 import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import Statistics from '../../components/Statistics/Statistics';
@@ -322,10 +323,17 @@ const Game: React.FC = () => {
             <p className={style.title}>Score:</p>
             {users.map((member) => {
               const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
-              if (progress && !isDealer) {
+              if (progress && !isDealer && member.role !== UserRole.Observer) {
                 return (
                   <div className={style.data} key={member.name}>
                     <span>In progress</span>
+                  </div>
+                );
+              }
+              if (member.role === UserRole.Observer) {
+                return (
+                  <div className={style.data} key={member.name}>
+                    <EyeOutlined />
                   </div>
                 );
               }
