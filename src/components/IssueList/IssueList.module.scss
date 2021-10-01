@@ -29,6 +29,13 @@
       align-items: center;
       transition: 0.3s;
 
+      .task {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 165px;
+      }
+
       .current {
         display: none;
       }

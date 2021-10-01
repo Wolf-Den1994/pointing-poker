@@ -16,6 +16,16 @@ export const statisticsReducer = (state = initialState, action: AnyAction): type
     case StatisticsActions.SET_STATISTICS:
       return { ...state, statistics: action.payload };
 
+    case StatisticsActions.ADD_STATISTICS: {
+      const foundStatistics = state.statistics.find((stat) => stat.taskName === action.payload.taskName);
+      return {
+        ...state,
+        statistics: foundStatistics
+          ? state.statistics.map((stat) => (stat.taskName === action.payload.taskName ? action.payload : stat))
+          : [...state.statistics, action.payload],
+      };
+    }
+
     default:
       return state;
   }
@@ -26,6 +36,11 @@ interface IStatisticsActionsString {
   payload: string;
 }
 
+interface IStatisticsActionsIStatisticData {
+  type: StatisticsActions;
+  payload: IStatisticData;
+}
+
 interface IStatisticsActionsIStatisticDataArray {
   type: StatisticsActions;
   payload: IStatisticData[];
@@ -33,6 +48,11 @@ interface IStatisticsActionsIStatisticDataArray {
 
 export const removeStatistic = (payload: string): IStatisticsActionsString => ({
   type: StatisticsActions.REMOVE_STATISTIC,
+  payload,
+});
+
+export const addStatistics = (payload: IStatisticData): IStatisticsActionsIStatisticData => ({
+  type: StatisticsActions.ADD_STATISTICS,
   payload,
 });
 

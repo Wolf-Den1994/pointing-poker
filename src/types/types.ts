@@ -9,9 +9,9 @@ export enum TextForUser {
   IdCopiedClipboard = 'ID successfully copied to clipboard!',
   DublicateUserName = 'User with the same name already exists. Enter another name!',
   ErrorServer = 'Failed to establish a connection. Contact the system administrator. Error:',
-  ValidateFirstName = 'The input is not valid First name!',
-  NameIsLong = 'The name/last name is too long. Maximum 10 characters',
+  ValidateFirstName = 'The input is not valid First name is short. Minimum 3 characters and no additional characters!',
   RequiredFirstName = 'Please, input your First name!',
+  RequiredMinLengthFirstName = 'Please, input your First name! Minimum 3 characters',
   KickUserWithVoiting = 'You need to use another way to leave room',
   RoomDoesNotExist = 'Such room doesnt exist, try again!',
   SomethingGoingWrong = 'Something is going wrong, try again!',
@@ -126,6 +126,12 @@ export enum SocketTokens {
   RedirectAllToResultPage = 'redirectAllToResultPage',
   GetNewIssueGrade = 'getNewIssueGrade',
   EditIssueGrade = 'editIssueGrade',
+  OnProgress = 'onProgress',
+  OffProgress = 'offProgress',
+  DisableCards = 'disableCards',
+  EnableCards = 'enableCards',
+  ShowStatistics = 'showStatistics',
+  HideStatistics = 'hideStatistics',
 }
 
 export enum LayoutViews {
@@ -196,6 +202,7 @@ export interface IRoomData {
   voting: { id: string; voices: number; votedUsers: number };
   settings: IGameSettingsData;
   cardSet: ICardData[];
+  statistics: IStatisticData[];
 }
 
 export interface ICardData {
@@ -209,6 +216,21 @@ export interface IStatisticData {
     card: string;
     averageValue: string;
   }[];
+}
+
+export interface SavedIssuesList {
+  issue?: string;
+  card?: string;
+  averageValue?: string;
+}
+
+export interface IStatisticValues {
+  card: string;
+  averageValue: string;
+}
+
+export interface IGradesObject {
+  [grade: string]: number;
 }
 
 export const cardSets = {
@@ -253,9 +275,3 @@ export const cardSets = {
   ],
   arrayCustomYour: [{ card: 'pass', isActive: false }],
 };
-
-export interface SavedIssuesList {
-  issue?: string;
-  card?: string;
-  averageValue?: string;
-}

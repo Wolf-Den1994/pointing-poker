@@ -8,6 +8,7 @@ import { userTypingReducer } from './userTypingReducer';
 import { timerReducer } from './timerReducer';
 import { statisticsReducer } from './statisticsReducer';
 import { requestsForEnterReducer } from './requestsForEnterReducer';
+import { progressReducer } from './progressReducer';
 
 const rootReducer = combineReducers({
   issues: issuesReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   timer: timerReducer,
   statistics: statisticsReducer,
   requests: requestsForEnterReducer,
+  progress: progressReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

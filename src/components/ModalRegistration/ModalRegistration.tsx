@@ -4,6 +4,7 @@ import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
 import { useHistory } from 'react-router';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
+import { checkForLettersAndNumbers } from '../../utils/regex';
 import { setData } from '../../store/userReducer';
 import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser, GameRooms, LocalUserData } from '../../types/types';
 import { addAdmin, addUsers, changeObserver, getAllMessages, setGameRoom } from '../../store/roomDataReducer';
@@ -12,6 +13,7 @@ import { emit, once } from '../../services/socket';
 import { getResourse } from '../../services/api';
 import { changeSettings, setCards } from '../../store/settingsReducer';
 import { startTime } from '../../store/timerReducer';
+import { setStatistics } from '../../store/statisticsReducer';
 
 interface IModalRegistrationProps {
   role: string;
@@ -117,7 +119,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         avatarUrl: avatar,
       };
       const response = await getResourse(roomId);
-      const { admin, users, issues, messages, gameRoom, settings, cardSet } = response.data;
+      const { admin, users, issues, messages, gameRoom, settings, cardSet, statistics } = response.data;
       const timerTime = settings.roundTime * 60;
       const isDublicate = users.find((item: IMember) => item.name === firstName);
       if (!isDublicate) {
@@ -129,6 +131,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
         dispatch(addUsers(users));
         dispatch(changeIssue(issues));
         dispatch(getAllMessages(messages));
+        dispatch(setStatistics(statistics));
         if (cardSet) dispatch(setCards(cardSet));
         emit(SocketTokens.EnterRoom, {
           user: userData,
@@ -149,17 +152,13 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   };
 
   const handleOk = () => {
-    if (firstName.length) {
-      if (firstName.length <= 10 && lastName.length <= 10) {
-        dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
-        submitFormGame();
-        if (isDealer) {
-          createNewRoom();
-        } else {
-          enterRoom();
-        }
+    if (firstName.length > 2 && checkForLettersAndNumbers(firstName)) {
+      dispatch(setData({ id, name: firstName, lastName, position: jobStatus, role, avatarUrl: avatar }));
+      submitFormGame();
+      if (isDealer) {
+        createNewRoom();
       } else {
-        message.error(TextForUser.NameIsLong);
+        enterRoom();
       }
     } else {
       message.error(TextForUser.ValidateFirstName);
@@ -204,6 +203,10 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
                 required: true,
                 message: TextForUser.RequiredFirstName,
               },
+              {
+                min: 3,
+                message: TextForUser.RequiredMinLengthFirstName,
+              },
             ]}
           >
             <Input placeholder="Rick" onChange={handleChangeName} />
@@ -211,7 +214,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
           <Form.Item
             name="surname"
-            label="Surname name:"
+            label="Last name:"
             initialValue={lastName}
             rules={[
               {
