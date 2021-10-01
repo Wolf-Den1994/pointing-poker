@@ -39,6 +39,22 @@
   }
 }
 
+.total {
+  margin-top: 5px;
+  margin-left: 10px;
+
+  .totalTitle {
+    font-size: 24px;
+    line-height: 27px;
+    font-weight: 600;
+  }
+
+  .totalValue {
+    font-size: 27px;
+    line-height: 30px;
+  }
+}
+
 @media (max-width: 450px) {
   .issueCard {
     max-width: 100%;

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Space } from 'antd';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import GameCard from '../GameCard/GameCard';
@@ -11,22 +10,10 @@ interface IStatisticProps {
 const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps) => {
   const { statistics } = useTypedSelector((state) => state.statistics);
 
-  const [lengthAverageValue, setLengthAverageValue] = useState(0);
+  const findActiveIssue = statistics.find((el) => el.taskName === activeIssue);
 
-  const findNeededStatistic = (taskName: string) => statistics.find((el) => el.taskName === taskName)?.statisticValues;
-  const activeStatistic = findNeededStatistic(activeIssue);
-
-  const sumValues = activeStatistic?.reduce((prev, curr) => (curr.card === 'pass' ? prev : prev + +curr.card), 0);
-
-  useEffect(() => {
-    if (sumValues && activeStatistic) {
-      let counterPass = 0;
-      for (let i = 0; i < activeStatistic.length; i += 1) {
-        if (activeStatistic[i].card === 'pass') counterPass += 1;
-      }
-      setLengthAverageValue(sumValues / (activeStatistic.length - counterPass));
-    }
-  }, [statistics]);
+  const activeStatistic = findActiveIssue?.statisticValues;
+  const getTotalValue = findActiveIssue?.lengthAverageValue;
 
   return (
     <div className={style.statistics}>
@@ -47,8 +34,8 @@ const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps)
           </div>
           <div className={style.total}>
             <Space>
-              <span className={style.totalTitle}>Total</span>
-              <span className={style.totalValue}>{lengthAverageValue}</span>
+              <span className={style.totalTitle}>Total:</span>
+              <span className={style.totalValue}>{getTotalValue}</span>
             </Space>
           </div>
         </>

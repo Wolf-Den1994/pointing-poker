@@ -212,6 +212,7 @@ export interface ICardData {
 
 export interface IStatisticData {
   taskName: string;
+  lengthAverageValue: string;
   statisticValues: {
     card: string;
     averageValue: string;
