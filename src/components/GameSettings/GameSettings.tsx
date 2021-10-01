@@ -44,7 +44,7 @@ const GameSettings: React.FC = () => {
           colon={false}
           initialValue={isDealerActive}
         >
-          <Switch />
+          <Switch checkedChildren="Yes" unCheckedChildren="No" />
         </Form.Item>
 
         <Form.Item
@@ -54,7 +54,7 @@ const GameSettings: React.FC = () => {
           colon={false}
           initialValue={autoFlipCards}
         >
-          <Switch />
+          <Switch checkedChildren="Yes" unCheckedChildren="No" />
         </Form.Item>
 
         <Form.Item
@@ -68,7 +68,7 @@ const GameSettings: React.FC = () => {
           colon={false}
           initialValue={autoAdmitMembers}
         >
-          <Switch />
+          <Switch checkedChildren="Yes" unCheckedChildren="No" />
         </Form.Item>
 
         <Form.Item
@@ -78,7 +78,7 @@ const GameSettings: React.FC = () => {
           colon={false}
           initialValue={voteAfterRoundEnd}
         >
-          <Switch />
+          <Switch checkedChildren="Yes" unCheckedChildren="No" />
         </Form.Item>
 
         <Form.Item
@@ -88,7 +88,7 @@ const GameSettings: React.FC = () => {
           colon={false}
           initialValue={showTimer}
         >
-          <Switch />
+          <Switch checkedChildren="Yes" unCheckedChildren="No" />
         </Form.Item>
 
         <Form.Item
