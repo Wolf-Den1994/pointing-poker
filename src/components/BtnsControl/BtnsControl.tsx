@@ -1,9 +1,8 @@
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { emit } from '../../services/socket';
-import { PathRoutes, SocketTokens } from '../../types/types';
-import socket from '../../utils/soketIO';
+import { PathRoutes } from '../../types/types';
+import { disconnectUsers } from '../../utils/disconnectUsers';
 import style from './BtnsControl.module.scss';
 
 interface IBtnsControlProps {
@@ -18,9 +17,13 @@ const BtnsControl: React.FC<IBtnsControlProps> = ({ children }: IBtnsControlProp
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  const handleExitGame = () => {
-    emit(SocketTokens.LeaveRoom, { roomId, user: userName, id: socket.id });
-    history.push(PathRoutes.Home);
+  const handleExitGame = async () => {
+    try {
+      await disconnectUsers(roomId, isDealer, userName);
+      history.push(PathRoutes.Home);
+    } catch (err) {
+      message.error(`${err}`);
+    }
   };
 
   return (

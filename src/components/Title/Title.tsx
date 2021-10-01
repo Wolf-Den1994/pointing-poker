@@ -2,10 +2,12 @@ import { EditOutlined } from '@ant-design/icons';
 import { Input, message } from 'antd';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { emit } from '../../services/socket';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeIssue } from '../../store/issuesReducer';
 import style from './Title.module.scss';
-import { IIssueData, TextForUser } from '../../types/types';
+import { IIssueData, IssuesListMode, SocketTokens, TextForUser } from '../../types/types';
 import createElementsPlanning from '../../utils/createElementsPlanning';
 
 interface ITitleProps {
@@ -14,9 +16,9 @@ interface ITitleProps {
 
 const Title: React.FC<ITitleProps> = ({ editAvailable }: ITitleProps) => {
   const dispatch = useDispatch();
+  const { roomId } = useParams<{ roomId: string }>();
 
   const { issueList } = useTypedSelector((state) => state.issues);
-
   const [issues, setIssues] = useState<IIssueData[]>(issueList);
   const [issuesEdit, setIssuesEdit] = useState(false);
 
@@ -34,6 +36,11 @@ const Title: React.FC<ITitleProps> = ({ editAvailable }: ITitleProps) => {
         message.warning(TextForUser.AboutDublicateInLine);
         setIssues(issueList);
       } else {
+        emit(SocketTokens.ChangeIssuesList, {
+          newIssue: issues,
+          mode: IssuesListMode.All,
+          roomId,
+        });
         dispatch(changeIssue(issues));
       }
       setIssuesEdit(false);

@@ -26,9 +26,7 @@ import BtnChat from '../../components/BtnChat/BtnChat';
 import Statistics from '../../components/Statistics/Statistics';
 import { addUserRequest } from '../../store/requestsForEnterReducer';
 import RequestPopup from '../../components/RequestPopup/RequestPopup';
-import { deleteRoom } from '../../services/api';
 import { emit, on } from '../../services/socket';
-import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
 import { changeSettings, setActiveCard, setCards, disableActiveCards } from '../../store/settingsReducer';
 import { addStatistics } from '../../store/statisticsReducer';
@@ -36,6 +34,7 @@ import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { setOffProgress, setOnProgress } from '../../store/progressReducer';
 import countStatistics from '../../utils/countStatistic';
+import { disconnectUsers } from '../../utils/disconnectUsers';
 
 let interval: NodeJS.Timeout;
 
@@ -107,9 +106,7 @@ const Game: React.FC = () => {
 
   const handleStopGame = async () => {
     try {
-      await deleteRoom({ data: { id: roomId } });
-      emit(SocketTokens.DisconnectAll, { roomId });
-      dispatch(clearRoomData());
+      await disconnectUsers(roomId, isDealer);
       history.push(PathRoutes.Home);
     } catch (err) {
       message.error(`${err}`);
