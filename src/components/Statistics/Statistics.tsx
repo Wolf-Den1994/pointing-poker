@@ -16,9 +16,9 @@ const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps)
   const getTotalValue = findActiveIssue?.lengthAverageValue;
 
   return (
-    <div className={style.statistics}>
+    <>
       {activeStatistic?.length ? (
-        <>
+        <div className={style.statistics}>
           <div>
             <p className={style.title}>Statistics:</p>
             <div className={style.wrapper}>
@@ -38,9 +38,9 @@ const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps)
               <span className={style.totalValue}>{getTotalValue}</span>
             </Space>
           </div>
-        </>
+        </div>
       ) : null}
-    </div>
+    </>
   );
 };
 

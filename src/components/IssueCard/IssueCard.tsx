@@ -20,7 +20,7 @@ const IssueCard: React.FC<IUserCardProps> = ({ data }: IUserCardProps) => {
       <Card className={style.issueCard} bodyStyle={{ padding: 10 }}>
         <div className={style.wrapper}>
           <div className={style.issue}>
-            <p className={style.name}>{`Issue  ${data.taskName}`}</p>
+            <p className={style.name}>{`Issue:  ${data.taskName}`}</p>
           </div>
         </div>
       </Card>
