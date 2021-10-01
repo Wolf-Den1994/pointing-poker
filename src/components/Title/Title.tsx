@@ -2,6 +2,7 @@ import { EditOutlined } from '@ant-design/icons';
 import { Input, message } from 'antd';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 import { emit } from '../../services/socket';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { changeIssue } from '../../store/issuesReducer';
@@ -15,9 +16,9 @@ interface ITitleProps {
 
 const Title: React.FC<ITitleProps> = ({ editAvailable }: ITitleProps) => {
   const dispatch = useDispatch();
+  const { roomId } = useParams<{ roomId: string }>();
 
   const { issueList } = useTypedSelector((state) => state.issues);
-  const { roomId } = useTypedSelector((state) => state.roomData);
   const [issues, setIssues] = useState<IIssueData[]>(issueList);
   const [issuesEdit, setIssuesEdit] = useState(false);
 
