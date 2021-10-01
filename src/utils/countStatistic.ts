@@ -1,19 +1,17 @@
 import { IGradesObject, IIssueData, IStatisticData, IStatisticValues } from '../types/types';
 
 const countStatistics = (issue: IIssueData): IStatisticData => {
-  const gradesObject: IGradesObject = {};
-
-  issue.grades.forEach((grade) => {
-    const userGrade = grade.grade;
-
+  const gradesObject = issue.grades.reduce((acc, item) => {
+    const userGrade = item.grade;
     if (userGrade) {
-      if (gradesObject[userGrade]) {
-        gradesObject[userGrade] += 1;
+      if (acc[userGrade]) {
+        acc[userGrade] += 1;
       } else {
-        gradesObject[userGrade] = 1;
+        acc[userGrade] = 1;
       }
     }
-  });
+    return acc;
+  }, {} as IGradesObject);
 
   const gradesArray = Object.keys(gradesObject);
 
