@@ -17,6 +17,7 @@ export enum SettingsActions {
   SET_CARDS = 'SET_CARDS',
   SET_ACTIVE_CARD = 'SET_ACTIVE_CARD',
   VISIBLE_CHAT = 'VISIBLE_CHAT',
+  DISABLE_ACTIVE = 'DISABLE_ACTIVE',
 }
 
 export enum UserActions {
@@ -65,8 +66,13 @@ export enum TimerActions {
 }
 
 export enum StatisticsActions {
-  ADD_STATISTIC = 'ADD_STATISTIC',
+  ADD_STATISTICS = 'ADD_STATISTICS',
   REMOVE_STATISTIC = 'REMOVE_STATISTIC',
   EDIT_STATISTIC = 'EDIT_STATISTIC',
   SET_STATISTICS = 'SET_STATISTICS',
+}
+
+export enum ProgressVoiting {
+  OFF_PROGRESS = 'OFF_PROGRESS',
+  ON_PROGRESS = 'ON_PROGRESS',
 }

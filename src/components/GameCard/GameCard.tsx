@@ -38,6 +38,8 @@ const GameCard: React.FC<IGameCardProps> = ({
   const [newValueCard, setNewValueCard] = useState('');
   const [oldValueCard, setOldValueCard] = useState('');
 
+  const taskName = issueList.find((issue) => issue.isActive)?.taskName;
+
   const viewIsNumber = Number.isNaN(+valueView) ? null : valueView;
   const classNameView = viewIsNumber ? style.number : `${style.scoreType} ${style[children]}`;
 
@@ -74,7 +76,6 @@ const GameCard: React.FC<IGameCardProps> = ({
 
   const handleSectCard = () => {
     if (allowSelection) {
-      const taskName = issueList.find((issue) => issue.isActive)?.taskName;
       if (taskName) {
         emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
         dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
@@ -84,7 +85,7 @@ const GameCard: React.FC<IGameCardProps> = ({
   };
 
   const classNameSmall = small ? style.small : '';
-  const classNameAllowSelection = allowSelection ? style.allowSelection : '';
+  const classNameAllowSelection = allowSelection && taskName ? style.allowSelection : '';
 
   return (
     <div

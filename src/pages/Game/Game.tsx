@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { LogoutOutlined, PlayCircleOutlined, SaveOutlined, LineOutlined, UndoOutlined } from '@ant-design/icons';
+import {
+  LogoutOutlined,
+  PlayCircleOutlined,
+  SaveOutlined,
+  LineOutlined,
+  UndoOutlined,
+  SafetyOutlined,
+} from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { Button, message } from 'antd';
 import IssueList from '../../components/IssueList/IssueList';
@@ -22,47 +29,12 @@ import { deleteRoom } from '../../services/api';
 import { emit, on } from '../../services/socket';
 import { clearRoomData } from '../../store/roomDataReducer';
 import { startTime } from '../../store/timerReducer';
-import { changeSettings, setActiveCard, setCards } from '../../store/settingsReducer';
-import { setStatistics } from '../../store/statisticsReducer';
+import { changeSettings, setActiveCard, setCards, disableActiveCards } from '../../store/settingsReducer';
+import { addStatistics } from '../../store/statisticsReducer';
 import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
-
-const statistics = [
-  {
-    taskName: 'test',
-    statisticValues: [
-      {
-        card: '101',
-        averageValue: '42.8',
-      },
-      {
-        card: '5',
-        averageValue: '28.5',
-      },
-      {
-        card: 'pass',
-        averageValue: '28.5',
-      },
-    ],
-  },
-  {
-    taskName: 'test2',
-    statisticValues: [
-      {
-        card: '10',
-        averageValue: '9.8',
-      },
-      {
-        card: '58',
-        averageValue: '26.5',
-      },
-      {
-        card: 'pass',
-        averageValue: '78.5',
-      },
-    ],
-  },
-];
+import { setOffProgress, setOnProgress } from '../../store/progressReducer';
+import countStatistics from '../../utils/countStatistic';
 
 let interval: NodeJS.Timeout;
 
@@ -70,8 +42,10 @@ const Game: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [disableButton, setDisableButton] = useState(false);
-  const [allowSelectionCard, setAllowSelectionCard] = useState(true);
+  const [disableButtonStart, setDisableButtonStart] = useState(true);
+  const [disableButtonFlipCards, setDisableButtonFlipCards] = useState(true);
+  const [allowSelectionCard, setAllowSelectionCard] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
   const [activeIssueValue, setActiveIssueValue] = useState('');
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -81,13 +55,53 @@ const Game: React.FC = () => {
   const { settings, cardSet } = useTypedSelector((state) => state.settings);
   const { requestsFromUsers } = useTypedSelector((state) => state.requests);
   const votingData = useTypedSelector((state) => state.voting);
+  const { progress } = useTypedSelector((state) => state.progress);
+  const timer = useTypedSelector((state) => state.timer);
 
   const findIssue = issueList.find((issue) => issue.isActive);
 
+  const handleFlipCards = () => {
+    setDisableButtonFlipCards(true);
+
+    if (findIssue) {
+      emit(SocketTokens.OffProgress, {
+        roomId,
+        progress: false,
+        taskName: findIssue.taskName,
+        grades: findIssue.grades,
+        statistics: countStatistics(findIssue),
+      });
+      dispatch(addStatistics(countStatistics(findIssue)));
+    }
+
+    clearInterval(interval);
+    dispatch(setOffProgress());
+    dispatch(disableActiveCards());
+    setDisableButtonStart(false);
+
+    setShowStatistics(true);
+    emit(SocketTokens.ShowStatistics, { roomId, showStatistics: true });
+
+    if (!settings.voteAfterRoundEnd) {
+      setAllowSelectionCard(false);
+      emit(SocketTokens.DisableCards, { roomId, enableCards: false });
+    }
+  };
+
   const handleIssueHighlight = (task: string) => {
+    setDisableButtonFlipCards(true);
     emit(SocketTokens.SendActiveIssueToUser, { roomId, issueName: task });
     setActiveIssueValue(task);
     dispatch(setActiveIssue(task));
+    setDisableButtonStart(false);
+
+    if (findIssue?.isActive) {
+      handleFlipCards();
+      clearInterval(interval);
+    }
+
+    setAllowSelectionCard(false);
+    emit(SocketTokens.DisableCards, { roomId, enableCards: false });
   };
 
   const handleStopGame = async () => {
@@ -102,7 +116,6 @@ const Game: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(setStatistics(statistics));
     on(SocketTokens.AdminsAnswerForRequest, (data) => {
       dispatch(addUserRequest(data.userId));
     });
@@ -129,6 +142,33 @@ const Game: React.FC = () => {
           newGrade: { name: data.userData.name, grade: data.userData.grade },
         }),
       );
+      dispatch(setOnProgress());
+    });
+
+    on(SocketTokens.OnProgress, () => {
+      dispatch(setOnProgress());
+    });
+
+    on(SocketTokens.OffProgress, (data) => {
+      dispatch(setOffProgress());
+      dispatch(disableActiveCards());
+      dispatch(addStatistics(data.statistics));
+    });
+
+    on(SocketTokens.EnableCards, () => {
+      setAllowSelectionCard(true);
+    });
+
+    on(SocketTokens.DisableCards, () => {
+      setAllowSelectionCard(false);
+    });
+
+    on(SocketTokens.ShowStatistics, () => {
+      setShowStatistics(true);
+    });
+
+    on(SocketTokens.HideStatistics, () => {
+      setShowStatistics(false);
     });
 
     window.onload = () => {
@@ -140,6 +180,10 @@ const Game: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!timer.time && settings.autoFlipCards) handleFlipCards();
+  }, [timer]);
+
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });
     history.push(`${PathRoutes.Result}/${roomId}`);
@@ -148,40 +192,58 @@ const Game: React.FC = () => {
   let timeSeconds = settings.roundTime * 60;
 
   const handleStartRound = () => {
-    setDisableButton(true);
+    if (findIssue?.isActive) {
+      setDisableButtonStart(true);
 
-    interval = setInterval(() => {
-      dispatch(startTime((timeSeconds -= 1)));
-      emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
-      if (timeSeconds <= 0) {
-        dispatch(startTime(0));
+      if (settings.showTimer) {
         clearInterval(interval);
-
-        if (settings.voteAfterRoundEnd) {
-          setAllowSelectionCard(true);
-        } else {
-          setAllowSelectionCard(false);
-        }
+        interval = setInterval(() => {
+          dispatch(startTime((timeSeconds -= 1)));
+          emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
+          if (timeSeconds <= 0) {
+            dispatch(startTime(0));
+            clearInterval(interval);
+          }
+        }, 1000);
       }
-    }, 1000);
+
+      dispatch(setOnProgress());
+      emit(SocketTokens.OnProgress, { roomId, progress: true });
+
+      setAllowSelectionCard(true);
+      emit(SocketTokens.EnableCards, { roomId, enableCards: true });
+
+      setShowStatistics(false);
+      emit(SocketTokens.HideStatistics, { roomId, showStatistics: false });
+
+      setDisableButtonFlipCards(false);
+    }
   };
 
   const handleResetRound = () => {
-    emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
-    setDisableButton(false);
-    clearInterval(interval);
-    dispatch(startTime(timeSeconds));
+    if (findIssue?.isActive) {
+      emit(SocketTokens.SetTimeOnTimer, { time: timeSeconds, roomId });
+      setDisableButtonStart(false);
+      clearInterval(interval);
+      dispatch(startTime(timeSeconds));
 
-    const activeIssue = issueList.find((issue) => issue.isActive);
-    if (activeIssue) {
-      const newGradesArr = activeIssue.grades.map((grade) => {
-        const newGrade = { ...grade, grade: null };
-        emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: activeIssue.taskName, ...newGrade } });
-        return { ...newGrade };
-      });
-      dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
-      setAllowSelectionCard(true);
-      dispatch(setActiveCard(''));
+      setShowStatistics(false);
+      emit(SocketTokens.HideStatistics, { roomId, showStatistics: false });
+
+      const activeIssue = issueList.find((issue) => issue.isActive);
+      if (activeIssue) {
+        const newGradesArr = activeIssue.grades.map((grade) => {
+          const newGrade = { ...grade, grade: null };
+          emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: activeIssue.taskName, ...newGrade } });
+          return { ...newGrade };
+        });
+        dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+
+        setAllowSelectionCard(false);
+        emit(SocketTokens.DisableCards, { roomId, enableCards: false });
+
+        dispatch(setActiveCard(''));
+      }
     }
   };
 
@@ -211,7 +273,11 @@ const Game: React.FC = () => {
                 <LogoutOutlined />
                 Stop Game
               </Button>
-              <Button size="large" onClick={handleResultGame}>
+              <Button size="large" type="primary" disabled={disableButtonFlipCards} onClick={handleFlipCards}>
+                <SafetyOutlined />
+                End Round
+              </Button>
+              <Button size="large" type="primary" onClick={handleResultGame}>
                 <SaveOutlined />
                 Show the game Result
               </Button>
@@ -220,25 +286,21 @@ const Game: React.FC = () => {
           {isDealer ? (
             <div className={style.box}>
               <GameSettingsPopup />
-              {settings.showTimer ? (
-                <>
-                  <Button type="primary" size="large" disabled={disableButton} onClick={handleStartRound}>
-                    <PlayCircleOutlined />
-                    Start Round
-                  </Button>
-                  <Button type="primary" size="large" onClick={handleResetRound}>
-                    <UndoOutlined />
-                    Reset Round
-                  </Button>
-                </>
-              ) : null}
+              <Button type="primary" size="large" disabled={disableButtonStart} onClick={handleStartRound}>
+                <PlayCircleOutlined />
+                Start Round
+              </Button>
+              <Button type="primary" size="large" onClick={handleResetRound}>
+                <UndoOutlined />
+                Reset Round
+              </Button>
             </div>
           ) : null}
           <div className={style.field}>
             <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
             <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
-          <Statistics activeIssue={activeIssueValue} />
+          {showStatistics ? <Statistics activeIssue={activeIssueValue} /> : null}
           {!settings.isDealerActive && isDealer ? null : (
             <div className={style.gameCards}>
               {cardSet.map(({ card, isActive }) =>
@@ -260,6 +322,13 @@ const Game: React.FC = () => {
             <p className={style.title}>Score:</p>
             {users.map((member) => {
               const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
+              if (progress && !isDealer) {
+                return (
+                  <div className={style.data} key={member.name}>
+                    <span>In progress</span>
+                  </div>
+                );
+              }
               return (
                 <div className={style.data} key={member.name}>
                   {findGrade?.grade ? (
