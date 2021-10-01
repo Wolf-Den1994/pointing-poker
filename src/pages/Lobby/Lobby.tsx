@@ -12,14 +12,13 @@ import GameSettings from '../../components/GameSettings/GameSettings';
 import IssueList from '../../components/IssueList/IssueList';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
-import { clearRoomData } from '../../store/roomDataReducer';
 import { PathRoutes, SocketTokens } from '../../types/types';
 import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
-import { deleteRoom } from '../../services/api';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import { changeSettings, setCards } from '../../store/settingsReducer';
+import disconnectUsers from '../../utils/disconnectUsers';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();
@@ -57,9 +56,7 @@ const Lobby: React.FC = () => {
 
   const handleCancelGame = async () => {
     try {
-      await deleteRoom({ data: { id: roomId } });
-      emit(SocketTokens.DisconnectAll, { roomId });
-      dispatch(clearRoomData());
+      await disconnectUsers(roomId, isDealer);
       history.push(PathRoutes.Home);
     } catch (err) {
       message.error(`${err}`);
