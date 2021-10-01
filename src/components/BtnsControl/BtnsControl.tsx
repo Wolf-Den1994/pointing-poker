@@ -2,7 +2,7 @@ import { Button, message } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { PathRoutes } from '../../types/types';
-import disconnectUsers from '../../utils/disconnectUsers';
+import { disconnectUsers } from '../../utils/disconnectUsers';
 import style from './BtnsControl.module.scss';
 
 interface IBtnsControlProps {

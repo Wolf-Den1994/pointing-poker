@@ -3,7 +3,7 @@ import { emit } from '../services/socket';
 import { SocketTokens } from '../types/types';
 import socket from './soketIO';
 
-const disconnectUsers = async (roomId: string, isDealer: boolean, userName?: string): Promise<void> => {
+export const disconnectUsers = async (roomId: string, isDealer: boolean, userName?: string): Promise<void> => {
   if (isDealer) {
     emit(SocketTokens.DisconnectAll, { roomId });
     await deleteRoom({ data: { id: roomId } });
@@ -11,5 +11,3 @@ const disconnectUsers = async (roomId: string, isDealer: boolean, userName?: str
     emit(SocketTokens.LeaveRoom, { roomId, user: userName, id: socket.id });
   }
 };
-
-export default disconnectUsers;

@@ -18,7 +18,7 @@ import { startTime } from '../../store/timerReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import { changeSettings, setCards } from '../../store/settingsReducer';
-import disconnectUsers from '../../utils/disconnectUsers';
+import { disconnectUsers } from '../../utils/disconnectUsers';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();

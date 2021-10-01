@@ -33,7 +33,7 @@ import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { setOffProgress, setOnProgress } from '../../store/progressReducer';
 import countStatistics from '../../utils/countStatistic';
-import disconnectUsers from '../../utils/disconnectUsers';
+import { disconnectUsers } from '../../utils/disconnectUsers';
 
 let interval: NodeJS.Timeout;
 
