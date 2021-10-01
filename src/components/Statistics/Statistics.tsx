@@ -10,7 +10,7 @@ interface IStatisticProps {
 const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps) => {
   const { statistics } = useTypedSelector((state) => state.statistics);
 
-  const activeStatistic = statistics.find((el) => el.taskName === activeIssue)?.statisticValues;
+  const activeStatistic = statistics.find((stats) => stats.taskName === activeIssue)?.statisticValues;
 
   return (
     <>
