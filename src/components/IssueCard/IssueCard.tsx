@@ -1,20 +1,14 @@
-import { Card, Space } from 'antd';
+import { Card } from 'antd';
 import style from './IssueCard.module.scss';
 import { IStatisticData } from '../../types/types';
 import GameCard from '../GameCard/GameCard';
-import useTypedSelector from '../../hooks/useTypedSelector';
+import TotalValueStatistics from '../TotalValueStatistics/TotalValueStatistics';
 
 interface IUserCardProps {
   data: IStatisticData;
 }
 
 const IssueCard: React.FC<IUserCardProps> = ({ data }: IUserCardProps) => {
-  const { statistics } = useTypedSelector((state) => state.statistics);
-
-  const findActiveIssue = statistics.find((el) => el.taskName === data.taskName);
-
-  const getTotalValue = findActiveIssue?.lengthAverageValue;
-
   return (
     <>
       <Card className={style.issueCard} bodyStyle={{ padding: 10 }}>
@@ -24,12 +18,7 @@ const IssueCard: React.FC<IUserCardProps> = ({ data }: IUserCardProps) => {
           </div>
         </div>
       </Card>
-      <div className={style.total}>
-        <Space>
-          <span className={style.totalTitle}>Total:</span>
-          <span className={style.totalValue}>{getTotalValue}</span>
-        </Space>
-      </div>
+      <TotalValueStatistics activeIssueTaskName={data.taskName} />
       <div className={style.game}>
         {data.statisticValues.map((el) => {
           return (

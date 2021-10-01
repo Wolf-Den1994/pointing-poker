@@ -1,6 +1,6 @@
-import { Space } from 'antd';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import GameCard from '../GameCard/GameCard';
+import TotalValueStatistics from '../TotalValueStatistics/TotalValueStatistics';
 import style from './Statistics.module.scss';
 
 interface IStatisticProps {
@@ -11,9 +11,7 @@ const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps)
   const { statistics } = useTypedSelector((state) => state.statistics);
 
   const findActiveIssue = statistics.find((el) => el.taskName === activeIssue);
-
   const activeStatistic = findActiveIssue?.statisticValues;
-  const getTotalValue = findActiveIssue?.lengthAverageValue;
 
   return (
     <>
@@ -32,12 +30,7 @@ const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps)
               ))}
             </div>
           </div>
-          <div className={style.total}>
-            <Space>
-              <span className={style.totalTitle}>Total:</span>
-              <span className={style.totalValue}>{getTotalValue}</span>
-            </Space>
-          </div>
+          <TotalValueStatistics activeIssueTaskName={activeIssue} />
         </div>
       ) : null}
     </>
