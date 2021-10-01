@@ -4,9 +4,10 @@ import style from './TotalValueStatistics.module.scss';
 
 interface ITotalValueProps {
   activeIssueTaskName: string;
+  size?: string;
 }
 
-const TotalValueStatistics: React.FC<ITotalValueProps> = ({ activeIssueTaskName }: ITotalValueProps) => {
+const TotalValueStatistics: React.FC<ITotalValueProps> = ({ activeIssueTaskName, size = 'big' }: ITotalValueProps) => {
   const { statistics } = useTypedSelector((state) => state.statistics);
 
   const findActiveIssue = statistics.find((el) => el.taskName === activeIssueTaskName);
@@ -14,9 +15,9 @@ const TotalValueStatistics: React.FC<ITotalValueProps> = ({ activeIssueTaskName 
 
   return (
     <div className={style.total}>
-      <Space>
+      <Space wrap>
         <span className={style.totalTitle}>Total:</span>
-        <span className={style.totalValue}>{getTotalValue}</span>
+        <span className={`${style.totalValue} ${style[size]}`}>{getTotalValue}</span>
       </Space>
     </div>
   );
