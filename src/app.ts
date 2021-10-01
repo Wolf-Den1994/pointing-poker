@@ -170,6 +170,7 @@ io.on('connection', (socket) => {
       el.isActive = false;
       if (el.taskName === issueName) el.isActive = true;
     });
+    await updateRoom(response);
     socket.broadcast.to(roomId).emit(SocketTokens.GetActiveIssue, { issueName });
   });
 
@@ -292,6 +293,7 @@ const start = async () => {
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: false,
       },
     );
     httpServer.listen(PORT, () => console.log(`Server started on ${PORT}`));
