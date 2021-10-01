@@ -15,8 +15,6 @@ const countStatistics = (issue: IIssueData): IStatisticData => {
     }
   });
 
-  // issue.grades.reduce((_, curr) => (curr.grade ? (gradesObject[curr.grade] += 1) : (gradesObject[curr.grade] = 1)));
-
   const gradesArray = Object.keys(gradesObject);
 
   const sumValues = gradesArray.reduce((prev, curr) => (curr === 'pass' ? prev : prev + +curr), 0);
