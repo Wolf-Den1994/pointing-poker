@@ -187,18 +187,23 @@ const Game: React.FC = () => {
     if (settings.autoFlipCardsAllVoted && findIssue) {
       const gradesArr = findIssue.grades;
       console.log('gradesArr', gradesArr);
-      const countUsers = users.length;
-      console.log('countUsers', countUsers);
+      const activeCountUsers = users.filter((user) => {
+        if (!settings.isDealerActive) {
+          return user.role !== UserRole.Observer && user.role !== UserRole.Admin;
+        }
+        return user.role !== UserRole.Observer;
+      });
+      console.log('activeCountUsers', activeCountUsers.length);
       for (let i = 0; i < gradesArr.length; i += 1) {
         if (gradesArr[i] && gradesArr[i].grade) {
           console.log('Цикл', gradesArr[i], gradesArr[i].grade);
-          if (countUsers === gradesArr.length) {
+          if (activeCountUsers.length === gradesArr.length) {
             handleFlipCards();
           }
         }
       }
     }
-  }, [findIssue?.grades.length]);
+  }, [findIssue?.grades.length, users.length, settings.isDealerActive]);
 
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });
