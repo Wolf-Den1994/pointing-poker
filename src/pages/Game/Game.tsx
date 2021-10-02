@@ -183,21 +183,22 @@ const Game: React.FC = () => {
   }, [timer]);
 
   useEffect(() => {
-    let count = 0;
-    if (findIssue) {
-      const arrayToCheck = findIssue.grades;
-      console.log('arr', arrayToCheck);
-      const numberOfUsers = users.length;
-      for (let i = 0; arrayToCheck.length; i += 1) {
-        const grade = arrayToCheck[i];
-        if (grade && grade.grade) {
-          count += 1;
+    console.log('effect!!!');
+    if (settings.autoFlipCardsAllVoted && findIssue) {
+      const gradesArr = findIssue.grades;
+      console.log('gradesArr', gradesArr);
+      const countUsers = users.length;
+      console.log('countUsers', countUsers);
+      for (let i = 0; i < gradesArr.length; i += 1) {
+        if (gradesArr[i] && gradesArr[i].grade) {
+          console.log('Цикл', gradesArr[i], gradesArr[i].grade);
+          if (countUsers === gradesArr.length) {
+            handleFlipCards();
+          }
         }
       }
-      console.log('number-count:', numberOfUsers, count);
-      if (numberOfUsers === count) handleFlipCards();
     }
-  }, [findIssue?.grades]);
+  }, [findIssue?.grades.length]);
 
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });

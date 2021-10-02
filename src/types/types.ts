@@ -167,6 +167,7 @@ export interface IGameSettingsData {
   isDealerActive: boolean;
   voteAfterRoundEnd: boolean;
   autoFlipCards: boolean;
+  autoFlipCardsAllVoted: boolean;
   autoAdmitMembers: boolean;
   showTimer: boolean;
   scoreType: string;
