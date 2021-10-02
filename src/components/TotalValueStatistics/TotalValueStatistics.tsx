@@ -10,7 +10,7 @@ interface ITotalValueProps {
 const TotalValueStatistics: React.FC<ITotalValueProps> = ({ activeIssueTaskName, size = 'big' }: ITotalValueProps) => {
   const { statistics } = useTypedSelector((state) => state.statistics);
 
-  const findActiveIssue = statistics.find((stats) => stats.taskName === activeIssueTaskName);
+  const findActiveIssue = statistics.find((stat) => stat.taskName === activeIssueTaskName);
   const getTotalValue = findActiveIssue?.lengthAverageValue;
 
   return (
