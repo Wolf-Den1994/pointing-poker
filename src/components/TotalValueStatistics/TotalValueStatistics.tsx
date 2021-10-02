@@ -38,7 +38,9 @@ const TotalValueStatistics: React.FC<ITotalValueProps> = ({
 
   const handleEditCard = () => {
     if (editIsActive) {
-      if (getTotalValue) dispatch(editStatisticTotal({ taskName: activeIssueTaskName, newTotal: getTotalValue }));
+      if (getTotalValue) {
+        dispatch(editStatisticTotal({ taskName: activeIssueTaskName, newTotal: getTotalValue }));
+      }
       emit(SocketTokens.EditTotalValue, { roomId, newTotal: getTotalValue, taskName: activeIssueTaskName });
       setEditIsActive(false);
     } else {

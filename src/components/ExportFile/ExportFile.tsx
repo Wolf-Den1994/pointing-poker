@@ -11,9 +11,9 @@ const ExportFile: React.FC = () => {
 
   const resultArrs = () => {
     const result: SavedIssuesList[] = [];
-    statistics.forEach((el) => {
-      el.statisticValues.forEach((elem) => {
-        result.push({ issue: el.taskName, card: elem.card, averageValue: elem.averageValue, total: el.total });
+    statistics.forEach((stat) => {
+      stat.statisticValues.forEach((value) => {
+        result.push({ issue: stat.taskName, card: value.card, averageValue: value.averageValue, total: stat.total });
       });
     });
     return result;
