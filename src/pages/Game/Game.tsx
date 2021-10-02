@@ -71,6 +71,8 @@ const Game: React.FC = () => {
         grades: findIssue.grades,
         statistics: countStatistics(findIssue),
       });
+      console.log('handleFlipCards', countStatistics(findIssue));
+      console.log('handleFlipCards2', findIssue);
       dispatch(addStatistics(countStatistics(findIssue)));
     }
 
@@ -154,6 +156,7 @@ const Game: React.FC = () => {
     on(SocketTokens.OffProgress, (data) => {
       dispatch(setOffProgress());
       dispatch(disableActiveCards());
+      console.log('effectStats', data.statistics);
       dispatch(addStatistics(data.statistics));
     });
 

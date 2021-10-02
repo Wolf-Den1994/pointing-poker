@@ -9,6 +9,8 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { SocketTokens, TextForUser } from '../../types/types';
 import { addGrades } from '../../store/issuesReducer';
 import { emit } from '../../services/socket';
+import countStatistics from '../../utils/countStatistic';
+import { addStatistics } from '../../store/statisticsReducer';
 
 interface IGameCardProps {
   children: string;
@@ -29,7 +31,7 @@ const GameCard: React.FC<IGameCardProps> = ({
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  const { cardSet } = useTypedSelector((store) => store.settings);
+  const { cardSet, settings } = useTypedSelector((store) => store.settings);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { name } = useTypedSelector((state) => state.userData);
 
@@ -74,12 +76,25 @@ const GameCard: React.FC<IGameCardProps> = ({
     setNewValueCard(e.target.value);
   };
 
+  const findIssue = issueList.find((issue) => issue.isActive);
+
   const handleSectCard = () => {
-    if (allowSelection) {
-      if (taskName) {
-        emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
-        dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
-        dispatch(setActiveCard(children));
+    if (allowSelection && taskName) {
+      emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
+      dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
+      dispatch(setActiveCard(children));
+
+      if (findIssue && settings.voteAfterRoundEnd) {
+        emit(SocketTokens.OffProgress, {
+          roomId,
+          progress: false,
+          taskName: findIssue.taskName,
+          grades: findIssue.grades,
+          statistics: countStatistics(findIssue),
+        });
+        console.log('handleSectCard1', countStatistics(findIssue));
+        console.log('handleSectCard1', findIssue);
+        dispatch(addStatistics(countStatistics(findIssue)));
       }
     }
   };

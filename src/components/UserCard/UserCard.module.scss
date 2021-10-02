@@ -77,8 +77,8 @@
 
     .kick {
       position: absolute;
-      right: 10px;
-      top: 10px;
+      right: 7px;
+      bottom: 0px;
       cursor: pointer;
 
       :hover {
@@ -87,13 +87,19 @@
     }
   }
 
-  .crownWrapper {
+  .crownWrapper,
+  .coffeeWrapper {
     position: absolute;
     top: 7px;
     right: 7px;
 
     .crown {
       color: #60dabf;
+      font-size: 18px;
+    }
+
+    .coffee {
+      color: #1890ff;
       font-size: 18px;
     }
   }
@@ -127,14 +133,18 @@
         }
 
         .name {
+          max-width: 150px;
           font-size: 16px;
           line-height: 18px;
+        }
+
+        .jobStatus {
+          max-width: 150px;
         }
       }
 
       .kick {
-        right: 15px;
-        top: 15px;
+        bottom: 5px;
       }
     }
   }
