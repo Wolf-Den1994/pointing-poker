@@ -76,7 +76,6 @@ const Game: React.FC = () => {
 
     clearInterval(interval);
     dispatch(setOffProgress());
-    dispatch(disableActiveCards());
     setDisableButtonStart(false);
 
     setShowStatistics(true);
@@ -84,6 +83,7 @@ const Game: React.FC = () => {
 
     if (!settings.voteAfterRoundEnd) {
       setAllowSelectionCard(false);
+      dispatch(disableActiveCards());
       emit(SocketTokens.DisableCards, { roomId, enableCards: false });
     }
   };

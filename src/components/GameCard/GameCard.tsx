@@ -78,12 +78,18 @@ const GameCard: React.FC<IGameCardProps> = ({
 
   const findIssue = issueList.find((issue) => issue.isActive);
 
+  // console.log('Приходит children', children);
+  const activeCard = cardSet.find((card) => card.isActive)?.card;
+  console.log('asd', activeCard);
+
   const handleSectCard = () => {
     if (allowSelection && taskName) {
       emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
       dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
       dispatch(setActiveCard(children));
 
+      // ниже удалить
+      console.log('handleSectCard', children);
       if (findIssue && settings.voteAfterRoundEnd) {
         emit(SocketTokens.OffProgress, {
           roomId,
@@ -92,7 +98,6 @@ const GameCard: React.FC<IGameCardProps> = ({
           grades: findIssue.grades,
           statistics: countStatistics(findIssue),
         });
-        console.log('handleSectCard', findIssue);
         dispatch(addStatistics(countStatistics(findIssue)));
       }
     }
