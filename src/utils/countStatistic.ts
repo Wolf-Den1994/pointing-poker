@@ -18,18 +18,18 @@ const countStatistics = (issue: IIssueData): IStatisticData => {
   const sumValues = gradesArray.reduce((prev, curr) => (curr === 'pass' ? prev : prev + +curr), 0);
   const counterPass = gradesArray.reduce((prev, curr) => (curr === 'pass' ? prev + 1 : prev), 0);
 
-  const lengthAverageValue = sumValues / (gradesArray.length - counterPass) || 'In Progress...';
+  const total = sumValues / (gradesArray.length - counterPass) || 'In Progress...';
 
   const statisticValues: IStatisticValues[] = gradesArray.map((grade: string) => {
     const averageValue = String(((gradesObject[grade] * 100) / issue.grades.length).toFixed(2));
     return {
       card: grade,
       averageValue,
-      lengthAverageValue,
+      total,
     };
   });
 
-  return { taskName: issue.taskName, statisticValues, lengthAverageValue };
+  return { taskName: issue.taskName, statisticValues, total };
 };
 
 export default countStatistics;

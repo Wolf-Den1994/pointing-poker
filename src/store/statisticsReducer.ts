@@ -26,6 +26,16 @@ export const statisticsReducer = (state = initialState, action: AnyAction): type
       };
     }
 
+    case StatisticsActions.EDIT_STATISTIC_TOTAL: {
+      return {
+        ...state,
+        statistics: state.statistics.map((stat) => ({
+          ...stat,
+          total: action.payload.taskName === stat.taskName ? action.payload.newTotal : stat.total,
+        })),
+      };
+    }
+
     default:
       return state;
   }
@@ -46,6 +56,16 @@ interface IStatisticsActionsIStatisticDataArray {
   payload: IStatisticData[];
 }
 
+interface IEditStatistic {
+  taskName: string;
+  newTotal: string | number;
+}
+
+interface IStatisticsActionsEdit {
+  type: StatisticsActions;
+  payload: IEditStatistic;
+}
+
 export const removeStatistic = (payload: string): IStatisticsActionsString => ({
   type: StatisticsActions.REMOVE_STATISTIC,
   payload,
@@ -58,5 +78,10 @@ export const addStatistics = (payload: IStatisticData): IStatisticsActionsIStati
 
 export const setStatistics = (payload: IStatisticData[]): IStatisticsActionsIStatisticDataArray => ({
   type: StatisticsActions.SET_STATISTICS,
+  payload,
+});
+
+export const editStatisticTotal = (payload: IEditStatistic): IStatisticsActionsEdit => ({
+  type: StatisticsActions.EDIT_STATISTIC_TOTAL,
   payload,
 });

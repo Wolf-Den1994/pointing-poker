@@ -22,6 +22,26 @@
       line-height: 22px;
     }
   }
+
+  .editInput {
+    margin: 14px auto;
+    text-align: center;
+
+    .input {
+      width: 68px;
+      font-size: 26px;
+      border: 2px dotted #aaa;
+      background: transparent;
+    }
+  }
+
+  .edit {
+    cursor: pointer;
+
+    :hover {
+      color: #1890ff;
+    }
+  }
 }
 
 @media (max-width: 450px) {
