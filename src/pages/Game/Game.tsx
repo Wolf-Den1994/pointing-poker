@@ -143,6 +143,10 @@ const Game: React.FC = () => {
       dispatch(setOnProgress());
     });
 
+    on(SocketTokens.ClearIssueGrade, ({ taskName }) => {
+      dispatch(editGrades({ taskName, newGrade: [] }));
+    });
+
     on(SocketTokens.OnProgress, () => {
       dispatch(setOnProgress());
     });
@@ -183,20 +187,16 @@ const Game: React.FC = () => {
   }, [timer]);
 
   useEffect(() => {
-    console.log('effect!!!');
     if (settings.autoFlipCardsAllVoted && findIssue) {
       const gradesArr = findIssue.grades;
-      console.log('gradesArr', gradesArr);
       const activeCountUsers = users.filter((user) => {
         if (!settings.isDealerActive) {
           return user.role !== UserRole.Observer && user.role !== UserRole.Admin;
         }
         return user.role !== UserRole.Observer;
       });
-      console.log('activeCountUsers', activeCountUsers.length);
       for (let i = 0; i < gradesArr.length; i += 1) {
         if (gradesArr[i] && gradesArr[i].grade) {
-          console.log('Цикл', gradesArr[i], gradesArr[i].grade);
           if (activeCountUsers.length === gradesArr.length) {
             handleFlipCards();
           }
@@ -253,12 +253,8 @@ const Game: React.FC = () => {
 
       const activeIssue = issueList.find((issue) => issue.isActive);
       if (activeIssue) {
-        const newGradesArr = activeIssue.grades.map((grade) => {
-          const newGrade = { ...grade, grade: null };
-          emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: activeIssue.taskName, ...newGrade } });
-          return { ...newGrade };
-        });
-        dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+        emit(SocketTokens.ClearIssueGrade, { roomId, taskName: activeIssue.taskName });
+        dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: [] }));
 
         setAllowSelectionCard(false);
         emit(SocketTokens.DisableCards, { roomId, enableCards: false });

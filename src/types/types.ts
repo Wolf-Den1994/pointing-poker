@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
+export const BASE_URL = 'http://localhost:8000';
 
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',
@@ -132,6 +132,7 @@ export enum SocketTokens {
   EnableCards = 'enableCards',
   ShowStatistics = 'showStatistics',
   HideStatistics = 'hideStatistics',
+  ClearIssueGrade = 'clearIssueGrade',
 }
 
 export enum LayoutViews {
