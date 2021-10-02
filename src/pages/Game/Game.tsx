@@ -195,13 +195,13 @@ const Game: React.FC = () => {
         }
         return user.role !== UserRole.Observer;
       });
-      for (let i = 0; i < gradesArr.length; i += 1) {
-        if (gradesArr[i] && gradesArr[i].grade) {
+      gradesArr.forEach((grade) => {
+        if (grade && grade.grade) {
           if (activeCountUsers.length === gradesArr.length) {
             handleFlipCards();
           }
         }
-      }
+      });
     }
   }, [findIssue?.grades.length, users.length, settings.isDealerActive]);
 
