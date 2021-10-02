@@ -48,13 +48,13 @@ const TotalValueStatistics: React.FC<ITotalValueProps> = ({
 
   return (
     <div className={style.total}>
-      <Space wrap>
+      <Space className={style.wrap}>
         <span className={style.totalTitle}>Total:</span>
         {editIsActive ? (
           <>
             <div className={style.editInput}>
               <Input
-                maxLength={3}
+                maxLength={5}
                 placeholder="edit"
                 value={getTotalValue}
                 className={style.input}
