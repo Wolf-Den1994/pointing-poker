@@ -120,4 +120,5 @@ export enum SocketTokens {
   EnableCards = 'enableCards',
   ShowStatistics = 'showStatistics',
   HideStatistics = 'hideStatistics',
+  EditTotalValue = 'EditTotalValue',
 }
