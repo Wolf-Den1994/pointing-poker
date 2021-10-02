@@ -47,6 +47,8 @@
 
       &.active {
         background-color: #60dabf54;
+        transform: scale(1.05);
+        box-shadow: 6px 6px 6px #00000040;
 
         .current {
           margin: 0;
@@ -59,6 +61,11 @@
 
       &.dealer {
         cursor: pointer;
+
+        &:hover {
+          transform: scale(1.05);
+          box-shadow: 6px 6px 6px #00000040;
+        }
       }
 
       .edit {
@@ -105,7 +112,11 @@
 
 @media (max-width: 680px) {
   .issuesList {
-    width: 100%;
+    width: 90%;
+
+    &.horizontal {
+      width: 100%;
+    }
 
     .wrapper {
       flex-direction: column;
