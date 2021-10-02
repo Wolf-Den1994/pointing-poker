@@ -19,8 +19,6 @@ const ExportFile: React.FC = () => {
     return result;
   };
 
-  console.log(resultArrs());
-
   return (
     <div className={style.exportFile}>
       <span className={style.format}>Download the result of the game in format:</span>
