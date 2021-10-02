@@ -28,7 +28,7 @@ import { addUserRequest } from '../../store/requestsForEnterReducer';
 import RequestPopup from '../../components/RequestPopup/RequestPopup';
 import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
-import { changeSettings, setActiveCard, setCards, disableActiveCards } from '../../store/settingsReducer';
+import { changeSettings, setCards, disableActiveCards } from '../../store/settingsReducer';
 import { addStatistics } from '../../store/statisticsReducer';
 import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
@@ -71,8 +71,6 @@ const Game: React.FC = () => {
         grades: findIssue.grades,
         statistics: countStatistics(findIssue),
       });
-      console.log('handleFlipCards', countStatistics(findIssue));
-      console.log('handleFlipCards2', findIssue);
       dispatch(addStatistics(countStatistics(findIssue)));
     }
 
@@ -156,7 +154,6 @@ const Game: React.FC = () => {
     on(SocketTokens.OffProgress, (data) => {
       dispatch(setOffProgress());
       dispatch(disableActiveCards());
-      console.log('effectStats', data.statistics);
       dispatch(addStatistics(data.statistics));
     });
 
@@ -262,7 +259,7 @@ const Game: React.FC = () => {
         setAllowSelectionCard(false);
         emit(SocketTokens.DisableCards, { roomId, enableCards: false });
 
-        dispatch(setActiveCard(''));
+        dispatch(disableActiveCards());
       }
     }
   };

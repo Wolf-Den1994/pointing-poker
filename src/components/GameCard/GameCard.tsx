@@ -92,8 +92,7 @@ const GameCard: React.FC<IGameCardProps> = ({
           grades: findIssue.grades,
           statistics: countStatistics(findIssue),
         });
-        console.log('handleSectCard1', countStatistics(findIssue));
-        console.log('handleSectCard1', findIssue);
+        console.log('handleSectCard', findIssue);
         dispatch(addStatistics(countStatistics(findIssue)));
       }
     }
