@@ -127,6 +127,10 @@ io.on('connection', (socket) => {
     socket.broadcast.in(roomId).emit(SocketTokens.GetNewIssueGrade, { userData });
   });
 
+  socket.on(SocketTokens.ClearIssueGrade, ({ roomId, taskName }) => {
+    socket.broadcast.in(roomId).emit(SocketTokens.ClearIssueGrade, { taskName });
+  });
+
   socket.on(SocketTokens.OnProgress, ({ roomId, progress }) => {
     socket.broadcast.in(roomId).emit(SocketTokens.OnProgress, progress);
   });
