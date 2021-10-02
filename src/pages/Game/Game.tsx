@@ -182,6 +182,23 @@ const Game: React.FC = () => {
     if (!timer.time && settings.autoFlipCards) handleFlipCards();
   }, [timer]);
 
+  useEffect(() => {
+    let count = 0;
+    if (findIssue) {
+      const arrayToCheck = findIssue.grades;
+      console.log('arr', arrayToCheck);
+      const numberOfUsers = users.length;
+      for (let i = 0; arrayToCheck.length; i += 1) {
+        const grade = arrayToCheck[i];
+        if (grade && grade.grade) {
+          count += 1;
+        }
+      }
+      console.log('number-count:', numberOfUsers, count);
+      if (numberOfUsers === count) handleFlipCards();
+    }
+  }, [findIssue?.grades]);
+
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });
     history.push(`${PathRoutes.Result}/${roomId}`);
