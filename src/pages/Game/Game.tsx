@@ -113,6 +113,15 @@ const Game: React.FC = () => {
     }
   };
 
+  const activeCountUsers = () => {
+    return users.filter((user) => {
+      if (!settings.isDealerActive) {
+        return user.role !== UserRole.Observer && user.role !== UserRole.Admin;
+      }
+      return user.role !== UserRole.Observer;
+    });
+  };
+
   useEffect(() => {
     on(SocketTokens.AdminsAnswerForRequest, (data) => {
       dispatch(addUserRequest(data.userId));
@@ -191,17 +200,9 @@ const Game: React.FC = () => {
   }, [timer]);
 
   useEffect(() => {
-    console.log('effect');
     if (settings.autoFlipCardsAllVoted && findIssue) {
       const gradesArr = findIssue.grades;
-      const activeCountUsers = users.filter((user) => {
-        if (!settings.isDealerActive) {
-          return user.role !== UserRole.Observer && user.role !== UserRole.Admin;
-        }
-        return user.role !== UserRole.Observer;
-      });
-
-      const isAllUsersVoted = activeCountUsers.length === gradesArr.length;
+      const isAllUsersVoted = activeCountUsers().length === gradesArr.length;
       gradesArr.forEach((item) => {
         if (item?.grade && isAllUsersVoted) {
           handleFlipCards();
