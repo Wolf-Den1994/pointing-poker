@@ -6,37 +6,39 @@ import { emit } from '../../services/socket';
 import { changeIssue } from '../../store/issuesReducer';
 import { IDataFile, IssuesListMode, SocketTokens, TextForUser } from '../../types/types';
 import { getExtension } from '../../utils/getExtension';
-import Error from './Error';
+import ErrorCSV from '../ErrorCSV/ErrorCSV';
 import style from './ImportFile.module.scss';
 
 const duration = 3.5;
 const headerFile = 'issues';
 const extension = 'csv';
-let areIssuesInHeader: boolean;
+let isIssuesInHeader: boolean;
 
 const ImportFile: React.FC = () => {
   const dispatch = useDispatch();
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  const papaparseOptions = {
+  const parseOptions = {
     header: true,
     dynamicTyping: true,
     skipEmptyLines: true,
     transformHeader: (header: string) => header.toLowerCase().replace(/\W/g, '_'),
   };
 
+  const input = document.querySelector<HTMLInputElement>('#csv-input');
+
   const handleForce = (data: IDataFile[], fileInfo: IFileInfo) => {
     if (getExtension(fileInfo.name) === extension) {
       data.forEach((value) => {
         if (Object.keys(value).includes(headerFile)) {
-          areIssuesInHeader = true;
+          isIssuesInHeader = true;
         } else {
-          areIssuesInHeader = false;
+          isIssuesInHeader = false;
         }
       });
 
-      if (areIssuesInHeader) {
+      if (isIssuesInHeader) {
         const tasks = data.map((item) => item.issues);
         const isDuplicate = tasks.some((task, index) => tasks.indexOf(task) !== index);
 
@@ -52,20 +54,23 @@ const ImportFile: React.FC = () => {
           dispatch(changeIssue(taskNamesArray));
         }
       } else {
-        message.error(<Error />, duration);
+        message.error(<ErrorCSV />, duration);
       }
     } else {
       message.error(TextForUser.WrongFileCSV);
     }
+    if (input) input.value = '';
   };
 
   return (
     <div className={style.container}>
       <CSVReader
         cssClass={style.reactCsvInput}
+        cssInputClass={style.input}
         label="Click to upload CSV file here:"
         onFileLoaded={handleForce}
-        parserOptions={papaparseOptions}
+        parserOptions={parseOptions}
+        inputId="csv-input"
       />
     </div>
   );

@@ -28,6 +28,7 @@ export enum TextForUser {
   GoBack = 'Go back and try a different link.',
   PageNotFound = 'page not found',
   WrongFileCSV = 'wrong file extension, upload CSV!',
+  WrongFileImage = 'wrong file extension, upload JPG, JPEG, GIF, PNG, SVG, BMP!',
 }
 
 export enum Authors {
