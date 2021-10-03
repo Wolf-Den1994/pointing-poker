@@ -132,6 +132,7 @@ export enum SocketTokens {
   EnableCards = 'enableCards',
   ShowStatistics = 'showStatistics',
   HideStatistics = 'hideStatistics',
+  EditTotalValue = 'EditTotalValue',
   ClearIssueGrade = 'clearIssueGrade',
 }
 
@@ -214,7 +215,7 @@ export interface ICardData {
 
 export interface IStatisticData {
   taskName: string;
-  lengthAverageValue: number | string;
+  total: number | string;
   statisticValues: {
     card: string;
     averageValue: string;
@@ -225,6 +226,7 @@ export interface SavedIssuesList {
   issue?: string;
   card?: string;
   averageValue?: string;
+  total?: string | number;
 }
 
 export interface IStatisticValues {

@@ -29,7 +29,7 @@ import RequestPopup from '../../components/RequestPopup/RequestPopup';
 import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
 import { changeSettings, setCards, disableActiveCards } from '../../store/settingsReducer';
-import { addStatistics } from '../../store/statisticsReducer';
+import { addStatistics, editStatisticTotal } from '../../store/statisticsReducer';
 import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { setOffProgress, setOnProgress } from '../../store/progressReducer';
@@ -171,6 +171,10 @@ const Game: React.FC = () => {
 
     on(SocketTokens.HideStatistics, () => {
       setShowStatistics(false);
+    });
+
+    on(SocketTokens.EditTotalValue, ({ newTotal, taskName }) => {
+      dispatch(editStatisticTotal({ taskName, newTotal }));
     });
 
     window.onload = () => {

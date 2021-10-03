@@ -29,7 +29,7 @@ const Statistics: React.FC<IStatisticProps> = ({ activeIssue }: IStatisticProps)
               ))}
             </div>
           </div>
-          <TotalValueStatistics activeIssueTaskName={activeIssue} size="small" />
+          <TotalValueStatistics enableEdit activeIssueTaskName={activeIssue} size="small" />
         </div>
       ) : null}
     </>
