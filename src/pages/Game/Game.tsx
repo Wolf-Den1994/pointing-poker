@@ -199,11 +199,11 @@ const Game: React.FC = () => {
         }
         return user.role !== UserRole.Observer;
       });
-      gradesArr.forEach((grade) => {
-        if (grade && grade.grade) {
-          if (activeCountUsers.length === gradesArr.length) {
-            handleFlipCards();
-          }
+
+      const isAllUsersVoted = activeCountUsers.length === gradesArr.length;
+      gradesArr.forEach((item) => {
+        if (item?.grade && isAllUsersVoted) {
+          handleFlipCards();
         }
       });
     }
