@@ -191,6 +191,7 @@ const Game: React.FC = () => {
   }, [timer]);
 
   useEffect(() => {
+    console.log('effect');
     if (settings.autoFlipCardsAllVoted && findIssue) {
       const gradesArr = findIssue.grades;
       const activeCountUsers = users.filter((user) => {
@@ -207,7 +208,7 @@ const Game: React.FC = () => {
         }
       });
     }
-  }, [findIssue?.grades.length, users.length, settings.isDealerActive]);
+  }, [findIssue?.grades.length, settings.isDealerActive]);
 
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });
