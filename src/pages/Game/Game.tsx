@@ -63,16 +63,16 @@ const Game: React.FC = () => {
   const handleFlipCards = () => {
     setDisableButtonFlipCards(true);
 
-    if (findIssue) {
-      emit(SocketTokens.OffProgress, {
-        roomId,
-        progress: false,
-        taskName: findIssue.taskName,
-        grades: findIssue.grades,
-        statistics: countStatistics(findIssue),
-      });
-      dispatch(addStatistics(countStatistics(findIssue)));
-    }
+    // if (findIssue) {
+    //   emit(SocketTokens.OffProgress, {
+    //     roomId,
+    //     progress: false,
+    //     taskName: findIssue.taskName,
+    //     grades: findIssue.grades,
+    //     statistics: countStatistics(findIssue),
+    //   });
+    //   dispatch(addStatistics(countStatistics(findIssue)));
+    // }
 
     clearInterval(interval);
     dispatch(setOffProgress());
