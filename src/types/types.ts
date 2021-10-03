@@ -121,4 +121,5 @@ export enum SocketTokens {
   ShowStatistics = 'showStatistics',
   HideStatistics = 'hideStatistics',
   EditTotalValue = 'EditTotalValue',
+  ClearIssueGrade = 'clearIssueGrade',
 }
