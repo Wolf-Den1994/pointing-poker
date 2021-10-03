@@ -168,6 +168,10 @@ io.on('connection', (socket) => {
     socket.broadcast.in(roomId).emit(SocketTokens.HideStatistics, showStatistics);
   });
 
+  socket.on(SocketTokens.EditTotalValue, ({ roomId, newTotal, taskName }) => {
+    socket.broadcast.in(roomId).emit(SocketTokens.EditTotalValue, { newTotal, taskName });
+  });
+
   socket.on(SocketTokens.SendActiveIssueToUser, async ({ roomId, issueName }) => {
     const response = await getRoom(roomId);
     response.issues.forEach((el) => {
