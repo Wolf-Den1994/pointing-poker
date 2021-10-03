@@ -3,7 +3,8 @@
   margin: 15px 0;
 
   .reactCsvInput {
-    width: 580px;
+    max-width: 580px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
