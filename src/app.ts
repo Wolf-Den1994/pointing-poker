@@ -19,6 +19,7 @@ import { deleteUserFromRoom } from './utils/services';
 import {
   ChangeIssueModes,
   GameRoom,
+  IIssue,
   Room,
   SocketTokens,
 } from './types/types';
@@ -106,16 +107,24 @@ io.on('connection', (socket) => {
       case ChangeIssueModes.ADD:
         response.issues.push(newIssue);
         break;
+
+      case ChangeIssueModes.ALL: {
+        newIssue.forEach((issue: IIssue) => response.issues.push(issue));
+        break;
+      }
+
       case ChangeIssueModes.DELETE: {
         const index = response.issues.findIndex((el) => el.taskName === newIssue);
         response.issues.splice(index, 1);
         break;
       }
+
       case ChangeIssueModes.CHANGE: {
         const index = response.issues.findIndex((el) => el.taskName === oldIssue);
         response.issues[index].taskName = newIssue;
         break;
       }
+
       default:
         response.issues = newIssue;
     }
