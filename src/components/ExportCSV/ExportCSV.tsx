@@ -7,6 +7,7 @@ const headers = [
   { label: 'Issue', key: 'issue' },
   { label: 'Card', key: 'card' },
   { label: 'Average Value', key: 'averageValue' },
+  { label: 'Total', key: 'total' },
 ];
 
 const fileExtension = '.csv';
