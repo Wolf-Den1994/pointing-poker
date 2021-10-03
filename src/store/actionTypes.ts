@@ -1,5 +1,6 @@
 export enum IssueActions {
   ADD_TASK = 'ADD_TASK',
+  ADD_TASKS = 'ADD_TASKS',
   REMOVE_TASK = 'REMOVE_TASK',
   EDIT_TASK = 'EDIT_TASK',
   ADD_GRADES = 'ADD_GRADES',

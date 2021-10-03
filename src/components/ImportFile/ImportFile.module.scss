@@ -1,0 +1,12 @@
+.container {
+  font-size: 16px;
+  margin: 15px 0;
+
+  .reactCsvInput {
+    width: 580px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
