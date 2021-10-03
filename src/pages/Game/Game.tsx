@@ -199,10 +199,11 @@ const Game: React.FC = () => {
     if (!timer.time && settings.autoFlipCards) handleFlipCards();
   }, [timer]);
 
+  const isAllUsersVoted = activeCountUsers().length === findIssue?.grades.length;
+
   useEffect(() => {
     if (settings.autoFlipCardsAllVoted && findIssue) {
       const gradesArr = findIssue.grades;
-      const isAllUsersVoted = activeCountUsers().length === gradesArr.length;
       gradesArr.forEach((item) => {
         if (item?.grade && isAllUsersVoted) {
           handleFlipCards();
