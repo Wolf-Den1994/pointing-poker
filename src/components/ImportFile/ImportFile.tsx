@@ -12,7 +12,6 @@ import style from './ImportFile.module.scss';
 const duration = 3.5;
 const headerFile = 'issues';
 const extension = 'csv';
-let isIssuesInHeader: boolean;
 
 const ImportFile: React.FC = () => {
   const dispatch = useDispatch();
@@ -28,17 +27,11 @@ const ImportFile: React.FC = () => {
 
   const input = document.querySelector<HTMLInputElement>('#csv-input');
 
+  const checkIssuesInHeader = (data: IDataFile[]) => data.some((value) => Object.keys(value).includes(headerFile));
+
   const handleForce = (data: IDataFile[], fileInfo: IFileInfo) => {
     if (getExtension(fileInfo.name) === extension) {
-      data.forEach((value) => {
-        if (Object.keys(value).includes(headerFile)) {
-          isIssuesInHeader = true;
-        } else {
-          isIssuesInHeader = false;
-        }
-      });
-
-      if (isIssuesInHeader) {
+      if (checkIssuesInHeader(data)) {
         const tasks = data.map((item) => item.issues);
         const isDuplicate = tasks.some((task, index) => tasks.indexOf(task) !== index);
 
