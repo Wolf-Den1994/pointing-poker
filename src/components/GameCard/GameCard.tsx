@@ -75,12 +75,10 @@ const GameCard: React.FC<IGameCardProps> = ({
   };
 
   const handleSectCard = () => {
-    if (allowSelection) {
-      if (taskName) {
-        emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
-        dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
-        dispatch(setActiveCard(children));
-      }
+    if (allowSelection && taskName) {
+      emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
+      dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
+      dispatch(setActiveCard(children));
     }
   };
 

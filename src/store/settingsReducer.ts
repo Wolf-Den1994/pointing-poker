@@ -13,6 +13,7 @@ const initialState: IInitialStateSettings = {
     isDealerActive: false,
     voteAfterRoundEnd: false,
     autoFlipCards: false,
+    autoFlipCardsAllVoted: false,
     autoAdmitMembers: false,
     showTimer: false,
     scoreType: OptionSettings.Fibonacci,

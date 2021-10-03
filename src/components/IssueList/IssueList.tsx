@@ -105,7 +105,7 @@ const IssueList: React.FC<IIssueListProps> = ({
   const canActive = () => (enableHighlight && isDealer ? style.dealer : '');
 
   return (
-    <div className={style.issuesList}>
+    <div className={`${style.issuesList} ${style[view]}`}>
       {!issueList.length && !isDealer ? null : <p className={style.title}>Issues:</p>}
       <div className={`${style.wrapper} ${style[view]}`}>
         {issueList.map((issue) => (

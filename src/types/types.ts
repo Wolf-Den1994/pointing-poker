@@ -133,6 +133,7 @@ export enum SocketTokens {
   ShowStatistics = 'showStatistics',
   HideStatistics = 'hideStatistics',
   EditTotalValue = 'EditTotalValue',
+  ClearIssueGrade = 'clearIssueGrade',
 }
 
 export enum LayoutViews {
@@ -168,6 +169,7 @@ export interface IGameSettingsData {
   isDealerActive: boolean;
   voteAfterRoundEnd: boolean;
   autoFlipCards: boolean;
+  autoFlipCardsAllVoted: boolean;
   autoAdmitMembers: boolean;
   showTimer: boolean;
   scoreType: string;

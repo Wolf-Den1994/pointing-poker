@@ -12,8 +12,16 @@ const GameSettings: React.FC = () => {
 
   const dispatch = useDispatch();
   const { settings } = useTypedSelector((state) => state.settings);
-  const { isDealerActive, voteAfterRoundEnd, autoAdmitMembers, autoFlipCards, showTimer, scoreType, roundTime } =
-    settings;
+  const {
+    isDealerActive,
+    voteAfterRoundEnd,
+    autoAdmitMembers,
+    autoFlipCards,
+    autoFlipCardsAllVoted,
+    showTimer,
+    scoreType,
+    roundTime,
+  } = settings;
 
   const handleChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
     const newSettings = { ...data };
@@ -53,6 +61,16 @@ const GameSettings: React.FC = () => {
           label={<span style={{ fontSize: 18 }}>Flip the card automatically after the end of the round:</span>}
           colon={false}
           initialValue={autoFlipCards}
+        >
+          <Switch checkedChildren="Yes" unCheckedChildren="No" />
+        </Form.Item>
+
+        <Form.Item
+          name="autoFlipCardsAllVoted"
+          valuePropName="checked"
+          label={<span style={{ fontSize: 18 }}>Flip the card automatically after all users voted:</span>}
+          colon={false}
+          initialValue={autoFlipCardsAllVoted}
         >
           <Switch checkedChildren="Yes" unCheckedChildren="No" />
         </Form.Item>

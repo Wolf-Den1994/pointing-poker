@@ -28,7 +28,7 @@ import { addUserRequest } from '../../store/requestsForEnterReducer';
 import RequestPopup from '../../components/RequestPopup/RequestPopup';
 import { emit, on } from '../../services/socket';
 import { startTime } from '../../store/timerReducer';
-import { changeSettings, setActiveCard, setCards, disableActiveCards } from '../../store/settingsReducer';
+import { changeSettings, setCards, disableActiveCards } from '../../store/settingsReducer';
 import { addStatistics, editStatisticTotal } from '../../store/statisticsReducer';
 import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
@@ -76,7 +76,6 @@ const Game: React.FC = () => {
 
     clearInterval(interval);
     dispatch(setOffProgress());
-    dispatch(disableActiveCards());
     setDisableButtonStart(false);
 
     setShowStatistics(true);
@@ -84,6 +83,7 @@ const Game: React.FC = () => {
 
     if (!settings.voteAfterRoundEnd) {
       setAllowSelectionCard(false);
+      dispatch(disableActiveCards());
       emit(SocketTokens.DisableCards, { roomId, enableCards: false });
     }
   };
@@ -111,6 +111,15 @@ const Game: React.FC = () => {
     } catch (err) {
       message.error(`${err}`);
     }
+  };
+
+  const activeCountUsers = () => {
+    return users.filter((user) => {
+      if (!settings.isDealerActive) {
+        return user.role !== UserRole.Observer && user.role !== UserRole.Admin;
+      }
+      return user.role !== UserRole.Observer;
+    });
   };
 
   useEffect(() => {
@@ -141,6 +150,10 @@ const Game: React.FC = () => {
         }),
       );
       dispatch(setOnProgress());
+    });
+
+    on(SocketTokens.ClearIssueGrade, ({ taskName }) => {
+      dispatch(editGrades({ taskName, newGrade: [] }));
     });
 
     on(SocketTokens.OnProgress, () => {
@@ -185,6 +198,19 @@ const Game: React.FC = () => {
   useEffect(() => {
     if (!timer.time && settings.autoFlipCards) handleFlipCards();
   }, [timer]);
+
+  const isAllUsersVoted = activeCountUsers().length === findIssue?.grades.length;
+
+  useEffect(() => {
+    if (settings.autoFlipCardsAllVoted && findIssue) {
+      const gradesArr = findIssue.grades;
+      gradesArr.forEach((item) => {
+        if (item?.grade && isAllUsersVoted) {
+          handleFlipCards();
+        }
+      });
+    }
+  }, [findIssue?.grades.length, settings.isDealerActive]);
 
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });
@@ -234,17 +260,13 @@ const Game: React.FC = () => {
 
       const activeIssue = issueList.find((issue) => issue.isActive);
       if (activeIssue) {
-        const newGradesArr = activeIssue.grades.map((grade) => {
-          const newGrade = { ...grade, grade: null };
-          emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: activeIssue.taskName, ...newGrade } });
-          return { ...newGrade };
-        });
-        dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: newGradesArr }));
+        emit(SocketTokens.ClearIssueGrade, { roomId, taskName: activeIssue.taskName });
+        dispatch(editGrades({ taskName: activeIssue.taskName, newGrade: [] }));
 
         setAllowSelectionCard(false);
         emit(SocketTokens.DisableCards, { roomId, enableCards: false });
 
-        dispatch(setActiveCard(''));
+        dispatch(disableActiveCards());
       }
     }
   };
