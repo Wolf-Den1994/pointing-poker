@@ -80,12 +80,12 @@ const UserCard: React.FC<IUserCardProps> = ({
         </div>
       </div>
       {role === UserRole.Admin ? (
-        <span className={style.crownWrapper}>
+        <span className={style.roleIconWrapper}>
           <CrownOutlined className={style.crown} style={{ fontSize: sizeCrown }} />
         </span>
       ) : null}
       {role === UserRole.Observer ? (
-        <span className={style.coffeeWrapper}>
+        <span className={style.roleIconWrapper}>
           <CoffeeOutlined className={style.coffee} style={{ fontSize: sizeCrown }} />
         </span>
       ) : null}
