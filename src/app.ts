@@ -109,7 +109,7 @@ io.on('connection', (socket) => {
         break;
 
       case ChangeIssueModes.ALL: {
-        newIssue.forEach((issue: IIssue) => response.issues.push(issue));
+        response.issues = newIssue;
         break;
       }
 
