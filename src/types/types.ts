@@ -185,6 +185,11 @@ export interface IIssueData {
   isActive: boolean;
 }
 
+export interface IIssueGrade {
+  name: string;
+  grade: string | null;
+}
+
 export interface IInitialStateIssues {
   issueList: IIssueData[];
 }
