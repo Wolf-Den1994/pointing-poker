@@ -3,6 +3,7 @@ export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',
   AboutDublicateInLine = 'There is a duplicate in the line. Check the line!',
+  AboutDublicateInFile = 'There is a duplicate in the file. Check the file!',
   AboutEmpty = 'Empty string or unchanged. Enter a new value!',
   AboutNumber = 'This is not a number. Enter the number!',
   IsTyping = 'is typing a message ...',
@@ -26,6 +27,8 @@ export enum TextForUser {
   CancelEnterTheRoom = 'You need to wait for the admin`s decision to re-try to enter the room!',
   GoBack = 'Go back and try a different link.',
   PageNotFound = 'page not found',
+  WrongFileCSV = 'wrong file extension, upload CSV!',
+  WrongFileImage = 'wrong file extension, upload JPG, JPEG, GIF, PNG, SVG, BMP!',
 }
 
 export enum Authors {
@@ -236,6 +239,10 @@ export interface IStatisticValues {
 
 export interface IGradesObject {
   [grade: string]: number;
+}
+
+export interface IDataFile {
+  [key: string]: string | number;
 }
 
 export const cardSets = {
