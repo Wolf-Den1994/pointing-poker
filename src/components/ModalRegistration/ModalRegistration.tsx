@@ -21,7 +21,6 @@ import { getResourse } from '../../services/api';
 import { changeSettings, setCards } from '../../store/settingsReducer';
 import { startTime } from '../../store/timerReducer';
 import { setStatistics } from '../../store/statisticsReducer';
-import { getExtension } from '../../utils/getExtension';
 
 interface IModalRegistrationProps {
   role: string;
@@ -32,17 +31,6 @@ interface IModalRegistrationProps {
   modalActive: boolean;
   onModalActive: Dispatch<SetStateAction<boolean>>;
 }
-
-const checkExtension = (extension: string): boolean => {
-  return (
-    extension === 'jpg' ||
-    extension === 'gif' ||
-    extension === 'png' ||
-    extension === 'svg' ||
-    extension === 'bmp' ||
-    extension === 'jpeg'
-  );
-};
 
 const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   role,
@@ -67,16 +55,11 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const handleAddAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: File = (e.target.files as FileList)[0];
-    const extension = file && getExtension(file.name);
-    if (checkExtension(extension)) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setAvatar(`${reader.result}`);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      message.error(TextForUser.WrongFileImage);
-    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAvatar(`${reader.result}`);
+    };
+    reader.readAsDataURL(file);
   };
 
   useEffect(() => {
@@ -265,7 +248,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           </Form.Item>
 
           <Form.Item name="avatar" label="Upload avatar:">
-            <Input type="file" onChange={handleAddAvatar} value={avatar} />
+            <Input type="file" onChange={handleAddAvatar} value={avatar} accept=".jpg, .jpeg, .png .bmp .svg" />
           </Form.Item>
 
           {avatar && avatar.length ? (

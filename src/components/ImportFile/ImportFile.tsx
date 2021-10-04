@@ -25,11 +25,11 @@ const ImportFile: React.FC = () => {
     transformHeader: (header: string) => header.toLowerCase().replace(/\W/g, '_'),
   };
 
-  const input = document.querySelector<HTMLInputElement>('#csv-input');
-
   const checkIssuesInHeader = (data: IDataFile[]) => data.some((value) => Object.keys(value).includes(headerFile));
 
   const handleForce = (data: IDataFile[], fileInfo: IFileInfo) => {
+    const input = document.querySelector<HTMLInputElement>('#csv-input');
+
     if (getExtension(fileInfo.name) === extension) {
       if (checkIssuesInHeader(data)) {
         const tasks = data.map((item) => item.issues);
