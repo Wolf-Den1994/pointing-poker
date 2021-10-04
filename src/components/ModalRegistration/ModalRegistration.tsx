@@ -248,7 +248,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           </Form.Item>
 
           <Form.Item name="avatar" label="Upload avatar:">
-            <Input type="file" onChange={handleAddAvatar} value={avatar} />
+            <Input type="file" onChange={handleAddAvatar} value={avatar} accept=".jpg, .jpeg, .png, .bmp, .svg" />
           </Form.Item>
 
           {avatar && avatar.length ? (

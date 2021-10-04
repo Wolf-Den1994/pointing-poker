@@ -10,6 +10,7 @@ import Members from '../../components/Members/Members';
 import CustomizeCards from '../../components/CustomizeCards/CustomizeCards';
 import GameSettings from '../../components/GameSettings/GameSettings';
 import IssueList from '../../components/IssueList/IssueList';
+import ImportFile from '../../components/ImportFile/ImportFile';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Lobby.module.scss';
 import { PathRoutes, SocketTokens } from '../../types/types';
@@ -93,6 +94,7 @@ const Lobby: React.FC = () => {
         {isDealer ? (
           <>
             <IssueList />
+            <ImportFile />
             <GameSettings />
             <CustomizeCards />
           </>
