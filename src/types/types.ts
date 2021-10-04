@@ -29,6 +29,7 @@ export enum TextForUser {
   PageNotFound = 'page not found',
   WrongFileCSV = 'wrong file extension, upload CSV!',
   WrongFileImage = 'wrong file extension, upload JPG, JPEG, GIF, PNG, SVG, BMP!',
+  AvatarSizeBig = 'picture size cannot exceed 700kb',
 }
 
 export enum Authors {
