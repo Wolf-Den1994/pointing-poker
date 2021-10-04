@@ -82,9 +82,8 @@ const GameCard: React.FC<IGameCardProps> = ({
       const newGrade = { name, grade: children };
       const changedGrades = changeGrades(findIssue.grades, newGrade);
       emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: findIssue?.taskName, name, grade: children } });
-      emit(SocketTokens.OffProgress, {
+      emit(SocketTokens.SetIssueGrades, {
         roomId,
-        progress: false,
         taskName: findIssue.taskName,
         grades: changedGrades,
         statistics: countStatistics({ ...findIssue, grades: changedGrades }),
