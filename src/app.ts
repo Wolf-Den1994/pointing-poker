@@ -19,7 +19,6 @@ import { deleteUserFromRoom } from './utils/services';
 import {
   ChangeIssueModes,
   GameRoom,
-  IIssue,
   Room,
   SocketTokens,
 } from './types/types';

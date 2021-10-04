@@ -62,12 +62,6 @@ export interface User {
   avatarUrl: string;
 }
 
-export interface IIssue {
-  taskName: string;
-  grades: { name: string; grade: string | null }[];
-  isActive: boolean;
-}
-
 export enum ChangeIssueModes {
   ADD = 'add',
   CHANGE = 'change',
