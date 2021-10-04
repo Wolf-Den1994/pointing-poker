@@ -134,6 +134,8 @@ export enum SocketTokens {
   HideStatistics = 'hideStatistics',
   EditTotalValue = 'EditTotalValue',
   ClearIssueGrade = 'clearIssueGrade',
+  SetIssueGrades = 'setIssueGrades',
+  ChangeIssueGrades = 'changeIssueGrades',
 }
 
 export enum LayoutViews {
