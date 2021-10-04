@@ -58,7 +58,7 @@ const GameSettings: React.FC = () => {
         <Form.Item
           name="autoFlipCards"
           valuePropName="checked"
-          label={<span style={{ fontSize: 18 }}>Flip the card automatically after the end of the round:</span>}
+          label={<span style={{ fontSize: 18 }}>Flip the cards automatically after the timer ends:</span>}
           colon={false}
           initialValue={autoFlipCards}
         >
@@ -68,7 +68,7 @@ const GameSettings: React.FC = () => {
         <Form.Item
           name="autoFlipCardsAllVoted"
           valuePropName="checked"
-          label={<span style={{ fontSize: 18 }}>Flip the card automatically after all users voted:</span>}
+          label={<span style={{ fontSize: 18 }}>Flip the cards automatically after all users voted:</span>}
           colon={false}
           initialValue={autoFlipCardsAllVoted}
         >
