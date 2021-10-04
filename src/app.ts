@@ -106,16 +106,24 @@ io.on('connection', (socket) => {
       case ChangeIssueModes.ADD:
         response.issues.push(newIssue);
         break;
+
+      case ChangeIssueModes.ALL: {
+        response.issues = newIssue;
+        break;
+      }
+
       case ChangeIssueModes.DELETE: {
         const index = response.issues.findIndex((el) => el.taskName === newIssue);
         response.issues.splice(index, 1);
         break;
       }
+
       case ChangeIssueModes.CHANGE: {
         const index = response.issues.findIndex((el) => el.taskName === oldIssue);
         response.issues[index].taskName = newIssue;
         break;
       }
+
       default:
         response.issues = newIssue;
     }
