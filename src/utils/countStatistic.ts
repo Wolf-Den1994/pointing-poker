@@ -18,7 +18,14 @@ const countStatistics = (issue: IIssueData): IStatisticData => {
   const sumValues = gradesArray.reduce((prev, curr) => (curr === 'pass' ? prev : prev + +curr), 0);
   const counterPass = gradesArray.reduce((prev, curr) => (curr === 'pass' ? prev + 1 : prev), 0);
 
-  const total = sumValues / (gradesArray.length - counterPass) || 'In Progress...';
+  let total: number | string;
+  if (sumValues) {
+    total = sumValues / (gradesArray.length - counterPass) || 'In Progress...';
+  } else if (gradesArray.length - counterPass) {
+    total = 0;
+  } else {
+    total = 'In Progress...';
+  }
 
   const statisticValues: IStatisticValues[] = gradesArray.map((grade: string) => {
     const averageValue = String(((gradesObject[grade] * 100) / issue.grades.length).toFixed(2));
