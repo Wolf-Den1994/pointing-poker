@@ -142,7 +142,7 @@ export enum SocketTokens {
   SetIssueGrades = 'setIssueGrades',
   ChangeIssueGrades = 'changeIssueGrades',
   ErrorMessage = 'errorMessage',
-  Reconnect_error = 'reconnect_error',
+  ReconnectError = 'reconnect_error',
 }
 
 export enum LayoutViews {
