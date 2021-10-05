@@ -80,8 +80,12 @@ const Home: React.FC = () => {
       connect();
     });
 
-    socket.io.on('reconnect_error', () => {
-      message.error('Server is not available now, please call back later)');
+    socket.io.on(SocketTokens.Reconnect_error, () => {
+      message.error(TextForUser.ErrorConnection);
+    });
+
+    on(SocketTokens.ErrorMessage, (data) => {
+      console.log(data.err);
     });
 
     on(SocketTokens.EnteredRoom, (data) => {

@@ -29,6 +29,7 @@ export enum TextForUser {
   PageNotFound = 'page not found',
   WrongFileCSV = 'wrong file extension, upload CSV!',
   WrongFileImage = 'wrong file extension, upload JPG, JPEG, GIF, PNG, SVG, BMP!',
+  ErrorConnection = 'Server is not available now, please call back later',
 }
 
 export enum Authors {
@@ -139,6 +140,8 @@ export enum SocketTokens {
   ClearIssueGrade = 'clearIssueGrade',
   SetIssueGrades = 'setIssueGrades',
   ChangeIssueGrades = 'changeIssueGrades',
+  ErrorMessage = 'errorMessage',
+  Reconnect_error = 'reconnect_error',
 }
 
 export enum LayoutViews {
