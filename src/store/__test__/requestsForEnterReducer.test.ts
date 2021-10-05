@@ -4,13 +4,13 @@ const state = {
   requestsFromUsers: [],
 };
 
-it('after adding new issue length of issueList should be incremented', () => {
+it('after adding new user length of requestsFromUsers should be incremented', () => {
   const action = addUserRequest('NewTask1');
   const newState = requestsForEnterReducer(state, action);
   expect(newState.requestsFromUsers.length).toBe(1);
 });
 
-it('after deleteting issue length of issueList should be decrement', () => {
+it('after deleteting user length of requestsFromUsers should be decrement', () => {
   const newStateReqFromUsers = {
     requestsFromUsers: ['user1'],
   };
