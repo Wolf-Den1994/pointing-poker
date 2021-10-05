@@ -31,6 +31,7 @@ export enum TextForUser {
   WrongFileImage = 'wrong file extension, upload JPG, JPEG, GIF, PNG, SVG, BMP!',
   ErrorConnection = 'Server is not available now, please call back later',
   AvatarSizeBig = 'picture size cannot exceed 700kb',
+  StartRound = 'Round has begun',
 }
 
 export enum Authors {
