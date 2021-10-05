@@ -263,6 +263,9 @@ const Game: React.FC = () => {
 
         dispatch(disableActiveCards());
       }
+
+      emit(SocketTokens.OffProgress, { roomId });
+      dispatch(setOffProgress());
     }
   };
 
