@@ -8,7 +8,7 @@ import style from './Home.module.scss';
 import ModalRegistration from '../../components/ModalRegistration/ModalRegistration';
 import { addMessage, addUsers, changeDealer } from '../../store/roomDataReducer';
 import { GameRooms, PathRoutes, SocketTokens, TextForUser, UserRole } from '../../types/types';
-import { on, connect, emit } from '../../services/socket';
+import { on, connect, emit, io } from '../../services/socket';
 import { getResourse } from '../../services/api';
 import { setShowWriter, setWriter } from '../../store/userTypingReducer';
 import { startTime } from '../../store/timerReducer';
@@ -80,7 +80,7 @@ const Home: React.FC = () => {
       connect();
     });
 
-    socket.io.on(SocketTokens.Reconnect_error, () => {
+    io(SocketTokens.Reconnect_error, () => {
       message.error(TextForUser.ErrorConnection);
     });
 
