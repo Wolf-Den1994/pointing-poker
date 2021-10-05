@@ -316,7 +316,12 @@ const Game: React.FC = () => {
             </div>
           ) : null}
           <div className={style.field}>
-            <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
+            <IssueList
+              view={LayoutViews.Vertical}
+              onHighlight={handleIssueHighlight}
+              enableHighlight
+              onShowStatistics={setShowStatistics}
+            />
             <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
           {showStatistics ? <Statistics activeIssue={activeIssueValue} /> : null}
