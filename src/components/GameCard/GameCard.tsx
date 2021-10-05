@@ -81,6 +81,7 @@ const GameCard: React.FC<IGameCardProps> = ({
     if (allowSelection && findIssue?.taskName) {
       const newGrade = { name, grade: children };
       const changedGrades = changeGrades(findIssue.grades, newGrade);
+
       emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: findIssue?.taskName, name, grade: children } });
       emit(SocketTokens.SetIssueGrades, {
         roomId,
@@ -88,6 +89,7 @@ const GameCard: React.FC<IGameCardProps> = ({
         grades: changedGrades,
         statistics: countStatistics({ ...findIssue, grades: changedGrades }),
       });
+
       dispatch(addStatistics(countStatistics({ ...findIssue, grades: changedGrades })));
       dispatch(addGrades({ taskName: findIssue?.taskName, newGrade }));
       dispatch(setActiveCard(children));
