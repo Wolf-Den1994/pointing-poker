@@ -342,7 +342,7 @@ const Game: React.FC = () => {
               const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
               if (progress && !isDealer && member.role !== UserRole.Observer) {
                 return (
-                  <div className={style.data} key={member.name}>
+                  <div className={`${style.data} ${style.progress}`} key={member.name}>
                     <span>In progress</span>
                   </div>
                 );

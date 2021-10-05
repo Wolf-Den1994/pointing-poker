@@ -91,6 +91,11 @@
         font-size: 20px;
         font-weight: 600;
 
+        &.progress {
+          text-align: center;
+          font-size: 13px;
+        }
+
         .dash {
           font-size: 25px;
         }
