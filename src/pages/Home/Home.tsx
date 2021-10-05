@@ -85,7 +85,7 @@ const Home: React.FC = () => {
     });
 
     on(SocketTokens.ErrorMessage, (data) => {
-      console.log(data.err);
+      message.error(data.err);
     });
 
     on(SocketTokens.EnteredRoom, (data) => {
