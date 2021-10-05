@@ -29,6 +29,7 @@ export enum TextForUser {
   PageNotFound = 'page not found',
   WrongFileCSV = 'wrong file extension, upload CSV!',
   WrongFileImage = 'wrong file extension, upload JPG, JPEG, GIF, PNG, SVG, BMP!',
+  ErrorConnection = 'Server is not available now, please call back later',
   AvatarSizeBig = 'picture size cannot exceed 700kb',
 }
 
@@ -138,6 +139,10 @@ export enum SocketTokens {
   HideStatistics = 'hideStatistics',
   EditTotalValue = 'EditTotalValue',
   ClearIssueGrade = 'clearIssueGrade',
+  SetIssueGrades = 'setIssueGrades',
+  ChangeIssueGrades = 'changeIssueGrades',
+  ErrorMessage = 'errorMessage',
+  ReconnectError = 'reconnect_error',
 }
 
 export enum LayoutViews {
@@ -182,11 +187,13 @@ export interface IGameSettingsData {
 
 export interface IIssueData {
   taskName: string;
-  grades: {
-    name: string;
-    grade: string | null;
-  }[];
+  grades: IIssueGrade[];
   isActive: boolean;
+}
+
+export interface IIssueGrade {
+  name: string;
+  grade: string | null;
 }
 
 export interface IInitialStateIssues {

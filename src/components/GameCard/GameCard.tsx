@@ -9,6 +9,9 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { SocketTokens, TextForUser } from '../../types/types';
 import { addGrades } from '../../store/issuesReducer';
 import { emit } from '../../services/socket';
+import { changeGrades } from '../../utils/changedGrades';
+import countStatistics from '../../utils/countStatistic';
+import { addStatistics } from '../../store/statisticsReducer';
 
 interface IGameCardProps {
   children: string;
@@ -38,7 +41,7 @@ const GameCard: React.FC<IGameCardProps> = ({
   const [newValueCard, setNewValueCard] = useState('');
   const [oldValueCard, setOldValueCard] = useState('');
 
-  const taskName = issueList.find((issue) => issue.isActive)?.taskName;
+  const findIssue = issueList.find((issue) => issue.isActive);
 
   const viewIsNumber = Number.isNaN(+valueView) ? null : valueView;
   const classNameView = viewIsNumber ? style.number : `${style.scoreType} ${style[children]}`;
@@ -75,15 +78,26 @@ const GameCard: React.FC<IGameCardProps> = ({
   };
 
   const handleSectCard = () => {
-    if (allowSelection && taskName) {
-      emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName, name, grade: children } });
-      dispatch(addGrades({ taskName, newGrade: { name, grade: children } }));
+    if (allowSelection && findIssue?.taskName) {
+      const newGrade = { name, grade: children };
+      const changedGrades = changeGrades(findIssue.grades, newGrade);
+
+      emit(SocketTokens.EditIssueGrade, { roomId, userData: { taskName: findIssue?.taskName, name, grade: children } });
+      emit(SocketTokens.SetIssueGrades, {
+        roomId,
+        taskName: findIssue.taskName,
+        grades: changedGrades,
+        statistics: countStatistics({ ...findIssue, grades: changedGrades }),
+      });
+
+      dispatch(addStatistics(countStatistics({ ...findIssue, grades: changedGrades })));
+      dispatch(addGrades({ taskName: findIssue?.taskName, newGrade }));
       dispatch(setActiveCard(children));
     }
   };
 
   const classNameSmall = small ? style.small : '';
-  const classNameAllowSelection = allowSelection && taskName ? style.allowSelection : '';
+  const classNameAllowSelection = allowSelection && findIssue?.taskName ? style.allowSelection : '';
 
   return (
     <div
