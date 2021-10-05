@@ -3,6 +3,7 @@ export const BASE_URL = 'https://rsschool-pp.herokuapp.com';
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',
   AboutDublicateInLine = 'There is a duplicate in the line. Check the line!',
+  AboutDublicateInFile = 'There is a duplicate in the file. Check the file!',
   AboutEmpty = 'Empty string or unchanged. Enter a new value!',
   AboutNumber = 'This is not a number. Enter the number!',
   IsTyping = 'is typing a message ...',
@@ -26,6 +27,10 @@ export enum TextForUser {
   CancelEnterTheRoom = 'You need to wait for the admin`s decision to re-try to enter the room!',
   GoBack = 'Go back and try a different link.',
   PageNotFound = 'page not found',
+  WrongFileCSV = 'wrong file extension, upload CSV!',
+  WrongFileImage = 'wrong file extension, upload JPG, JPEG, GIF, PNG, SVG, BMP!',
+  ErrorConnection = 'Server is not available now, please call back later',
+  AvatarSizeBig = 'picture size cannot exceed 700kb',
 }
 
 export enum Authors {
@@ -134,6 +139,10 @@ export enum SocketTokens {
   HideStatistics = 'hideStatistics',
   EditTotalValue = 'EditTotalValue',
   ClearIssueGrade = 'clearIssueGrade',
+  SetIssueGrades = 'setIssueGrades',
+  ChangeIssueGrades = 'changeIssueGrades',
+  ErrorMessage = 'errorMessage',
+  ReconnectError = 'reconnect_error',
 }
 
 export enum LayoutViews {
@@ -178,11 +187,13 @@ export interface IGameSettingsData {
 
 export interface IIssueData {
   taskName: string;
-  grades: {
-    name: string;
-    grade: string | null;
-  }[];
+  grades: IIssueGrade[];
   isActive: boolean;
+}
+
+export interface IIssueGrade {
+  name: string;
+  grade: string | null;
 }
 
 export interface IInitialStateIssues {
@@ -236,6 +247,10 @@ export interface IStatisticValues {
 
 export interface IGradesObject {
   [grade: string]: number;
+}
+
+export interface IDataFile {
+  [key: string]: string | number;
 }
 
 export const cardSets = {

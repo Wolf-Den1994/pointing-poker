@@ -21,6 +21,7 @@ import { getResourse } from '../../services/api';
 import { changeSettings, setCards } from '../../store/settingsReducer';
 import { startTime } from '../../store/timerReducer';
 import { setStatistics } from '../../store/statisticsReducer';
+import style from './ModalRegistration.module.scss';
 
 interface IModalRegistrationProps {
   role: string;
@@ -55,11 +56,19 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
 
   const handleAddAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: File = (e.target.files as FileList)[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setAvatar(`${reader.result}`);
-    };
-    reader.readAsDataURL(file);
+    if (file && file.size < 720 * 1024) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAvatar(`${reader.result}`);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      if (e.target) {
+        e.target.value = '';
+        setAvatar('');
+      }
+      message.error(TextForUser.AvatarSizeBig);
+    }
   };
 
   useEffect(() => {
@@ -247,9 +256,16 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
             <Input placeholder="Software Engineer" onChange={handleChangePosition} />
           </Form.Item>
 
-          <Form.Item name="avatar" label="Upload avatar:">
-            <Input type="file" onChange={handleAddAvatar} value={avatar} />
-          </Form.Item>
+          <label htmlFor="uploadAvatar" className={style.labelAvatar}>
+            Upload avatar:
+            <input
+              type="file"
+              onChange={handleAddAvatar}
+              className={style.inputAvatar}
+              accept="image/*"
+              id="uploadAvatar"
+            />
+          </label>
 
           {avatar && avatar.length ? (
             <Avatar shape="circle" size={64} src={avatar} alt="avatar" />

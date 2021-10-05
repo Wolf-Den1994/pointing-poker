@@ -33,7 +33,6 @@ import { addStatistics, editStatisticTotal } from '../../store/statisticsReducer
 import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer';
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { setOffProgress, setOnProgress } from '../../store/progressReducer';
-import countStatistics from '../../utils/countStatistic';
 import { disconnectUsers } from '../../utils/disconnectUsers';
 
 let interval: NodeJS.Timeout;
@@ -64,14 +63,7 @@ const Game: React.FC = () => {
     setDisableButtonFlipCards(true);
 
     if (findIssue) {
-      emit(SocketTokens.OffProgress, {
-        roomId,
-        progress: false,
-        taskName: findIssue.taskName,
-        grades: findIssue.grades,
-        statistics: countStatistics(findIssue),
-      });
-      dispatch(addStatistics(countStatistics(findIssue)));
+      emit(SocketTokens.OffProgress, { roomId });
     }
 
     clearInterval(interval);
@@ -149,7 +141,6 @@ const Game: React.FC = () => {
           newGrade: { name: data.userData.name, grade: data.userData.grade },
         }),
       );
-      dispatch(setOnProgress());
     });
 
     on(SocketTokens.ClearIssueGrade, ({ taskName }) => {
@@ -160,9 +151,12 @@ const Game: React.FC = () => {
       dispatch(setOnProgress());
     });
 
-    on(SocketTokens.OffProgress, (data) => {
+    on(SocketTokens.OffProgress, () => {
       dispatch(setOffProgress());
       dispatch(disableActiveCards());
+    });
+
+    on(SocketTokens.ChangeIssueGrades, (data) => {
       dispatch(addStatistics(data.statistics));
     });
 
@@ -348,7 +342,7 @@ const Game: React.FC = () => {
               const findGrade = findIssue?.grades.find((grade) => grade.name === member.name);
               if (progress && !isDealer && member.role !== UserRole.Observer) {
                 return (
-                  <div className={style.data} key={member.name}>
+                  <div className={`${style.data} ${style.progress}`} key={member.name}>
                     <span>In progress</span>
                   </div>
                 );
