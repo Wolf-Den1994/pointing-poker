@@ -253,10 +253,6 @@ export interface IDataFile {
   [key: string]: string | number;
 }
 
-export interface ManagerReservedEvents {
-  reconnect_error: (err: Error) => void;
-}
-
 export const cardSets = {
   arrayFibonacci: [
     { card: 'pass', isActive: false },
