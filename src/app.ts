@@ -127,7 +127,7 @@ io.on('connection', (socket) => {
       default:
         response.issues = newIssue;
     }
-    updateRoom(response);
+    await updateRoom(response);
     socket.broadcast.to(roomId).emit(SocketTokens.GetIssuesList, { issues: response.issues });
   });
 
@@ -143,8 +143,8 @@ io.on('connection', (socket) => {
     socket.broadcast.in(roomId).emit(SocketTokens.OnProgress, progress);
   });
 
-  socket.on(SocketTokens.OffProgress, async ({
-    roomId, progress, taskName, grades, statistics,
+  socket.on(SocketTokens.SetIssueGrades, async ({
+    roomId, taskName, grades, statistics,
   }) => {
     const response = await getRoom(roomId);
     response.issues.forEach((el) => {
@@ -157,7 +157,11 @@ io.on('connection', (socket) => {
       response.statistics.push(statistics);
     }
     await updateRoom(response);
-    socket.broadcast.in(roomId).emit(SocketTokens.OffProgress, { progress, statistics });
+    socket.broadcast.in(roomId).emit(SocketTokens.ChangeIssueGrades, { statistics });
+  });
+
+  socket.on(SocketTokens.OffProgress, async ({ roomId }) => {
+    io.in(roomId).emit(SocketTokens.OffProgress);
   });
 
   socket.on(SocketTokens.EnableCards, ({ roomId, enableCards }) => {
@@ -214,7 +218,7 @@ io.on('connection', (socket) => {
 
   socket.on(SocketTokens.DeleteUserWithVoting, async ({ userId, userName, roomId }) => {
     const response = await getRoom(roomId);
-    const usersAmountWithAdmin = 4;
+    const usersAmountWithAdmin = 3;
     if (response.users.length <= usersAmountWithAdmin) {
       socket.emit(SocketTokens.CancelVoting);
       return;
@@ -224,7 +228,7 @@ io.on('connection', (socket) => {
     votingData.voices++;
     votingData.votedUsers++;
     socket.broadcast.to(roomId).emit(SocketTokens.ShowCandidateToBeDeleted, { name: userName });
-    updateRoom(response);
+    await updateRoom(response);
   });
 
   socket.on(SocketTokens.ToVoteFor, async ({ voice, user, roomId }) => {
@@ -237,7 +241,7 @@ io.on('connection', (socket) => {
     }
     votingObj.votedUsers++;
     if (usersAmount !== votingObj.votedUsers) {
-      updateRoom(response);
+      await updateRoom(response);
       return;
     }
 
