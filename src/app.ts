@@ -15,7 +15,7 @@ import {
   deleteRoom,
 } from './API/mongoDB';
 import { room } from './utils/constants';
-import { deleteUserFromRoom } from './utils/services';
+import { deleteUserFromRoom, errorHandler } from './utils/services';
 import {
   ChangeIssueModes,
   GameRoom,
@@ -26,8 +26,8 @@ import {
 const app = express();
 const PORT = process.env.PORT || 8000;
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ limit: '5mb', extended: true }));
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -39,23 +39,31 @@ app.use('/api', router);
 
 io.on('connection', (socket) => {
   socket.on(SocketTokens.CreateRoom, async ({ data }) => {
-    const roomId = uuidv4();
-    socket.join(roomId);
-    const user = { ...data, id: socket.id, role: 'admin' };
-    const newUserRoom = {
-      ...room,
-      roomId,
-      admin: data,
-      users: [user],
-    };
-    await setRoom(newUserRoom as unknown as Room);
-    socket.emit(SocketTokens.ReturnRoomId, { id: roomId, user });
+    try {
+      const roomId = uuidv4();
+      socket.join(roomId);
+      const user = { ...data, id: socket.id, role: 'admin' };
+      const newUserRoom = {
+        ...room,
+        roomId,
+        admin: data,
+        users: [user],
+      };
+      await setRoom(newUserRoom as unknown as Room);
+      socket.emit(SocketTokens.ReturnRoomId, { id: roomId, user });
+    } catch (err) {
+      errorHandler(socket, err as Error);
+    }
   });
 
-  socket.on(SocketTokens.EnterRoom, ({ user, roomId }) => {
-    socket.join(roomId);
-    addNewUser(roomId, user);
-    socket.broadcast.to(roomId).emit(SocketTokens.EnteredRoom, { user });
+  socket.on(SocketTokens.EnterRoom, async ({ user, roomId }) => {
+    try {
+      socket.join(roomId);
+      await addNewUser(roomId, user);
+      socket.broadcast.to(roomId).emit(SocketTokens.EnteredRoom, { user });
+    } catch (err) {
+      errorHandler(socket, err as Error);
+    }
   });
 
   socket.on(SocketTokens.RequestForEntering, ({ userId, adminId }) => {
@@ -72,12 +80,16 @@ io.on('connection', (socket) => {
     cardSet,
     timer,
   }) => {
-    const response = await getRoom(roomId);
-    response.settings = settings;
-    response.cardSet = cardSet;
-    response.gameRoom = GameRoom.GameLocked;
-    await updateRoom(response);
-    socket.broadcast.to(roomId).emit(SocketTokens.RedirectUserToGamePage, { settings, cardSet, timer });
+    try {
+      const response = await getRoom(roomId);
+      response.settings = settings;
+      response.cardSet = cardSet;
+      response.gameRoom = GameRoom.GameLocked;
+      await updateRoom(response);
+      socket.broadcast.to(roomId).emit(SocketTokens.RedirectUserToGamePage, { settings, cardSet, timer });
+    } catch (err) {
+      errorHandler(socket, err as Error);
+    }
   });
 
   socket.on(SocketTokens.RedirectAllToResultPage, ({ roomId }) => {
@@ -85,10 +97,14 @@ io.on('connection', (socket) => {
   });
 
   socket.on(SocketTokens.GetMessage, async ({ roomId, user, mess }) => {
-    const searchingRoom = await getRoom(roomId);
-    searchingRoom.messages.push({ name: user, message: mess });
-    await updateRoom(searchingRoom);
-    socket.broadcast.to(roomId).emit(SocketTokens.SendMessage, { name: user, message: mess });
+    try {
+      const searchingRoom = await getRoom(roomId);
+      searchingRoom.messages.push({ name: user, message: mess });
+      await updateRoom(searchingRoom);
+      socket.broadcast.to(roomId).emit(SocketTokens.SendMessage, { name: user, message: mess });
+    } catch (err) {
+      errorHandler(socket, err as Error);
+    }
   });
 
   socket.on(SocketTokens.SomeOneWriteMessage, ({ user, write, roomId }) => {
@@ -101,34 +117,38 @@ io.on('connection', (socket) => {
     roomId,
     oldIssue = '',
   }) => {
-    const response = await getRoom(roomId);
-    switch (mode) {
-      case ChangeIssueModes.ADD:
-        response.issues.push(newIssue);
-        break;
+    try {
+      const response = await getRoom(roomId);
+      switch (mode) {
+        case ChangeIssueModes.ADD:
+          response.issues.push(newIssue);
+          break;
 
-      case ChangeIssueModes.ALL: {
-        response.issues = newIssue;
-        break;
+        case ChangeIssueModes.ALL: {
+          response.issues = newIssue;
+          break;
+        }
+
+        case ChangeIssueModes.DELETE: {
+          const index = response.issues.findIndex((el) => el.taskName === newIssue);
+          response.issues.splice(index, 1);
+          break;
+        }
+
+        case ChangeIssueModes.CHANGE: {
+          const index = response.issues.findIndex((el) => el.taskName === oldIssue);
+          response.issues[index].taskName = newIssue;
+          break;
+        }
+
+        default:
+          response.issues = newIssue;
       }
-
-      case ChangeIssueModes.DELETE: {
-        const index = response.issues.findIndex((el) => el.taskName === newIssue);
-        response.issues.splice(index, 1);
-        break;
-      }
-
-      case ChangeIssueModes.CHANGE: {
-        const index = response.issues.findIndex((el) => el.taskName === oldIssue);
-        response.issues[index].taskName = newIssue;
-        break;
-      }
-
-      default:
-        response.issues = newIssue;
+      await updateRoom(response);
+      socket.broadcast.to(roomId).emit(SocketTokens.GetIssuesList, { issues: response.issues });
+    } catch (err) {
+      errorHandler(socket, err as Error);
     }
-    await updateRoom(response);
-    socket.broadcast.to(roomId).emit(SocketTokens.GetIssuesList, { issues: response.issues });
   });
 
   socket.on(SocketTokens.EditIssueGrade, ({ roomId, userData }) => {
@@ -146,18 +166,22 @@ io.on('connection', (socket) => {
   socket.on(SocketTokens.SetIssueGrades, async ({
     roomId, taskName, grades, statistics,
   }) => {
-    const response = await getRoom(roomId);
-    response.issues.forEach((el) => {
-      if (el.taskName === taskName) el.grades = grades;
-    });
-    const findStatisticIndex = response.statistics.findIndex((el) => el.taskName === taskName);
-    if (findStatisticIndex >= 0) {
-      response.statistics[findStatisticIndex] = statistics;
-    } else {
-      response.statistics.push(statistics);
+    try {
+      const response = await getRoom(roomId);
+      response.issues.forEach((el) => {
+        if (el.taskName === taskName) el.grades = grades;
+      });
+      const findStatisticIndex = response.statistics.findIndex((el) => el.taskName === taskName);
+      if (findStatisticIndex >= 0) {
+        response.statistics[findStatisticIndex] = statistics;
+      } else {
+        response.statistics.push(statistics);
+      }
+      await updateRoom(response);
+      socket.broadcast.in(roomId).emit(SocketTokens.ChangeIssueGrades, { statistics });
+    } catch (err) {
+      errorHandler(socket, err as Error);
     }
-    await updateRoom(response);
-    socket.broadcast.in(roomId).emit(SocketTokens.ChangeIssueGrades, { statistics });
   });
 
   socket.on(SocketTokens.OffProgress, async ({ roomId }) => {
@@ -185,13 +209,17 @@ io.on('connection', (socket) => {
   });
 
   socket.on(SocketTokens.SendActiveIssueToUser, async ({ roomId, issueName }) => {
-    const response = await getRoom(roomId);
-    response.issues.forEach((el) => {
-      el.isActive = false;
-      if (el.taskName === issueName) el.isActive = true;
-    });
-    await updateRoom(response);
-    socket.broadcast.to(roomId).emit(SocketTokens.GetActiveIssue, { issueName });
+    try {
+      const response = await getRoom(roomId);
+      response.issues.forEach((el) => {
+        el.isActive = false;
+        if (el.taskName === issueName) el.isActive = true;
+      });
+      await updateRoom(response);
+      socket.broadcast.to(roomId).emit(SocketTokens.GetActiveIssue, { issueName });
+    } catch (err) {
+      errorHandler(socket, err as Error);
+    }
   });
 
   socket.on(SocketTokens.SendNewSettingsToUsers, async ({
@@ -200,16 +228,20 @@ io.on('connection', (socket) => {
     cardSet,
     time,
   }) => {
-    const response = await getRoom(roomId);
-    if (settings.autoAdmitMembers) {
-      response.gameRoom = GameRoom.GameAllow;
-    } else {
-      response.gameRoom = GameRoom.GameLocked;
+    try {
+      const response = await getRoom(roomId);
+      if (settings.autoAdmitMembers) {
+        response.gameRoom = GameRoom.GameAllow;
+      } else {
+        response.gameRoom = GameRoom.GameLocked;
+      }
+      response.settings = settings;
+      response.cardSet = cardSet;
+      await updateRoom(response);
+      socket.broadcast.in(roomId).emit(SocketTokens.GetNewSettingsFromAdmin, { settings, cardSet, time });
+    } catch (err) {
+      errorHandler(socket, err as Error);
     }
-    response.settings = settings;
-    response.cardSet = cardSet;
-    await updateRoom(response);
-    socket.broadcast.in(roomId).emit(SocketTokens.GetNewSettingsFromAdmin, { settings, cardSet, time });
   });
 
   socket.on(SocketTokens.SetTimeOnTimer, ({ time, roomId }) => {
@@ -217,51 +249,63 @@ io.on('connection', (socket) => {
   });
 
   socket.on(SocketTokens.DeleteUserWithVoting, async ({ userId, userName, roomId }) => {
-    const response = await getRoom(roomId);
-    const usersAmountWithAdmin = 3;
-    if (response.users.length <= usersAmountWithAdmin) {
-      socket.emit(SocketTokens.CancelVoting);
-      return;
+    try {
+      const response = await getRoom(roomId);
+      const usersAmountWithAdmin = 3;
+      if (response.users.length <= usersAmountWithAdmin) {
+        socket.emit(SocketTokens.CancelVoting);
+        return;
+      }
+      const votingData = response.voting;
+      votingData.id = userId;
+      votingData.voices++;
+      votingData.votedUsers++;
+      socket.broadcast.to(roomId).emit(SocketTokens.ShowCandidateToBeDeleted, { name: userName });
+      await updateRoom(response);
+    } catch (err) {
+      errorHandler(socket, err as Error);
     }
-    const votingData = response.voting;
-    votingData.id = userId;
-    votingData.voices++;
-    votingData.votedUsers++;
-    socket.broadcast.to(roomId).emit(SocketTokens.ShowCandidateToBeDeleted, { name: userName });
-    await updateRoom(response);
   });
 
   socket.on(SocketTokens.ToVoteFor, async ({ voice, user, roomId }) => {
-    const response = await getRoom(roomId);
-    const usersArray = response.users;
-    const votingObj = response.voting;
-    const usersAmount = usersArray.length - 1; // minus admin;
-    if (voice === 'for') {
-      votingObj.voices++;
-    }
-    votingObj.votedUsers++;
-    if (usersAmount !== votingObj.votedUsers) {
-      await updateRoom(response);
-      return;
-    }
+    try {
+      const response = await getRoom(roomId);
+      const usersArray = response.users;
+      const votingObj = response.voting;
+      const usersAmount = usersArray.length - 1; // minus admin;
+      if (voice === 'for') {
+        votingObj.voices++;
+      }
+      votingObj.votedUsers++;
+      if (usersAmount !== votingObj.votedUsers) {
+        await updateRoom(response);
+        return;
+      }
 
-    if (votingObj.voices > votingObj.votedUsers / 2) {
-      io.sockets.sockets.forEach((el) => {
-        if (el.id === votingObj.id) {
-          const resultUsersArray = usersArray.filter((elem) => elem.id !== el.id);
-          clearVotingObj(roomId, el.id);
-          deleteUserFromRoom(el, roomId, user, resultUsersArray);
-        }
-      });
-    } else {
-      clearVotingObj(roomId);
+      if (votingObj.voices > votingObj.votedUsers / 2) {
+        io.sockets.sockets.forEach((el) => {
+          if (el.id === votingObj.id) {
+            const resultUsersArray = usersArray.filter((elem) => elem.id !== el.id);
+            clearVotingObj(roomId, el.id);
+            deleteUserFromRoom(el, roomId, user, resultUsersArray);
+          }
+        });
+      } else {
+        clearVotingObj(roomId);
+      }
+    } catch (err) {
+      errorHandler(socket, err as Error);
     }
   });
 
   socket.on(SocketTokens.LeaveRoom, async ({ roomId, user, id }) => {
-    await deleteUser(roomId, id);
-    const response = await getRoom(roomId);
-    deleteUserFromRoom(socket, roomId, user, response.users);
+    try {
+      await deleteUser(roomId, id);
+      const response = await getRoom(roomId);
+      deleteUserFromRoom(socket, roomId, user, response.users);
+    } catch (err) {
+      errorHandler(socket, err as Error);
+    }
   });
 
   socket.on(SocketTokens.DisconnectAll, async ({ roomId }) => {
@@ -270,32 +314,40 @@ io.on('connection', (socket) => {
   });
 
   socket.on(SocketTokens.DisconnectOne, async ({ userId, roomId }) => {
-    await deleteUser(roomId, userId);
-    const response = await getRoom(roomId);
-    io.sockets.sockets.forEach((el) => {
-      if (el.id === userId) {
-        deleteUserFromRoom(el, roomId, userId, response.users);
-      }
-    });
+    try {
+      await deleteUser(roomId, userId);
+      const response = await getRoom(roomId);
+      io.sockets.sockets.forEach((el) => {
+        if (el.id === userId) {
+          deleteUserFromRoom(el, roomId, userId, response.users);
+        }
+      });
+    } catch (err) {
+      errorHandler(socket, err as Error);
+    }
   });
 
   socket.on(SocketTokens.Disconnecting, () => {
-    const userData = Array.from(socket.rooms);
-    if (userData.length <= 1) return;
-    const allRoomsId = [...userData];
-    allRoomsId.shift();
-    allRoomsId.forEach(async (el) => {
-      await deleteUser(el, userData[0]);
-      const response = await getRoom(el);
-      if (response === null) return;
-      if (response.admin.id === userData[0]) {
-        io.in(el).emit(SocketTokens.DisconnectAllSockets);
-        io.in(el).disconnectSockets();
-        await deleteRoom(el);
-      } else {
-        deleteUserFromRoom(socket, el, userData[0], response.users);
-      }
-    });
+    try {
+      const userData = Array.from(socket.rooms);
+      if (userData.length <= 1) return;
+      const allRoomsId = [...userData];
+      allRoomsId.shift();
+      allRoomsId.forEach(async (el) => {
+        await deleteUser(el, userData[0]);
+        const response = await getRoom(el);
+        if (response === null) return;
+        if (response.admin.id === userData[0]) {
+          io.in(el).emit(SocketTokens.DisconnectAllSockets);
+          io.in(el).disconnectSockets();
+          await deleteRoom(el);
+        } else {
+          deleteUserFromRoom(socket, el, userData[0], response.users);
+        }
+      });
+    } catch (err) {
+      errorHandler(socket, err as Error);
+    }
   });
 
   socket.on(SocketTokens.Disconnect, async () => {
