@@ -20,6 +20,8 @@ import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import { changeSettings, setCards } from '../../store/settingsReducer';
 import { disconnectUsers } from '../../utils/disconnectUsers';
+import { setGameRoom } from '../../store/roomDataReducer';
+import { deleteLocalStorage } from '../../utils/localStorage.service';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();
@@ -41,6 +43,7 @@ const Lobby: React.FC = () => {
     });
 
     window.onload = () => {
+      deleteLocalStorage(roomId);
       history.push(PathRoutes.Home);
     };
 
@@ -52,12 +55,14 @@ const Lobby: React.FC = () => {
   const handleStartGame = () => {
     const time = settings.showTimer ? timer.time : null;
     emit(SocketTokens.RedirectAllToGamePage, { roomId, settings, cardSet, timer: time });
+    dispatch(setGameRoom('game'));
     history.push(`${PathRoutes.Game}/${roomId}`);
   };
 
   const handleCancelGame = async () => {
     try {
       await disconnectUsers(roomId, isDealer);
+      deleteLocalStorage(roomId);
       history.push(PathRoutes.Home);
     } catch (err) {
       message.error(`${err}`);
