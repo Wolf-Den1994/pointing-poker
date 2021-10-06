@@ -226,7 +226,7 @@ export interface ICardData {
 }
 
 export interface ICardSetsData {
-  fibonacci: ICardData[];
+  [fibonacci: string]: ICardData[];
   'modified fibonacci': ICardData[];
   'power of two': ICardData[];
   'custom/your': ICardData[];
