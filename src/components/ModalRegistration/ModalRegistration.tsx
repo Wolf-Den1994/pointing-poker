@@ -31,7 +31,7 @@ import { changeSettings, setCards } from '../../store/settingsReducer';
 import { startTime } from '../../store/timerReducer';
 import { setStatistics } from '../../store/statisticsReducer';
 import style from './ModalRegistration.module.scss';
-import { createLocalStorage } from '../../utils/localStorage.service';
+import { setCardSetsLocalStorage } from '../../utils/localStorage.service';
 
 interface IModalRegistrationProps {
   role: string;
@@ -131,7 +131,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
       dispatch(addUsers(data.user));
       dispatch(setRoomId(data.id));
       onModalActive(false);
-      createLocalStorage(data.id, cardSets);
+      setCardSetsLocalStorage(data.id, cardSets);
       history.push(`${PathRoutes.Lobby}/${data.id}`);
     });
   };

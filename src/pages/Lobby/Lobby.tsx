@@ -21,7 +21,7 @@ import BtnChat from '../../components/BtnChat/BtnChat';
 import { changeSettings, setCards } from '../../store/settingsReducer';
 import { disconnectUsers } from '../../utils/disconnectUsers';
 import { setGameRoom } from '../../store/roomDataReducer';
-import { deleteLocalStorage } from '../../utils/localStorage.service';
+import { deleteCardSetsLocalStorage } from '../../utils/localStorage.service';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const Lobby: React.FC = () => {
     });
 
     window.onload = () => {
-      deleteLocalStorage(roomId);
+      deleteCardSetsLocalStorage(roomId);
       history.push(PathRoutes.Home);
     };
 
@@ -62,7 +62,7 @@ const Lobby: React.FC = () => {
   const handleCancelGame = async () => {
     try {
       await disconnectUsers(roomId, isDealer);
-      deleteLocalStorage(roomId);
+      deleteCardSetsLocalStorage(roomId);
       history.push(PathRoutes.Home);
     } catch (err) {
       message.error(`${err}`);
