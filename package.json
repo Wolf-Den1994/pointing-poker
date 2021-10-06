@@ -43,7 +43,7 @@
   "scripts": {
     "start": "craco start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --detectOpenHandles",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
     "lintfix": "npm run lint -- --fix",
