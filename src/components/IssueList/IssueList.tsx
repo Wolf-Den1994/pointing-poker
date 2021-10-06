@@ -16,16 +16,19 @@ import {
   TextForUser,
 } from '../../types/types';
 import { emit } from '../../services/socket';
+import { setOffProgress } from '../../store/progressReducer';
 
 interface IIssueListProps {
   view?: string;
   enableHighlight?: boolean;
   onHighlight?: (task: string) => void;
+  onShowStatistics?: (isShow: boolean) => void;
 }
 
 const IssueList: React.FC<IIssueListProps> = ({
   onHighlight,
   enableHighlight,
+  onShowStatistics,
   view = LayoutViews.Horizontal,
 }: IIssueListProps) => {
   const dispatch = useDispatch();
@@ -98,6 +101,14 @@ const IssueList: React.FC<IIssueListProps> = ({
     event.stopPropagation();
     emit(SocketTokens.ChangeIssuesList, { newIssue: issue, mode: IssuesListMode.Delete, roomId });
     dispatch(removeIssue(issue));
+
+    if (onShowStatistics) {
+      onShowStatistics(false);
+      emit(SocketTokens.HideStatistics, { roomId, showStatistics: false });
+    }
+
+    emit(SocketTokens.OffProgress, { roomId });
+    dispatch(setOffProgress());
   };
 
   const сhoiceOfActive = (issue: IIssueData) => (enableHighlight && issue.isActive ? style.active : '');
