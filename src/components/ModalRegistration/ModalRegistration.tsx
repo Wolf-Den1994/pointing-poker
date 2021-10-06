@@ -6,7 +6,16 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { checkForLettersAndNumbers } from '../../utils/regex';
 import { setData } from '../../store/userReducer';
-import { PathRoutes, IMember, SocketTokens, UserRole, TextForUser, GameRooms, LocalUserData } from '../../types/types';
+import {
+  PathRoutes,
+  IMember,
+  SocketTokens,
+  UserRole,
+  TextForUser,
+  GameRooms,
+  LocalUserData,
+  cardSets,
+} from '../../types/types';
 import {
   addAdmin,
   addUsers,
@@ -22,6 +31,7 @@ import { changeSettings, setCards } from '../../store/settingsReducer';
 import { startTime } from '../../store/timerReducer';
 import { setStatistics } from '../../store/statisticsReducer';
 import style from './ModalRegistration.module.scss';
+import { createLocalStorage } from '../../utils/localStorage.service';
 
 interface IModalRegistrationProps {
   role: string;
@@ -121,6 +131,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
       dispatch(addUsers(data.user));
       dispatch(setRoomId(data.id));
       onModalActive(false);
+      createLocalStorage(data.id, cardSets);
       history.push(`${PathRoutes.Lobby}/${data.id}`);
     });
   };
