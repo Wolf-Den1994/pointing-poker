@@ -169,7 +169,7 @@ const Home: React.FC = () => {
             </p>
             <div className={style.connect}>
               <Input size="large" type="text" placeholder="ID" value={roomId} onChange={handleChangeLink} />
-              <Button type="primary" size="large" data-testid="connect-btn" onClick={handleConnectToGame}>
+              <Button type="primary" size="large" onClick={handleConnectToGame}>
                 Connect
               </Button>
             </div>
