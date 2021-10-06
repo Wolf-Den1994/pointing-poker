@@ -28,7 +28,7 @@ const CustomizeCards: React.FC = () => {
     const isDuplicate = cardSet.some((card) => card.card === valueInput);
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
-    } else if (Number.isNaN(+valueInput)) {
+    } else if (Number.isNaN(+valueInput) || !valueInput) {
       message.warning(TextForUser.AboutNumber);
     } else {
       const newCard = { card: valueInput, isActive: false };

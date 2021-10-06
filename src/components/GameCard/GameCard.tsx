@@ -1,4 +1,4 @@
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
@@ -114,7 +114,7 @@ const GameCard: React.FC<IGameCardProps> = ({
         {enableActions ? (
           <>
             <div className={style.edit} onClick={handleEditCard}>
-              <EditOutlined />
+              {editIsActive ? <CheckOutlined /> : <EditOutlined />}
             </div>
             <div className={style.remove} onClick={() => handleRemoveCard(valueView)}>
               <DeleteOutlined />
@@ -136,7 +136,7 @@ const GameCard: React.FC<IGameCardProps> = ({
             <div className={classNameView}>{viewIsNumber}</div>
           )}
         </div>
-        <div className={style.cost}>{children[0].toUpperCase() + children.slice(1)}</div>
+        <div className={style.cost}>{children[0]?.toUpperCase() + children.slice(1)}</div>
         <div className={`${style.additionally} ${style.additionallyBottom} ${style[children]}`}>{viewIsNumber}</div>
       </div>
     </div>
