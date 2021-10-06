@@ -12,6 +12,7 @@ import { emit } from '../../services/socket';
 import { changeGrades } from '../../utils/changedGrades';
 import countStatistics from '../../utils/countStatistic';
 import { addStatistics } from '../../store/statisticsReducer';
+import { deleteCardFromLocalStorage, editCardInLocalStorage } from '../../utils/localStorage.service';
 
 interface IGameCardProps {
   children: string;
@@ -32,7 +33,7 @@ const GameCard: React.FC<IGameCardProps> = ({
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  const { cardSet } = useTypedSelector((store) => store.settings);
+  const { cardSet, settings } = useTypedSelector((store) => store.settings);
   const { issueList } = useTypedSelector((state) => state.issues);
   const { name } = useTypedSelector((state) => state.userData);
 
@@ -57,7 +58,8 @@ const GameCard: React.FC<IGameCardProps> = ({
           message.warning(TextForUser.AboutNumber);
           setValueView(oldValueCard);
         } else {
-          dispatch(editCard({ oldCard: oldValueCard, newCard: { card: newValueCard, isActive: false } }));
+          dispatch(editCard({ oldCard: oldValueCard, newCard: newValueCard }));
+          editCardInLocalStorage(roomId, settings.scoreType, newValueCard, oldValueCard);
         }
       } else {
         message.warning(TextForUser.AboutEmpty);
@@ -70,7 +72,10 @@ const GameCard: React.FC<IGameCardProps> = ({
     }
   };
 
-  const handleRemoveCard = (value: string) => dispatch(removeCard(value));
+  const handleRemoveCard = (value: string) => {
+    dispatch(removeCard(value));
+    deleteCardFromLocalStorage(roomId, settings.scoreType, value);
+  };
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValueView(e.target.value);
