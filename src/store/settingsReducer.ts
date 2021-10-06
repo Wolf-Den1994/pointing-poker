@@ -19,23 +19,14 @@ const initialState: IInitialStateSettings = {
     scoreType: OptionSettings.Fibonacci,
     roundTime: 1,
   },
-  cardSet: cardSets.arrayFibonacci,
+  cardSet: cardSets.fibonacci,
   visibleChat: false,
 };
 
 export const settingsReducer = (state = initialState, action: AnyAction): typeof initialState => {
   switch (action.type) {
     case SettingsActions.CHANGE_SETTINGS:
-      switch (action.payload.scoreType) {
-        case OptionSettings.Fibonacci:
-          return { ...state, settings: action.payload, cardSet: cardSets.arrayFibonacci };
-        case OptionSettings.ModifiedFibonacci:
-          return { ...state, settings: action.payload, cardSet: cardSets.arrayModifiedFibonacci };
-        case OptionSettings.PowerOfTwo:
-          return { ...state, settings: action.payload, cardSet: cardSets.arrayPowerOfTwo };
-        default:
-          return { ...state, settings: action.payload, cardSet: cardSets.arrayCustomYour };
-      }
+      return { ...state, settings: action.payload };
 
     case SettingsActions.ADD_CARD:
       return { ...state, cardSet: [...state.cardSet, action.payload] };
@@ -92,7 +83,7 @@ interface ICardActionsICardData {
 
 interface INewCard {
   oldCard: string;
-  newCard: ICardData;
+  newCard: string;
 }
 
 interface ICardActionsEdit {

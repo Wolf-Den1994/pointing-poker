@@ -225,6 +225,10 @@ export interface ICardData {
   isActive: boolean;
 }
 
+export interface ICardSetsData {
+  [key: string]: ICardData[];
+}
+
 export interface IStatisticData {
   taskName: string;
   total: number | string;
@@ -255,7 +259,7 @@ export interface IDataFile {
 }
 
 export const cardSets = {
-  arrayFibonacci: [
+  fibonacci: [
     { card: 'pass', isActive: false },
     { card: '0', isActive: false },
     { card: '1', isActive: false },
@@ -269,7 +273,7 @@ export const cardSets = {
     { card: '55', isActive: false },
     { card: '89', isActive: false },
   ],
-  arrayModifiedFibonacci: [
+  'modified fibonacci': [
     { card: 'pass', isActive: false },
     { card: '0', isActive: false },
     { card: '0.5', isActive: false },
@@ -283,7 +287,7 @@ export const cardSets = {
     { card: '40', isActive: false },
     { card: '100', isActive: false },
   ],
-  arrayPowerOfTwo: [
+  'power of two': [
     { card: 'pass', isActive: false },
     { card: '0', isActive: false },
     { card: '1', isActive: false },
@@ -294,5 +298,5 @@ export const cardSets = {
     { card: '32', isActive: false },
     { card: '64', isActive: false },
   ],
-  arrayCustomYour: [{ card: 'pass', isActive: false }],
+  'custom/your': [{ card: 'pass', isActive: false }],
 };

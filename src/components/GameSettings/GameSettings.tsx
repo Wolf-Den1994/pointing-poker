@@ -1,14 +1,17 @@
 import { Form, Input, Select, Switch, InputNumber } from 'antd';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 import style from './GameSettings.module.scss';
-import { changeSettings } from '../../store/settingsReducer';
+import { changeSettings, setCards } from '../../store/settingsReducer';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import { IGameSettingsData, OptionSettings, TextForUser } from '../../types/types';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { startTime } from '../../store/timerReducer';
+import { getCardsFromLocalStorage } from '../../utils/localStorage.service';
 
 const GameSettings: React.FC = () => {
   const [formSettings] = Form.useForm();
+  const { roomId } = useParams<{ roomId: string }>();
 
   const dispatch = useDispatch();
   const { settings } = useTypedSelector((state) => state.settings);
@@ -25,8 +28,10 @@ const GameSettings: React.FC = () => {
 
   const handleChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
     const newSettings = { ...data };
+    const newCardSet = getCardsFromLocalStorage(roomId, newSettings.scoreType);
     if (!currentData.roundTime) newSettings.roundTime = 1;
     dispatch(changeSettings(newSettings));
+    dispatch(setCards(newCardSet));
 
     if (currentData.roundTime) {
       const defaultTime = currentData.roundTime * 60;

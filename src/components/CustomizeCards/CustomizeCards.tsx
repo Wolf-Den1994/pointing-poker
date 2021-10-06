@@ -2,16 +2,20 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { Button, Input, message } from 'antd';
+import { useParams } from 'react-router';
 import GameCard from '../GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './CustomizeCards.module.scss';
 import { addCard } from '../../store/settingsReducer';
 import { TextForUser } from '../../types/types';
+import { addCardToLocalStorage } from '../../utils/localStorage.service';
 
 const CustomizeCards: React.FC = () => {
   const dispatch = useDispatch();
+  const { roomId } = useParams<{ roomId: string }>();
 
   const { cardSet } = useTypedSelector((store) => store.settings);
+  const { settings } = useTypedSelector((state) => state.settings);
 
   const [valueInput, setValueInput] = useState('');
   const [addIsActive, setAddIsActive] = useState(false);
@@ -27,7 +31,9 @@ const CustomizeCards: React.FC = () => {
     } else if (Number.isNaN(+valueInput)) {
       message.warning(TextForUser.AboutNumber);
     } else {
-      dispatch(addCard({ card: valueInput, isActive: false }));
+      const newCard = { card: valueInput, isActive: false };
+      dispatch(addCard(newCard));
+      addCardToLocalStorage(roomId, settings.scoreType, newCard);
       setAddIsActive(false);
       setValueInput('');
     }

@@ -34,6 +34,7 @@ import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { setOffProgress, setOnProgress } from '../../store/progressReducer';
 import { disconnectUsers } from '../../utils/disconnectUsers';
+import { deleteCardSetsLocalStorage } from '../../utils/localStorage.service';
 
 let interval: NodeJS.Timeout;
 
@@ -99,6 +100,7 @@ const Game: React.FC = () => {
   const handleStopGame = async () => {
     try {
       await disconnectUsers(roomId, isDealer);
+      deleteCardSetsLocalStorage(roomId);
       history.push(PathRoutes.Home);
     } catch (err) {
       message.error(`${err}`);
@@ -182,6 +184,7 @@ const Game: React.FC = () => {
     });
 
     window.onload = () => {
+      deleteCardSetsLocalStorage(roomId);
       history.push(PathRoutes.Home);
     };
 
