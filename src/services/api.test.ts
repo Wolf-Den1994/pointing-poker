@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { BASE_URL } from '../../types/types';
-import { getResourse } from '../api';
+import { BASE_URL } from '../types/types';
+import { getResourse } from './api';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
