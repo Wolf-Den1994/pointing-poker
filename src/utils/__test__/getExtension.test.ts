@@ -1,10 +1,13 @@
 import { getExtension } from '../getExtension';
 
-it('should return extension from string "test.csv"', () => {
-  const fn = getExtension('test.csv');
-  expect(fn).not.toBeNull();
-  expect(fn).toBe('csv');
-  const newFn = getExtension('newTest.xlsx');
-  expect(newFn).toBe('xlsx');
-  expect(newFn).not.toBeUndefined();
+describe('getExtension util', () => {
+  it('should return csv from string "test.csv"', () => {
+    const fn = getExtension('test.csv');
+    expect(fn).toBe('csv');
+  });
+
+  it('should return xlsx from string "newTest.xlsx"', () => {
+    const fn = getExtension('newTest.xlsx');
+    expect(fn).toBe('xlsx');
+  });
 });

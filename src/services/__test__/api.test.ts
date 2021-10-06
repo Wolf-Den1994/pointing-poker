@@ -5,10 +5,10 @@ import { getResourse } from '../api';
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe('getResource', () => {
+describe('getResource api', () => {
   const roomId = '7f9bed2a-90fd-469a-83e4-3713261125c1';
 
-  it('getResourse successfully data from an API', async () => {
+  it('should successfully received data from an API', async () => {
     const data = {
       roomId: '',
       gameRoom: '',
@@ -85,11 +85,12 @@ describe('getResource', () => {
     expect(mockedAxios.get).toHaveBeenCalledWith(`${BASE_URL}/api/${roomId}`);
   });
 
-  it('getResourse erroneously data from an API', async () => {
+  it('should successful received error message from an API', async () => {
     const errorMessage = 'Network Error';
 
     mockedAxios.get.mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
 
     await expect(getResourse(roomId)).rejects.toThrow(errorMessage);
+    expect(mockedAxios.get).toHaveBeenCalledWith(`${BASE_URL}/api/${roomId}`);
   });
 });

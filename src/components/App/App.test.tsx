@@ -5,23 +5,25 @@ import { HashRouter } from 'react-router-dom';
 import store from '../../store/store';
 import App from './App';
 
-it('App renders without crashing', () => {
-  render(
-    <Provider store={store}>
-      <HashRouter>
-        <App />
-      </HashRouter>
-    </Provider>,
-  );
+describe('App component', () => {
+  it('should renders without crashing', () => {
+    render(
+      <Provider store={store}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </Provider>,
+    );
 
-  const root = document.createElement('div');
-  ReactDOM.render(
-    <Provider store={store}>
-      <HashRouter>
-        <App />
-      </HashRouter>
-    </Provider>,
-    root,
-  );
-  ReactDOM.unmountComponentAtNode(root);
+    const root = document.createElement('div');
+    ReactDOM.render(
+      <Provider store={store}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </Provider>,
+      root,
+    );
+    ReactDOM.unmountComponentAtNode(root);
+  });
 });

@@ -19,17 +19,17 @@ global.matchMedia =
     };
   };
 
-test('Page Home rendering and not empty', () => {
-  const elem = render(
-    <Provider store={store}>
-      <Home />
-    </Provider>,
-  );
-  expect(elem).not.toBeNull();
-});
-
 describe('Home page', () => {
-  it('renders ModalRegistration after click on the button', () => {
+  it('should not rendering epmty page', () => {
+    const elem = render(
+      <Provider store={store}>
+        <Home />
+      </Provider>,
+    );
+    expect(elem).not.toBeNull();
+  });
+
+  it('should render ModalRegistration after click on the button', () => {
     render(
       <Provider store={store}>
         <Home />
@@ -41,7 +41,7 @@ describe('Home page', () => {
     expect(screen.getByText('Confirm')).toHaveTextContent('Confirm');
   });
 
-  it('shows no "Upload avatar:"', () => {
+  it('should not show "Upload avatar:" before click on "Start new game" button', () => {
     render(
       <Provider store={store}>
         <Home />
@@ -50,7 +50,7 @@ describe('Home page', () => {
     expect(screen.queryByText('Upload avatar:')).not.toBeInTheDocument();
   });
 
-  it('clicking on "Start new game" Button shows "Upload avatar:"', () => {
+  it('should show "Upload avatar:" after click on "Start new game" button', () => {
     render(
       <Provider store={store}>
         <Home />
