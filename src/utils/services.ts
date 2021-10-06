@@ -14,3 +14,8 @@ export const deleteUserFromRoom = (
   socket.leave(roomId);
   socket.disconnect(true);
 };
+
+export const errorHandler = (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>, err: Error): void => {
+  socket.emit(SocketTokens.ErrorMessage, { name: err.name, message: err.message });
+  console.error(err);
+};
