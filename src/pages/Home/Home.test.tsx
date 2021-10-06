@@ -28,7 +28,7 @@ test('Page Home rendering and not empty', () => {
   expect(elem).not.toBeNull();
 });
 
-describe('Home component', () => {
+describe('Home page', () => {
   it('renders ModalRegistration after click on the button', () => {
     render(
       <Provider store={store}>
