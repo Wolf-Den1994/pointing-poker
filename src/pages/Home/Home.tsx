@@ -86,7 +86,7 @@ const Home: React.FC = () => {
 
     on(SocketTokens.ErrorMessage, (data) => {
       // eslint-disable-next-line no-console
-      console.log(`Server error: Error name - ${data.name}, Message: ${data.message}`);
+      console.error(`Server error: Error name - ${data.name}, Message: ${data.message}`);
     });
 
     on(SocketTokens.EnteredRoom, (data) => {
