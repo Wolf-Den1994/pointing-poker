@@ -156,7 +156,7 @@ const Home: React.FC = () => {
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
             <p className={style.session}>Create a session: </p>
-            <Button type="primary" size="large" onClick={handleStartNewGame}>
+            <Button type="primary" data-testid="start-btn" size="large" onClick={handleStartNewGame}>
               Start new game
             </Button>
           </div>
@@ -169,7 +169,7 @@ const Home: React.FC = () => {
             </p>
             <div className={style.connect}>
               <Input size="large" type="text" placeholder="ID" value={roomId} onChange={handleChangeLink} />
-              <Button type="primary" size="large" onClick={handleConnectToGame}>
+              <Button type="primary" size="large" data-testid="connect-btn" onClick={handleConnectToGame}>
                 Connect
               </Button>
             </div>
