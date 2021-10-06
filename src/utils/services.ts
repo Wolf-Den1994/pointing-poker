@@ -17,5 +17,5 @@ export const deleteUserFromRoom = (
 
 export const errorHandler = (socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>, err: Error): void => {
   socket.emit(SocketTokens.ErrorMessage, { name: err.name, message: err.message });
-  console.log(err);
+  console.error(err);
 };
