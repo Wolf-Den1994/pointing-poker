@@ -156,7 +156,7 @@ const Home: React.FC = () => {
           <h1 className={style.title}>Start your planning:</h1>
           <div className={style.box}>
             <p className={style.session}>Create a session: </p>
-            <Button type="primary" data-testid="start-btn" size="large" onClick={handleStartNewGame}>
+            <Button type="primary" size="large" onClick={handleStartNewGame}>
               Start new game
             </Button>
           </div>

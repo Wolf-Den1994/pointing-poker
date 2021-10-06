@@ -36,7 +36,7 @@ describe('Home page', () => {
       </Provider>,
     );
     const handleStartNewGame = jest.fn();
-    fireEvent.click(screen.getByTestId('start-btn'));
+    fireEvent.click(screen.getByText('Start new game'));
     handleStartNewGame.mockResolvedValue(true);
     expect(screen.getByText('First name:')).toBeInTheDocument();
     expect(screen.getByText('Last name:')).toBeInTheDocument();
@@ -58,7 +58,7 @@ describe('Home page', () => {
         <Home />
       </Provider>,
     );
-    fireEvent.click(screen.getByTestId('start-btn'));
+    fireEvent.click(screen.getByText('Start new game'));
     expect(screen.getByText('Upload avatar:')).toBeInTheDocument();
   });
 });
