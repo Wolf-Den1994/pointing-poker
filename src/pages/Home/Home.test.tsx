@@ -26,6 +26,7 @@ describe('Home page', () => {
         <Home />
       </Provider>,
     );
+
     expect(elem).not.toBeNull();
   });
 
@@ -35,7 +36,9 @@ describe('Home page', () => {
         <Home />
       </Provider>,
     );
+
     fireEvent.click(screen.getByText('Start new game'));
+
     expect(screen.getByText('First name:')).toBeInTheDocument();
     expect(screen.getByText('Last name:')).toBeInTheDocument();
     expect(screen.getByText('Confirm')).toHaveTextContent('Confirm');
@@ -47,6 +50,7 @@ describe('Home page', () => {
         <Home />
       </Provider>,
     );
+
     expect(screen.queryByText('Upload avatar:')).not.toBeInTheDocument();
   });
 
@@ -56,7 +60,9 @@ describe('Home page', () => {
         <Home />
       </Provider>,
     );
+
     fireEvent.click(screen.getByText('Start new game'));
+
     expect(screen.getByText('Upload avatar:')).toBeInTheDocument();
   });
 });

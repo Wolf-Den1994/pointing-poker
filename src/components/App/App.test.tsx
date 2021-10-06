@@ -6,6 +6,8 @@ import store from '../../store/store';
 import App from './App';
 
 describe('App component', () => {
+  const root = document.createElement('div');
+
   it('should renders without crashing', () => {
     render(
       <Provider store={store}>
@@ -15,7 +17,6 @@ describe('App component', () => {
       </Provider>,
     );
 
-    const root = document.createElement('div');
     ReactDOM.render(
       <Provider store={store}>
         <HashRouter>
