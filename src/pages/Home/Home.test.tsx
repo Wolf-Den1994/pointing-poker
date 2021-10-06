@@ -35,9 +35,7 @@ describe('Home page', () => {
         <Home />
       </Provider>,
     );
-    const handleStartNewGame = jest.fn();
     fireEvent.click(screen.getByText('Start new game'));
-    handleStartNewGame.mockResolvedValue(true);
     expect(screen.getByText('First name:')).toBeInTheDocument();
     expect(screen.getByText('Last name:')).toBeInTheDocument();
     expect(screen.getByText('Confirm')).toHaveTextContent('Confirm');
