@@ -259,7 +259,7 @@ export interface IDataFile {
 }
 
 export const cardSets = {
-  'fibonacci': [
+  fibonacci: [
     { card: 'pass', isActive: false },
     { card: '0', isActive: false },
     { card: '1', isActive: false },
