@@ -20,7 +20,7 @@ const countStatistics = (issue: IIssueData): IStatisticData => {
 
   let total: number | string;
   if (sumValues) {
-    total = sumValues / (gradesArray.length - counterPass) || 'In Progress...';
+    total = (sumValues / (gradesArray.length - counterPass)).toFixed(2) || 'In Progress...';
   } else if (gradesArray.length - counterPass) {
     total = 0;
   } else {

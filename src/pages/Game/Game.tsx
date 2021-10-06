@@ -20,7 +20,7 @@ import BtnsControl from '../../components/BtnsControl/BtnsControl';
 import GameCard from '../../components/GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './Game.module.scss';
-import { LayoutViews, SocketTokens, PathRoutes, UserRole } from '../../types/types';
+import { LayoutViews, SocketTokens, PathRoutes, UserRole, TextForUser } from '../../types/types';
 import GameSettingsPopup from '../../components/GameSettingsPopup/GameSettingsPopup';
 import BtnChat from '../../components/BtnChat/BtnChat';
 import Statistics from '../../components/Statistics/Statistics';
@@ -34,6 +34,7 @@ import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { setOffProgress, setOnProgress } from '../../store/progressReducer';
 import { disconnectUsers } from '../../utils/disconnectUsers';
+import { deleteCardSetsLocalStorage } from '../../utils/localStorage.service';
 
 let interval: NodeJS.Timeout;
 
@@ -99,6 +100,7 @@ const Game: React.FC = () => {
   const handleStopGame = async () => {
     try {
       await disconnectUsers(roomId, isDealer);
+      deleteCardSetsLocalStorage(roomId);
       history.push(PathRoutes.Home);
     } catch (err) {
       message.error(`${err}`);
@@ -149,6 +151,7 @@ const Game: React.FC = () => {
 
     on(SocketTokens.OnProgress, () => {
       dispatch(setOnProgress());
+      message.info(TextForUser.StartRound);
     });
 
     on(SocketTokens.OffProgress, () => {
@@ -181,6 +184,7 @@ const Game: React.FC = () => {
     });
 
     window.onload = () => {
+      deleteCardSetsLocalStorage(roomId);
       history.push(PathRoutes.Home);
     };
 
@@ -262,6 +266,9 @@ const Game: React.FC = () => {
 
         dispatch(disableActiveCards());
       }
+
+      emit(SocketTokens.OffProgress, { roomId });
+      dispatch(setOffProgress());
     }
   };
 
@@ -315,7 +322,12 @@ const Game: React.FC = () => {
             </div>
           ) : null}
           <div className={style.field}>
-            <IssueList view={LayoutViews.Vertical} onHighlight={handleIssueHighlight} enableHighlight />
+            <IssueList
+              view={LayoutViews.Vertical}
+              onHighlight={handleIssueHighlight}
+              enableHighlight
+              onShowStatistics={setShowStatistics}
+            />
             <div className={style.timer}>{settings.showTimer ? <Timer /> : null}</div>
           </div>
           {showStatistics ? <Statistics activeIssue={activeIssueValue} /> : null}
