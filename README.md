@@ -57,7 +57,7 @@ Implemented an SPA application for conducting sessions assess the complexity of 
 
 ### Home page:
 - Implemented adaptive to 320px of all pages.
-- Implemented custom scorll.
+- Implemented custom scroll.
 - Serves as the login page.
 - Implemented support for gaming sessions with multiple users.
 - Implemented support for multiple game sessions at the same time.
