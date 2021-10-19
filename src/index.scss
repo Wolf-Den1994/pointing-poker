@@ -167,16 +167,15 @@ body {
 
   &::-webkit-scrollbar {
     width: 12px;
+    height: 12px;
   }
 
   &::-webkit-scrollbar-track {
     box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
     background-color: #f9f9fd;
-    border-radius: 12px;
   }
 
   &::-webkit-scrollbar-thumb {
-    border-radius: 12px;
     background: linear-gradient(180deg, #00c6fb, #005bea);
   }
 }
