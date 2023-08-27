@@ -1,2 +1,6 @@
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
 [[plugins]]
   package = "netlify-plugin-contextual-env"
