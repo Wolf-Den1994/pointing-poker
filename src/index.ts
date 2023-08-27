@@ -22,9 +22,10 @@ import {
   Room,
   SocketTokens,
 } from './types/types';
+import 'dotenv-defaults/config';
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '5mb', extended: true }));
@@ -360,8 +361,7 @@ io.on('connection', (socket) => {
 const start = async () => {
   try {
     await mongoose.connect(
-      process.env.MONGODB__URI
-      || 'mongodb+srv://RSSchool-React:planning-poker@poker.jgasx.mongodb.net/Planning-poker-db?retryWrites=true&w=majority',
+      process.env.MONGODB__URI || '',
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
