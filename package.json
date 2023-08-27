@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "craco --openssl-legacy-provider start",
-    "build": "react-scripts build",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test --detectOpenHandles",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
