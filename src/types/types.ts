@@ -1,4 +1,4 @@
-export const { BASE_URL } = process.env;
+export const BASE_URL = process.env.BASE__URL || '';
 
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',
