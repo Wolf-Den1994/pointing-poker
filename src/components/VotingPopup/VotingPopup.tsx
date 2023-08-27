@@ -36,7 +36,7 @@ const VotingPopup: FC<IModalVisibilityProps> = ({ isVisible, userName }) => {
     <div className={styles.voiting}>
       <Modal
         closable={false}
-        visible={isVisible}
+        open={isVisible}
         centered
         footer={[
           <div key="modal-voting-wrapper">

@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Manager, Socket } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { SocketTokens } from '../types/types';
 import socket from '../utils/soketIO';
+
+interface DefaultEventsMap {
+  [event: string]: (...args: any[]) => void;
+}
 
 export const on = (token: string, listener: (...args: any[]) => void): Socket<DefaultEventsMap, DefaultEventsMap> =>
   socket.on(token, listener);

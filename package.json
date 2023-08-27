@@ -2,64 +2,14 @@
   "name": "pointing-poker",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@ant-design/icons": "^4.6.4",
-    "@craco/craco": "^6.2.0",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "@types/jest": "^26.0.24",
-    "@types/node": "^12.20.22",
-    "@types/react": "^17.0.19",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-redux": "^7.1.18",
-    "@types/socket.io-client": "^3.0.0",
-    "antd": "^4.16.13",
-    "axios": "^0.21.1",
-    "file-saver": "^2.0.5",
-    "moment": "^2.29.1",
-    "node-sass": "^6.0.1",
-    "normalize.css": "^8.0.1",
-    "react": "^17.0.2",
-    "react-copy-to-clipboard": "^5.0.4",
-    "react-csv": "^2.0.3",
-    "react-csv-reader": "^3.3.1",
-    "react-dom": "^17.0.2",
-    "react-loader-spinner": "^4.0.0",
-    "react-redux": "^7.2.5",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "react-transition-group": "^4.4.2",
-    "redux": "^4.1.1",
-    "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.3.0",
-    "socket.io-client": "^4.2.0",
-    "typescript": "^4.4.2",
-    "uuid": "^8.3.2",
-    "web-vitals": "^1.1.2",
-    "xlsx": "^0.17.2"
-  },
   "scripts": {
-    "start": "craco start",
+    "start": "craco --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test --detectOpenHandles",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
     "lintfix": "npm run lint -- --fix",
     "pre": "prettier --write \"src/**/*.{js,jsx,scss,css,json}\""
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.3",
@@ -82,6 +32,56 @@
     "husky": "^4.3.8",
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.6.4",
+    "@craco/craco": "^6.2.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^12.20.22",
+    "@types/react": "^17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-redux": "^7.1.18",
+    "@types/socket.io-client": "^3.0.0",
+    "antd": "^4.16.13",
+    "axios": "^0.21.1",
+    "file-saver": "^2.0.5",
+    "moment": "^2.29.1",
+    "normalize.css": "^8.0.1",
+    "react": "^17.0.2",
+    "react-copy-to-clipboard": "^5.0.4",
+    "react-csv": "^2.0.3",
+    "react-csv-reader": "^3.3.1",
+    "react-dom": "^17.0.2",
+    "react-loader-spinner": "^4.0.0",
+    "react-redux": "^7.2.5",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-transition-group": "^4.4.2",
+    "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0",
+    "sass": "^1.66.1",
+    "socket.io-client": "^4.2.0",
+    "typescript": "^4.4.2",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.1.2",
+    "xlsx": "^0.17.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "husky": {
     "hooks": {

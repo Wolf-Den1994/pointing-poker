@@ -204,7 +204,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   return (
     <>
       <Modal
-        visible={modalActive}
+        open={modalActive}
         onOk={handleOk}
         onCancel={handleCancel}
         title="Connect to lobby"
