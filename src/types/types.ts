@@ -1,4 +1,6 @@
-export const BASE_URL = process.env.BASE__URL || '';
+import env from 'react-dotenv';
+
+export const BASE_URL = env.BASE__URL || '';
 
 export enum TextForUser {
   AboutDublicate = 'This is duplicate!',
