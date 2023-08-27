@@ -2,12 +2,12 @@
   "name": "pointing-poker",
   "private": true,
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "npx node dist/index.js",
     "build": "rimraf dist && tsc",
     "ts.check": "tsc --project tsconfig.json",
     "add-build": "git add dist",
     "postinstall": "tsc",
-    "watch": "npx ts-node ./src/index.ts",
+    "watch": "nodemon src/index.ts",
     "lint": "eslint src --ext .ts,.js",
     "prettier": "prettier  -w src/."
   },
