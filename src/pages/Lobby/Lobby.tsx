@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, message } from 'antd';
-import { useHistory, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Title from '../../components/Title/Title';
 import UserCard from '../../components/UserCard/UserCard';
 import BtnsControl from '../../components/BtnsControl/BtnsControl';
@@ -21,11 +21,10 @@ import BtnChat from '../../components/BtnChat/BtnChat';
 import { changeSettings, setCards } from '../../store/settingsReducer';
 import { disconnectUsers } from '../../utils/disconnectUsers';
 import { setGameRoom } from '../../store/roomDataReducer';
-import { deleteCardSetsLocalStorage } from '../../utils/localStorage.service';
 
 const Lobby: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { roomId } = useParams<{ roomId: string }>();
 
@@ -39,12 +38,11 @@ const Lobby: React.FC = () => {
       if (data.timer) dispatch(startTime(data.timer));
       dispatch(changeSettings(data.settings));
       dispatch(setCards(data.cardSet));
-      history.push(`${PathRoutes.Game}/${roomId}`);
+      navigate(`${PathRoutes.Game}/${roomId}`);
     });
 
     window.onload = () => {
-      deleteCardSetsLocalStorage(roomId);
-      history.push(PathRoutes.Home);
+      navigate(PathRoutes.Home);
     };
 
     return () => {
@@ -56,14 +54,13 @@ const Lobby: React.FC = () => {
     const time = settings.showTimer ? timer.time : null;
     emit(SocketTokens.RedirectAllToGamePage, { roomId, settings, cardSet, timer: time });
     dispatch(setGameRoom('game'));
-    history.push(`${PathRoutes.Game}/${roomId}`);
+    navigate(`${PathRoutes.Game}/${roomId}`);
   };
 
   const handleCancelGame = async () => {
     try {
-      await disconnectUsers(roomId, isDealer);
-      deleteCardSetsLocalStorage(roomId);
-      history.push(PathRoutes.Home);
+      await disconnectUsers(roomId || '', isDealer);
+      navigate(PathRoutes.Home);
     } catch (err) {
       message.error(`${err}`);
     }
@@ -91,7 +88,7 @@ const Lobby: React.FC = () => {
           <Button type="primary" size="large" onClick={handleStartGame}>
             Start Game
           </Button>
-          <Button type="ghost" size="large" onClick={handleCancelGame}>
+          <Button size="large" onClick={handleCancelGame}>
             Cancel game
           </Button>
         </BtnsControl>

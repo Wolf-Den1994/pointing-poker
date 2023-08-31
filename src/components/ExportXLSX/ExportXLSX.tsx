@@ -1,6 +1,6 @@
 import { Button, message } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
-import * as FileSaver from 'file-saver';
+import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import { SavedIssuesList } from '../../types/types';
 
@@ -19,7 +19,7 @@ const ExportXLSX: React.FC<IExportXLSXProps> = ({ xlsxData, file }: IExportXLSXP
     const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const data = new Blob([excelBuffer], { type: fileType });
-    FileSaver.saveAs(data, fileName + fileExtension);
+    saveAs(data, fileName + fileExtension);
     message.info(`The download of the XLSX file has started!`);
   };
 

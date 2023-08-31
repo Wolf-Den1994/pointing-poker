@@ -2,17 +2,15 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { Button, Input, message } from 'antd';
-import { useParams } from 'react-router';
 import GameCard from '../GameCard/GameCard';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import style from './CustomizeCards.module.scss';
 import { addCard } from '../../store/settingsReducer';
 import { TextForUser } from '../../types/types';
-import { addCardToLocalStorage } from '../../utils/localStorage.service';
+import { addCardToLocalStorage } from '../../utils/localStorage';
 
 const CustomizeCards: React.FC = () => {
   const dispatch = useDispatch();
-  const { roomId } = useParams<{ roomId: string }>();
 
   const { cardSet } = useTypedSelector((store) => store.settings);
   const { settings } = useTypedSelector((state) => state.settings);
@@ -33,7 +31,7 @@ const CustomizeCards: React.FC = () => {
     } else {
       const newCard = { card: valueInput, isActive: false };
       dispatch(addCard(newCard));
-      addCardToLocalStorage(roomId, settings.scoreType, newCard);
+      addCardToLocalStorage(settings.scoreType, newCard);
       setAddIsActive(false);
       setValueInput('');
     }

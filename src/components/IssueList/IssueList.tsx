@@ -51,7 +51,7 @@ const IssueList: React.FC<IIssueListProps> = ({
 
   const handleOk = () => {
     setIsModalVisible(false);
-    const isDuplicate = issueList.some((issue) => issue.taskName === valueNewIssue);
+    const isDuplicate = issueList.some((issue: { taskName: string }) => issue.taskName === valueNewIssue);
     if (isDuplicate) {
       message.warning(TextForUser.AboutDublicate);
     } else if (!isDuplicate && editOrCreate === IssueStatus.Create) {
@@ -119,7 +119,7 @@ const IssueList: React.FC<IIssueListProps> = ({
     <div className={`${style.issuesList} ${style[view]}`}>
       {!issueList.length && !isDealer ? null : <p className={style.title}>Issues:</p>}
       <div className={`${style.wrapper} ${style[view]}`}>
-        {issueList.map((issue) => (
+        {issueList.map((issue: IIssueData) => (
           <span
             key={issue.taskName}
             className={`${style.issue} ${style[view]} ${canActive()} ${сhoiceOfActive(issue)}`}
@@ -149,7 +149,7 @@ const IssueList: React.FC<IIssueListProps> = ({
             </span>
           </span>
         ) : null}
-        <Modal title={editOrCreate} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Modal title={editOrCreate} open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <Input
             placeholder={editOrCreate}
             value={valueNewIssue}

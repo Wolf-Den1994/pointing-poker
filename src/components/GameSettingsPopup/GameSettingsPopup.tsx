@@ -31,7 +31,7 @@ const GameSettingsPopup: React.FC = () => {
         <SettingOutlined />
         Game Settings
       </Button>
-      <Modal onOk={handleSubmitModal} onCancel={handleCloseModal} visible={modalActive} width={680}>
+      <Modal onOk={handleSubmitModal} onCancel={handleCloseModal} open={modalActive} width={720}>
         <GameSettings />
       </Modal>
     </>

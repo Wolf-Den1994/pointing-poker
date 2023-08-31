@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Form, Input, message, Modal, Switch } from 'antd';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { checkForLettersAndNumbers } from '../../utils/regex';
@@ -31,7 +31,7 @@ import { changeSettings, setCards } from '../../store/settingsReducer';
 import { startTime } from '../../store/timerReducer';
 import { setStatistics } from '../../store/statisticsReducer';
 import style from './ModalRegistration.module.scss';
-import { setCardSetsLocalStorage } from '../../utils/localStorage.service';
+import { getCardSetstLocalStorage, setCardSetsLocalStorage } from '../../utils/localStorage';
 
 interface IModalRegistrationProps {
   role: string;
@@ -53,7 +53,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   onModalActive,
 }: IModalRegistrationProps) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -131,8 +131,9 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
       dispatch(addUsers(data.user));
       dispatch(setRoomId(data.id));
       onModalActive(false);
-      setCardSetsLocalStorage(data.id, cardSets);
-      history.push(`${PathRoutes.Lobby}/${data.id}`);
+      const prevCardSets = getCardSetstLocalStorage();
+      setCardSetsLocalStorage(prevCardSets || cardSets);
+      navigate(`${PathRoutes.Lobby}/${data.id}`);
     });
   };
 
@@ -167,7 +168,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
           roomId,
         });
         const path = gameRoom === GameRooms.Lobby ? PathRoutes.Lobby : PathRoutes.Game;
-        history.push(`${path}/${roomId}`);
+        navigate(`${path}/${roomId}`);
       } else {
         message.error(TextForUser.DublicateUserName);
         return;
@@ -204,7 +205,7 @@ const ModalRegistration: React.FC<IModalRegistrationProps> = ({
   return (
     <>
       <Modal
-        visible={modalActive}
+        open={modalActive}
         onOk={handleOk}
         onCancel={handleCancel}
         title="Connect to lobby"

@@ -1,4 +1,5 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
 import style from './App.module.scss';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -10,21 +11,31 @@ import NotFound from '../../pages/NotFound/NotFound';
 
 const App: React.FC = () => {
   return (
-    <div className={style.wrapper}>
-      <Header />
-      <main className={style.main}>
-        <div className="container">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/lobby/:roomId" component={Lobby} />
-            <Route path="/game/:roomId" component={Game} />
-            <Route path="/result/:roomId" component={Result} />
-            <Route path="*" component={NotFound} />
-          </Switch>
-        </div>
-      </main>
-      <Footer />
-    </div>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#40a9ff',
+          borderRadius: 0,
+          colorBgContainer: '#add7ff11',
+        },
+      }}
+    >
+      <div className={style.wrapper}>
+        <Header />
+        <main className={style.main}>
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/lobby/:roomId" element={<Lobby />} />
+              <Route path="/game/:roomId" element={<Game />} />
+              <Route path="/result/:roomId" element={<Result />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    </ConfigProvider>
   );
 };
 

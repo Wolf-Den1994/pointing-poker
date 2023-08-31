@@ -11,7 +11,7 @@ jest.mock('antd', () => ({
 
 global.matchMedia =
   global.matchMedia ||
-  function () {
+  function test() {
     return {
       matches: false,
       addListener: jest.fn(),

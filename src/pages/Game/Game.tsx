@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import {
   LogoutOutlined,
@@ -34,13 +34,12 @@ import { addGrades, editGrades, setActiveIssue } from '../../store/issuesReducer
 import VotingPopup from '../../components/VotingPopup/VotingPopup';
 import { setOffProgress, setOnProgress } from '../../store/progressReducer';
 import { disconnectUsers } from '../../utils/disconnectUsers';
-import { deleteCardSetsLocalStorage } from '../../utils/localStorage.service';
 
 let interval: NodeJS.Timeout;
 
 const Game: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [disableButtonStart, setDisableButtonStart] = useState(true);
   const [disableButtonFlipCards, setDisableButtonFlipCards] = useState(true);
@@ -99,9 +98,8 @@ const Game: React.FC = () => {
 
   const handleStopGame = async () => {
     try {
-      await disconnectUsers(roomId, isDealer);
-      deleteCardSetsLocalStorage(roomId);
-      history.push(PathRoutes.Home);
+      await disconnectUsers(roomId || '', isDealer);
+      navigate(PathRoutes.Home);
     } catch (err) {
       message.error(`${err}`);
     }
@@ -128,7 +126,7 @@ const Game: React.FC = () => {
     });
 
     on(SocketTokens.RedirectToResultPage, () => {
-      history.push(`${PathRoutes.Result}/${roomId}`);
+      navigate(`${PathRoutes.Result}/${roomId}`);
     });
 
     on(SocketTokens.GetActiveIssue, (data) => {
@@ -184,8 +182,7 @@ const Game: React.FC = () => {
     });
 
     window.onload = () => {
-      deleteCardSetsLocalStorage(roomId);
-      history.push(PathRoutes.Home);
+      navigate(PathRoutes.Home);
     };
 
     return () => {
@@ -212,7 +209,7 @@ const Game: React.FC = () => {
 
   const handleResultGame = () => {
     emit(SocketTokens.RedirectAllToResultPage, { roomId });
-    history.push(`${PathRoutes.Result}/${roomId}`);
+    navigate(`${PathRoutes.Result}/${roomId}`);
   };
 
   let timeSeconds = settings.roundTime * 60;
@@ -270,6 +267,19 @@ const Game: React.FC = () => {
       emit(SocketTokens.OffProgress, { roomId });
       dispatch(setOffProgress());
     }
+  };
+
+  const getVoitedResult = (grade: string) => {
+    if (!isDealer && grade) {
+      return grade;
+    }
+    if (isDealer && settings.isShowPointsMaster && grade) {
+      return grade;
+    }
+    if (isDealer && !settings.isShowPointsMaster && grade && progress) {
+      return 'Voited';
+    }
+    return grade;
   };
 
   return (
@@ -369,7 +379,7 @@ const Game: React.FC = () => {
               return (
                 <div className={style.data} key={member.name}>
                   {findGrade?.grade ? (
-                    <span>{findGrade?.grade}</span>
+                    <span>{getVoitedResult(findGrade?.grade)}</span>
                   ) : (
                     <span className={style.dash}>
                       <LineOutlined />
