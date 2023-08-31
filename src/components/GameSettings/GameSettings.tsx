@@ -6,7 +6,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import { IGameSettingsData, OptionSettings, TextForUser } from '../../types/types';
 import getFirstUpLetters from '../../utils/getFirstUpLetters';
 import { startTime } from '../../store/timerReducer';
-import { getCardsFromLocalStorage, setCardTypeLocalStorage } from '../../utils/localStorage';
+import { getCardsFromLocalStorage, setSettingsLocalStorage } from '../../utils/localStorage';
 
 const GameSettings: React.FC = () => {
   const [formSettings] = Form.useForm();
@@ -27,7 +27,7 @@ const GameSettings: React.FC = () => {
   const handleChangeFormSettings = (currentData: IGameSettingsData, data: IGameSettingsData) => {
     const newSettings = { ...data };
     const newCardSet = getCardsFromLocalStorage(newSettings.scoreType);
-    setCardTypeLocalStorage(newSettings.scoreType);
+    setSettingsLocalStorage(newSettings);
     if (!currentData.roundTime) newSettings.roundTime = 1;
     dispatch(changeSettings(newSettings));
     dispatch(setCards(newCardSet));

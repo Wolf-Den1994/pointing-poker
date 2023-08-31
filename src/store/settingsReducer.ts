@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { IGameSettingsData, cardSets, ICardData } from '../types/types';
-import { getCardSetstLocalStorage, getCardTypeLocalStorage } from '../utils/localStorage';
+import { getCardSetstLocalStorage, getSettingsLocalStorage } from '../utils/localStorage';
 import { SettingsActions } from './actionTypes';
 
 interface IInitialStateSettings {
@@ -9,20 +9,11 @@ interface IInitialStateSettings {
   visibleChat: boolean;
 }
 
-const scoreType = getCardTypeLocalStorage();
-const cardSet = getCardSetstLocalStorage()?.[scoreType];
+const settings = getSettingsLocalStorage();
+const cardSet = getCardSetstLocalStorage()?.[settings.scoreType];
 
 const initialState: IInitialStateSettings = {
-  settings: {
-    isDealerActive: false,
-    voteAfterRoundEnd: false,
-    autoFlipCards: false,
-    autoFlipCardsAllVoted: false,
-    autoAdmitMembers: false,
-    showTimer: false,
-    scoreType,
-    roundTime: 1,
-  },
+  settings,
   cardSet: cardSet || cardSets.fibonacci,
   visibleChat: false,
 };
