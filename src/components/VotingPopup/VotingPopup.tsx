@@ -43,7 +43,7 @@ const VotingPopup: FC<IModalVisibilityProps> = ({ isVisible, userName }) => {
             <Button type="primary" size="large" onClick={handleOk}>
               Yes
             </Button>
-            <Button type="ghost" size="large" onClick={handleCancel}>
+            <Button size="large" onClick={handleCancel}>
               No
             </Button>
           </div>,

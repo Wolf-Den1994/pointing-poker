@@ -35,7 +35,7 @@ const RequestPopup: React.FC = () => {
                   <Button type="primary" size="large" data-id={el} name="confirm" onClick={handleRequest}>
                     Confirm
                   </Button>
-                  <Button type="ghost" size="large" data-id={el} name="reject" onClick={handleRequest}>
+                  <Button size="large" data-id={el} name="reject" onClick={handleRequest}>
                     Reject
                   </Button>
                 </div>,

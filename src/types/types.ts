@@ -37,7 +37,7 @@ export enum TextForUser {
 }
 
 export enum Authors {
-  Maksim = 'Maksim Malashkou',
+  Maksim = 'Maksim Malashkov',
   Artsiom = 'Artsiom Murashko',
   Denis = 'Denis Karazan',
   Diana = 'Diana Garbuzova',

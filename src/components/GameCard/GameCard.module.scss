@@ -19,6 +19,7 @@
   border-radius: 17px;
 
   .wrapper {
+    min-height: 156px;
     padding: 20px;
 
     display: flex;
@@ -110,7 +111,7 @@
         font-size: 38.5px;
         text-align: center;
         width: 72px;
-        overflow-x: hidden;
+        overflow: hidden;
       }
     }
 

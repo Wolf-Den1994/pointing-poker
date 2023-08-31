@@ -6,13 +6,13 @@ import { useParams } from 'react-router';
 import { editCard, removeCard, setActiveCard } from '../../store/settingsReducer';
 import style from './GameCard.module.scss';
 import useTypedSelector from '../../hooks/useTypedSelector';
-import { SocketTokens, TextForUser } from '../../types/types';
+import { ICardData, IIssueData, SocketTokens, TextForUser } from '../../types/types';
 import { addGrades } from '../../store/issuesReducer';
 import { emit } from '../../services/socket';
 import { changeGrades } from '../../utils/changedGrades';
 import countStatistics from '../../utils/countStatistic';
 import { addStatistics } from '../../store/statisticsReducer';
-import { deleteCardFromLocalStorage, editCardInLocalStorage } from '../../utils/localStorage.service';
+import { deleteCardFromLocalStorage, editCardInLocalStorage } from '../../utils/localStorage';
 
 interface IGameCardProps {
   children: string;
@@ -42,7 +42,7 @@ const GameCard: React.FC<IGameCardProps> = ({
   const [newValueCard, setNewValueCard] = useState('');
   const [oldValueCard, setOldValueCard] = useState('');
 
-  const findIssue = issueList.find((issue) => issue.isActive);
+  const findIssue = issueList.find((issue: IIssueData) => issue.isActive);
 
   const viewIsNumber = Number.isNaN(+valueView) ? null : valueView;
   const classNameView = viewIsNumber ? style.number : `${style.scoreType} ${style[children]}`;
@@ -50,7 +50,7 @@ const GameCard: React.FC<IGameCardProps> = ({
   const handleEditCard = () => {
     if (editIsActive) {
       if (newValueCard) {
-        const isDuplicate = cardSet.some((card) => card.card === newValueCard);
+        const isDuplicate = cardSet.some((card: ICardData) => card.card === newValueCard);
         if (isDuplicate) {
           message.warning(TextForUser.AboutDublicate);
           setValueView(oldValueCard);
@@ -59,7 +59,7 @@ const GameCard: React.FC<IGameCardProps> = ({
           setValueView(oldValueCard);
         } else {
           dispatch(editCard({ oldCard: oldValueCard, newCard: newValueCard }));
-          editCardInLocalStorage(roomId, settings.scoreType, newValueCard, oldValueCard);
+          editCardInLocalStorage(settings.scoreType, newValueCard, oldValueCard);
         }
       } else {
         message.warning(TextForUser.AboutEmpty);
@@ -74,7 +74,7 @@ const GameCard: React.FC<IGameCardProps> = ({
 
   const handleRemoveCard = (value: string) => {
     dispatch(removeCard(value));
-    deleteCardFromLocalStorage(roomId, settings.scoreType, value);
+    deleteCardFromLocalStorage(settings.scoreType, value);
   };
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {

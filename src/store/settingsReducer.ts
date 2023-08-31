@@ -1,5 +1,6 @@
 import { AnyAction } from 'redux';
-import { IGameSettingsData, OptionSettings, cardSets, ICardData } from '../types/types';
+import { IGameSettingsData, cardSets, ICardData } from '../types/types';
+import { getCardSetstLocalStorage, getCardTypeLocalStorage } from '../utils/localStorage';
 import { SettingsActions } from './actionTypes';
 
 interface IInitialStateSettings {
@@ -7,6 +8,9 @@ interface IInitialStateSettings {
   cardSet: ICardData[];
   visibleChat: boolean;
 }
+
+const scoreType = getCardTypeLocalStorage();
+const cardSet = getCardSetstLocalStorage()?.[scoreType];
 
 const initialState: IInitialStateSettings = {
   settings: {
@@ -16,10 +20,10 @@ const initialState: IInitialStateSettings = {
     autoFlipCardsAllVoted: false,
     autoAdmitMembers: false,
     showTimer: false,
-    scoreType: OptionSettings.Fibonacci,
+    scoreType,
     roundTime: 1,
   },
-  cardSet: cardSets.fibonacci,
+  cardSet: cardSet || cardSets.fibonacci,
   visibleChat: false,
 };
 
@@ -29,7 +33,7 @@ export const settingsReducer = (state = initialState, action: AnyAction): typeof
       return { ...state, settings: action.payload };
 
     case SettingsActions.ADD_CARD:
-      return { ...state, cardSet: [...state.cardSet, action.payload] };
+      return { ...state, cardSet: [...state.cardSet, action.payload].sort((a, b) => a.card - b.card) };
 
     case SettingsActions.REMOVE_CARD:
       return { ...state, cardSet: state.cardSet.filter((card) => card.card !== action.payload) };

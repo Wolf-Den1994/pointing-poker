@@ -33,7 +33,8 @@
         "max-len": ["warn", { "code": 120 }],
         "import/prefer-default-export": "off",
         "react/react-in-jsx-scope": "off",
-        "no-console": ["error", { "allow": ["warn", "error"] }]
+        "no-console": ["error", { "allow": ["warn", "error"] }],
+        "@typescript-eslint/default-param-last": "off"
     },
     "settings": {
         "react": {

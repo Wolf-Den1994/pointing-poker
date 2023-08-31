@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Input, message } from 'antd';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import socket from '../../utils/soketIO';
 import imagePokerPlanning from '../../assets/images/poker-planning.png';
 import style from './Home.module.scss';
@@ -17,7 +17,7 @@ import { changeModalActivity, setNameOfDeletedUser } from '../../store/votingRed
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [modalActive, setModalActive] = useState(false);
   const [role, setRole] = useState('');
@@ -113,7 +113,7 @@ const Home: React.FC = () => {
     });
 
     on(SocketTokens.WillBeDisconnected, () => {
-      history.push(PathRoutes.Home);
+      navigate(PathRoutes.Home);
     });
 
     on(SocketTokens.UserLeaveTheRoom, (data) => {
@@ -144,7 +144,7 @@ const Home: React.FC = () => {
     });
 
     on(SocketTokens.DisconnectAllSockets, () => {
-      history.push(PathRoutes.Home);
+      navigate(PathRoutes.Home);
     });
   }, []);
 
