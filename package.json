@@ -90,7 +90,7 @@
     "*.{ts,tsx,js,jsx}": [
       "prettier --write",
       "eslint --fix",
-      "git add"
+      "git add ."
     ],
     "*.{html,css,less,scss,ejs}": [
       "prettier --write",
