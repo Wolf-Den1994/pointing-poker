@@ -179,6 +179,7 @@ export interface IMessage {
 
 export interface IGameSettingsData {
   isDealerActive: boolean;
+  isShowPointsMaster: boolean;
   voteAfterRoundEnd: boolean;
   autoFlipCards: boolean;
   autoFlipCardsAllVoted: boolean;

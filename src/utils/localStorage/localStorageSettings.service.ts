@@ -4,6 +4,7 @@ export const SETTINGS_KEY = 'settings';
 
 const initialSettings = {
   isDealerActive: false,
+  isShowPointsMaster: true,
   voteAfterRoundEnd: false,
   autoFlipCards: false,
   autoFlipCardsAllVoted: false,

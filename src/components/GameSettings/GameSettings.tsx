@@ -15,6 +15,7 @@ const GameSettings: React.FC = () => {
   const { settings } = useTypedSelector((state) => state.settings);
   const {
     isDealerActive,
+    isShowPointsMaster,
     voteAfterRoundEnd,
     autoAdmitMembers,
     autoFlipCards,
@@ -55,6 +56,16 @@ const GameSettings: React.FC = () => {
           label={<span style={{ fontSize: 18 }}>Scram master as player:</span>}
           colon={false}
           initialValue={isDealerActive}
+        >
+          <Switch checkedChildren="Yes" unCheckedChildren="No" />
+        </Form.Item>
+
+        <Form.Item
+          name="isShowPointsMaster"
+          valuePropName="checked"
+          label={<span style={{ fontSize: 18 }}>Show points to master when voting:</span>}
+          colon={true}
+          initialValue={isShowPointsMaster}
         >
           <Switch checkedChildren="Yes" unCheckedChildren="No" />
         </Form.Item>

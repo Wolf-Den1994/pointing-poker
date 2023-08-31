@@ -269,6 +269,19 @@ const Game: React.FC = () => {
     }
   };
 
+  const getVoitedResult = (grade: string) => {
+    if (!isDealer && grade) {
+      return grade;
+    }
+    if (isDealer && settings.isShowPointsMaster && grade) {
+      return grade;
+    }
+    if (isDealer && !settings.isShowPointsMaster && grade && progress) {
+      return 'Voited';
+    }
+    return grade;
+  };
+
   return (
     <div className={style.gamePage}>
       <div className={style.gameInner}>
@@ -366,7 +379,7 @@ const Game: React.FC = () => {
               return (
                 <div className={style.data} key={member.name}>
                   {findGrade?.grade ? (
-                    <span>{findGrade?.grade}</span>
+                    <span>{getVoitedResult(findGrade?.grade)}</span>
                   ) : (
                     <span className={style.dash}>
                       <LineOutlined />
